@@ -1,0 +1,531 @@
+\documentclass[12pt,reqno]{amsart}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\title{Sets, Numbers, and Proofs}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+ 
+This lecture covers some of the most basic elements of mathematics ---
+sets, proofs, and numbers. Section \ref{s:sets} introduces sets and
+some related concepts. The summer math review covered logical
+propistions and the operations. Section \ref{s:setLogic} explores the
+relationship between sets and logic. Section \ref{s:card} briefly
+discusses cardinality and introduces countable and uncountable
+sets. Section \ref{s:numbers} is about familiar sets of numbers,
+including the integers, rationals, and real numbers. The properties of
+these sets of numbers that make them distinct are discussed in detail.
+This lecture will not explicitly discuss proofs, but it does include
+some examples of proofs. For an explicit discussion of proof
+techniques, see Simon and Blume appendix A1 or Kwong's ``Introduction
+to Logic and Proofs'' from the summer review material.  Some of the
+material in this lecture, particularly the sections on cardinality and
+constructing the real numbers, is more abstract and less practical
+than most of what will be covered in this course. Do not worry if you
+find this material difficult. It will not be essential to the later
+parts of the course. This material is included because I think it is
+especially interesting, and it illustrates rigorous mathematical
+thinking and proofs well.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Sets \label{s:sets}} 
+
+A \textbf{set} is any well-specified collection of
+elements. Sets are conventionally denoted by capital letters, and
+elements of a set are usually denoted by lower case letters. The
+notation, $a \in A$, means that $a$ is a member of the set $A$. A set
+can be defined by listing its elements inside braces. For example,
+\[ A = \{ 4, 5, 6 \} \]
+means that $A$ is a set of three elements with members $4$, $5$, and
+$6$. The members of a set need not be explicitly listed. Instead, they
+can be defined by some logical relation. For example, the same set $A$
+could be written
+\begin{equation}
+  A = \{ n \in \mathbb{N} : 3 < n < 7 \}  \label{e:s1}
+\end{equation}
+where $\mathbb{N} = \{1, 2, 3, ... \}$ is the natural numbers. The
+expression in (\ref{e:s1}) could be read as, ``the set of natural
+numbers, $n$, such that three is less than $n$ is less than 7.''
+Sometimes $|$ will be used to mean ``such that'' instead of $:$. The
+elements of sets need not be simple things like numbers. For example,
+if $A_k = \{ n \in \mathbb{N}: n > k \}$ is the set of natural numbers
+greater than $k$, then you could have a set of sets, $B = \{ A_1,
+A_{10}, A_{6} \}$.  Sets are unordered, so the previous definition of
+$B$ is the same as $B = \{ A_1, A_6, A_{10} \}$. Also, sets do not
+contain duplicates, so for example, $\{ 1, 1, 2 \} \equiv \{1, 2
+\}$. Sets can be empty. The empty set, also called the null set, is
+denoted by $\emptyset$ or, less commonly, $\{ \}$.
+
+\subsection{Set operations}
+
+Given two sets $A$ and $B$, a new set can be formed with the following
+three operations:
+\begin{enumerate}
+\item \textbf{Union:} $A \cup B = \{x: x\in A \text{ or } x \in B\}$.
+\item \textbf{Intersect:} $A \cap B = \{x: x \in A \text{ and } x \in
+  B\}$. 
+\item \textbf{Minus:} $A \setminus B = \{ x: x\in A \text{ and }
+  \not\in B \}$
+\end{enumerate}
+Often, we will discuss sets that are all subsets of some universal
+set, $U$. In this case, the \textbf{complement} of $A$ in $U$ is $A^c
+= U \setminus A$. If every element of $A$ is also in $B$, then we say that
+$B$ contains $A$ and write $B \supseteq A$, or $A$ is a subset of $B$
+and write $A \subseteq B$. If, additionally, there exists $b \in B$
+such that $b \not\in A$, then we say that $A$ is a proper subset of $B$,
+which is denoted by $A \subset B$ or $B \supset A$. If we have an
+indexed collection of sets, $\{A_k \}_{k \in \mathcal{K}}$, we may
+may take the union or intersection of all these sets and denote it as
+$\cup_{k \in \mathcal{K}} A_k $ or $\cap_{k \in \mathcal{K}} A_k$. 
+
+\subsection{Equivalence between logic and set
+  operations \label{s:setLogic}} 
+The set operations, union, $\cup$, and intersect, $\cap$, appear
+somewhat similar to the logical operations, or, $\vee$, and and,
+$\wedge$. This is not merely a coincidence. Predicates and logical
+operations are essentially equivalent to sets and set
+operators. Recall from the summer review that a \textbf{predicate} is
+a statement that may be either true or false depending on the value of
+its variable. For example, $y^2 = 9$, is a predicate that depends on
+the variable $y$. More formally, a predicate is a
+function\footnote{Somewhat informally, a function from $X$ to $Y$
+  takes each $x \in X$ and associates it with a single $y \in Y$. To
+  be precise, a function is an ordered triple of sets $(X,Y,F)$ where
+  $X$ is the domain, $Y$ is the codomain, and $F \subseteq X \times Y$
+  consists of ordered pairs $(x,y): x\in X, y \in Y$. We will not need
+  this formal definition in this course. }
+from a set, $X$, to the set $\{T, F \}$.  
+
+Given a predicate, $p(x)$, we can construct its truth set, $P = \{x
+\in X: p(x) = T\}$. Similarly, given a set, $P$, we can construct the
+predicate,
+$p(x) = \begin{cases} T \text{ if } x \in P \\
+  F \text{ if } x \not\in P \end{cases}$. The following theorem shows
+that this mapping is one-to-one and establishes the relationship
+between set and logic operations.
+\begin{theorem}[Equivalence of truth sets and
+  predicates \label{thm:setLogic}] Let $p(x)$
+  and $q(x)$ be predicates and $P$ and $Q$ be
+  the associated truth sets. Then if $\tilde{p}(x) = \begin{cases} T
+    \text{ if } x \in P \\ 
+    F \text{ if } x \not\in P \end{cases}$, we have $p(x) = \tilde{p}(x)
+  \forall x \in X$. Also, 
+  \begin{enumerate}
+  \item\label{i1} $p(x) \wedge q(x)$ iff $x \in P \cap Q$
+  \item\label{i2} $p(x) \vee q(x)$ iff $x \in P \cup Q$
+  \item\label{i3} $\sim p(x)$ iff $x \in P^c$
+  \item\label{i4} $p(x) \Rightarrow q(x)$ iff $P \subseteq Q$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Suppose $p(x) = T$. Then $x \in P$ and $\tilde{p}(x) = T$ by
+  definition. Similarly, if $p(x) = F$, then $\tilde{p}(x) = F$. Thus,
+  $p(x) = \tilde{p}(x)$.  (\ref{i1})-(\ref{i3}) also follow directly
+  from our definition of $p(x)$, $q(x)$, $P$, and $Q$.
+
+  To show (\ref{i4}), suppose $p(x) \Rightarrow q(x)$. By definition
+  of $P$, $\forall x \in P$, $p(x) = T$, which implies $q(x) = T$, so
+  $x \in Q$. Conversely, suppose $P \subseteq Q$. Then $x \in P$
+  implies both $p(x) = T$ and $x \in Q$, which also implies $q(x) =
+  T$. 
+\end{proof}
+
+\begin{corollary}
+  Let $X$, $Y$, and $Z$ be sets contained in some universe $U$. 
+  The following sets from columns A and B are equivalent.
+  \begin{centering}
+    \begin{tabular}{l r}
+      A       & B \\ \hline
+      $(X \cup Y)^c$ & $X^c \cap Y^c$ \\
+      $(X \cap Y)^c$ & $X^c \cup Y^c$ \\
+      $X \cap (Y \cup Z)$ & $(X \cap Y) \cup (X \cap Z)$ \\
+      $X \cup (Y \cap Z)$ & $(X \cup Y) \cap (X \cup Z)$
+    \end{tabular}
+  \end{centering}
+\end{corollary}
+\begin{proof}
+  This follows from theorem \ref{thm:setLogic} above and Theorem 1
+  from the review material on Logic. Let $x(a)$, $y(a)$, $z(a)$ be the
+  predicates associated with $X$, $Y$, and $Z$. From theorem
+  \ref{thm:setLogic}, $a \in (X \cup Y)^c$ iff $\sim(x(a) \vee
+  y(a))$. From theorem 1 from the logic review, $\sim(x(a) \vee y(a))$
+  iff $(\sim x(a) ) \wedge (\sim y(a))$. The remainder of the proof
+  proceeds similarly and is left as an exercise.
+\end{proof}
+
+\subsection{Cardinality \label{s:card}}
+
+\footnote{This section based on Chapter 2 of Rudin, Walter
+  (1976). \textit{Principles of Mathematical
+    Analysis}. McGraw-Hill.}Sometimes, we want to compare the size of
+two sets. This is easy when sets are finite; we simply count how many
+elements each has. It is not so easy to compare the size of infinite
+sets. Consider, for example, the natural numbers, $\mathbb{N}$, the
+integers $\mathbb{Z}$, rationals, $\mathbb{Q}$, and real numbers,
+$\mathbb{R}$. Let $|A|$ denote the ``size'' of $A$ (we will define it
+precisely later). We know that
+\[ \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset
+\mathbb{R}, \]
+so it seems sensible to say that 
+\[ |\mathbb{N}| < |\mathbb{Z}| < |\mathbb{Q}| < |\mathbb{R}|. \] 
+On the other hand, the even integers are a subset of $\mathbb{Z}$, but
+since we can write the set of even integers as $\{2x: x \in \mathbb{Z}
+\}$, it doesn't seem like there are any more integers than even
+integers. It was questions like these that led Georg Cantor to invent
+set theory in the 1870's. 
+
+A function (aka mapping), $f:A \rightarrow B$ is called
+\textbf{one-to-one} (aka injective) if for every $b \in B$ the set
+$\{a: f(a) = b \}$ is either a singleton or empty. $f$ is called
+\textbf{onto} (aka surjective) if $\forall b \in B$ $\exists a \in A:
+f(a) = b$.  If there exists a one-to-one mapping of $A$ onto $B$ (aka
+bijection or one-to-one correspondence), then we say that $A$ and $B$
+have the same \textbf{cardinal number} (or cardinality) and write $|A|
+= |B|$.  Let $J_n = \{1, ..., n \}$. $A$ is \textbf{finite} if $|A| =
+|J_n|$.  $A$ is \textbf{countable} if $|A| = |\mathbb{N}|$. $A$ is
+\textbf{uncountable} if $A$ is neither finite nor countable.  You
+should verify that the relation $|A| = |B|$ is reflexive ($|A| =
+|A|$), symmetric ($|A| = |B|$ implies $|B| = |A|$), and transitive (if
+$|A| = |B|$ and $|B| = |C|$ then $|A| = |C|$). 
+
+\begin{lemma}
+  $\mathbb{Z}$ is countable. 
+\end{lemma}
+\begin{proof}
+  We can construct a bijection between $\mathbb{Z}$ and $\mathbb{N}$
+  as follows:
+  \begin{align*}
+    \begin{matrix}
+      \mathbb{Z}: & 0, & -1, & 1, & 2, & -2, & 3, & -3, ... \\
+      \mathbb{N}: & 1, & 2, & 3, & 4, & 5, & 6, & 7,  ...
+    \end{matrix}
+  \end{align*}
+  Or as a formula, $f:\mathbb{N} \rightarrow \mathbb{Z}$ with 
+  \[ f(n) = \begin{cases} (n-1)/2 \text{ if } n \text{ odd} \\
+    -n/2 \text{ if } n \text{ even}. \end{cases} \]  
+\end{proof}
+
+\begin{theorem} \label{thm:countsubset}
+  Every infinite subset of a countable set $A$ is countable.
+\end{theorem}
+\begin{proof}
+  $A$ is countable, so there exists a bijection from $A$ to
+  $\mathbb{N}$. We can use this mapping to arrange the elements of $A$
+  in a sequence, $\{a_{n}\}^\infty_{n=1}$. Let $B$ be an infinite
+  subset of $A$. Let $n_1$ be the smallest number such that $a_{n_1}
+  \in B$. Given $\{a_{n_1}, ... , a_{n_{k-1}}\}$, let $n_k$ be the
+  smallest number such that $a_{n_k} \in B \\ \{a_{n_1}, ... ,
+  a_{n_{k-1}}\}$. Such an $n_k$ always exists since $B$ is
+  infinite. Also, $B = \{a_{n_k} \}_{k=1}^\infty$ since otherwise
+  there would be a $b \in B$, but $b\not\in A$. Thus, $f(k) = a_{n_k}$ is
+  a one-to-one correspondence between $B$ and $\mathbb{N}$.
+\end{proof}
+
+\begin{theorem}
+  The rational numbers are countable.
+\end{theorem}
+\begin{proof}
+  Consider the following arrangement of positive rational numbers:
+  \begin{align*}
+    \begin{array}{ccccc} 
+      1/1 & 2/1 & 3/1 & 4/1 & \cdots \\
+      1/2 & 2/2 & 3/2 & 4/2 & \cdots \\
+      1/3 & 2/3 & 3/3 & 4/3 & \cdots \\
+      \vdots &  &  & \ddots 
+    \end{array}
+  \end{align*}
+  Starting in the top left and going back and forth diagonally, we get
+  the following sequence:
+  \begin{align*}
+    1/1, 1/2, 2/1, 1/3, 2/2, 3/1, ...
+  \end{align*}
+  Adding zero and the negative rationals, we can write e.g.\
+  \begin{align*}
+    & 0,1/1, -1/1, 1/2, -1/2, 2/1, -2/1, 1/3, -1/3, 2/2, -2/2, 3/1,
+    ... \\
+    = & q_1, q_2, q_3 , q_4, ... \\
+  \end{align*}
+  Continuing on in this way, we could list all rational numbers. Some
+  of these fractions represent the same number and can be
+  removed. Thus, we obtain a correspondence between the rationals and
+  an infinite subset of $\mathbb{N}$. However, by theorem
+  \ref{thm:countsubset}, this subset is countable, so the rationals
+  are also countable.
+\end{proof}
+
+\begin{theorem}
+  The real numbers are uncountable.
+\end{theorem}
+\begin{proof}
+  We have not rigorously defined the real numbers, so we will take for
+  granted the following: every infinite decimal expansion,
+  (e.g. $0.135436080...$) represents a unique real number in $[0,1)$,
+  except for expansions that end in all zeros or nines, which are
+  equivalent. Suppose we have constructed a surjective mapping from
+  $\mathbb{N}$ to $(0,1)$. Then we can list all real numbers in
+  $(0,1)$ as
+  \begin{align*}
+    r_1 = 0.d_{11} d_{12} d_{13} ... \\
+    r_2 = 0.d_{21} d_{22} d_{23} ... \\
+    \ddots
+  \end{align*}
+  where each $d_{ij} \in \{0,1,...,9\}$, and no expansion ends in all
+  nines. Consider the following number $x^* = 0.d^*_1 d^*_2 d^*_3 ...$. where 
+  \[ 
+  d^*_n
+  = \begin{cases} d_{nn} + 1 \text{ if } d_{nn} \neq 8 \\
+    d_{nn} - 1 \text{ if } d_{nn} = 8 
+  \end{cases} .
+  \]  
+  $x^*$ is in $(0,1)$, but $x^* \neq r_n$ for any $n$ because $d^*_n
+  \neq d_{nn}$. Thus, we have a contradiction, and there cannot be a
+  onto mapping from $\mathbb{N}$ to $(0,1)$.  If there is no
+  surjective mapping from $\mathbb{N}$ to $(0,1)$, there can be no
+  surjective mapping from $\mathbb{N}$ to $\mathbb{R}$ since $(0,1)
+  \subset \mathbb{R}$.
+\end{proof}
+Countable sets are said to have cardinality $\aleph_0$ (``aleph
+null''). Note that an implication of theorem \ref{thm:countsubset} is
+that $\aleph_0$ is the smallest infinite cardinal number. The real
+numbers have cardinality of the continuum, sometimes written
+$2^{\aleph_0}$ or $\mathbb{c}$. You might be wondering whether there
+are larger cardinal numbers. The answer is yes. The set of all subsets
+of a set, $A$, called the \textbf{power set} of $A$, always has larger
+cardinality $2^{|A|}$ (the proof of this is similar to the proof that
+the real numbers are uncountable). 
+
+A final question to ask yourself is whether there are sets with
+cardinality between $\aleph_0$ and $2^{\aleph_0}$. The answer to that
+question is whatever you want it to be. The conjecture that there are
+no cardinal numbers between $\aleph_0$ and $2^{\aleph_0}$ is known as
+the continuum hypothesis. It was proposed by Cantor in the 1870s. In
+1900, Hilbert made a famous list of 23 unsolved important problemts in
+mathematics. The continuum hypothesis was the first. In 1940,
+G\:{o}del showed that the continuum hypothesis cannot be disproved
+from the standard axioms that lie at the foundation of mathematics.
+In 1963, Cohen showed that the continuum hypothesis cannot be proved
+from the standard axioms. This is an example of G\:{o}del's
+incompleteness theorem, a very interesting result that we won't be
+able to cover in this course. Loosely speaking, G\:{o}del's
+incompleteness theorem says that for any non-trivial set of
+assumptions and system of logic, you can make statements consistent
+with the system of logic that cannot be proven or disproven from the
+assumptions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Numbers \label{s:numbers}}
+
+We have been assuming familiarity with the natural numbers, integers,
+rationals, and real numbers. This section explores some properties of
+these sets of numbers and heuristically describes how these sets of
+numbers are constructed. 
+
+We will take for granted that we understand what the natural numbers
+are. Note, however, that it is possible to rigorously construct the
+natural numbers from a simple list of assumptions using logic or set
+theory. We will also take for given that we know how to add and
+multiply natural numbers. Addition has the following nice properties.
+\begin{itemize}
+\item[1] \emph{Closure} if $a, b \in \mathbb{N}$, so is $a + b$ 
+\item[2] \emph{Associative} $a + (b + c) = (a + b) + c$. 
+\end{itemize}
+If we demand that addition also has 
+\begin{itemize}
+\item[3] \emph{Identity} $\exists 0$ s.t. $a + 0 = a$,
+\item[4] \emph{Inverse} $\forall a$, $\exists b$ s.t. $a + b = 0$
+\end{itemize}
+then we must expand the natural numbers to include the integers,
+$\mathbb{Z}$. Multiplication also satisfies these four analogous
+properties:
+\begin{itemize}
+\item[1'] \emph{Closure} if $a, b \in A$, so is $ab$ 
+\item[2'] \emph{Associative} $a (b c) = (a b)  c$. 
+\item[3'] \emph{Identity} $\exists 1$ s.t. $a 1= a$,
+\item[4'] \emph{Inverse} $\forall a \neq 0$, $\exists b$ s.t. $ab = 1$
+\end{itemize}
+However, if we want multiplicative inverses to exist for all $z\in
+\mathbb{Z}$, then we must further expand our set of numbers to the
+rationals, $\mathbb{Q}$. Addition and multiplication are also
+\begin{itemize}
+\item[5] \emph{Commutative} $ a + b = b + a$
+\item[6] \emph{Distributive} $a (b + c) = ab + ac$
+\end{itemize}
+To summarize: if we start with the natural numbers, and then demand
+that multiplication and addition have these six properties, we end up
+with the rational numbers. 
+
+More generally, we could study a set $A$ combined with one or two
+operations that satisfy certain properties. The branch of mathematics
+that studies these sort of objects is abstract algebra. We will not be
+studying algebra in detail, but it may be useful to be familiar with
+some basic terms. A \textbf{group} is a set and operation,
+$(A,\oplus)$ such that $A$ is closed under $\oplus$, $\oplus$ is
+associative, there exists an identity, and inverses exist under
+$\oplus$ (i.e.\ properties 1-4). If $\oplus$ is also commutative, we
+call $(A,\oplus)$ an abelian (or commutative) group. Examples of
+groups include $(\mathbb{Z},+)$ and $(\mathbb{Q},\cdot)$. A
+\textbf{ring} is a set with two operations, $(A,\oplus,\odot)$ such
+that $(A,\oplus)$ is a group, and $\odot$ has properties 1-3 and
+6. $(\mathbb{Z},+,\cdot)$ is a ring.  One ring that will come up
+repeatedly in this course is the set of all $n$ by $n$ matrices with
+the usual matrix addition and multiplication. A \textbf{field} is set
+with two operations such that 1-6 hold for both
+operations. $(\mathbb{Q},+,\cdot)$ is a field. Other fields that you
+may have encountered include the complex numbers with the usual
+addition and multiplication, and the intergers modulo any prime
+number.
+
+\subsection{Real numbers}
+
+The rational numbers are pretty nice; they're a field with the six
+properties listed above. However, $\mathbb{Q}$ does not contain all
+the numbers that we think it should. For example,
+\begin{theorem}
+  $\sqrt{2} \not\in \mathbb{Q}$
+\end{theorem}
+\begin{proof}
+  Suppose $\sqrt{2} \in \mathbb{Q}$. Then $\sqrt{2} = p / q$ where $p$
+  and $q$ are not both even. If we square both sides, we get
+  \begin{align*}
+    2 = & p^2 / q^2 \\
+    2 q^2 = & p^2.
+  \end{align*}
+  Hence, $p^2$ must be even. From the review, then $p$ must also be
+  even, say $p = 2m$. Then we have
+  \begin{align*}
+    2 q^2 = & 2(2 m^2) \\
+    q^2 = & 2 m^2,
+  \end{align*}
+  which means $q$ must also be even, contrary to our starting
+  assumption. 
+\end{proof}
+Apparently, the rationals have some holes in them that we should fill
+in. To do so in a unique way, we need to define another property of
+the rational numbers. An \textbf{ordered set} is a set, $A$, and a
+relation, $<$, such that (i) $\forall a,b \in A$ either $a < b$ or $a
+= b$ or $a > b$; and (ii) if $a < b$ and $b < c$ then $a < c$. An
+\textbf{ordered field} is a field that is an ordered set and addition
+and multiplication preserve the ordering in that (i) if $b<c$ then $a
++ b < a + c$ (ii) if $a>0$ and $b>0$ then $ab>0$.
+
+We need one more definition. Simon and Blume state that one property
+of real numbers that will be used throughout the book is the least
+upper bound property. It turns out that this property is not only
+useful; it lies at the foundation of the real numbers. Let $S$ be an
+ordered set and $A \subset S$. $s \in S$ is an \textbf{upper bound} of
+$A$ if $s > a \forall a \in A$. $s$ is a \textbf{least upper bound}
+(aka supremum) of $A$ if $s$ is an upper bound of $A$ and if $r < s$,
+then $r$ is not an upper bound of $A$. $S$ has the
+\textbf{least-upper-bound property} (aka complete or Dedekind
+complete) if whenever $A \subset S$ has an upper bound, $A$ has a
+least upper bound. Given that $\sqrt{2} \not\in \mathbb{Q}$, it should
+not be surprising that the rational numbers are not complete. You will
+prove this fact on the first problem set. 
+
+\begin{theorem}[Real numbers]
+  There exists an ordered field, $\mathbb{R}$, that has the least
+  upper bound property. $\mathbb{R}$ contains $\mathbb{Q}$. Moreoever,
+  $\mathbb{R}$ is ``unique''.
+\end{theorem}
+
+The proof of this is surprisingly long, so we will not go over it in
+detail. Existence can be proven by construction. One method involves
+constructing real numbers as Dedekind cuts. A Dedekind cut is a
+nonempty subset of the rationals, $A \subset \mathbb{Q}$, such that
+(i) if $p \in A$, $q \in \mathbb{Q}$, and $q < p$, then $q \in A$ and
+(ii) if $p \in A$ then $p<r$ for some $r \in A$ (i.e. $A$ has no
+greatest element. For example, the Dedekind cut associated with
+$\sqrt{2}$ would be $\{p \in \mathbb{Q}: p^2 < 2\}$). We would then
+define addition, multiplication, and ordering of these cuts in the
+natural way and verify that all the properties above are
+satisfied. See Rudin for details if you are interested.
+
+The ``uniqueness'' is harder to prove. $\mathbb{R}$ is unique in the
+sense that any two ordered fields with the least-upper-bound property
+are isomorphic (there exists a bijection between them that preserves
+multiplication, addition, and ordering). The proof proceeds by
+supposing that $\mathbb{R}$ and $\mathbb{F}$ are two ordered fields
+with the least-upper-bound property and then shows that there is an
+isomorphism between them.
+
+\end{document}

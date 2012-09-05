@@ -1,0 +1,354 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\newcommand{\rank}{\mathrm{rank}}
+
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{conjecture}{Conjecture}[section]
+% \newtheorem{corollary}{Corollary}[section]
+% \newtheorem{lemma}{Lemma}[section]
+% \newtheorem{proposition}{Proposition}[section]
+% \theoremstyle{definition}
+% \newtheorem{assumption}{}[section]
+% %\renewcommand{\theassumption}{C\arabic{assumption}}
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{step}{Step}[section]
+% \newtheorem{remark}{Comment}[section]
+% \newtheorem{example}{Example}[section]
+% \newtheorem*{example*}{Example}
+
+%\linespread{1.1}
+
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+
+\title{Systems of linear equations}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Overview}
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+  \item Review last lecture
+    \begin{itemize}
+    \item Two more theorems on countability (helpful for homework) 
+    \item Gaussian and Gauss-Jordan elimination
+    \end{itemize}
+  \item Solutions to systems of linear equations
+    \begin{itemize}
+    \item Existence
+    \item Uniqueness
+    \item Characterizing the set of solutions
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{More countability}
+\begin{frame}
+  \frametitle{More countability}
+  \begin{itemize}
+  \item Let $A$ and $B$ be sets, the \textbf{Cartesion product} of $A$
+    and $B$ is
+    \[ A \times B := \{(a, b) : a \in A, b \in B\} \]
+  \end{itemize}
+  \begin{theorem}
+    If $A$ and $B$ are countable, then so is $A \times B$.
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item $A$ and $B$ are countable, so we can write $A = \{a_1, a_2,
+      ...\}$ and $B = \{b_1, b_2, ... \}$.
+    \item Consider 
+      \begin{align*}
+        \begin{pmatrix} 
+          (a_1, b_1) & (a_1, b_2) & (a_1, b_3) & \cdots \\
+          (a_2, b_1) & (a_2, b_2) & (a2, b_3) & \cdots \\
+          (a_3, b_1) & (a_3, b_2) & (a_3, b_3) & \cdots \\
+          \vdots &               &           & \ddots
+        \end{pmatrix}
+      \end{align*}
+    \item Count along the diagonals
+    \end{itemize}
+  \end{proof}  
+\end{frame}
+
+\begin{frame}
+  \frametitle{More countability}
+  \begin{theorem}
+    If $\{A_n\}$ are countable, then so is $\cup_{n=1}^\infty A_n$.
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item $A_n$ is countable, so we can write $A_n = \{a_{1n}, a_{2n},
+      ...\}$ 
+    \item Consider 
+      \begin{align*}
+        \begin{pmatrix} 
+          a_{11} & a_{12} & a_{13} & \cdots \\
+          a_{21} & a_{22} & a_{23} & \cdots \\
+          a_{31} & a_{32} & a_{33} & \cdots \\          
+          \vdots &      &       & \ddots
+        \end{pmatrix}
+      \end{align*}
+    \item Count along the diagonals
+    \end{itemize}
+  \end{proof}  
+\end{frame}
+
+\section{Solving systems of linear equations}
+
+\begin{frame}
+  \frametitle{Systems of linear equations: review}
+  \begin{itemize}
+  \item Coefficient matrix
+  \item Augmented coefficient matrix
+  \item Row echelon form
+  \item Reduced row echelon form
+  \item Gaussian elimination
+  \item Gauss-Jordan elimination
+  \end{itemize}
+\end{frame}
+
+\subsection{Existence of solutions}
+\begin{frame}
+  Transform the following system into row echelon form:
+  \begin{align*}
+    x + 2 y - z = & 2 \\
+    4 y + z = & 5 \\
+    -2x - 4y + 2z = & 1.
+  \end{align*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Existence of solutions}
+  \begin{itemize}
+  \item \textbf{rank} of $A$ is the number of nonzero rows in its row
+    echelon form
+  \item Is rank well-defined?
+  \end{itemize}
+  
+  \begin{lemma}\label{lem:rankcr}
+    The rank of a matrix $A$ is always less than or equal to the number
+    of columns of $A$ and less than or equal to the number of rows of $A$.
+  \end{lemma}
+  
+  \begin{lemma}\label{lem:rankaug}
+    Let $A$ be a coefficient matrix and $\hat{A}$ be an augmented
+    coefficient matrix. Then $\rank A \leq \rank \hat{A}$.
+  \end{lemma}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Existence of solutions}
+  \begin{theorem}[Existence of solutions]\label{thm:exist}
+    A system of linear equations with coefficient matrix $A$ and
+    augmented coefficient matrix $\hat{A}$ has a solution (perhaps more
+    than one) if and only if $\rank A = \rank \hat{A}$.
+  \end{theorem}
+  \begin{proof}
+    See notes.
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  Consider the system:
+  \begin{align*}
+    4 y + z = & 5 \\    
+    x + 2 y - z = & 2 \\
+    -8y - 2z = & -10.
+  \end{align*}
+  \begin{itemize}
+  \item \textbf{free} variable: indeterminate value
+  \item \textbf{basic} variable: value determined completely or by
+    values of free variables
+  \item Well defined?
+  \item What if $b_3 \neq -10$?
+  \end{itemize}  
+\end{frame}
+
+\begin{frame}\frametitle{Multiple solutions means infinite solutions}
+  \begin{lemma}\label{lem:sinf}
+    Suppose $\mathbf{x}_1$ and $\mathbf{x}_2$ are two distinct
+    solutions to the system of equations $A \mathbf{x} =
+    \mathbf{b}$. Then the system of equations has (uncountably)
+    infinitely many solutions.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}\frametitle{Solution existence for any $b$}
+  \begin{theorem}[Solution existence]\label{thm:sexist}
+    A system of linear equations with coefficient matrix $A$ will have a
+    solution for any choice of $b_1, ..., b_m$ if and only if $\rank A$
+    is equal to the number of rows of $A$.
+  \end{theorem}
+
+  \begin{corollary}
+    For any system of equations with more equations than variables,
+    (i.e.\ an overdetermined system)
+    there exists a choice of $\textbf{b}$ such that no solutions exist. 
+  \end{corollary}
+\end{frame}
+
+\section{Uniqueness of solutions}
+
+\begin{frame}\frametitle{Uniqueness}
+  \begin{theorem}[Solution uniqueness] \label{thm:sunique}
+    Any system of equations with coefficient matrix $A$ has at most one
+    solution for any $b_1, ... , b_m$ if and only if $\rank A$ equals
+    the number of columns of $A$. 
+  \end{theorem}
+
+  \begin{corollary}\label{cor:smult}
+    If $\rank A$ is less than the number of columns of $A$ then either
+    no solutions exists or multiple solutions exists.
+  \end{corollary}
+  
+  \begin{corollary}
+    $A$ is nonsingular (always has a unique solution) if and only if
+    $A$ has an equal number of columns and rows ($A$ is square) and
+    has rank equal to its number of columns (or rows).
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+  \begin{centering}
+  \begin{tabular}{c|c|c|c} 
+    & \multicolumn{2}{c}{$\rank A = \rank \hat{A}$} &  
+    $\rank A < \rank \hat{A} $ \\ 
+    & $\rank A = \mathrm{columns}(A)$ & 
+    $\rank A < n$ & \\ \hline
+    $0$ &  &  & X \\
+    $1$ & X & & \\
+    $\infty$ & & X & \\ \hline
+  \end{tabular}
+  \end{centering}
+\end{frame}
+
+\section{Set of solutions}
+
+\begin{frame}
+  \frametitle{Sets of solutions}
+\begin{figure}\label{fig:solnSets}
+  \begin{tabular}{ccc}
+    $-2x + y = 1$
+    &
+    $\begin{array}{cc} 
+      x - y - z = & 0 \\
+      -2x + y + 3z = & 1 
+    \end{array}$    
+    & 
+    $
+    -2x - y +  z =  2
+    $
+    \\
+    \includegraphics[width=0.25\linewidth]{fig1} & 
+    \includegraphics[width=0.25\linewidth]{fig2} & 
+    \includegraphics[width=0.25\linewidth]{fig3} 
+  \end{tabular}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    The set $S \subseteq \mathbb{R}^n$ is called a \textbf{linear
+      subspace} if it is closed under (i) scalar multiplication and (ii)
+    addition in other words, if 
+    \begin{itemize}
+    \item[(i)] for every $(x_1, ..., x_n)\in S$ and $a \in \mathbb{R}$,
+      we have $(a x_1, a x_2, ..., a x_n) \in S$, and
+    \item[(ii)] for every $(x_1, ..., x_n)\in S$ and $(y_1, ..., y_n)\in
+      S$, we have
+      $(x_1 + y_1, ..., x_n + y_n)  \in S$
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    A set of vectors in $\mathbb{R}^n$, $\{\textbf{x}_j = (x^j_1,...,
+    x^j_n)\}_{j=1}^J$, is \textbf{linearly independent} if the only
+    solution to 
+    \begin{align*}
+      \sum_{j=1}^J c_j \textbf{x}_j = 0 
+    \end{align*}
+    is $c_1 = c_2 = ... = c_J = 0$. 
+  \end{definition}
+
+  \begin{definition}
+    The dimension of a linear subspace $S \subseteq \mathbb{R}^n$ is the
+    cardinality of the largest set of linearly independent elements in
+    $S$. 
+  \end{definition} 
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Rouch\'{e}-Capelli] \label{thm:rc} A system of linear
+    equations with $n$ variables has a solution if and only if the rank
+    of its coefficient matrix, $A$, is equal to the rank of its
+    augmented matrix, $\hat{A}$. If a solution exists and $\rank A$ is
+    equal to its number of columns, the solution is unique. If a
+    solution exists and $\rank A$ is less than its number of columns,
+    there are infinite solutions. In this case the set of solutions
+    forms a linear subspace of dimension $n - \rank A$.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Markov model of employment}
+  \begin{itemize} 
+  \item Recall model from last class
+    \begin{align*}
+      (p_{ee}-1) \pi_e + p_{eu} \pi_u = & 0\\
+      p_{ue} \pi_e + (p_{uu}-1) \pi_e= & 0\\
+      \pi_e + \pi_u = & 1 .
+    \end{align*}
+  \item Questions:
+    \begin{enumerate}
+    \item Does any solution exist? 
+    \item How many solutions exist?
+    \item How can a solution be computed?
+    \end{enumerate}    
+  \end{itemize}
+\end{frame}
+
+\end{document}

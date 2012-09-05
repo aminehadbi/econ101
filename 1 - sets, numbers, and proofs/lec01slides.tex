@@ -1,0 +1,289 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+%\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+
+
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{conjecture}{Conjecture}[section]
+% \newtheorem{corollary}{Corollary}[section]
+% \newtheorem{lemma}{Lemma}[section]
+% \newtheorem{proposition}{Proposition}[section]
+% \theoremstyle{definition}
+% \newtheorem{assumption}{}[section]
+% %\renewcommand{\theassumption}{C\arabic{assumption}}
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{step}{Step}[section]
+% \newtheorem{remark}{Comment}[section]
+% \newtheorem{example}{Example}[section]
+% \newtheorem*{example*}{Example}
+
+%\linespread{1.1}
+
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+
+\title{Sets, Numbers, and Proofs}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Overview}
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize}
+  \item Sets 
+    \begin{itemize}
+    \item Definitions, basic operations
+    \item Relation to logic
+    \item Cardinality 
+    \end{itemize}
+  \item Numbers --- definition and special properties of integers,
+    rationals, and reals
+    \begin{itemize}
+    \item Ordered field
+    \item Least-upper-bound property
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Sets \label{s:sets}} 
+
+\begin{frame}
+  \frametitle{Sets}
+  \begin{itemize}
+  \item A \textbf{set} is any well-specified collection of
+    elements
+  \item Notation and examples:
+    \begin{align*} 
+      a \in & A   & 
+      A = & \{4 , 5, 6 \} \\
+      A = & \{n \in \mathbb{N}: 3 < n < 7 \}  & 
+      A_k = & \{ n \in \mathbb{N}: n > k \} \\ 
+      B = & \{ A_1, A_6, A_7 \} & \emptyset 
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\subsection{Set operations}
+
+\begin{frame}
+  \frametitle{Set operations and comparisons}
+  \begin{itemize}
+  \item \textbf{Union:} $A \cup B = \{x: x\in A \text{ or } x \in B\}$.
+  \item \textbf{Intersect:} $A \cap B = \{x: x \in A \text{ and } x \in
+    B\}$. 
+  \item \textbf{Minus:} $A \setminus B = \{ x: x\in A \text{ and }
+    \not\in B \}$
+  \item \textbf{Complement:} $A^c = \{x \in U \setminus A\}$
+  \item \textbf{Subset:} $A \subseteq B$, $A \subset B$.
+  \end{itemize}
+\end{frame}
+
+\subsection{Equivalence between logic and set
+  operations \label{s:setLogic}} 
+
+\begin{frame}
+  \frametitle{Sets and logic}
+  \begin{itemize}
+  \item \textbf{Predicate}: is a function, $p(x)$, from some set, $X$,
+    to $\{T, F \}$
+  \item Truth set of $p(x)$ is $\{x \in X: p(x) = T \}$
+  \end{itemize}
+  \begin{theorem}[Equivalence of truth sets and
+    predicates \label{thm:setLogic}] Let $p(x)$
+    and $q(x)$ be predicates and $P$ and $Q$ be
+    the associated truth sets. Then if $\tilde{p}(x) = \begin{cases} T
+      \text{ if } x \in P \\ 
+      F \text{ if } x \not\in P \end{cases}$, we have $p(x) = \tilde{p}(x)
+    \forall x \in X$. Also, 
+    \begin{enumerate}
+    \item\label{i1} $p(x) \wedge q(x)$ iff $x \in P \cap Q$
+    \item\label{i2} $p(x) \vee q(x)$ iff $x \in P \cup Q$
+    \item\label{i3} $\sim p(x)$ iff $x \in P^c$
+    \item\label{i4} $p(x) \Rightarrow q(x)$ iff $P \subseteq Q$
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \begin{corollary}
+    Let $X$, $Y$, and $Z$ be sets contained in some universe $U$. 
+    The following sets from columns A and B are equivalent.
+    \begin{centering}
+      \begin{tabular}{l r}
+        A       & B \\ \hline
+        $(X \cup Y)^c$ & $X^c \cap Y^c$ \\
+        $(X \cap Y)^c$ & $X^c \cup Y^c$ \\
+        $X \cap (Y \cup Z)$ & $(X \cap Y) \cup (X \cap Z)$ \\
+        $X \cup (Y \cap Z)$ & $(X \cup Y) \cap (X \cup Z)$
+      \end{tabular}
+    \end{centering}
+  \end{corollary}
+\end{frame}
+
+\subsection{Cardinality \label{s:card}}
+
+\begin{frame}
+  \frametitle{Cardinality}
+  \begin{itemize}
+  \item How can we compare the size of infinite sets?
+  \item Cardinality of set $A$ denoted $|A|$. 
+  \item $|A| = |B|$ if $\exists$ one-to-one and onto mapping between
+    $A$ and $B$
+  \item Cardinality is either
+    \begin{itemize}
+    \item Finite
+    \item Countable $=|\mathbb{N}|$
+    \item Uncountable $>|\mathbb{N}|$ 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    $\mathbb{Z}$ is countable. 
+  \end{lemma}
+  
+  \begin{theorem} \label{thm:countsubset}
+    Every infinite subset of a countable set $A$ is countable.
+  \end{theorem}
+
+  \begin{theorem}
+    The rational numbers are countable.
+  \end{theorem}
+  
+  \begin{theorem}
+    The real numbers are uncountable.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Remarks}
+  \begin{itemize}
+  \item Sets bigger than $\mathbb{R}$?
+    \begin{itemize}
+    \item Power set of $A$ always has cardinality larger than $A$
+    \end{itemize}
+  \item Sets bigger than $\mathbb{N}$ and smaller than $\mathbb{R}$?
+    \begin{itemize}
+    \item Continuum hypothesis 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Numbers \label{s:numbers}}
+
+\begin{frame}
+  \frametitle{Numbers}
+  \begin{itemize}
+  \item Natural, integer, rational, real: where do they come from?
+    what makes them special?
+  \item Natural: take as given (but could construct from logic or set
+    theory) 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Properties of addition:
+    \begin{itemize}
+    \item[1] \emph{Closure} if $a, b \in \mathbb{N}$, so is $a + b$ 
+    \item[2] \emph{Associative} $a + (b + c) = (a + b) + c$. 
+    \item[3] \emph{Identity} $\exists 0$ s.t. $a + 0 = a$,
+    \item[4] \emph{Inverse} $\forall a$, $\exists b$ s.t. $a + b = 0$
+    \end{itemize}
+  \item Given natural numbers, if we demand addition have (3) and (4),
+    we need integers    
+  \item If we also demand multiplication has property (4), we need
+    rationals
+  \item Addition and multiplication are also
+    \begin{itemize}
+    \item[5] \emph{Commutative} $ a + b = b + a$
+    \item[6] \emph{Distributive} $a (b + c) = ab + ac$
+    \end{itemize} 
+  \item A set with $+$ and $\times$ s.t. (1)-(6) is a field
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{More properties of rationals}
+  \begin{itemize}
+  \item An \textbf{ordered set} is a set, $A$, and a relation, $<$,
+    such that (i) $\forall a,b \in A$ either $a < b$ or $a = b$ or $a
+    > b$; and (ii) if $a < b$ and $b < c$ then $a < c$.
+  \item An \textbf{ordered field} is a field that is an ordered set
+    and addition and multiplication preserve the ordering in that (i)
+    if $b<c$ then $a + b < a + c$ (ii) if $a>0$ and $b>0$ then $ab>0$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The problem with rationals}
+  \begin{theorem}
+    $\sqrt{2} \not\in \mathbb{Q}$.
+  \end{theorem}
+  \begin{itemize}
+  \item $s \in S$ is an \textbf{upper bound} of $A$ if $s > a \forall
+    a \in A$.
+  \item $s$ is a \textbf{least upper bound} of $A$ if $s$ is an upper
+    bound of $A$ and if $r < s$, then $r$ is not an upper bound of
+    $A$. 
+  \item $S$ has the \textbf{least-upper-bound property} if whenever $A
+    \subset S$ has an upper bound, $A$ has a least upper bound.
+  \end{itemize}
+  \begin{theorem}
+    $\mathbb{Q}$ does not have the least-upper-bound property.
+  \end{theorem}
+\end{frame}
+
+\subsection{Real numbers}
+\begin{frame}
+  \frametitle{Real numbers}
+  \begin{theorem}
+    There exists an ordered field, $\mathbb{R}$, that has the least
+    upper bound property. $\mathbb{R}$ contains $\mathbb{Q}$. Moreoever,
+    $\mathbb{R}$ is ``unique''.
+  \end{theorem}
+\end{frame}
+
+
+\end{document}

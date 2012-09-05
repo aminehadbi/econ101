@@ -1,0 +1,108 @@
+
+
+\section{SB 15.4}
+Let's use the implicit function theorem to get some comparative
+statics results. We will analyze the model of a simple exchange
+economy from chapter 15.4 in Simon and Blume. There are two consumers
+and two goods. Consumer 1 has endowment $(e^1_1,0)$ and consumer 2 has
+$(0,e^2_2)$. The utility function of consumer $i$ is 
+\[ U_i(x_i,y_i) = \alpha u_i(x_i) + (1-\alpha) u_i(y_i) \]
+Let $p$ be the price of good $1$ and $q$ the price of good $2$. Each
+consumer maximizes utility subject to a budget constraint treating
+prices as given.
+\begin{align}
+  \max_{x_i,y_i} U_i(x_i,y_i) \text{ s.t. } p x_i + q y_i \leq p
+  e_1^i + q e_2^i  \label{e:max}
+\end{align}
+You are likely familiar with how to solve constrained optimization
+problems. If not, do not worry because we will study it in detail
+soon. Anyway, the solution to the maximization problem satisfies the
+first order conditions:
+\begin{align*}
+  [x_i]: & & \frac{\partial U_i}{\partial x_i} = & \lambda_i p \\
+  [y_i]: & & \frac{\partial U_i}{\partial y_i} = & \lambda_i q \\
+  [\lambda_i]: & &  p x_i + q y_i = &  p e_1^i + q e_2^i  \text{ or
+    less than and }
+  \lambda_i = 0\\
+\end{align*}
+where $\lambda_i$ is called a Lagrange multiplier. Under some
+assumptions, any solution to (\ref{e:max}) must also solve the first
+order conditions. However, not all solutions to the first order
+conditions are solutions to the maximization problem (\ref{e:max}). To
+ensure that a solution to the first order conditions also solves,
+(\ref{e:max}), we should check the second order condition as well. We
+will cover that later, and for now just assume that a solution to the
+first order condition also solves (\ref{e:max}). We can rewrite the
+first conditions as:
+\begin{align*}
+  \frac{ (\partial U_i)/(\partial x_i) }{ (\partial U_i)/(\partial
+    y_i)} = & \frac{p}{q} \\
+  p x_i + q y_i = &  p e_1^i + q e_2^i
+\end{align*}
+or in terms of $u$,
+\begin{align}
+  \frac{ \alpha u_i'(x_i) }{ (1-\alpha) u_i'(y_i) } = &
+  \frac{p}{q} \label{ir} \\ 
+  p x_i + q y_i = &  p e_1^i + q e_2^i \label{bc}
+\end{align}
+Also total consumption must equal the total endowment, so we have the
+following two market clearing conditions.
+\begin{align}
+  x_1 + x_2 = & e_1^1 \label{mc1} \\ 
+  y_1 + y_2 = & e_2^2 \label{mc2}
+\end{align}
+Thus, we have six unknowns, $x_1, x_2, y_1, y_2, p, q$ and six
+equations, (\ref{ir}) and (\ref{bc}) for $i=1,2$ and (\ref{mc1}) and
+(\ref{mc2}). Let's use the implicit function theorem to get some comparative
+statics results. We will analyze the model of a simple exchange
+economy from chapter 15.4 in Simon and Blume. There are two consumers
+and two goods. Consumer 1 has endowment $(e^1_1,0)$ and consumer 2 has
+$(0,e^2_2)$. The utility function of consumer $i$ is 
+\[ U_i(x_i,y_i) = \alpha u_i(x_i) + (1-\alpha) u_i(y_i) \]
+Let $p$ be the price of good $1$ and $q$ the price of good $2$. Each
+consumer maximizes utility subject to a budget constraint treating
+prices as given.
+\begin{align}
+  \max_{x_i,y_i} U_i(x_i,y_i) \text{ s.t. } p x_i + q y_i \leq p
+  e_1^i + q e_2^i  \label{e:max}
+\end{align}
+You are likely familiar with how to solve constrained optimization
+problems. If not, do not worry because we will study it in detail
+soon. Anyway, the solution to the maximization problem satisfies the
+first order conditions:
+\begin{align*}
+  [x_i]: & & \frac{\partial U_i}{\partial x_i} = & \lambda_i p \\
+  [y_i]: & & \frac{\partial U_i}{\partial y_i} = & \lambda_i q \\
+  [\lambda_i]: & &  p x_i + q y_i = &  p e_1^i + q e_2^i  \text{ or
+    less than and }
+  \lambda_i = 0\\
+\end{align*}
+where $\lambda_i$ is called a Lagrange multiplier. Under some
+assumptions, any solution to (\ref{e:max}) must also solve the first
+order conditions. However, not all solutions to the first order
+conditions are solutions to the maximization problem (\ref{e:max}). To
+ensure that a solution to the first order conditions also solves,
+(\ref{e:max}), we should check the second order condition as well. We
+will cover that later, and for now just assume that a solution to the
+first order condition also solves (\ref{e:max}). We can rewrite the
+first conditions as:
+\begin{align*}
+  \frac{ (\partial U_i)/(\partial x_i) }{ (\partial U_i)/(\partial
+    y_i)} = & \frac{p}{q} \\
+  p x_i + q y_i = &  p e_1^i + q e_2^i
+\end{align*}
+or in terms of $u$,
+\begin{align}
+  \frac{ \alpha u_i'(x_i) }{ (1-\alpha) u_i'(y_i) } = &
+  \frac{p}{q} \label{ir} \\ 
+  p x_i + q y_i = &  p e_1^i + q e_2^i \label{bc}
+\end{align}
+Also total consumption must equal the total endowment, so we have the
+following two market clearing conditions.
+\begin{align}
+  x_1 + x_2 = & e_1^1 \label{mc1} \\ 
+  y_1 + y_2 = & e_2^2 \label{mc2}
+\end{align}
+Thus, we have six unknowns, $x_1, x_2, y_1, y_2, p, q$ and six
+equations, (\ref{ir}) and (\ref{bc}) for $i=1,2$ and (\ref{mc1}) and
+(\ref{mc2}). 

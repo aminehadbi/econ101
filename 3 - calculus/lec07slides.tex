@@ -1,0 +1,366 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Functions}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+
+\maketitle
+
+\section{Definition and examples}
+
+\begin{frame}
+  \frametitle{Functions}
+  \begin{itemize}
+  \item  A \textbf{function} from a set $A$
+    to a set $B$ is a rule that assigns to each $a \in A$ one and only one
+    $b \in B$ 
+  \item $f:A \to B$
+  \item $A$ is the domain
+  \item $B$ is the target space
+  \item \textbf{Image} of $A$ under $f$
+    \[ \{y  \in B:  f(x) = y \text{ for some } x \in A \} \]
+  \end{itemize}
+\end{frame}
+\subsection{Examples}
+
+\begin{frame}
+  \frametitle{Examples}
+  \begin{enumerate}
+  \item Production functions: $f:\R^2 \to \R$ 
+    \begin{itemize}
+    \item Linear $ f(x_1,x_2) = a_1 x_1 + a_2 x_2 $
+    \item Cobb-Douglas: $f(x_1,x_2) = K x_1^{\alpha_1} x_2^{\alpha_2}$
+    \item Constant elasticity of substitution: $f(x_1,x_2) = K (c_1
+      x_1^{-a} + c_2 x_2^{-a})^{-b/a}$
+    \end{itemize}
+  \item Utility functions: $u: \R^T \to \R$
+    \begin{itemize}
+    \item Constant relative risk aversion: $u(c_1,...,c_T) =
+      \sum_{t=1}^T \beta^t \frac{c_t^{1-\gamma}}{1-\gamma}$
+    \item Constant absolute risk aversion: $u(c_1,...,c_T) =
+      \sum_{t=1}^T \beta^t (-e^{-\alpha c_t})$
+    \end{itemize}
+  \item Demand function with constant elasticity,  $D:\R^3 \to \R^2$
+    \[ D(p_1,p_2,y) = \begin{pmatrix} M p_1^{\alpha_{11}}
+      p_2^{\alpha_{12}} y^{\beta_1} \\
+      M p_1^{\alpha_{21}} p_2^{\alpha_{22}} y^{\beta_2}
+    \end{pmatrix}
+    \]
+  \end{enumerate}
+\end{frame}
+
+\subsection{Visualizing functions}
+\begin{frame}
+  \frametitle{Visualizing function}
+  \begin{definition}
+    The \textbf{level sets} of a function $f:X\to Y$ are sets of the
+    form 
+    \[ \{ x \in X: f(x) = y \} \]
+    for some fixed $y \in Y$.
+  \end{definition}
+  \begin{itemize}
+  \item Indifference curves
+  \item Isoquants
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \caption{CES, $a = 2$, $b = \frac{4}{5}$}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.5\linewidth]{cesc} &
+      \includegraphics[width=0.5\linewidth]{ces3d} 
+    \end{tabular}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \caption{CRRA, $\gamma = 2$, $\beta = 0.95$}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.5\linewidth]{crrac} &
+      \includegraphics[width=0.5\linewidth]{crra3d} 
+    \end{tabular}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \caption{CARA, $\alpha = 1$, $\beta = 0.95$}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.5\linewidth]{carac} &
+      \includegraphics[width=0.5\linewidth]{cara3d} 
+    \end{tabular}
+  \end{figure}
+\end{frame}
+
+\section{Special types of functions}
+
+\begin{frame}
+  \frametitle{Types of functions}
+  \begin{definition}
+    A function $f:V \to W$ where $V$ and $W$ are vector spaces is
+    \textbf{linear} if $f$ preserves addition and scalar multiplication, ie
+    \begin{itemize}
+    \item $f(x+y) = f(x) + f(y)$
+    \item $f(\alpha x) = \alpha f(x)$
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Quadratic}
+  \begin{itemize}
+  \item $\R \to \R$:  $a_0 + a_1 x + a_2 x^2$
+  \end{itemize}
+  \begin{definition}
+    $q:\R^n \to R$ is a \textbf{quadratic} if 
+    \[ q(x_1, ..., x_n) = a_0 + \sum_{i=1, j \geq i}^n a_{ij} x_i x_j \]
+  \end{definition}
+  \begin{itemize}
+  \item Written using matrix:
+    \[ q(x_1,..., x_n) = a_0 + x^T A x \]
+    where $A = \begin{pmatrix} a_{11} & \frac{1}{2} a_{12} & \cdots &
+      \frac{1}{2} a_{1n} \\
+      \frac{1}{2} a_{12} & a_{22} \cdots & \frac{1}{2} a_{2n} \\
+      \vdots & \ddots & \ddots & \vdots \\
+      \frac{1}{2} a_{1n} & \cdots & \cdots & a_{nn}
+    \end{pmatrix}$ (not unique)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Polynomials}
+  \begin{definition}
+    A \textbf{monomial} $f:\R^n \to R$ is any function of the form
+    \[ f(x_1, ..., x_n) = c x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n} \]
+    where $a_i$ are nonnegative integers. 
+    
+    $\sum_{i=1}^n a_i$ is the \textbf{degree} of the monomial. 
+
+    A \textbf{polynomial} $f:\R^n \to \R$ is the sum of finitely many
+    monomials, i.e.
+    \[ f(x_1, ..., x_n) = \sum_{k=1}^k c_k x_1^{a_{1k}}\cdots
+    x_n^{a_{nk}} \]
+    The maximum degree of the monomials making up a polynomial is the
+    degree of the polynomial.
+  \end{definition}
+\end{frame}
+
+\section{Continuous functions}
+
+\begin{frame}
+  \frametitle{Continuous functions}
+  \begin{definition}
+    A function $f:X \to Y$ where $X$ and $Y$ are metric spaces is
+    \textbf{continuous} if whenever $\seq{x}$ converges to $x$ in $X$,
+    then $f(x_n) \to f(x)$ in $Y$. 
+  \end{definition}
+  \begin{itemize}
+  \item No jumps or holes.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$\epsilon-\delta$ definition of continuity}
+  \begin{lemma}\label{lem:ced}
+    $f: X \to Y$ is continuous at $x$ if and only if for every
+    $\epsilon>0$ $\exists$ $\delta >0$ such that $d(x,x') < \delta $
+    implies $d(f(x),f(x')) < \epsilon$.
+  \end{lemma}
+  \begin{proof}
+    Suppose $f$ is continuous and there is an $\epsilon>0$ such that
+    such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
+    $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
+    construct a convergent sequence by choosing $x_n$ such that
+    $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
+    but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
+    be impossible to construct such a sequence. This means that there
+    must be some $\delta>0$ such that $d(x,x') < \delta$ implies
+    $d(f(x),f(x')) < \epsilon$.
+    
+    Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
+    $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
+    x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
+    this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Topological definition of continuity}
+  \begin{definition}
+    Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
+    set in $X$, $f^{-1}(V)$ defined by
+    \[ f^{-1} (V) = \{ x \in X: f(x) \in V \} \]
+  \end{definition}
+  
+  \begin{lemma}\label{lem:copen}
+    $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
+    open $V \subseteq Y$. 
+  \end{lemma}
+  \begin{proof}
+    On problem set.
+  \end{proof}
+  \begin{corollary}
+    $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is closed for all
+    closed $V \subseteq Y$. 
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Continuity and arithmetic}
+  \begin{theorem}
+    Let $f:X \to Y$ and $g:X \to Y$ be continuous and $X$ and $Y$ be
+    vector spaces. Then $(f+g)(x) = f(x) + g(x)$ is continuous.
+  \end{theorem}
+  \begin{proof}
+    If $f$ and $g$ are continuous, then by definition $f(x_n) \to f(x)$
+    and $g(x_n) \to g(x)$ whenever $x_n \to x$. From the previous
+    lecture the limit of a (finite) sum is the sum of limits, so 
+    $f(x_n) + g(x_n) \to f(x) + g(x)$, and $f+g$ is continuous.
+  \end{proof}
+  \begin{itemize}
+  \item Same for subtraction, multiplication, etc
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Continuity and composition}
+  \begin{definition}
+    $(f \circ g)(x) = f(g(x))$ is the \textbf{composition} of $f$ and $g$.
+  \end{definition}
+  \begin{theorem}
+    Let $f:X \to Y$ and $g:Y \to Z$ be continuous where $X$, $Y$, and
+    $Z$ are metric spaces. Then $f \circ g$ is continuous.
+  \end{theorem}  
+  \begin{proof}
+    Let $x_n \to x$. $g$ is continuous, so $g(x_n) \to g(x)$. $f$ is
+    also continuous, so $f(g(x_n)) \to f(g(x))$.
+  \end{proof}
+\end{frame}
+
+\subsection{Onto, one-to-one, and inverses}
+
+\begin{frame}
+  \frametitle{One-to-one}
+  \begin{definition}
+    $f:X \to Y$ is \textbf{one-to-one} or \textbf{injective} if for all
+    $x_1, x_2 \in X$, 
+    \[ f(x_1) = f(x_2) \]
+    if and only if $x_1 = x_2$.
+  \end{definition}
+  \begin{itemize}
+  \item $f$ is injective if for each $y \in Y$, the set $\{x:
+    f(x) = y\}$ is either a singleton or empty
+  \item If $f$ is one-to-one, then $f(x) = b$ has at most one
+    solution
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Onto}
+  \begin{definition}
+    $f:X \to Y$ is \textbf{onto} or \textbf{surjective} if $\forall y
+    \in Y$, $\exists x \in X$ such that $f(x) = y$.
+  \end{definition}
+  \begin{itemize}
+  \item If $f$ is onto, then $f(x) = b$ has at least one solution
+  \end{itemize}
+  \begin{definition} 
+    When $f$ is one-to-one and onto, $f$ is \textbf{bijective}. 
+  \end{definition}
+  \begin{definition}
+    If $f:X \to Y$ is bijective, then the \textbf{inverse} of $f$,
+    written $f^{-1}$ satisfies
+    \[ f(f^{-1} (y)) = y  \]
+    and 
+    \[ f^{-1} ( f(x) ) = x. \]
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item The inverse of a continuous function need not be continuous.
+    \begin{example}
+      \begin{itemize}
+      \item $X = [0,2\pi)$, $Y = \{(y_1,y_2) \in \R^2 : y_1^2 + y_2^2
+        = 1 \}$.  
+      \item $f:X \to Y$, $f(x) = (cos(x), sin(x))$
+      \item $f$ is bijective and continuous
+      \item $f^{-1}(y_1,y_2) = cos^{-1}(y_1) + \pi 1\{y_2<0\}$
+      \item $f^{-1}$ is not continuous at $(1,0)$ 
+      \item There does not exist any continuous function with a
+        continuous inverse from $[0,2\pi)$ to the unit circle
+      \end{itemize}
+    \end{example}
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,399 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Functions}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Definition and examples}
+
+ We have already used functions in this course, so perhaps we should
+have defined them earlier. Anyway, a \textbf{function} from a set $A$
+to a set $B$ is a rule that assigns to each $a \in A$ one and only one
+$b \in B$. If we want to call this function $f$, we denote this by
+$f:A \to B$, which is read as ``$f$ is a function from $A$ to $B$'' or
+simply ``$f$ from $A$ to $B$.'' The set $A$ is called the
+\textbf{domain} of $f$. $B$ is called the \textbf{target} of $f$. The
+set 
+\[ \{y  \in B:  f(x) = y \text{ for some } x \in A \} \]
+is called the \textbf{image} of $f$. 
+
+\subsection{Examples}
+
+\begin{enumerate}
+\item Production functions: $f:\R^2 \to \R$ 
+  \begin{itemize}
+  \item Linear $ f(x_1,x_2) = a_1 x_1 + a_2 x_2 $
+  \item Cobb-Douglas: $f(x_1,x_2) = K x_1^{\alpha_1} x_2^{\alpha_2}$
+  \item Constant elasticity of substitution: $f(x_1,x_2) = K (c_1
+    x_1^{-a} + c_2 x_2^{-a})^{-b/a}$
+  \end{itemize}
+\item Utility functions: $u: \R^T \to \R$
+  \begin{itemize}
+  \item Constant relative risk aversion: $u(c_1,...,c_T) =
+    \sum_{t=1}^T \beta^t \frac{c_t^{1-\gamma}}{1-\gamma}$
+  \item Constant absolute risk aversion: $u(c_1,...,c_T) =
+    \sum_{t=1}^T \beta^t (-e^{-\alpha c_t})$
+  \end{itemize}
+\item Demand function with constant elasticity,  $D:\R^3 \to \R^2$
+  \[ D(p_1,p_2,y) = \begin{pmatrix} M p_1^{\alpha_{11}}
+    p_2^{\alpha_{12}} y^{\beta_1} \\
+    M p_1^{\alpha_{21}} p_2^{\alpha_{22}} y^{\beta_2}
+  \end{pmatrix}
+  \]  
+  where $p_1$ and $p_2$ are the prices of two goods and $y$ is income.
+\end{enumerate}
+I do not expect you to remember the names of these functions, but it
+is very likely that you will repeatedly encounter them this year. 
+
+\subsection{Visualizing functions}
+It is often useful to visualize a function. Simon and Blume have a
+whole section (13.2) about how to draw graphs of functions. That may
+have made sense in 1994, but it seems excessive now. To graph a
+function, use a computer. \href{http://wolframalpha.com}{Wolfram
+  alpha} is a pretty good website for creating a quick graph.  I'm
+sure you can find many other websites and cell phone apps with similar
+plotting capabilities. You can create nicer graphs using something
+like Matlab (or probably excel, or python, or whatever).  You are
+probably familiar with indifference curves and isoquants from another
+economics course. Indifference curves and isoquants are examples of
+level sets.
+\begin{definition}
+  The \textbf{level sets} of a function $f:X\to Y$ are sets of the
+  form 
+  \[ \{ x \in X: f(x) = y \} \]
+  for some fixed $y \in Y$.
+\end{definition}
+When you draw indifference curves, you are drawing level sets of a
+utility function. When you draw isoquants, you are drawing level sets
+of a production function. Figures 1-3 show isoquants and indifference
+curves for some of the examples of functions above. 
+
+\begin{figure}
+  \caption{CES, $a = 2$, $b = \frac{4}{5}$}
+  \begin{tabular}{cc}
+    \includegraphics[width=0.5\linewidth]{cesc} &
+    \includegraphics[width=0.5\linewidth]{ces3d} 
+  \end{tabular}
+\end{figure}
+
+\begin{figure}
+  \caption{CRRA, $\gamma = 2$, $\beta = 0.95$}
+  \begin{tabular}{cc}
+    \includegraphics[width=0.5\linewidth]{crrac} &
+    \includegraphics[width=0.5\linewidth]{crra3d} 
+  \end{tabular}
+\end{figure}
+
+\begin{figure}
+  \caption{CARA, $\alpha = 1$, $\beta = 0.95$}
+  \begin{tabular}{cc}
+    \includegraphics[width=0.5\linewidth]{carac} &
+    \includegraphics[width=0.5\linewidth]{cara3d} 
+  \end{tabular}
+\end{figure}
+
+\newpage
+
+\section{Special types of functions}
+
+There are some special types of functions that you are probably
+familiar with on $\R^1$ that we will generalize to $\R^n$. We have
+already covered linear functions in detail, although we called them
+linear transformations.
+\begin{definition}
+  A function $f:V \to W$ where $V$ and $W$ are vector spaces is
+  \textbf{linear} if $f$ preserves addition and scalar multiplication, ie
+  \begin{itemize}
+  \item $f(x+y) = f(x) + f(y)$
+  \item $f(\alpha x) = \alpha f(x)$
+  \end{itemize}
+\end{definition}
+As we have already seen, linear functions from $\R^n$ to $\R^m$ can be
+represented by $m$ by $n$ matrices. We went over a, perhaps very
+confusing, proof of this fact. You can find the same result in theorem
+13.2 of Simon and Blume. Perhaps that proof will be clearer if you
+still find the relationship between matrices and linear functions
+confusing. 
+
+You probably are familiar with quadratic functions from $\R$ to
+$\R$. They look like
+\[ a_0 + a_1 x + a_2 x^2. \]
+We can generalize this to functions from $\R^n$ to $\R$ as follows.
+\begin{definition}
+  $q:\R^n \to R$ is a \textbf{quadratic} if 
+  \[ q(x_1, ..., x_n) = a_0 + \sum_{i=1, j \geq i}^n a_{ij} x_i x_j \]
+\end{definition}
+A quadratic function can be written using matrix notation as
+\[ q(x_1,..., x_n) = a_0 + x^T A x \]
+where $A = \begin{pmatrix} a_{11} & \frac{1}{2} a_{12} & \cdots &
+  \frac{1}{2} a_{1n} \\
+  \frac{1}{2} a_{12} & a_{22} \cdots & \frac{1}{2} a_{2n} \\
+  \vdots & \ddots & \ddots & \vdots \\
+  \frac{1}{2} a_{1n} & \cdots & \cdots & a_{nn}
+\end{pmatrix}$. Note that this choice of $A$ is not unique. The
+$\frac{1}{2}$'s below the diagonal and the $\frac{1}{2}$'s above the
+diagonal can be replaced by any two numbers whose sum is $1$. If you
+want to practice matrix multiplication, you could verify this. It
+might be easiest to start with a $2$ by $2$ or $3$ by $3$ example. 
+
+Next, we generalize polynomials to $\R^n$. 
+\begin{definition}
+  A \textbf{monomial} $f:\R^n \to R$ is any function of the form
+  \[ f(x_1, ..., x_n) = c x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n} \]
+  where $a_i$ are nonnegative integers. 
+
+  $\sum_{i=1}^n a_i$ is the \textbf{degree} of the monomial. 
+
+  A \textbf{polynomial} $f:\R^n \to \R$ is the sum of finitely many
+  monomials, i.e.
+  \[ f(x_1, ..., x_n) = \sum_{k=1}^k c_k x_1^{a_{1k}}\cdots
+  x_n^{a_{nk}} \]
+  The maximum degree of the monomials making up a polynomial is the
+  degree of the polynomial.
+\end{definition}
+
+\section{Continuous functions}
+
+A continuous function is a function without any jumps or
+holes. Formally,
+\begin{definition}
+  A function $f:X \to Y$ where $X$ and $Y$ are metric spaces is
+  \textbf{continuous} at $x$ if whenever $\seq{x}$ converges to $x$ in
+  $X$, then $f(x_n) \to f(x)$ in $Y$.  
+\end{definition}
+We simply say that $f$ is continuous if it is continuous at every $x
+\in X$.  There are some equivalent definitions of continuity that are
+also useful. You may have seen continuity defined as the result of the
+following lemma.
+\begin{lemma}\label{lem:ced}
+  $f: X \to Y$ is continuous at $x$ if and only if for every
+  $\epsilon>0$ $\exists$ $\delta >0$ such that $d(x,x') < \delta $
+  implies $d(f(x),f(x')) < \epsilon$.
+\end{lemma}
+\begin{proof}
+  This was going to be a question on problem set 3, but it has been
+  unassigned. 
+  
+  Suppose $f$ is continuous and there is an $\epsilon>0$ such that
+  such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
+  $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
+  construct a convergent sequence by choosing $x_n$ such that
+  $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
+  but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
+  be impossible to construct such a sequence. This means that there
+  must be some $\delta>0$ such that $d(x,x') < \delta$ implies
+  $d(f(x),f(x')) < \epsilon$.
+
+  Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
+  $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
+  x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
+  this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
+\end{proof}
+
+Another useful way of defining continuity is in terms of open
+sets. First, another definition.
+\begin{definition}
+  Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
+  set in $X$, $f^{-1}(V)$ defined by
+  \[ f^{-1} (V) = \{ x \in X: f(x) \in V \} \]
+\end{definition}
+
+\begin{lemma}\label{lem:copen}
+  $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
+  open $V \subseteq Y$. 
+\end{lemma}
+\begin{proof}
+  On problem set.
+\end{proof}
+\begin{corollary}
+  $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is closed for all
+  closed $V \subseteq Y$. 
+\end{corollary}
+
+Continuity is preserved by arithmetic. 
+\begin{theorem}
+  Let $f:X \to Y$ and $g:X \to Y$ be continuous and $X$ and $Y$ be
+  vector spaces. Then $(f+g)(x) = f(x) + g(x)$ is continuous.
+\end{theorem}
+\begin{proof}
+  If $f$ and $g$ are continuous, then by definition $f(x_n) \to f(x)$
+  and $g(x_n) \to g(x)$ whenever $x_n \to x$. From the previous
+  lecture the limit of a (finite) sum is the sum of limits, so 
+  $f(x_n) + g(x_n) \to f(x) + g(x)$, and $f+g$ is continuous.
+\end{proof}
+Similar results can be shown for subtraction, multiplication, etc,
+whenever they are well defined.
+
+Continuity is also preserved by composition.
+\begin{theorem}
+  Let $f:X \to Y$ and $g:Y \to Z$ be continuous where $X$, $Y$, and
+  $Z$ are metric spaces. Then $f \circ g$ is continuous, where
+  \[ (f \circ g)(x) = f(g(x)). \]
+\end{theorem}  
+\begin{proof}
+  Let $x_n \to x$. $g$ is continuous, so $g(x_n) \to g(x)$. $f$ is
+  also continuous, so $f(g(x_n)) \to f(g(x))$.
+\end{proof}
+$f\circ g$ is called the composition of $f$ and $g$.
+
+\subsection{Onto, one-to-one, and inverses}
+We have already used the concepts of onto, one-to-one, and inverses.
+We restates the definitions here for completeness.
+\begin{definition}
+  $f:X \to Y$ is \textbf{one-to-one} or \textbf{injective} if for all
+  $x_1, x_2 \in X$, 
+  \[ f(x_1) = f(x_2) \]
+  if and only if $x_1 = x_2$.
+\end{definition}
+Equivalently, $f$ is injective if for each $y \in Y$, the set $\{x:
+f(x) = y\}$ is either a singleton or empty.  In terms of a nonlinear
+equation, if $f$ is one-to-one, then $f(x) = b$ has at most one
+solution. 
+\begin{definition}
+  $f:X \to Y$ is \textbf{onto} or \textbf{surjective} if $\forall y
+  \in Y$, $\exists x \in X$ such that $f(x) = y$.
+\end{definition}
+In terms of a nonlinear equation, if $f$ is onto, then $f(x) = b$ has
+at least one solution. When $f$ is one-to-one and onto, we say that
+$f$ is \textbf{bijective}. A bijective function has an inverse.
+\begin{definition}
+  If $f:X \to Y$ is bijective, then the \textbf{inverse} of $f$,
+  written $f^{-1}$ satisfies
+  \[ f(f^{-1} (y)) = y  \]
+  and 
+  \[ f^{-1} ( f(x) ) = x. \]
+\end{definition}
+
+\begin{remark}
+  While writing these notes, I briefly tried to prove that if $f:X \to
+  Y$ is bijective and continuous, then $f^{-1}$ is continuous. I could
+  not do this, which is good, because that statement is false. You have
+  to be a little creative in defining $X$ and $Y$ to come up with a
+  counterexample. Let $X = [0,2\pi)$ and $Y = \{(x,y) \in \R^2: x^2 +
+  y^2 = 1 \}$. Then $f(x) = (cos(x), sin(x))$ is bijective and
+  continuous, but $f^{-1}$ is not continuous at $(1,0)$. 
+  
+  This counterexample is actually related to a fundamental fact in
+  topology. You may remember from last lecture that topology is about
+  studying spaces with open and closed sets that do not necessarily
+  have a metric. The main thing that people are interested when
+  studying such spaces is finding a continuous (in both directions)
+  bijections between them. Loosely speaking, two topological spaces
+  will have a continuous bijection between them if one can be bent and
+  stretched into the form of another. You cannot bend a circle into an
+  interval without breaking the circle, so there is no continuous
+  bijection between the circle and an interval. When there is a
+  continuous bijection between two spaces, they have the same
+  collection of open sets, so to a topologist, they are the same. We
+  call that ``topologically isomorphic.'' Loosely speaking, spaces
+  with be topologically isomorphic if they are the same dimension and
+  their shapes have the same number of holes.  The circle has one
+  hole, an interval has none, so they are not topologically
+  isomorphic. I'd be remiss not to make a joke now, so here goes: Why did
+  the topologist eat her/his coffee mug and drink from his/her donut?
+  Because they're topologically isomorphic. Hahaha.
+\end{remark}
+
+\end{document}

@@ -1,0 +1,645 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Limits and topology of metric spaces}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+\section{Sequences and limits}
+
+\begin{frame}
+  \frametitle{Sequences and limits}
+  \begin{itemize}
+  \item \textbf{sequence} is a list of elements, $\{x_1, x_2, ... \}$ or
+    $\seq{x}$ or  $\{x_n\}$
+    \begin{itemize}
+    \item Different than set
+    \end{itemize}
+  \item Examples
+    \begin{enumerate}
+    \item\label{sfib} $\{ 1, 1, 2, 3, 5, 8, ... \}$
+    \item\label{sc} $\{ 1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, ... \}$
+    \item\label{sd} $\{\frac{1}{2}, \frac{-2}{3}, \frac{3}{4}, \frac{-4}{5},
+      \frac{5}{6}, ... \}$
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    A \textbf{metric space} is a set, $X$, and function $d:X\times X
+    \rightarrow \R$ called a \textbf{metric} (or distance) such that
+    $\forall x, y, z \in X$
+    \begin{enumerate}
+    \item $d(x,y) > 0$ unless $x=y$ and then $d(x,x) = 0$
+    \item (symmetry) $d(x,y) = d(y,x)$
+    \item (triangle inequality) $d(x,y) \leq d(x,z) + d(z,y)$.
+    \end{enumerate}
+  \end{definition}
+  \begin{example}
+    $\R$ is a metric space with $d(x,y) = |x - y|$. 
+  \end{example}
+  \begin{example}
+    Any normed vector space is a metric space with $d(x,y) =
+    \norm{x-y}$. 
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    A sequence $\{x_n\}_{n=1}^\infty$ in a metric space
+    \textbf{converges} to $x$ if $\forall \epsilon > 0$ $\exists N$
+    such that
+    \[ d(x_n, x) < \epsilon \]
+    for all $n \geq N$. We call $x$ the \textbf{limit} of $\seq{x}$ and
+    write $\lim_{n \rightarrow \infty} x_n = x$ or $x_n \rightarrow x$. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    $a$ is an \textbf{accumulation point} of $\seq{x}$ if $\forall
+    \epsilon > 0$ $\exists$ infinitely many $x_i$ such that 
+    \[ d(a, x_i ) < \epsilon. \]
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    If $x_n \rightarrow x$, then $x$ is an accumulation point of
+    $\seq{x}$. 
+  \end{lemma}
+  \begin{proof}
+    Let $\epsilon>0$ be given. By the definition of convergences,
+    $\exists N$ such that 
+    \[ d(x_n,x) < \epsilon \]
+    for all $n \geq N$. $\{n\in \mathbb{N}: n\geq N\}$ is infinite, so
+    $x$ is an accumulation point.
+  \end{proof}
+\end{frame}
+
+
+\begin{frame}
+  \begin{definition}
+    Given $\seq{x}$ and any sequence of positive integers, $\{n_k\}$
+    such that $n_1 < n_2 < ... $ we call $\{x_{n_k}\}$ a
+    \textbf{subsequence} of $\seq{x}$. 
+  \end{definition}
+  \begin{lemma}
+    Let $a$ be an accumulation point of $\{x_n\}$. Then $\exists$
+    a subsequence that converges to $a$. 
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sequences and arithmetic}
+  \begin{theorem}
+    Let $\{x_n\}$ and $\{y_n\}$ be sequences in a normed vector space
+    $V$. If $x_n \to x$ and $y_n \to y$, then
+    \[ x_n + y_n \to x + y. \]
+  \end{theorem}
+  \begin{proof}
+    Let $\epsilon > 0$ be given. Then $\exists$ $N_x$ such that for all
+    $n \geq N_x$, 
+    \[ d(x_n,x) < \epsilon/2,\] and $\exists N_y$ such that
+    for all $n \geq N_y$,  
+    \[ d(y_n,y) < \epsilon/2. \]
+    Let $N =\max\{N_x,N_y\}$. Then for all $n \geq N$, 
+    \begin{align*}
+      d(x_n + y_n,x+y) = \norm{(x_n + y_n) - (x+y)} \leq & \norm{x_n -
+        x} + \norm{y_n - y} \\
+      < & \epsilon/2 + \epsilon /2  = \epsilon.
+    \end{align*}  
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sequences and arithmetic}
+  \begin{theorem}
+    Let $\{x_n \}$ be a sequence in a normed vector space with scalar
+    field $\R$ and let $\{c_n\}$ be a sequence in $\R$. If
+    $x_n \to x$ and $c_n \to c$ then 
+    \[ x_n c_n \to x c. \]
+  \end{theorem}
+  \begin{proof}
+    On problem set. 
+  \end{proof}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Cauchy sequences}
+
+\begin{frame}
+  \frametitle{Cauchy sequences}
+  \begin{definition}
+    A sequence $\seq{x}$ is a \textbf{Cauchy} sequence if for any
+    $\epsilon > 0$ $\exists N$ such that for all $i,j\geq N$,
+    $d(x_i,x_j) < \epsilon$.
+  \end{definition}
+  \begin{theorem}
+    A sequence in $\R^n$ converges if and only if it is a Cauchy
+    sequence. 
+  \end{theorem}
+  \begin{itemize}
+  \item Implied by least upper bound property of $\R$
+  \item Proof in 29.1 of Simon and Blume
+  \item Not always true, e.g.\ $\mathbb{Q}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Completeness}
+  \begin{definition}
+    A metric space, $X$, is \textbf{complete} if every Cauchy sequence of
+    points in $X$ converges in $X$.
+  \end{definition}
+  \begin{itemize}
+  \item \textbf{Banach space} $=$ complete normed vector space.
+  \item \textbf{Hilbert space} $=$ complete inner product space.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Open sets}
+
+\begin{frame}
+  \frametitle{Open sets}
+  \begin{definition}
+    Let $X$ be a metric space and $x \in X$. A \textbf{neighborhood} of
+    $x$ is the set 
+    \[ N_\epsilon (x) = \{y \in X: d(x,y) < \epsilon\}. \]
+  \end{definition}
+  \begin{definition}
+    A set, $S \subseteq X$ is \textbf{open} if $\forall x \in S$,
+    $\exists$ $\epsilon>0$ such that 
+    \[ N_\epsilon(x) \subset S. \]
+  \end{definition}
+  \begin{itemize}
+  \item At any point in an open, can move slightly and stay in the set.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Open sets}
+  \begin{example}
+    Open sets:
+    \begin{itemize}
+    \item $(a,b) = \{x \in \R: a<x<b\}$
+    \item $(\infty, b) = \{x \in \R: x < b\}$
+    \item The whole space
+    \item $\emptyset$
+    \item Open unit ball $\{x \in \R^n: \norm{x}<1\}$     
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Not open sets}
+  \begin{example}
+    Not open sets:
+    \begin{itemize}
+    \item $[a, b) = \{x \in \R: a\leq x < b\}$
+    \item $[a, b] = \{x \in \R: a\leq x \leq b\}$
+    \item Any linear subspace of dimension $k<n$ in $\R^n$. 
+    \item Finite sets in $\R^n$
+    \item $\mathbb{Q} \subset \R$
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Open sets}
+  \begin{theorem}
+    \begin{enumerate} \label{thm:uio}
+    \item Any union of open sets is open. (finite or infinite)
+    \item The \emph{finite} intersection of open sets is open.
+    \end{enumerate}
+  \end{theorem}
+  \begin{proof}
+    Let $S_j$, $j \in J$ be a collection of open sets. Pick any $j_0 \in
+    J$. If $x \in \cup_{j \in J} S_j$, then there must be $\epsilon_{j_0} >
+    0$ such that $N_{\epsilon_{j_0}} (x) \subset S_{j_0}$. It is
+    immediate that $N_{\epsilon_{j_0}} (x) \subset \cup_{j \in J} S_j$
+    as well. 
+
+    Let $S_1, .., S_k$ be a finite collection of open sets. For each $i$
+    $\exists \epsilon_i > 0$ such that $N_{\epsilon_i}(x) \subset
+    S_i$. Let $\underline{\epsilon} = \min_{i \in \{1,..., k\}}
+    \epsilon_i$. Then $\underline{\epsilon}>0$ since it is the minimum
+    of a finite set of positive numbers. Also,
+    $N_{\underline{\epsilon}}(x) \subset S_i$ for each $i$, so
+    $N_{\underline{\epsilon}}(x) \subset \cap_{i=1}^k S_i$. 
+  \end{proof}
+\end{frame}
+
+\begin{frame} 
+  \frametitle{Interior}
+  \begin{definition}
+    The \textbf{interior} of a set $A$ is the union of all open sets
+    contained in $A$. It is denoted as $\mathrm{int}(A)$.
+  \end{definition}
+  \begin{itemize}
+  \item The interior of a set is open
+  \item Open sets are equal to their interior
+  \end{itemize}
+  \begin{example}
+    Interiors of sets in $\R$.
+    \begin{enumerate}
+    \item $A = (a,b)$, $\mathrm{int}(A) = (a,b)$.
+    \item $A = [a,b]$, $\mathrm{int}(A) = (a,b)$.
+    \item $A = \{1, 2, 3, 4, ... \}$, $\mathrm{A} = \emptyset$
+    \end{enumerate}  
+  \end{example}
+\end{frame}
+
+\section{Closed sets}
+
+\begin{frame}
+  \frametitle{Closed sets}
+  \begin{definition}
+    A set $S \subseteq X$ is closed if its complement, $X^c$, is open. 
+  \end{definition}
+  \begin{example}
+    Closed sets:
+    \begin{enumerate}
+    \item $[a,b] \subseteq \R$
+    \item Any linear subspace of $\R^n$
+    \item $\{(x,y) \in \R^2: x^2 + y^2 \leq 1\}$
+    \end{enumerate}
+    Not closed sets
+    \begin{enumerate}
+    \item Any open set
+    \item $\mathbb{Q} \subset \R$
+    \end{enumerate}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Closed sets}
+  \begin{theorem} \label{thm:uic}
+    \begin{enumerate}
+    \item The intersection of any collection of closed sets is closed.
+    \item\label{uic2} The union of any finite collection of closed sets
+      is closed.  
+    \end{enumerate}
+  \end{theorem}
+  \begin{proof}
+    Let $C_j$, $j\in J$ be a collection of closed sets. Then 
+    $ \left(\cap_{j \in J} C_j\right)^c = \cup_{j \in J}
+    C^c_j $. 
+    $C^c_j$ are open, so by theorem \ref{thm:uio},  $\cup_{j \in J}
+    C^c_j = \left(\cap_{j \in J} C_j\right)^c =$ is open.  
+    
+    The proof of part \ref{uic2} is similar. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Closed sets}
+  \begin{theorem}\label{thm:clim}
+    Let $\{x_n\}$ be any convergent sequence with each element contained
+    in a set $C$. Then $\lim x_n = x \in C$ for all such $\{x_n\}$ if
+    and only if $C$ is closed.
+  \end{theorem}
+  \begin{itemize}
+  \item This is usually a more useful definition of closed sets 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{proof}
+    First, we will show that any set that contains the limit points of
+    all its sequences is closed. Let $x \in C^c$. Consider
+    $N_{1/n}(x)$. If for any $n$, $N_{1/n}(x) \subset C^c$, then $C^c$
+    could be open. If for all $n$, $N_{1/n}(x) \not \subset C^c$, then
+    $\exists y_n \in N_{1/n}(x) \cap C$. The sequence $\{y_n\}$ is in
+    $C$ and $y_n \to x$. However, by assumption $C$ contains the limit
+    of any sequence within it. Therefore, there can be no such $x$,
+    and $C^c$ must be open and $C$ is closed.
+    
+    Suppose $C$ is closed. Then $C^c$ is open. Let $\{x_n\}$ be in $C$
+    and $x_n \to x$. Then $d(x_n, x) \to 0$, and for any $\epsilon > 0$,
+    $\exists x_n \in N_\epsilon(x)$. Hence, there can be no $\epsilon$
+    neighborhood of $x$ contained in $C^c$. $C^c$ is open by assumption,
+    so $x \not\in C^c$ and it must be that $x \in C$. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Closure}
+  \begin{definition}
+    The \textbf{closure} of a set $S$, denoted by $\overline{S}$ (or
+    $\mathrm{cl}(S)$), is the intersection of all closed sets containing $S$.
+  \end{definition}
+  \begin{itemize}
+  \item The closure of a set is closed
+  \item A closed set is its own closure
+  \item Examples
+    \begin{itemize}
+    \item $\overline{(a,b)} = [a,b]$
+    \item $\overline{\emptyset} = \emptyset$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Closure}
+  \begin{lemma}\label{lem:closure}
+    $\overline{S}$ is the set of limits of convergent sequences in $S$.
+  \end{lemma}
+  \begin{proof}
+    Let $\{x_n\}$ be a convergent sequence in $S$ with limit $x$. If $C$
+    is any closed set containing $S$, then $\{x_n\}$ is in $C$ and by
+    theorem \ref{thm:clim}, $x \in C$. Therefore, $x \in \overline{S}$. 
+    
+    Let $x \in \overline{S}$. For any $\epsilon>0$, $N_\epsilon(x) \cap
+    S \neq \emptyset$ because otherwise $N_\epsilon(x)^c$ is a closed
+    set containing $S$, but not $x$. Therefore, we can construct a
+    sequence $x_n \in S \cap N_{1/n}(x)$ that converges to $x$ and is in
+    $S$. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Boundary}
+  \begin{definition}
+    The \textbf{boundary} of a set $S$ is $\overline{S} \cap
+    \overline{S^c}$. 
+  \end{definition}
+  \begin{itemize}
+  \item Equivalently, $\overline{S} \setminus \mathrm{int}(S)$
+  \item Boundary can be empty, e.g. $\mathbb{Q} \subset \R$,
+    $\emptyset$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Boundary}
+  \begin{lemma}
+    If $x$ is in the boundary of $S$ then $\forall \epsilon>0$,
+    $N_\epsilon(x) \cap S \neq \emptyset$ and $N_\epsilon(x) \cap S^c
+    \neq \emptyset$. 
+  \end{lemma}
+  \begin{proof}
+    As in the proof of lemma \ref{lem:closure}, all
+    $\epsilon$-neighborhoods of $x \in \overline{S}$ must intersect with
+    $S$. The same applies to $S^c$. 
+  \end{proof}
+\end{frame}
+
+\section{Compact sets}
+
+\begin{frame}
+  \frametitle{Compact sets}
+  \begin{definition}
+    An \textbf{open cover} of a set $S$ is a collection of open sets,
+    $\{G_\alpha\}$  $\alpha \in \mathcal{A}$ such that $S \subset
+    \cup_{\alpha \in \mathcal{A}} G_\alpha$. 
+  \end{definition}
+  
+  \begin{definition}
+    A set $K$ is \textbf{compact} if every open cover of $K$ has a
+    finite subcover. 
+  \end{definition}
+  \begin{itemize}
+  \item Finite subcover means finite $G_{\alpha_1}, ... G_{\alpha_n}$
+    such that $K \subseteq \cup_{i=1}^n G_{\alpha_i}$
+  \item e.g.\ $G_{\alpha} = (\alpha-\epsilon,\alpha+\epsilon)$ for
+    $\alpha \in [0,1]$ is an open cover of $[0,1]$. One finite subcover
+    is $(-\epsilon,\epsilon),(\epsilon/2-\epsilon,\epsilon/2+\epsilon)
+    , ... (1-\epsilon,\epsilon)$ i.e. $G_{\alpha_i} = (i\epsilon/2 -
+    \epsilon, i\epsilon/2 + \epsilon)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compact sets}
+  \begin{itemize}
+  \item Definition a bit abstract, but will show that a set in $\R^n$
+    is compact iff it is closed and bounded, which we will prove in
+    the next few slides 
+  \end{itemize}
+  \begin{definition}
+    Let $X$ be a metric space and $S \subseteq X$. $S$ is
+    \textbf{bounded} if $\exists x_0 \in S$ and $r \in \R$ such that 
+    \[ d(x,x_0) < r \]
+    for all $x \in S$.
+  \end{definition}
+
+\end{frame}
+
+\begin{frame} 
+  \frametitle{Compact sets}
+  \begin{lemma}
+    Let $X$ be a metric space and $K \subseteq X$. If $K$ is compact,
+    then $K$ is closed.
+  \end{lemma}
+  \begin{proof}
+    Let $x \in K^c$. The collection $\{N_{d(x.y)/3}(y)\}$, $y\in K$ is an
+    open cover of $K$. $K$ is compact, so there is a finite subcover,
+    $N_{d(x,y_1)/3}(y_1), ... , N_{d(x,y_n)/3}(y_n)$.  For each $i$,
+    $N_{d(x,y_i)/3}(y_i) \cap N_{d(x,y_i)/3}(x) = \emptyset$, so 
+    \[ \cap_{i=1}^n N_{d(x,y_i)/3}(x) \]
+    is an open neighborhood of $x$ that is contained in $K^c$. $K^c$ is
+    open, so $K$ is closed.
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Heine-Borel]\label{thm:hb}
+    A set $S \subseteq \R^n$ is compact if and only if it is closed and
+    bounded. 
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item[1] Compact $\Rightarrow$ closed and bounded
+      \begin{itemize}
+      \item Closed from lemma 1
+      \item Bounded: pick $\epsilon>0$.
+      \item Open cover $N_\epsilon(x)$ 
+      \item Finite subcover
+        $N_\epsilon(x_0), N_{\epsilon}(x_1), ... ,N_{\epsilon}(x_n)$
+      \item Triangle inequality, 
+        \begin{align}
+          d(x_0,x) \leq & d(x_0,x_j) + d(x_j,x) < d(x_0,x_j) +
+          \epsilon \\
+          d(x_0,x) < & \max_{j\in\{1, ..., n\}} d(x_0,x_j) + \epsilon 
+        \end{align}
+      \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{proof}
+    \begin{itemize}
+    \item[2] Closed and bounded $\Rightarrow$ compact
+      \begin{itemize}
+      \item Bounded so subset of cube, $[-a,a]^n$, for some $a$
+      \item[2.1] Show $[-a,a]^n$ compact
+        \begin{itemize}
+        \item Suppose not, infinite cover of $[-a,0]$ or $[0,a]$,
+          repeat $k$ times to get infinite cover of closed interval
+          $I_k$ of length $a 2^{-k}$
+        \item $\cap_{k=1}^\infty I_k \neq \emptyset$ because $I_k$
+          closed and nested
+        \item But eventually $I_k \subset N_\epsilon(x)$ for any
+          $\epsilon>0$  
+        \end{itemize}
+      \item[2.2] Closed subset of compact set is compact
+      \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sequential compactness}
+  \begin{definition}
+    Let $X$ be a metric space and $K \subseteq X$. $K$ is
+    \textbf{sequentially compact} if every sequence in $K$ has an
+    accumulation point in $K$.
+  \end{definition}
+  \begin{theorem}[Bolzano-Weierstrass] \label{thm:bw}
+    A set $S \subseteq \R^n$ is closed and bounded if and only if it is
+    sequentially compact. 
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \begin{proof}
+    \begin{itemize}
+    \item Closed and bounded $\Rightarrow$ sequentially compact
+      \begin{itemize}
+      \item Closed and bounded implies compact
+      \item Compact implies any sequence must have a Cauchy subsequence 
+      \item Cauchy sequences converge
+      \end{itemize}
+    \item Sequentially compact $\Rightarrow$ closed and bounded
+      \begin{itemize}
+      \item Closed: limits of convergent sequences are the sequence's
+        accumulation point
+      \item Bounded: otherwise can construct sequence with no
+        accumulation points
+      \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compactness}
+  \begin{itemize}
+  \item $S \subseteq \R^n$ compact if 
+    \begin{enumerate}
+    \item\label{cfsc} Every open cover has a finite subcover
+    \item\label{ccb} Closed and bounded
+    \item\label{csc} Every sequence in $S$ has a convergent subsequence with
+      its limit in $S$
+    \end{enumerate}
+  \item In metric spaces that are not $\R^n$, \ref{cfsc} and \ref{csc}
+    are still equivalent, but \ref{ccb} is not
+  \item In non-metrizable topological spaces, all three can be
+    different 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
+    only if $K$ is sequentially compact. 
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item Compact $\Rightarrow$ sequentially compact
+      \begin{itemize}
+      \item  If $\{x_n\}$ is a sequence in $K$ with no
+        accumulation point in $K$, then each $x_n$ has some neighborhood
+        with $N_{\epsilon_n}(x_n) \cap K = \emptyset$
+      \item $N_{\epsilon_n}(x_n)$ along with the complement of the closure the
+        set of $\{x_n\}$ is an open cover for $K$, but there can be no
+        finite subcover.
+      \end{itemize}
+    \item Sequentially compact $\Rightarrow$ compact
+      \begin{itemize}
+      \item In notes, optional
+      \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  To review, in $\R^n$ a set is compact if any of the following three
+  things hold:
+  \begin{enumerate}
+  \item For every open cover there exists a finite subcover,
+  \item Every sequence in the set has a convergent subsequence, or
+  \item The set is closed and bounded.
+  \end{enumerate}
+\end{frame}
+
+\end{document}
+

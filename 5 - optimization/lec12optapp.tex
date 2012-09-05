@@ -1,0 +1,483 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+\providecommand{\En}{\mathbb{E}_n}
+\providecommand{\Er}{{\mathrm{E}}}
+\renewcommand{\Pr}{{\mathrm{P}}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\setbox0\hbox{$#1#2$}%
+    \copy0\kern-\wd0\mkern4mu\box0}} 
+
+
+
+\title{Applications of optimization}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+The last two lectures have studied unconstrained and constrained
+optimization in some detail. Today, we will go over some examples of
+the use of the results from those two lectures.
+
+\section{Extremum estimators}
+
+Most estimators is econometrics are solutions to optimizations
+problems. For example, ordinary least squares solves
+\[ \hat{\beta} = \argmin_{\beta \in \R^k} \frac{1}{n} \sum_{i=1}^n
+(y_i - x_i^T \beta)^2  \] 
+where we have data on some outcome $y_i \in \R$ and some covariates,
+$x_i \in \R^k$. 
+
+Maximum likelihood estimators are the maximizer of the
+likelihood of $y$ given $x$. That is, if we have some model that says
+the density of $y$ given $x$ is $f(y|x;\theta)$, where $\theta \in
+\Theta \subseteq \R^k$ are
+some unknown parameters, then the likelihood function is
+\[ \mathcal{L}_n(\theta) = \frac{1}{n} \sum_{i=1}^n f(y|x;\theta). \]
+The maximum likelihood estimate of $\theta$ is
+\[ \hat{\theta} = \argmax_{\theta \in \Theta}
+\mathcal{L}_n(\theta). \] 
+
+A third class of estimators that can be written as the solution to
+optimization problems are generalized method of moments (GMM)
+estimators. Suppose we have an economic model that perhaps does not
+fully specify the density of $y$ given $x$, but does tell us that some
+moments of functions of $y$ and $x$ are zero. That is,
+\[ \Er[m(y,x;\theta)] = 0 \]
+where $m(y,x;\theta) \in \R^m$. Then if $m \geq k$, we could estimate
+$\theta$ by solving these moment equations for $\theta$. However, we
+do not know the true expectation $\Er[m(y,x;\theta)]$, and we must
+replace it with the empirical expectation,
+\[ \En[m(y,x;\theta)] \equiv \frac{1}{n} \sum_{i=1}^n
+m(y_i,x_i;\theta). \]
+Since $\En$ will differ from $\Er$ there may not be any $\theta$ that
+exactly solves 
+\begin{align} \En[m(y,x;\theta)]=0 \label{e:emn} \end{align}
+even if there is some a solution with the true expectation. For this
+reason, we estimate $\theta$ by finding $\hat{\theta}$ that
+approximately solves (\ref{e:emn}). We want the best approximately
+solution, so one way to choose the best would be to set
+\[ \hat{\theta} = \argmin \En[m(y,x;\theta)]^T \En[m(y,x;\theta)]. \]
+More generally, we could say
+\[ \hat{\theta} = \argmin \En[m(y,x;\theta)]^T W
+\En[m(y,x;\theta)], \]
+where $W$ is some positive definite weighting matrix. 
+
+Each of the three examples above have the common feature that they can
+be written as 
+\[ \hat{\theta}_n = \argmin_{\theta \in \Theta} Q_n(\theta) \]
+where $Q_n$ is some data dependent objective function. Estimators with
+this form are called extremum estimators. Given an extremum estimator,
+we would like to be know what $\hat{\theta}$ is estimating (i.e. what
+it converges to), and the asymptotic distribution of $\hat{\theta}$ so
+that we can perform inference (hypothesis tests, confidence intervals,
+etc). Suppose $Q_n(\theta)$ converges in probability to some fixed
+limit $Q_0(\theta)$. This means that as the sample size $n \to
+\infty$, $Q_n(\theta)$ gets closer and closer to $Q_0(\theta)$. The
+data is random, so $Q_n(\theta)$ is random as well, so the definition
+of convergence of limits that we have been using isn't
+appropriate. Instead, convergence in probability means that for all
+$\epsilon>0$ 
+\[ \lim_{n\to \infty} \Pr(|Q_n(\theta) - Q_0(\theta)|>\epsilon) = 0. \]
+I would guess that you have already learned about convergence in
+probability in you econometrics course, so we will not focus on it
+here. 
+
+Anyway, if 
+\[ \theta_0 = \argmin_{\theta \in \Theta} Q_0(\theta) \]
+then with some additional assumptions we can show that $\hat{\theta}_n
+\inprob \theta_0$. In particular,
+\begin{theorem}[Consistency for extremum estimators]
+  If (i) $Q(\theta)$ is uniquely minimized at the true parameter value
+  $\theta_0$, (ii) $\Theta$ is compact, (iii) $Q(\cdot)$ is
+  continuous, and (iv) $\sup_{\theta \in \Theta} |Q_n(\theta) -
+  Q(\theta)| \inprob 0$, then $\hat{\theta}_n \inprob \theta_0$.
+\end{theorem}
+\begin{proof}
+  See Newey and McFadden (1994). 
+\end{proof}
+We will not go over the proof of this theorem, nor do you need to
+remember it for this course. 
+
+From your econometrics course, you probably know that for OLS
+$\hat{\beta}$ is asymptotically, meaning that the distribution of
+$\sqrt{n}(\hat{\beta} - \beta_0)$ converges to a normal distribution
+as $n$ gets large. We denote this as
+\[ \sqrt{n}(\hat{\beta} - \beta_0) \indist N(0,V). \]
+We can develop an analogous result for extremum estimators. Suppose
+$Q_n$ is twice continuously differentiable in $\Theta$ and
+$\hat{\theta}$ is in the interior of $\Theta$. $\hat{\theta}$ must
+satisfy the first order condition because it is in the interior and
+$Q_n$ is differentiable. 
+\begin{align*}
+  0 = & D {Q_n}_{\hat{\theta}} 
+\end{align*}
+We want to end up with something like $\sqrt{n}(\hat{\theta} -
+\theta_0)$, so let's take a mean value expansion of $DQ_n$ around
+$\theta_0$, then
+\begin{align*}
+  0 = & D {Q_n}_{\hat{\theta}} \\
+  = & D{Q_n}_{\theta_0} + D^2
+  {Q_n}_{\bar{\theta}} (\hat{\theta} - \theta_0) \\
+\end{align*}
+If $D^2Q_n{\bar{\theta}}$ is invertible then,
+\[ (\hat{\theta} - \theta_0) =  -(D^2{Q_n}_{\bar{\theta}} )^{-1}
+D{Q_n}_{\theta_0} \]   
+Generally, $D^2 Q_n \in D^2 Q$ and $DQ_n \inprob DQ$, but this is not
+what we want. We want to get a distribution for
+$\hat{\theta}-\theta_0$, not a point limit. Therefore, we should
+multiple by some $a_n$ to make $a_n(\hat{\theta}-\theta_0)$ converge
+to a non-degenerate distribution. The right choice of $a_n$ depends
+somewhat on the details of the problem, but the vast majority of the
+time the right choice is $a_n = \sqrt{n}$. This is the right choice
+because, you can often show that
+\begin{align} 
+  \sqrt{n} {DQ_n}_{\theta_0} \indist N(0,V). \label{e:normd} 
+\end{align}
+This fact follows from a central limit theorem. For example, it is
+often the case that 
+\[ D{Q_n}_{\theta_0} = \frac{1}{n} \sum_{i=1}^n D_\theta
+f(y_i,x_i,\theta_0). \] 
+Additionally, if observations are independent
+and identically distributed\footnote{This can be relaxed and the
+  finite variance condition strengthened, and the conclusion still
+  holds.}, $\Er[D_\theta f(y_i,x_i,\theta)] = 0$, and
+theorem says that (\ref{e:normd}) holds. Regardless of why, if we just
+$\Er[f(y,x,\theta_0)^2]$ is finite then the classical central limit
+theorem says that (\ref{e:normd}) holds. Regardless of why, if we just
+assume (\ref{e:normd}), then
+\begin{align*}
+  \sqrt{n}(\hat{\theta} - \theta_0) = & D^2 {Q_n}_{\bar{\theta}}
+  (\sqrt{n} D {Q_n}_{\theta_0} ) \\
+  \indist & N\left(0, (D^2 {Q_n}_{\theta_0})^{-1} V (D^2
+    {Q_n}_{\theta_0})^{-1} \right).
+\end{align*}
+
+\subsection{With constraints}
+Sometimes we have an extremum estimator with constraints. Suppose we
+have a constrained extremum estimate of the form
+\[ \hat{\theta} = \argmin_{\theta \in \Theta} Q_n(\theta) \text{
+  s.t. } h_n(\theta) = 0. \]
+As above, we will assume that $Q_n \inprob Q$ and $h_n \inprob h$. We
+will let $\theta_0$ be the solution to 
+\[ \theta_0 = \argmin_{\theta \in \Theta} Q(\theta) \text{
+  s.t. } h(\theta) = 0. \]
+We will assume that $\theta_0$ is a unique strict minimizer in the
+interior of $\Theta$. As above, $\hat{\theta}$ solve the first order
+condition:
+\begin{align*}
+  0 = & \begin{pmatrix} D{Q_n}_{\hat{\theta}} - \hat{\mu}^T
+    D{h_n}_{\hat{\theta}} \\
+    h_n(\hat{\theta}) 
+  \end{pmatrix}
+\end{align*}
+If we expand around $\theta_0$ and $\mu_0$ we get
+\begin{align*}
+  0 = & \begin{pmatrix} D{Q_n}_{\theta_0} - \mu_0^T
+    D{h_n}_{\theta_0} \\
+    h_n(\theta_0) 
+  \end{pmatrix} + 
+  \begin{pmatrix} 
+    D^2 {Q_n}_{\bar{\theta}} - \sum_{j=1}^m \bar{\mu}_j D^2
+    {h_{jn}}_{\bar{\theta}} & D{h_n}_{\bar{\theta}}^T \\
+    D{h_n}_{\bar{\theta}} & 0 
+  \end{pmatrix} 
+  \begin{pmatrix} 
+    \hat{\theta} - \theta_0 \\
+    \hat{\mu} - \mu_0 
+  \end{pmatrix}
+\end{align*}
+Using the same sort of reasoning as in the previous section, we could
+show that
+\begin{align*}
+  \sqrt{n}   \begin{pmatrix} 
+    \hat{\theta} - \theta_0 \\
+    \hat{\mu} - \mu_0 
+  \end{pmatrix}
+  \indist N(0,V)
+\end{align*}
+for some $V$. 
+
+\section{A model of pollution}
+
+Let's analyze a simple model of pollution. Suppose there is a
+representative firm that takes one input, $\ell$, and produces two
+outputs, a consumption good $c$, and pollution $z$. The firm allocates
+its input to two activities: production and pollution reduction. If it
+devotes $\alpha$ portion of $\ell$ to production, then it produces
+$c=f_c(\alpha \ell)$ and $z = f_z(\alpha \ell) - g((1-\alpha)\ell)$ We will assume that
+$f_c'>0$, $f_z'>0$ and $g'>0$. 
+
+There is also a representative consumer with an
+endowment of $L$ units of $\ell$ and preferences over consumption and
+pollution represented by a utility function $u:\R^2 \to \R$. We will
+assume that $\frac{\partial u}{\partial c}>0$ and $\frac{\partial
+  u}{\partial z} < 0$. 
+
+\subsection{Optimal allocation}
+
+First let's solve the social planner's problem and find the optimal
+allocation in this economy. The social planner maximizes utility
+subject to the production function.
+\begin{align*}
+  \max_{c,\alpha,\ell,z} u(c,z) \text{ s.t. } & \ell = L \\
+  & c = f_c(\alpha \ell) \\
+  & z = f_z(\alpha \ell) - g((1-\alpha)\ell)  \\
+  & 0 \leq \alpha \leq 1
+\end{align*}
+Now we could just substitute in the constraints and have an
+unconstrained maximization over $\alpha$, but the multipliers are
+going to be useful later, so we will work with them. The Lagrangian is
+\begin{align*}
+  L(c,a,\ell,z,\mu) = & u(c,z) - \mu_\ell (\ell -L) - \mu_c\left(c-
+f_c(\alpha \ell) \right) - \\
+& - \mu_z \left(f_z(\alpha \ell) - g((1-\alpha)
+\ell) \right) - \mu_{\alpha_1}(\alpha-1) + \mu_{\alpha_0} \alpha 
+\end{align*}
+The first order conditions are
+\begin{align}
+  [c]: && \frac{\partial u}{\partial c} = &\mu_c \label{sc}\\
+  [z]: && \frac{\partial u}{\partial z} = &\mu_z \label{sz}\\
+  [\ell]: && -\mu_\ell + \mu_c f_c'(\alpha \ell) \alpha + \mu_z\left(
+    f_z'(\alpha\ell) \alpha - g'((1-\alpha)\ell)(1-\alpha) \right) =& 0
+  \label{sl} \\
+  [\alpha]: &&  \mu_c f_c'(\alpha \ell) \ell + \mu_z
+  \left(f_z'(\alpha\ell) \ell + g'((1-\alpha)\ell) \ell\right) -
+  \mu_{\alpha_1} + \mu_{\alpha_0} = & 0 \label{sfa}
+\end{align}
+As well as the first three constraints. We will assume the last
+constraint does not bind. If we combine (\ref{sc}),
+(\ref{sz}), and (\ref{sfa}) we get
+\begin{align}
+  \frac{\partial u}{\partial c} f_c'(\alpha \ell)  + \frac{\partial
+    u}{\partial z} \left(f_z'(\alpha\ell) + g'((1-\alpha) \ell)\right) = &
+    0 \label{smarg}
+  \end{align}
+This characterizes the optimal choice of $\alpha^*$. Under reasonable
+assumptions, it will be true that $\ell^* = L$.  Then, once we know
+$\alpha^*$ we can find $c^*$ and $z^*$ from the
+constraints. (\ref{smarg}) says that the marginal benefit of devoting
+more resource to producing $c$ to be equal to the marginal disutility
+of devoting fewer resources to preventing pollution. 
+
+\subsection{Competitive equilibrium}
+
+Let the price of $c$ be $p$ and $\ell$ be $w$. Pollution, $z$ is not
+traded. The firm's problem is
+\begin{align*}
+  \max_{c,\alpha,\ell,z} p f_c(\alpha \ell) - w \ell \text{ s.t. } & 0
+  \leq \alpha \leq 1 
+\end{align*}
+Let the multipliers be $\lambda_0$ and $\lambda_1$. The first order conditions are: 
+\begin{align*} 
+  [\ell]: & & p f_c'(\alpha \ell) \alpha - w = & 0 \\
+  [\alpha]: & & p f_c'(\alpha \ell) \ell + \lambda_{0} -
+  \lambda_{1} = & 0 \\ 
+  [\lambda_{1}]: && \lambda_{1}(\alpha -1) = & 0 \\
+  [\lambda_{0}]: && \lambda_{0}\alpha = & 0 
+\end{align*}
+Since $f_c'>0$ and $\alpha$ only enters the objective function, the
+maximum must have $\alpha = 1$ and $\lambda_0 = 0$. 
+
+The consumer's problem is
+\begin{align*}
+  \max_{c,\ell} u(c,z) \text{ s.t. } & pc \leq w \ell \\
+  & \ell \leq L 
+\end{align*}
+The Lagrangian is
+\[ L(c,\ell,\psi) = u(c,z) - \psi_c(pc - w\ell) - \psi_\ell (\ell -L) \]
+The first order conditions are
+\begin{align*}
+  [c]&& \frac{\partial u}{\partial c} - p \psi_c = & 0 \\
+  [\ell]&&  w \psi_c - \psi_\ell = & 0 \\
+  [\psi_c]&& \psi_c(pc-w\ell) = & 0 \\
+  [\psi_\ell] && \psi_\ell(\ell-L) = & 0.
+\end{align*}
+Since $u$ is increasing in $c$ and if $p$ and $w$ are positive, then
+the first constraint must bind, so $\psi_c>0$. From the envelope
+theorem, $\psi_c$ is the marginal value of increase $w\ell$. If this
+is positive, then the consumer will want $\ell$ as large as possible,
+so $\ell = L$. Then from the budget constraint, $\frac{p}{w} =
+\frac{L}{c}$. Also, given the firm's problem has $\alpha=1$, it must
+be that $c = f_c(L)$. Also, $z = f_z(L) - g(0)$. Given our assumption
+that $f_z'>0$ and $g'>0$, $z$ is greater in this competitive
+equilibrium than in the optimal allocation.
+
+\subsection{Competitive equilibrium with taxes}
+
+Suppose the production of pollution is taxed at rate $\tau$. Also,
+assume that the government gives all tax revenue to the consumer as a
+lump sum transfer. 
+In this case, the firm's problem becomes
+\begin{align*}
+  \max_{c,\alpha,\ell,z} p f_c(\alpha \ell) - w \ell -
+  \tau\left(f_z(\alpha \ell) - g((1-\alpha)\ell) \right) \text{ s.t. } & 0
+  \leq \alpha \leq 1 
+\end{align*}
+Let the multipliers be $\lambda_0$ and $\lambda_1$. The first order
+conditions are:  
+\begin{align*} 
+  [\ell]: & & p f_c'(\alpha \ell) \alpha - w - \tau \left( f_z'(\alpha
+    \ell)\alpha - g((1-\alpha)\ell)(1-\alpha) \right) = &
+  0  \\
+  [\alpha]: & & p f_c'(\alpha \ell) \ell - \tau \left( f_z'(\alpha\ell)
+    \ell + g'((1-\alpha)\ell) \ell \right) + \lambda_{0} - \lambda_{1} =
+  & 0  \\ 
+  [\lambda_{1}]: && \lambda_{1}(\alpha -1) = & 0 \\
+  [\lambda_{0}]: && \lambda_{0}\alpha = & 0 
+\end{align*}
+Notice that (\ref{ftl}) is nearly the same as the social planner's
+first order condition for $\ell$ (\ref{sl}), except the former has
+$p$, $w$, and $\tau$ whereas the later has $\mu_c$, $\mu_\ell$, and
+$\mu_z$. Suppose the government sets the tax rate to 
+\[ \tau = -\mu_z = -
+\frac{\partial u}{\partial z}(c^*,z^*) \].
+If $p = \mu_c$ and $w=\mu_\ell$, then $c^*$ and $c^*$ solve the firm's
+first order condition with taxes. To show this is an equilibrium, we
+just need to verify that the consumer's first order conditions hold.
+The consumer's problem is now 
+\begin{align*}
+  \max_{c,\ell} u(c,z) \text{ s.t. } & pc \leq w \ell + T \\
+  & \ell \leq L 
+\end{align*}
+The first order conditions are
+\begin{align}
+  [c]&& \frac{\partial u}{\partial c} - p \psi_c = & 0 \label{cc} \\
+  [\ell]&&  w \psi_c - \psi_\ell = & 0 \label{cl} \\
+  [\psi_c]&& \psi_c(pc-w\ell - T) = & 0 \\
+  [\psi_\ell] && \psi_\ell(\ell-L) = & 0.
+\end{align}
+From (\ref{sc}), $\frac{\partial u}{\partial c} = \mu_c = p $, so it
+must be that $\psi_c = 1$.  Then from (\ref{cl}), $\psi_\ell = 1$ as
+well. Finally, integrating the firm's first order condition for $\ell$
+with respect to $\ell$, and using the fact that $\tau z = T$, we see
+that the consumer's budget constraint must hold. 
+
+Thus, by appropriately setting the pollution tax, we could achieve the
+optimal allocation. This sort of result--that certain taxes can
+achieve first (or sometimes second) best outcomes---appears quite
+often in public finance. Also, this approach---finding the social
+planner's solution, and showing that setting prices and taxes equal to
+certain multipliers give a competitive equilibrium with taxes---is the
+standard way of showing it.
+
+This has gotten long enough, but a useful exercise might be to
+consider a cap and trade program as well. Suppose the consumers are
+given tradeable permits that allow up to $Z$ units of pollution. You
+can show that if $Z = z^*$, then the price of the permits will end up
+being $\mu_z$, and $p=\mu_c$ and $w=\mu_\ell$\footnote{Actually only
+  relative prices are determined, and this is one possible set of
+  prices. Nonetheless all possible prices led to the same
+  allocation.}as above, so this is another way of decentralizing the
+efficient allocation.  
+
+\section{Demand theory}
+
+Marshallian demand, Hicksian demand, Roy's identity, Slutsky equation,
+etc. See Simon and Blume chapter 22. 
+
+
+
+
+\end{document}

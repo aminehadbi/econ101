@@ -1,0 +1,1081 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+
+
+\title{Vector spaces}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \frametitle{Overview}
+  \begin{itemize} 
+  \item Main idea: take intuition from $\R^3$ and apply to $\R^n$ and
+    other vector spaces
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+\section{Normed vector spaces}
+\begin{frame}
+  \frametitle{Normed vector spaces}
+  \begin{itemize}
+  \item Measure length or distance
+  \end{itemize}
+  \begin{definition}
+    A \textbf{normed vector space}, $(V,\F,+,\cdot, \norm{\cdot})$, is a
+    vector space with a function, called the \textbf{norm}, from $V$ to
+    $\F$ and denoted by $\norm{v}$ with the following properties:
+    \begin{enumerate}
+    \item $\norm{v} \geq 0$ and $\norm{v} = 0$ iff $v = 0$,
+    \item $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \F$,
+    \item The triangle inequality holds:
+      \[ \norm{v_1+v_2} \leq \norm{v_1} + \norm{v_2} \]
+      for all $v_1, v_2 \in V$.
+    \end{enumerate}
+  \end{definition}
+  \begin{itemize}
+  \item Shortest distance between two points is a straight line
+  \end{itemize}
+\end{frame}
+
+\subsection{Examples}
+\begin{frame}
+  \frametitle{Examples}
+  \begin{example}
+    $\R^3$ is a normed vector space with norm
+    \[ \norm{x} = \sqrt{x_1^2 + x_2^2 + x_3^2}. \] 
+    This norm is exactly
+    how we usually measure distance. For this reason, it is called the
+    Euclidean norm.
+    
+    More generally, for any $n$, $\R^n$, is a normed vector space with
+    norm 
+    \[ \norm{x} = \sqrt{\sum_{i=1}^n x_i^2 }. \]
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Examples}
+  \begin{example}
+    $\R^n$ with the norm 
+    \[ \norm{x}_p = \left( \sum_{i=1}^p |x_i|^p \right)^{1/p} \]
+    for $p \in [1,\infty]$\footnote{Where $\norm{x}_\infty = \max_{1\leq
+        i \leq n} |x_i| $} is a normed vector space. This norm is called
+    the p-norm. 
+  \end{example}
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Examples}
+  \begin{example}
+    $\mathcal{L}^p(0,1)$ with p-norm 
+    \[ \norm{f}_p = \left(\int_0^1 |f(x)|^p dx\right)^{1/p} \] is a
+    normed vector space. Moreover, $\mathcal{L}^p(0,1)$ is a different
+    space for different $p$. For example, $\frac{1}{x^{1/p}} \not\in
+    \mathcal{L}^p(0,1)$, but $\frac{1}{x^{1/p}} \in \mathcal{L}^q(0,1)$
+    for $q < p$. 
+  \end{example}
+\end{frame}
+
+\section{Inner product spaces}
+\begin{frame}
+  \frametitle{Inner product spaces}
+  \begin{itemize}
+  \item Measure angles
+  \end{itemize}
+  \begin{definition}
+    A real \textbf{inner product space} is a vector space over the field
+    $\R$ with an additional operation called the inner product that is
+    function from $V \times V$ to $\mathbb{R}$. We denote the inner
+    product of $v_1, v_2 \in V$ by $\iprod{v_1}{v_2}$. It has the
+    following properties:
+    \begin{enumerate}
+    \item Symmetry: $\iprod{v_1}{v_2} = \iprod{v_2}{v_1}$
+    \item Linear: $\iprod{a v_1 + b v_2}{v_3} = a \iprod{v_1}{v_3} + b
+      \iprod{v_2}{v_3}$ for $a, b \in \R$
+    \item Positive definite: $\iprod{v}{v} \geq 0$ and equals $0$ iff
+      $v=0$. 
+    \end{enumerate} 
+  \end{definition}
+  \begin{itemize}
+  \item Inner product space is also a normed vector space
+    \[ \norm{x} = \sqrt{\iprod{x}{x}}. \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+  \begin{itemize}
+  \item $\R^n$ with the dot product,
+    \[ \iprod{x}{y} = x\cdot y = \sum_{i=1}^n x_i y_i = x^T y \] 
+  \item Norm induced by the inner product is the Euclidean norm
+    \[ \norm{x} = \sqrt{\iprod{x}{x}} = \sqrt{\sum_{i=1}^n x_i^2 } \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Measuring angles}
+  \begin{itemize}
+  \item \begin{align*}
+      \norm{x + y}^2 = & \iprod{x+y}{x+y} \\
+      = & \iprod{x}{x} + 2\iprod{x}{y} + \iprod{y}{y}
+    \end{align*}
+  \item In $\R^n$ with the Euclidean norm when $x$ and $y$ are at
+    right angles 
+    to one other, $\iprod{x}{y} = 0$, and we have the Pythagorean theorem:
+    \[ \norm{x + y}^2 = \norm{x}^2 + \norm{y}^2. \]
+  \end{itemize}
+  
+  \begin{definition}
+    Let $x,y \in V$, an inner product space. $x$ and $y$ are
+    \textbf{orthogonal} iff $\iprod{x}{y} = 0$. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Measuring angles}
+  \begin{theorem}\label{thm:angle}
+    Let $u, v \in \R^n$, then the angle between them is
+    \[ \theta = \cos^{-1} \frac{\iprod{u}{v}}{\norm{u}\norm{v}}. \]  
+  \end{theorem}
+  \begin{proof}
+    Draw picture.
+    \[ \cos \theta = \frac{\norm{tv}}{\norm{u}}. \]
+    Use Pythagorean theorem,
+    \begin{align*}
+      \norm{u}^2 = & \norm{tv}^2 + \norm{u - tv}^2 \\
+      \norm{u}^2 = & t^2 \norm{v}^2 + \norm{u}^2 - 2t\iprod{u}{v} + t^2
+      \norm{v}^2 
+      \\
+      2 t \iprod{u}{v} = & 2 t^2 \norm{v}^2 
+    \end{align*}
+  \end{proof}
+\end{frame}
+
+\subsection{Useful inequalities}
+
+\begin{frame}
+  \frametitle{Useful inequalities}
+  \begin{itemize}
+  \item Triangle inequality
+  \end{itemize}
+  \begin{theorem}[Reverse triangle inequality]
+    Let $V$ be a normed vector space and $x,y \in V$. Then
+    \[ \left| \norm{x} - \norm{y} \right| \leq \norm{x-y}. \]
+  \end{theorem}
+  \begin{proof}
+    By the usual triangle inequality,
+    \begin{align*}
+      \norm{x} + \norm{x-y} \geq & \norm{y} \\
+      \norm{x-y} \geq \norm{y} - \norm{x}
+    \end{align*}
+    and
+    \begin{align*}
+      \norm{y} + \norm{y-x} \geq & \norm{x} \\
+      \norm{y-x} \geq \norm{x} - \norm{y}.
+    \end{align*}
+  \end{proof}
+\end{frame}
+\begin{frame}
+  \frametitle{Useful inequalities}
+  
+  \begin{theorem}[Cauchy-Schwarz inequality \label{thm:cauchy-schwarz}]
+    Let $V$ be an inner product space and let $u,v\in V$. Then,
+    \[ \left\vert \iprod{u}{v} \right\vert \leq \norm{u}\norm{v}. \]
+  \end{theorem}
+  \begin{proof}
+    Setup as before, we can show that $t =
+    \frac{\iprod{u}{v}}{\norm{v}^2}$. Now, let $z = u-tv$. By the
+    Pythagorean theorem,
+    \begin{align*}
+      \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
+      = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
+    \end{align*}
+    $\norm{z}^2\geq 0$, so
+    \begin{align*}
+      \norm{u}^2 \geq & \frac{\iprod{u}{v}^2}{\norm{v}^2} \\
+      \norm{u}\norm{v} \geq |\iprod{u}{v}|.
+    \end{align*}
+  \end{proof}
+\end{frame}
+
+\section{Projections}
+
+\begin{frame}
+  \frametitle{Projections}
+  \begin{definition}
+    Let $V$ be an inner product space and $x,y \in V$. The
+    \textbf{projection} of $y$ onto $x$ is 
+    \[ P_x y = \frac{\iprod{y}{x}}{\norm{x}^2} x. \]
+    More generally, the projection of $y$ onto a finite set $\{x_1, x_2,
+    ... , x_k\}$ is 
+    \[ P_{\{x_j\}_j=1^k} y = \sum_{j=1}^k P_{x_j - \sum_{i=1}^{j-1}
+      P_{x_i} x_j} y. \]
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Projections}
+  \begin{definition}
+    More generally still, if $X \subseteq V$ is a linear subspace, then
+    the projection of $y$ onto $X$ is
+    \[ P_{X} y = P_{\{b_j\}_{j=1}^k} y \]    
+    where $b_j \in X$ and $b_1, ..., b_k$ span $X$. 
+    
+    Finally, if $Y \subseteq V$ the projection of $Y$ onto $X$ is just
+    the set consisting of the projection of each element of $y$ onto
+    $X$, i.e.
+    \[ P_{X} Y = \{ P_{X} y : y \in Y \}. \]
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Projections}
+  \begin{lemma}
+    Any projection is an idempotent linear transformation. 
+  \end{lemma}
+  \begin{proof}
+    \begin{itemize}
+    \item Verify that projections have the two properties required
+      for them to be linear transformations.
+    \item Show that projections are idempotent. 
+      \begin{align*}
+        P_x (P_x y) = & P_x\left(\frac{\iprod{x}{y}}{\norm{x}^2} x \right)
+        \\
+        = & \frac{\iprod{x}{\frac{\iprod{x}{y}}{\norm{x}^2}
+            x}}{\norm{x}^2} x \\ 
+        = & \frac{\iprod{x}{y}}{\norm{x}^2}
+        \frac{\iprod{x}{x}}{\norm{x}^2} x \\
+        = & P_x y.
+      \end{align*}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\section{Linear independence}
+
+\begin{frame}\frametitle{Linear independence}
+  \begin{definition}
+    A set of vectors $v_1, ..., v_k \in V$, is \textbf{linearly
+      independent} if the only solution to
+    \begin{align*}
+      \sum_{j=1}^k c_j v_j = 0 
+    \end{align*}
+    is $c_1 = c_2 = ... = c_k = 0$. 
+  \end{definition}  
+\end{frame}
+
+\subsection{Checking linear independence}
+\begin{frame}\frametitle{Checking linear independence}
+  \begin{itemize}
+  \item Solve:
+    \begin{align*}
+      \sum_{j=1}^n c_j \mathbf{v}_j = 0 
+    \end{align*}
+    or $V \mathbf{c} = 0 $
+  \item \textbf{Homogeneous} system
+    \begin{itemize} 
+    \item Always has $\mathbf{c}=0$ as a solution
+    \item Other solutions if $\rank V < n$ 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}\label{lem:rankli}
+    Vectors $\mathbf{v}_1, ..., \mathbf{v}_n \in \R^m$ are linearly
+    independent if and only if
+    \[ \rank(\mathbf{v}_1, ..., \mathbf{v}_n) = n. \]
+  \end{lemma}
+  \begin{corollary}\label{cor:kmli}
+    Any set of $k>m$ vectors in $\R^m$ are linearly dependent.
+  \end{corollary}
+  \begin{corollary}\label{cor:detli}
+    Vectors $\mathbf{v}_1, ..., \mathbf{v}_m \in \R^m$ are linearly
+    independent if and only if
+    \[ \det(\mathbf{v}_1, ..., \mathbf{v}_n) \neq 0. \]
+  \end{corollary}
+\end{frame}
+
+\subsection{Basis and dimension}
+\begin{frame}\frametitle{Basis and dimension}
+  \begin{definition}
+    Let $V$ be a vector space and $v_1,..., v_k \in V$. A \textbf{linear
+      combination} of $v_1,..., v_k$ is any vector 
+    \[c_1 v_1 + ... + c_k v_k \]
+    where $c_1, ..., c_k \in \F$. 
+  \end{definition}
+
+  \begin{definition}
+    Let $V$ be a vector space and $v_1,..., v_k \in V$. The
+    \textbf{span} of $\{ v_1, ... , v_k \}$, denoted
+    $\spn(v_1,...,v_k)$, is the set of all linear combinations of
+    $v_1, ... , v_k$.
+  \end{definition}
+
+  \begin{definition}
+    The \textbf{dimension} of a vector space, $V$, denoted $\dim V$, is
+    the cardinality of the largest set of linearly independent elements
+    in $V$.
+  \end{definition} 
+\end{frame}
+
+\begin{frame}\frametitle{Basis and dimension}
+  \begin{definition}
+    A \textbf{basis} of a vector space $V$ is any set of linearly
+    independent vectors $b_1, ..., b_k$ such that the span of $b_1, ...,
+    b_k$ is $V$.
+  \end{definition}
+
+  \begin{lemma}
+    If $b_1,..., b_m$ is a basis for a vector space $V$ and $v_1, ...,
+    v_n\in V$ are linearly independent, then $n \leq m$
+  \end{lemma}
+
+  \begin{proof}
+    \[ v_i = \sum_{i=1}^m a_{ij} b_i \]
+    Check for linear independence.
+    \begin{align*}
+      0 = \underbrace{A}_{m \times n} \underbrace{c}_{n \times 1}    
+    \end{align*}
+  \end{proof}
+
+  \begin{corollary}
+    Any two bases for a vector space have the same cardinality.
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    If $v_1, ..., v_n$ span $\R^n$, then $v_1, ... , v_n$ are linearly
+    independent. 
+  \end{lemma}
+  \begin{proof}
+    \begin{align*} 
+      0 = & \sum_{j=1}^n c_j v_j \\
+      v_n = & \sum_{j=1}^{n-1} -\frac{c_j}{c_n} v_j.
+    \end{align*}
+    Write $ e_i = \sum_{j=1}^n a_{ij} v_j. $
+    Substituting,
+    \begin{align*}
+      e_i = \sum_{j=1}^{n-1} (a_{ij} - \frac{c_j}{c_n} a_{in} ) v_j \\
+      I_n = \underbrace{A}_{n\times(n-1)} \underbrace{V}_{(n-1) \times n}.
+    \end{align*}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summing up}
+  
+  \begin{theorem}\label{thm:lind}
+    Let $v_1, ..., v_n \in \R^n$ and let $V = (v_1,...,v_n)$ be the $n$
+    by $n$ matrix with columns $v_i$. Then the following are equivalent:
+    \begin{enumerate}
+    \item $v_1,...,v_n$ are linearly independent,
+    \item $v_1,...,v_n$ span $\R^n$,
+    \item $v_1,...,v_n$ are a basis for $\R^n$,
+    \item $\rank V = n$, and
+    \item $\det V \neq 0$.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\section{Row, column, and null space}
+
+\subsection{Row space}
+\begin{frame}
+  \frametitle{Row space}
+  \begin{definition}
+    Let $A$ be an $m$ by $n$ matrix. The \textbf{row space} of $A$,
+    denoted $\row (A)$, is the space spanned by the row vectors of $A$.
+  \end{definition}
+  \begin{lemma}
+    Performing Gaussian elimination does not change the row space of a
+    matrix. 
+  \end{lemma}
+  \begin{proof}
+    Let $a_{1},...,a_m$ be the row vectors of $A$. Each step of Gaussian
+    elimination transforms some $a_j$ into $a_j + g a_k$ with $k \neq j$
+    or $g \neq -1$. Can show that
+    \[ \spn(a_1,...,a_m) = \spn(a_1 + g a_k , ..., a_m). \]
+  \end{proof}
+  \begin{corollary}\label{cor:rankdimrow}
+    The dimension of the row space of a matrix is equal to its rank.
+  \end{corollary}
+\end{frame}
+
+\subsection{Column space}
+
+\begin{frame}
+  \frametitle{Column space}
+  \begin{definition}
+    Let $A$ be an $m$ by $n$ matrix. The \textbf{column space} of $A$,
+    denoted $\col(A)$, is the space spanned by the column vectors of
+    $A$.
+  \end{definition}
+  \begin{lemma}
+    Let $A$ be an $m$ by $n$ matrix. Then $A x = b$ has a solution iff $b
+    \in \col(A)$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    A column of a matrix, $A$, if the corresponding column of the row
+    echelon form, $A_r$, contains a pivot. 
+  \end{definition}
+  \begin{theorem}
+    The basic columns of $A$ form a basis for $\col(A)$. 
+  \end{theorem}
+  \begin{proof}
+    Let $A$ be $m \times n$ and denote its columns as $v_1,...,v_n$. Let
+    $A_r$ be the row echelon form of $A$ and denotes its columns as
+    $w_1,...,w_n$. Let $w_{i_1}, ..., w_{i_k}$ be the basic columns of
+    $A_r$. Each has more zeros, so $w_{i_1},...,w_{i_k}$
+    are linearly independent. By definition of row echelon form, the
+    final $m-k$ rows of $A_r$ are all zero. Therefore $\dim \col(A_r) \leq
+    k$, and $w_{i_1},...,w_{i_k}$ must be a basis for $\col(A_r)$.
+  \end{proof}    
+\end{frame}
+\begin{frame}
+  \begin{proof}[Continued]]
+    Now we show that $v_{i_1}, ..., v_{i_k}$ are a basis for
+    $\col(A)$. Suppose
+    \[ c_1 v_{i_1} + ... + c_k v_{i_k} = 0. \]
+    Then we could do Gaussian elimination to convert this system to
+    \[ c_1 w_{i_1} + ... + c_k w_{i_k} = 0. \]
+    $w_{i_1},... , w_{i_k}$ are linearly independent so $c_1 = 0
+    ,... c_k = 0$.
+    
+    Add any other $v_j$, $j \not\in \{i_1, ..., i_k\}$,
+    then by the same argument there must exist a non-zero $c$ than
+    solves 
+    \[ c_1 v_{i_1} + ... + c_k v_{i_k} + c_j v_j = 0. \]
+    Thus, $v_{i_1} , ..., v_{i_k}$ is a basis for $\col(A)$. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{corollary}
+    The dimensions of the row and column spaces of any matrix are
+    equal. 
+  \end{corollary}
+  \begin{corollary}
+    $\rank A = \rank A^T$.
+  \end{corollary}
+\end{frame}
+
+\subsection{Null space}
+\begin{frame}
+  \frametitle{Null space}
+  \begin{definition}
+    Let $A$ be $m$ by $n$. The set of solutions to the homogeneous
+    equation $Ax = 0$ is the \textbf{null space} (or kernel) of
+    $A$, denoted by $\mathcal{N}(A)$ (or $\mathrm{Null}(A)$).
+  \end{definition}
+  
+  \begin{definition}
+    Let $V \subseteq \R^n$ be a linear subspace, and let $c \in \R^n$ be
+    a fixed vector. The set
+    \[ \{ x \in \R^n: x = v + c \text{ for some } v \in V \} \]
+    is called the set of \textbf{translates} of $V$ by $c$, and is
+    denoted $c + V$. Any set of
+    translates of a linear subspace is called an \textbf{affine} space. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    Let $A x = b$ be an $m$ by $n$ system of linear equations. Let $x_0$
+    be any particular solution. Then the set of solutions is $x_0 +
+    \mathcal{N}(A)$. 
+  \end{lemma}
+  \begin{proof}
+    Let $w \in x_0 + \mathcal{N}(A)$. Then 
+    \begin{align*}
+      Aw = & A(x_0) + A(\underbrace{w-x_0}_{\in \mathcal{N}(A)}) \\
+      = & b + 0.
+    \end{align*}
+    Let $w$ be a solution to $Ax = b$. Then
+    \begin{align*}
+      A(w - x_0) = Aw - Ax_0 = 0
+    \end{align*}
+    so $w - x_0 \in \mathcal{N}(A)$ and $w \in x_0 + \mathcal{N}(A)$. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    Let $A$ be an $m$ by $n$ matrix. Then 
+    $\dim \mathcal{N}(A) = n - \rank A$
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item Let $u_1, ..., u_k$ be a basis for $\mathcal{N}(A)$. We can add
+      $u_{k+1},...,u_n$ to $u_1, ..., u_k$ to form a basis for
+      $\R^n$.
+    \item Show that  $A u_{k+1}, ..., A u_n$ are a basis for the
+      column space
+      \begin{itemize}
+      \item linearly independent 
+      \item span $\col A$.
+      \end{itemize}
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Rouch\'{e}-Capelli] \label{thm:rc} A system of linear
+    equations with $n$ variables has a solution if and only if the rank
+    of its coefficient matrix, $A$, is equal to the rank of its
+    augmented matrix, $\hat{A}$. Equivalently, a solution exists if and
+    only if $b \in \col(A)$.
+    
+    If a solution exists and $\rank A$ is equal to its number of
+    columns, the solution is unique. If a solution exists and $\rank A$
+    is less than its number of columns, there are infinite solutions. In
+    this case the set of solutions forms is $x_0 + \mathcal{N}(A)$,
+    where $x_0$ is any particular solution to $A x = b$. This set of
+    solutions is an affine subspace of dimension $n - \rank A$.
+  \end{theorem}
+\end{frame}
+
+\section{Lines, planes, and hyperplanes }
+
+\begin{frame}
+  \frametitle{Lines, planes, and hyperplanes}
+  \begin{definition}
+    A \textbf{hyperplane} in $\R^n$ is an $n-1$ dimensional affine
+    subspace. Equivalently, a hyperplane is the set of solutions to a
+    single equation with $n$ variables.
+  \end{definition}
+  Any hyperplane can be written in the form:
+  \[ H_{\xi,c} = \{x: \iprod{\xi}{x} = c \} \] where $c \in \R$, $\xi \in
+  \R^n$, and $\norm{\xi} = 1$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Separating hyperplanes}
+  \begin{definition}
+    A set $S \subseteq \R^n$ is convex if $\forall x_1, x_2 \in S$ and
+    $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda) \in S$.  
+  \end{definition}
+  \begin{theorem}[Separating hyperplane theorem]
+    If $S_1$ and $S_2 \subseteq \R^n$ are convex. If $S_1 \cap S_2 =
+    \emptyset$ then there exists a hyperplane, $H_{\xi c} = \{ x:
+    \xi'x = c \}$ such that
+    \[ \iprod{s_1}{\xi} \leq c \leq \iprod{s_2}{\xi} \]
+    for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
+    separates $S_1$ and $S_2$. 
+  \end{theorem}
+  \begin{itemize}
+  \item Draw picture
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{centering}
+    \includegraphics[width=\linewidth]{separatingHyperplane}
+  \end{centering}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Applications}
+
+\subsection{First and second welfare theorems}
+
+\begin{frame}
+  \frametitle{Welfare theorems}
+  \begin{itemize}
+  \item[1st:] Every competitive equilibrium is Pareto efficient (under
+    some conditions)
+  \item[2nd:] Every Pareto efficient allocation is a competitive
+    equilibrium (under some stronger conditions)
+  \item We will
+    \begin{itemize}
+    \item Carefully define competitive equilibrium and Pareto
+      efficiency
+    \item State and prove theorems
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Welfare theorems}
+  \begin{itemize}
+  \item Proofs will use:
+    \begin{itemize}
+    \item Vector spaces, linear transformations, convexity, separating
+      hyperplane theorem
+      \begin{itemize}
+      \item Should mostly understand
+      \end{itemize}
+    \item Continuity --- $\forall \epsilon > 0 \exists \delta > 0$
+      s.t. ...
+      \begin{itemize}
+      \item Maybe difficult to follow, but we will see a lot more of
+        this in calculus
+      \end{itemize}
+    \end{itemize}
+  \item Economic issues to think about:
+    \begin{itemize}
+    \item The result of the two theorems, their assumptions, and how
+      they relate to the real world
+    \item General role of assumptions in proofs, so can conjecture
+      what happens when assumptions are false 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%\subsubsection*{Setup}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item Commodities $s \in S$, a normed vector space (e.g. $S$ linear
+    subspace of $\R^n$)
+  \item Consumers $i=1,..., I$ with consumption possibility set $X_i
+    \subseteq S$
+    (think of as physical constraint, not budget constraint)
+  \item Preference relation $\prefeq_i$ s.t.
+    \begin{enumerate}
+    \item (total) $\forall x, z \in X_i$, either $x \prefeq_i z$ or $z
+      \prefeq_i x$ or both,
+    \item (transitive) $\forall x, w, z \in X_i$, if $x \prefeq_i w$ and $w
+      \prefeq_i z$ then $x \prefeq_i z$,
+    \item (reflexive) $\forall x \in X_i$, $x \prefeq_i x$.
+    \end{enumerate}
+    Denote strict preference $\pref_i$, and indifference $\simeq_i$
+    \begin{itemize}
+    \item Could come from  utility function i.e.\ $x \prefeq_i z$ iff
+      $u_i(x) \geq u_i(z)$, but does not have to
+    \end{itemize}    
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item Firms $j=1,...,J$ produce $y_j$ from within production
+    possibility sets $Y_j \subseteq S$
+    \begin{itemize}
+    \item Example: 3 commodities, food $f$, clothing $c$, and labor
+      $l$. Production function $f = F^f(l)$, and $c = F^c(l)$,
+      \[ Y_j = \{ (f,c,l) \in S: l \leq 0 \wedge f \leq F^f(\alpha |l|)
+      \wedge c \leq F^c((1-\alpha) |l|) \text{ for some } \alpha \in
+      [0,1]\}. \] 
+    \end{itemize}
+  \item $I+J$ tuple $((x_i),(y_j))$ is an \textbf{allocation} 
+  \item Allocation is feasible if $x_i \in X_i \forall i$, $y_j \in
+    Y_j \forall j$, and the market clears, 
+    $\sum_{i=1}^I x_i = \sum_{j=1}^J y_j$.
+  \end{itemize}
+\end{frame}  
+
+\begin{frame}
+  \begin{definition}
+    An allocation, $((x_i^0),(y_j^0))$, is \textbf{Pareto efficient}
+    if it is a feasible and there is no other feasible allocation,
+    $((x_i),(y_j))$, such that $x_i \prefeq_i x_i^0$ for all $i$ and
+    $x_i \pref_i x_i^0$ for some $i$.
+  \end{definition}
+
+  \begin{definition}
+    A price system is a continuous linear transformation $p:S
+    \rightarrow \R$. (If $S$ is $n$-dimensional then $p$ is any $1
+    \times n$ matrix)
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    An allocation, $((x_i^0),(y_j^0))$, along with a price system, $p$,
+    is a \textbf{competitive equilibrium} if 
+    \renewcommand{\theenumi}{C\arabic{enumi}}
+    \begin{enumerate}
+    \item\label{c1} The allocation is feasible
+    \item\label{c2} (Utility maximization) For each $i$ and $x \in X_i$
+      if $px \leq px_i^0$ 
+      then $x_i^0 \prefeq_i x$, 
+    \item\label{c3} (Profit maximization) For each $j$ if $y \in Y_j$
+      then $p y \leq p y_j^0$ 
+    \end{enumerate}
+    \renewcommand{\theenumi}{\roman{enumi}}
+  \end{definition}
+\end{frame}
+
+%\subsubsection*{First welfare theorem}
+
+\begin{frame}
+  \frametitle{First welfare theorem}
+  \begin{definition}
+    Preference relation $\pref_i$ has the \textbf{local non-satiation
+      condition} if for each $x \in X_i$ and $\epsilon > 0$ $\exists x'
+    \in X_i$ such that $\norm{x - x'} \leq \epsilon $ and $x' \pref_i x$.
+  \end{definition}
+  
+  \begin{theorem}[First welfare theorem]
+    If $((x_i^0),(y^0_j))$ and $p$ is a competitive equilibrium and all
+    consumers' preferences have the local non-satiation condition, then
+    $((x_i^0),(y_i^0))$ is Pareto efficient.
+  \end{theorem}
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Proof of first welfare theorem}
+  \begin{itemize}
+  \item Will show contradiction
+  \item Suppose competitive equilibrium not Pareto efficient, then
+    $\exists$ a Pareto improvement $((x_i),(y_j))$ another feasible
+    allocation s.t.
+    \begin{itemize}
+    \item $\exists $ at least one $i^*$ with $x_{i^*} \pref_i x_i^0$
+      \begin{itemize}
+      \item The contrapositive of \ref{c2} implies $p x_{i^*} > P
+        x_i^0$
+      \end{itemize}
+    \item All other $x_i \prefeq_i x_i^0$ 
+      \begin{itemize}
+      \item Local non-satiation and continuity of $p$ imply $p x_i
+        \geq p x_i^0$  (next slide)
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of first welfare theorem}
+  \begin{itemize}
+  \item Local non-satiation and continuity of $p$ imply $p x_i
+    \geq p x_i^0$  
+    \begin{itemize}
+    \item If $p x_i < p x_i^0$, then local non-satiation implies
+      $\exists$ $x_i'$ very close to $x_i$ such that $x_i' \pref_i x_i
+      \prefeq_i x_i^0$. 
+    \item $p$ continuous means that if $x_i'$ is close enough to
+      $x_i$, then $p x_i'$ will be close enough to $p x_i$ that 
+      $p x_i' < p x_i^0$ as well. 
+    \item But $x_i' \pref_i x_i$ and $p x_i' < p x_i^0$ contradicts
+      the definition of competitive equilibrium.
+    \end{itemize}
+  \item So in this Pareto improvement, we have
+    \begin{align}
+     \sum_{i=1}^I p x_i > \sum_{i=1}^I p x_i^0
+    \end{align}
+    next, we will show this contradicts profit maximization
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of first welfare theorem}
+  \begin{itemize}
+  \item Start with market clearing, apply $p$, rearrange:
+    \begin{align}
+      \sum_{i=1}^I x_i & = \sum_{j=1}^J y_j  \\
+      p(\sum_{i=1}^I x_i) =  \sum_{i=1}^I p x_i & 
+      = \sum_{j=1}^J p y_j  = p(\sum_{j=1}^J y_j)  \\ 
+    \end{align}
+  \item Same thing for $x_i^0$ and $y_j^0$ with inequality from last
+    slide gives
+    \begin{align}
+      \sum_{j=1}^J p y_j > \sum_{j=1}^J p y_j^0 
+    \end{align}
+    But then there is at least on $j$ with $p y_j > p y_j^0$,
+    contradicting \ref{c3}
+  \end{itemize}  
+\end{frame}
+
+%\subsubsection*{Second welfare theorem}
+\begin{frame}
+  \frametitle{Second welfare theorem}
+  \begin{definition}
+    A preference relation, $\prefeq_i$, is \textbf{convex} if whenever $x
+    \prefeq_i z$ and $y \prefeq_i z$, then $\lambda x + (1-\lambda) y
+    \prefeq_i z$ for all $\lambda \in [0,1]$. 
+  \end{definition}
+  
+  \begin{definition}
+    A preference relation, $\prefeq_i$, is \textbf{continuous} if
+    for any  $x \pref_i z$ there exists a $\delta >
+    0$ such that for all $x'$ with $\norm{x - x'}<\delta$ we have $x'
+    \pref_i z$.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Second welfare theorem}
+  \begin{theorem}[Second welfare theorem]
+    Assume the preferences of each consumer are convex, locally
+    non-satiated, and continuous, and that $X_i$ is convex and
+    non-empty.  
+    Also assume that $Y_j$ is convex and non-empty for each
+    firm $j$. 
+    
+    Suppose $((x_i^e), (y_j^e))$ is a Pareto efficient allocation such
+    that for any price system, $p$, there is always a cheaper bundle of
+    goods, i.e.\ $\exists x_i \in X_i$ s.t. $p x_i < p x_i^e$ for each
+    $i$. Then there exists a price system, $p^e$ such that $((x_i^e),
+    (y_j^e))$ and $p^e$ is a competitive equilibrium.
+  \end{theorem}  
+\end{frame}
+
+\begin{frame}
+  Compared to first welfare theorem three more assumptions:
+  \begin{enumerate}
+  \item Convexity of preferences, consumption possibility sets, and
+    production possibility sets
+  \item Continuity of preferences
+  \item Cheaper good condition
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of second welfare theorem}
+  \begin{itemize}
+  \item Price system will come from separating hyperplane theorem,
+    first need two disjoint, convex sets
+  \item Let $V_i = \{ x \in X_i : x \pref_i
+    x_i^e \}$, set sum of $V_i$ be
+    \begin{align*}
+      V = \{ \chi \in S: \chi = \sum_{i=1}^I x_i \text{ for some } x_i
+      \in V_i \}  
+    \end{align*}
+    $V_i$ convex, so $V$ convex
+  \item Let 
+    \begin{align*}
+      Y = \{ \psi \in S: \psi = \sum_{i=j}^J y_j \text{
+        for some } y_j \in Y_j \}  
+    \end{align*}
+    also convex.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of second welfare theorem}
+  \begin{itemize}
+  \item Show $Y$ and $V$ disjoint
+    \begin{itemize}
+    \item Suppose $\chi \in Y \cap V$. Then $\exists x_i \in V_i$ and
+      $y_j \in Y_j$ such that $\chi = \sum_{i=1}^I x_i =
+      \sum_{j=1}^J$, is feasible and $x_i \pref_i x_i^e$
+    \item Contradicts $((x_i^e),(y_i^e))$ being Pareto efficient
+    \end{itemize}
+  \item Separating hyperplane theorem $\Rightarrow$ $\exists p$ s.t.
+    \begin{align}
+      p \chi \geq p \psi \label{ieq:p}
+    \end{align}
+  \item Next, show $((x_i^e), (y_j^e))$ with $p$ is a competitive
+    equilibrium 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of second welfare theorem}
+  \begin{itemize}
+  \item Show $p \chi\geq p \chi^e = p \psi^e \geq p
+    \psi$ for all $\chi \in V$, $\psi \in Y$
+    \begin{itemize}
+    \item $\psi^e \in Y$, so $p \chi \geq p \psi^e$
+      $\forall \chi \in V$.
+    \item $\chi^e = \sum x_i^e = \sum y_j^e = \psi^e$, so 
+      \begin{align} p \chi \geq p \chi^e = p \psi^e \end{align} 
+    \item Local non-satiation implies we can find $x_i' \pref_i x_i^e$
+      very close to $x_i^e$. Continuity of $p$ means that for $x_i'$
+      close enough we have $|p \chi^e - p\chi'| < \epsilon$ for any
+      $\epsilon >0$. Therefore $\forall \psi \in Y$
+      \begin{align}
+        p\chi^e + \epsilon > p\chi' \geq p \psi
+      \end{align}
+      so $p\chi^e \geq p \psi$
+    \end{itemize}  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of second welfare theorem}
+  \begin{itemize}
+  \item Show $p x_i \geq p x_i^e $ for each $i$ and
+    all $x_i \in V_i$ 
+    \begin{itemize}
+    \item If not there $p x_i + \epsilon < p x_i^e$  with $x_i \in
+      V_i$. 
+    \item Local non-satiation and continuity of $p$ means we can
+      choose other $x_k \in V_k$ such that $\left\vert \sum_{k\neq i}
+        (p x_k - p x_k^e) \right\vert < \epsilon / 2$
+    \item But then $p \chi < p \chi^e$ contradicting the previous
+      slide 
+    \end{itemize}
+  \item Same reasoning but using convexity of $Y_j$ instead of local
+    non-satiation means $p y_j \leq y_j^e$ for each $j$ and all $y_j
+    \in Y_j$ i.e. firms are profit maximizing, \ref{c3} holds
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Proof of second welfare theorem}
+  \begin{itemize}
+  \item Have shown: if $x_i \pref_i x_i^e$ then  $p x_i \geq p x_i^e$
+  \item Need: if $x_i \pref_i x_i^e$ then  $p x_i > p x_i^e$
+  \item Use cheaper good condition
+    \begin{itemize}
+    \item If $p x_i = p x_i^e$ and $\exists x_i' \in X_i$ s.t. $p x_i'
+      < p x_i^e$, then for all $\lambda \in (0,1)$,
+      \begin{align}
+        p(\lambda x_i +(1-\lambda) x_i') < p x_i^e
+      \end{align}
+    \item Continuous preferences implies for $\lambda$ close to $0$, 
+      \begin{align}
+        \lambda x_i + (1-\lambda)x_i' \pref_i x_i^e      
+      \end{align}
+      so $\lambda x_i + (1-\lambda) x_i' \in V_i$, but that
+      contradicts what we have shown.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\subsection{Portfolio analysis}
+
+\begin{frame}
+  \frametitle{Portfolio analysis}
+  \begin{itemize}
+  \item Model of portfolio analysis taken from Simon and Blume
+  \item Good way of reviewing results about matrices and systems of
+    linear equations 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item $A$ assets
+  \item $S$ states of nature
+  \item Initial value of $i = v_i$
+  \item After state revealed, value $y_{si}$
+  \item Realized return $R_{si} = \frac{y_{si}}{v_i}$
+  \item Matrix of returns $\underbrace{\mathcal{R}}_{S \times A}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item Choosing budget shares $x_i$, $\sum_{i=1}^A x_i = 1$ (but
+    individual shares could be positive or negative), call $x =
+    (x_1,...,x_A)$ a portfolio
+  \end{itemize}
+\end{frame}
+
+\begin{frame} \frametitle{Riskless portfolios}
+  \begin{definition}
+    A portfolio is \textbf{riskless} if 
+    \begin{align*}
+      \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
+    \end{align*}
+  \end{definition}
+  \begin{itemize}
+  \item Solution to $\mathbf{c} = (c, ..., c)$
+    \begin{align*}
+      \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
+      \underbrace{\mathbf{c}}_{S \times 1}
+    \end{align*}
+  \item Exists if $\mathbf{c} \in \col(\mathcal{R})$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Insurable states}
+  \begin{definition}
+    A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
+    that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
+    0$ for all $s \neq s^*$. 
+  \end{definition}
+  \begin{itemize}
+  \item $s^*$ insurable iff $\exists$ solution to
+    \[ \mathcal{R}x = e_{s^*} \] 
+  \item So if $e_{s^*} \in \col(\mathcal{R})$
+  \item All states insurable iff $\col(\mathcal{R}) = \R^S$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Duplicable portfolios}
+  \begin{definition}
+    A portfolio $x$ is \textbf{duplicable} if there is
+    another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i
+    $ and 
+    \[ \mathcal{R} x = \mathcal{R} w. \]
+  \end{definition}
+  \begin{itemize}
+  \item i.e.\  multiple solutions to
+    \begin{align*}
+      \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} x 
+      = & \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} w
+      \\
+      \widetilde{\mathcal{R}} x = \widetilde{\mathcal{R}} w
+    \end{align*}
+    if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$ if and
+    only if $\rank \widetilde{\mathcal{R}} < A$
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,645 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Constrained optimization}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Today's lecture is about constrained optimization. Many economic
+models involve a constrained estimation problem. For example, a
+consumer choosing goods $x$, labor $l$, and leisure $\ell$ faces a
+problem of the form:
+Most optimization
+problems in economics 
+\begin{align*} 
+  \max u(x,l,\ell) \text{ s.t. } & px \leq wl \\
+  & l + \ell \leq 24.
+\end{align*}
+We will see many other examples of constrained optimization problems. 
+
+\section{First order conditions}
+
+\subsection{Equality constraints}
+To begin our study of constrained optimization, let's look at a
+maximization problem with equality constraints. 
+\[ \max f(x) \text{ s.t. } h(x) = c \]
+where $f: \R^n \to \R$ and $h: \R^n \to \R^m$. You have probably
+analyzed such a problem graphically when $n=2$ and $m=1$. You draw the
+constraint set and the level curves of the objective function. The
+maximum occurs where the level curves are tangent to the
+constraint. There's a nice picture and discussion of this in chapter
+18.2 of Simon and Blume.  At the point of tangency, the slopes of the
+level curve and the constraint are equal. By the implicit function
+theorem, these slopes are $-\frac{(\partial f)/(\partial x_1)}
+{(\partial f)/(\partial x_2)}$ and$-\frac{(\partial h)/(\partial x_1)}
+{(\partial h)/(\partial x_2)}$. These slopes are equal at the
+maximizer $x^*$, so
+\begin{align*}
+  \frac{(\partial f)/(\partial x_1) (x^*)}
+  {(\partial f)/(\partial x_2)(x^*)} = & \frac{(\partial h)/(\partial x_1)(x^*)}
+  {(\partial h)/(\partial x_2)(x^*)} \\
+  \frac{(\partial f)/(\partial x_1)(x^*)}
+  {(\partial h)/(\partial x_1)(x^*)} = & \frac{(\partial f)/(\partial x_2)(x^*)}
+  {(\partial h)/(\partial x_2)(x^*)} \equiv \mu
+\end{align*}
+where $\mu$ is defined by the above equality. We can then rewrite the
+equation as
+\begin{align}
+  \frac{\partial f}{\partial x_1} (x^*) - \mu \frac{\partial
+    h}{\partial x_1}(x^*) = & 0 \label{ef1} \\
+  \frac{\partial f}{\partial x_2} (x^*) - \mu \frac{\partial
+    h}{\partial x_2}(x^*) = & 0 \label{ef2}
+\end{align}
+We also know that 
+\begin{align}
+  h(x^*) - c = 0\label{ebc}
+\end{align}
+(\ref{ef1}), (\ref{ef2}), and(\ref{ebc}) give us three equations in
+three unknowns ($x_1*, x_2^*, \mu$).  Note that these three equations
+are the first order conditions for maximizing 
+\[ L(x,\mu) \equiv f(x) - \mu(h(x) - c). \]
+This function is called the \textbf{Lagrangian}. $\mu$ is called a
+\textbf{Lagrange multiplier}. 
+
+The relationship that we just saw for two dimensional functions is
+always true. Any local maximizer of a constrained optimization problem is a
+critical point of the problem's Lagrangian. 
+\begin{theorem}[First order condition for maximization with equality constraints] \label{thm:econ}
+  Let $f:U \to \R$ and $h: U \to \R^m$ be continuously
+  differentiable on $U \subseteq \R^n$. Suppose $x^* \in
+  \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
+  $h(x) = c$. Also assume that $Dh_{x^*}$ has rank $m$. Then there
+  exists $\mu^* \in \R^m$ such that $(x^*, \mu^*)$ is a critical point
+  of the Lagrangian,
+  \[ L(x,\mu) = f(x) - \mu^T (h(x) - c). \]
+  i.e.
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\mu^*) = & \frac{\partial
+      f}{\partial x_i} - {\mu^*}^T \frac{\partial h}{\partial
+      x_i}(x^*) = 0 \\
+    \frac{\partial L}{\partial \mu_j}(x^*,\mu^*) = & h(x^*) -
+    c = 0
+  \end{align*}
+  for $i = 1, ..., n$ and $j=1,...,m$.
+\end{theorem}
+\begin{proof} 
+  Consider the $(m+1)$ system of nonlinear equations
+  \begin{align*}
+  f(x) - f_0 & = 0 \\
+  h(x) - c &=0.
+  \end{align*}
+  We know that $x^*$ satisfies this system of equations with $f_0 = f(x^*)$.
+  By the implicit function theorem, if the $(m+1) \times n$ 
+  matrix 
+  \begin{align}
+    \begin{pmatrix} Df_{x^*} \\ Dh_{x^*} \end{pmatrix} \label{drank}
+  \end{align}
+  has full rank then we could write the first $\min\{m+1,n\}$
+  components of $x$ as a function the other components of $x$, $f_0$,
+  and $c$ in some neighborhood of $x^*$. But then there is some
+  $\epsilon > 0$ and $x'$ in this neighborhood of $x^*$ such that 
+  \begin{align*}
+    f(x') = & f_0 + \epsilon  \\
+    h(x)' = & c
+  \end{align*}
+  which contradicts $x^*$ being a local maximum. Therefore, the rank
+  (\ref{drank}) must be less than $m+1$. Thus, the rows of that matrix
+  are linearly dependent, so there exists $\alpha_j$ not all zero such that 
+  \begin{align*}
+    \alpha_0 Df_{x^*} + \alpha_1 D{h_1}_{x^*}  + \cdots + \alpha_m
+    D{h_n}_{x^*} = 0      
+  \end{align*}
+  Moreover it must be that $\alpha0 \neq 0$ because otherwise
+  $Dh_{x^*}$ would be singular. Setting $\mu_j = \alpha_j/\alpha_0$
+  gives the conclusion of the theorem.
+\end{proof}
+The assumption that $Dh_{x*}$ is non-singular is needed to make sure
+that we don't divide by zero when defining the Lagrange
+multipliers. This assumption is called the \textbf{non-degenerate
+  constraint qualification}. 
+
+\subsection{Inequality constraints}
+
+Now let's consider an inequality instead of equality constraint. 
+\[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \]
+When the constraint binds, i.e.\ $g(x^*) = b$, the situation is
+exactly the same as with an equality constraint. However, the
+constraint does not necessarily bind at a local maximum, so we must allow
+for that possibility.  Let $\lambda$ be the Lagrange multiplier for
+the above problem. If the constraint binds, then
+\[ Df_{x^*} - \lambda D g_{x^*} = 0. \]
+Also, since $Df_{x^*}$ is the direction in which $f$ increases most
+rapidly, it must be that going in that direction would violate the
+constraint. That is, for any $\delta > 0$
+\begin{align*} 
+  g(x^* + \delta Df_{x^*}^T) > & b \\ 
+  g(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b
+  Dg_{x^*} Df_{x^*}^T > & 0
+\end{align*}
+The first order condition says that 
+\[ Df_{x^*} Df_{x^*}^T =  \lambda D g_{x^*} D f_{x^*} \]
+$Df_{x^*} Df_{x^*}^T$ is always positive, so it must that when the
+constraint binds, $\lambda > 0$. If the constraint does not bind, we
+can use the same first order condition with $\lambda=0$. Thus, we have
+$\lambda \geq 0$ and equals zero iff $g(x^*) < b$. This situation
+where one of two inequalities binds is called a \textbf{complementary
+  slackness condition}. 
+\begin{theorem}[First order condition for maximization with inequality constraints] \label{thm:icon}
+  Let $f:U \to \R$ and $g: U \to \R^m$ be continuously
+  differentiable on $U \subseteq \R^n$. Suppose $x^* \in
+  \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
+  $g(x) \leq b$. Suppose that the first $k \leq m$ constraints, bind
+  \[ g_j(x^*) = b_j \]
+  for $j = 1 ... k$ and that the Jacobian for these constraints, 
+  \[ \begin{pmatrix} 
+    \frac{\partial g_1}{\partial x_1} &  \cdots &\frac{\partial g_1}{\partial x_n}  \\
+    \vdots & & \vdots \\
+    \frac{\partial g_k}{\partial x_1} &  \cdots &\frac{\partial g_k}{\partial x_n}  
+  \end{pmatrix}
+  \]
+  has rank $k$. Then, there exists
+  $\lambda^* \in \R^m$ such that for
+  \[ L(x,\lambda) = f(x) - \lambda^T (g(x) - b). \]
+  we have
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \lambda_j^* \left(g(x^*) - c \right)= 0 \\
+    \lambda_j^* & \geq 0 \\
+    g(x^*) & \leq b
+  \end{align*}
+  for $i = 1, ..., n$ and $j=1,...,m$.
+\end{theorem}
+\begin{proof}
+  By our theorem for maximization with equality constraints
+  (\ref{thm:econ}), there exists $\lambda_1^*, ..., \lambda_k^*$ such
+  that   
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \left(g(x^*) - c \right)= 0 \\
+  \end{align*}
+  we can set $\lambda_{k+1}^*,..., \lambda_m^*$ to zero, and satisfy
+  all the equations in the conclusion of the theorem.
+  
+  All that remains
+  is to verify that $\lambda_1^*\geq 0, ..., \lambda_k^* \geq0$ . Let
+  $g^k: \R^n \to \R^k$ be the $k$ binding constraints and $b^k$ be
+  $(b_1 \cdots b_k)^T$. We know that 
+  \[ g^k(x^*) = b^k. \]
+  By hypothesis, $Dg^k_{x*}$ has rank $k$. Therefore, we can choose
+  $k$ components of $x$ such that
+  \[ \begin{pmatrix}    \frac{\partial g_1}{\partial x_{i1}} &  \cdots &\frac{\partial g_1}{\partial x_{ik}}  \\
+    \vdots & & \vdots \\
+    \frac{\partial g_k}{\partial x_{i1}} &  \cdots &\frac{\partial g_k}{\partial x_{ik}}  
+  \end{pmatrix} = D_{x^k}g^k 
+  \]
+  is invertible. Let $x^k = (x_{i1} \cdots x_{ik})^T $. By the
+  implicit function theorem, we can solve for $x^k$ as a function of
+  the other components of $x$ and $b$. In particular, we could
+  construct a $\chi:[0,\epsilon) \to \R^{n}$ that is continuously
+  differentiable such that $\chi(0) = x^*$ and
+  \begin{align*}
+    g_1(\chi(t)) = & b_1 - t 
+  \end{align*}
+  and $g_i(\chi(t)) = b_i$ for other $i$. Differentiating,
+  \begin{align*}
+    {Dg_1}_{x^*} \chi'(0) = & -1  \\
+    {Dg_j}_{x^*} \chi'(0) = & 0,
+  \end{align*}
+  Also, $\chi(t)$ satisfies the constraints, so it cannot increase
+  $f(x^*)$, i.e.
+  \begin{align*}
+    0 \geq & \frac{d}{dt} f(\chi(t)) |_{t=1} \\
+    0 \geq & Df_{x^*} \chi'(t)
+  \end{align*}
+  From the Lagrangian first order condition, we also know that 
+  \[ Df_{x^*} - \lambda^k Dg^k_{x^*} = 0 \]
+  we can multiply by $\chi'(t)$ to get
+  \begin{align*} 
+    Df_{x^*}\chi'(t) = & \lambda^k Dg^k_{x^*} \chi'(t) \\
+    Df_{x^*} \chi'(t) = & -\lambda_1  \leq 0.
+  \end{align*}
+  Thus $\lambda_1 \geq 0$. We could redefine $\chi(t)$ using $j=2,
+  ..., k$ in place of $1$ to show that the other $\lambda$'s are
+  positive as well.  
+\end{proof}
+In this proof, there is no difference between a binding
+inequality constraint and an equality constraint, so we can easily
+adapt this theorem to maximization problems with both inequality and
+equality constraints.
+
+\begin{theorem}[First order condition for maximization with mixed constraints] \label{thm:mcon}
+  Let $f:U \to \R$, $h:U \to \R^l$, and $g: U \to \R^m$ be
+  continuously differentiable on $U \subseteq \R^n$. Suppose $x^* \in 
+  \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
+  $h(x) = c$ and $g(x) \leq b$. Suppose that the first $k \leq m$
+  constraints, bind 
+  \[ g_j(x^*) = b_j \]
+  for $j = 1 ... k$ and that the Jacobian for these constraints along
+  with the equality constraints,
+  \[ \begin{pmatrix} 
+    \frac{\partial h_1}{\partial x_1} &  \cdots &\frac{\partial
+      h_1}{\partial x_n}  \\
+    \vdots & & \vdots \\
+    \frac{\partial h_l}{\partial x_1} &  \cdots &\frac{\partial
+      h_l}{\partial x_n}  \\    
+    \frac{\partial g_1}{\partial x_1} &  \cdots &\frac{\partial g_1}{\partial x_n}  \\
+    \vdots & & \vdots \\
+    \frac{\partial g_k}{\partial x_1} &  \cdots &\frac{\partial
+      g_k}{\partial x_n}  
+  \end{pmatrix}
+  \]
+  has rank $k+l$. Then, there exists
+  $\mu^* \in \R^l$ and $\lambda^* \in \R^m$ such that for 
+  \[ L(x,\lambda,\mu) = f(x) - \lambda^T (g(x) - b) - \mu^T(h(x) - c). \]
+  we have
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) = 0 \\
+    \frac{\partial L}{\partial \mu_\ell}(x^*,\lambda^*) = & h_\ell(x^*) - c = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \lambda_j^* \left(g(x^*) - c \right)= 0 \\
+    \lambda_j^* & \geq 0 \\
+    g(x^*) & \leq b
+  \end{align*}
+  for $i = 1, ..., n$, $\ell = 1,..., l$, and $j=1,...,m$.
+\end{theorem}
+
+\section{Second order conditions}
+
+As with unconstrained optimization, the first order conditions from
+the previous section only give a necessary condition for $x^*$ to be a
+local maximum of $f(x)$ subject to some constraints. To verify that a
+given $x^*$ that solves the first order condition is a local maximum,
+we must look at the second order condition. As in the previous
+lecture, we can take a second order expansion of $f(x)$ around $x^*$. 
+\begin{align*}
+  f(x^*+v) - f(x^*) = & Df_{x^*} v + v^T D^2 f_{x^*}
+  v + r(v,x^*) \\
+  = & v^T D^2 f_{x^*} v + r_f(v,x^*) \\
+\end{align*}
+This is constrained problem, so any $x^* + v$ must satisfy the
+constraints as well. As in the previous section, what will really
+matter are the equality constraints and binding inequality
+constraints. To simplify notation, let's just work with equality
+constraints, say $h(x)=c$. We can take a first order expansion of $h$
+around $x^*$ to get
+\[ h(x^* + v) = h(x^*) + Dh_{x*} v + r_h(v,x^*) = c. \]
+When $v$ is small, we can show that $r_h(v,x^*)$ can be
+ignored. Then $v$ satisfies the constraints if
+\begin{align*}
+  h(x^*) + Dh_{x^*} v = & c \\
+  Dh_{x^*} v = & 0
+\end{align*}
+Thus, $x^*$ is a local maximizer of $f$ subject to $h(x) = c$ if
+\[ v^T D^2 f_{x^*} v \leq 0 \]
+for all $v$ such that that $Dh_{x^*} v = 0$. The following
+theorem makes precisely states the result of this discussion.
+\begin{theorem}[Second order condition for constrained maximization]
+  Let $f:U \to \R$ be twice continuously
+  differentiable on $U$, and $h:U \to \R^l$ and $g: U \to \R^m$ be
+  continuously differentiable on $U \subseteq \R^n$. Suppose $x^* \in    
+  \mathrm{interior}(U)$ and there exists
+  $\mu^* \in \R^l$ and $\lambda^* \in \R^m$ such that for 
+  \[ L(x,\lambda,\mu) = f(x) - \lambda^T (g(x) - b) - \mu^T(h(x) - c). \]
+  we have
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) = 0 \\
+    \frac{\partial L}{\partial \mu_\ell}(x^*,\lambda^*) = & h_\ell(x^*) - c = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \lambda_j^* \left(g(x^*) - c \right)= 0 \\
+    \lambda_j^* & \geq 0 \\
+    g(x^*) & \leq b
+  \end{align*}
+  Let $B$ be the matrix of the derivatives of the binding constraints
+  evaluated at $x^*$,
+  \[ B = \begin{pmatrix} 
+    \frac{\partial h_1}{\partial x_1} &  \cdots &\frac{\partial
+      h_1}{\partial x_n}  \\
+    \vdots & & \vdots \\
+    \frac{\partial h_l}{\partial x_1} &  \cdots &\frac{\partial
+      h_l}{\partial x_n}  \\    
+    \frac{\partial g_1}{\partial x_1} &  \cdots &\frac{\partial
+      g_1}{\partial x_n}  \\ 
+    \vdots & & \vdots \\
+    \frac{\partial g_k}{\partial x_1} &  \cdots &\frac{\partial
+      g_k}{\partial x_n}  
+  \end{pmatrix}
+  \]
+  If 
+  \[ v^T D^2 f_{x*} v < 0 \]
+  for all $v \neq 0$ such that $B v = 0$, then $x^*$ is a strict
+  local constrained maximizer for $f$ subject to $h(x) = c$ and $g(x)
+  \leq b$. 
+\end{theorem}
+Recall from the last lecture that an $n$ by $n$ matrix, $A$, is
+negative definite if $x^T A x < 0$ for all $x \neq 0$. Similarly, we
+say that $A$ is negative definite on the null space of $B$ is $x^T A x
+< 0$ for all $x \in \mathcal{N}(B) \setminus\{0\}$. Thus, the second
+order condition for constrained optimization could be stated as saying
+that the Hessian of the objective function must be negative definite
+on the null space of the Jacobian of the binding constraints. The
+proof is similar to the proof of the second order condition for
+unconstrained optimization, so we will omit it. 
+
+\subsection{Definiteness on subspaces}
+
+The second order condition for constrained maximization depends on the
+Hessian being negative definite on the null space of the Jacobian of
+the constraints. As with simple definiteness, definiteness on
+subspaces depends on the determinants or eigenvalues of certain
+matrices.
+\begin{definition}
+  Let $A$ be an $n$ by $n$ symmetric matrix and $B$ be $m$ by $n$, then $A$ is 
+  \begin{itemize}
+  \item \textbf{Negative definite on $\mathcal{N}(B)$} if $x^T A x <
+    0$ for all $x \in \mathcal{N}(B) \setminus \{0\}$ 
+  \item \textbf{Positive definite on $\mathcal{N}(B)$} if $x^T A x >
+    0$ for all $x \in \mathcal{N}(B) \setminus \{0\}$ 
+  \item \textbf{Indefinite on $\mathcal{N}(B)$} if $\exists$ $x_1 \in
+    \mathcal{N}(B) \setminus \{0\}$  
+    s.t. $x_1^T A x_1 > 0$ and 
+    some other $x_2 \in \mathcal{N}(B) \setminus \{0\}$  such that
+    $x_2^T A x_2 < 0$. 
+  \end{itemize}  
+\end{definition}
+The following theorem gives a condition for a matrix being negative
+definite on a subspace in terms of determinants.
+\begin{theorem}\label{thm:nds}
+  Let $A$ be an $n$ by $n$ symmetric matrix and $B$ be $m$ by
+  $n$. Then $A$ is negative definite iff the last $n-m$ leading principal
+  minors of  
+  \[
+    \begin{pmatrix} 0 & B \\
+      B & A 
+    \end{pmatrix}
+  \]
+  alternate in sign, and the final $(n+m)$th principal minor has the
+  same sign as $(-1)^n$.
+\end{theorem}
+Similar results can be stated for positive definite and indefinite
+matrices. You can find them in chapter 16 of Simon and Blume.
+
+We can also check for definiteness using eigenvalues. Suppose $B$ is
+rank $m$. Then we can arrange $B$ such that its first $m$ columns are
+linearly independent. Call this submatrix $B_1$ and the rest of $B$,
+$B_2$. So that $B = \begin{pmatrix} B_1 & B_2 \end{pmatrix}$. The
+constraint can be written
+\begin{align*}
+  0 = & B x = \begin{pmatrix} B_1 & B_2 \end{pmatrix} \begin{pmatrix}
+    x_1 \\ x_2 \end{pmatrix} \\
+  = & B_1 x_1 + B_2 x_2 \\
+  x_1 = & (B_1)^{-1} B_2 x_2
+\end{align*}
+and the set of $x$ that satisfy the constraint are
+\begin{align*} x = & \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} \\
+  = & \begin{pmatrix}
+    (B_1)^{-1} B_2 x_2 \\ I_{n-m} x_2 \end{pmatrix} \\
+  = & \begin{pmatrix}
+    (B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix} x_2
+\end{align*}
+Then, $x^T A x$ for $x$ satisfying the constraint is
+\begin{align*}
+  x^T A x = & x_2^T \begin{pmatrix}
+    (B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix}^T \begin{pmatrix} A_1 & A_2
+    \\ A_2^T & A_3 \end{pmatrix} \begin{pmatrix}
+    (B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix}
+\end{align*}
+where $A_1$ is $m$ by $m$, $A_2$ is $m$ by $n-m$ and $A_3$ is $n-m$ by
+$n-m$. Multiplying out,
+\begin{align*}
+  x^T A x = & x_2^T \left( B_2^T (B_1^T)^{-1} A_1 (B_1)^{-1} B_2 +
+    B_2^T (B_1^T)^{-1} A_2 +  A_2^T (B_1)^{-1} B_2 + A_3\right) x_2
+\end{align*}
+It is easy to verify that the matrix in the middle above is
+symmetric. Thus $A$ is negative definite on $\mathcal{N}(B)$ if and
+only if $\left(B_2^T (B_1^T)^{-1} A_1 (B_1)^{-1} B_2 +
+  B_2^T (B_1^T)^{-1} A_2 +  A_2^T (B_1)^{-1} B_2 + A_3\right)$ is
+negative definite on $\R^m$. From last lecture, we know that this
+matrix is negative definite if and only if all its eigenvalues are
+negative. Note that this is an $n-m$ by $n-m$ matrix, so like there
+are $n-m$ eigenvalues, just like there are $n-m$ principal minors to
+check in theorem \ref{thm:nds}. 
+
+\section{Multiplier interpretation}
+
+Consider a constrained maximization problem,
+\[ \max_{x \in U} f(x) \text{ s.t. } h(x) = c \]
+From \ref{thm:econ}, the first order conditions are
+\begin{align*}
+ Df_{x^*} - \mu^T Dh_{x*} = & 0 \\
+ h(x^*) - c = & 0.
+\end{align*}
+What happens to $x^*$ and $f(x^*)$ if $c$ changes? Let $x^*(c)$ denote
+the maximizer as a function of $c$. Differentiating the constraint
+with respect to $c$ shows that
+\[ Dh_{x^*(c)} Dx^*_c = I \]
+By the chain rule,
+\[ D_c \left( f(x^*(c)) \right) = Df_{x^*(c)} Dx^*_c. \] 
+Using the first order condition to substitute for $Df_{x^*(c)}$, we
+have
+\begin{align*}
+  D_c \left( f(x^*(c)) \right) = & \mu^T Dh_{x^*(c)}Dx^*_c \\
+  = & \mu^T 
+\end{align*}
+Thus, the multiplier, $\mu$, is the derivative of the maximized
+function with respect to $c$.  We could have looked a
+problem with inequality constraints and gotten the same
+conclusion. The following theorem summarizes this observation.
+\begin{theorem}[Multiplier interpretation]\label{thm:muint} 
+  Under the conditions of theorem \ref{thm:mcon}, let $x^*(b,c)$
+  denote the solution of the constrained maximization problem,
+  \begin{align*}
+    \max_{x \in U} f(x) \text{ s.t. } & g(x) \leq b \\
+    & h(x) = c ,
+  \end{align*}
+  and let $\mu(b,c)$ and $\lambda(b,c)$ denote the corresponding
+  Lagrange multipliers. The for each $j=1..m$,
+  \[ \frac{\partial}{\partial b_j} f(x^*(b,c)) = \lambda_j(b,c) \]
+  and for each $j=1,...,l$,
+  \[ \frac{\partial}{\partial c_j} f(x^*(b,c)) = \mu_j(b,c). \]
+\end{theorem} 
+In economic terms, the multiplier is the
+marginal value of increasing the constraint. Because of the
+$\lambda_j$ is often called the shadow price of $b_j$. 
+
+\section{Envelope theorem}
+
+Most of the objective functions that we analyze in economics depend on
+some parameters. That is, we often want to maximize $f(x,\alpha)$ with
+respect to $x$ where $\alpha$ are some parameters. For example, if $f$ is a
+utility function, $\alpha$ could include things like the discount rate and
+the coefficient of risk aversion. If $f$ is a production function, say
+Cobb-Douglas, $f(x,\alpha) = A \prod_{i=1}^n x_i^{a_i}$, then $\alpha
+= (A,a_1,...,a_n)$. Envelope theorems tell us how the maximum of
+$f(x,\alpha)$ changes with $\alpha$. 
+
+\subsection{Unconstrained problems}
+
+Let $f:U \times A \to \R$ where $U \subseteq \R^n$ and $A
+\subseteq \R^k$. Consider
+\[ \max_{x \in U} f(x,\alpha). \]
+Let $x^*(\alpha)$ be a local maximizer. Using the chain rule,
+\begin{align*}
+  \frac{d }{d \alpha_j} f(x^*(\alpha),\alpha) = & \sum_{i=1}^n
+  \frac{\partial f}{\partial x_i} \frac{\partial x_i^*}{\partial \alpha_j}
+  + \frac{\partial f}{\partial \alpha_j } \\
+  = \frac{\partial f}{\partial \alpha_j }(x^*(\alpha),\alpha)
+\end{align*}
+where the second line follows from the first order condition.
+
+
+\subsection{Constrained problems}
+
+To save on notation, we will just discuss problems with equality
+constraints here, but we could just as well apply the analysis to
+binding inequality constraints as well. 
+Let $f:U \times A \to \R$ and $h:U \times A \to \R^l$ where $U
+\subseteq \R^n$ and $A \subseteq \R^k$. Consider
+\[ \max_{x \in U} f(x,\alpha) \text{ s.t. } h(x,\alpha) = 0. \]
+Let $x^*(\alpha)$ be a local maximizer, and let
+$L(x^*(\alpha),\mu^*(\alpha),\alpha)$ be the Lagrangian. Using the
+chain rule, 
+\begin{align*}
+  \frac{d}{d \alpha_j} L(x^*(\alpha),\mu^*(\alpha),\alpha) = & \sum_{i=1}^n
+  \frac{\partial L}{\partial x_i} \frac{\partial x_i^*}{\partial
+    \alpha_j} + \sum_{k=1}^l\frac{\partial L}{\partial
+    \mu_k} \frac{\partial \mu_k^*}{\partial 
+    \alpha_j}   + \frac{\partial L}{\partial \alpha_j } \\
+  = \frac{\partial L}{\partial \alpha_j
+  }(x^*(\alpha),\mu^*(\alpha),\alpha) 
+\end{align*}
+Note that in this section we have been assuming that $x^*(\alpha)$ is
+continuously differentiable. Relatedly, in the previous section we
+assumed that $x(b,c)$ is continuously differentiable. A sufficient
+condition for this can be obtained by applying the implicit function
+theorem to the first order condition. The implicit function theorem
+requires that the system of equations being consider has a nonsingular
+derivative. Here, the system of equations already involve the first
+derivative of the Lagrangian, so the derivative of the first order
+condition is the Hessian of the Lagrangian. Thus, a sufficient
+condition for $x^*(\alpha)$ to be continuously differentiable is that
+the Hessian of the Lagrangian is non-singular. See Simon and Blume
+section 19.4 for a more detailed discussion. 
+
+%\section{Kuhn-Tucker formulation}
+
+%\section{Constraint qualification}
+
+%\section{Applications:}
+%- basic price theory \\
+%- welfare theorems \\
+%- more comparative statics
+
+
+\end{document}

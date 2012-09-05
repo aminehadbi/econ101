@@ -1,0 +1,1028 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+\providecommand{\En}{\mathbb{E}_n}
+\providecommand{\Er}{{\mathrm{E}}}
+\renewcommand{\Pr}{{\mathrm{P}}}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\setbox0\hbox{$#1#2$}%
+    \copy0\kern-\wd0\mkern4mu\box0}} 
+
+
+
+\title{Optimal control and dynamic programming}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction} 
+
+In the past few lectures we have focused on optimization problems of the form 
+\[ \max_{x \in U} f(x) \text{ s.t. } h(x) = c \]
+where $U \subseteq \R^n$. The variable that we are optimizing over,
+$x$, is a finite dimensional vector. There are interesting
+optimization problems in economics that involve an infinite
+dimensional vector. 
+
+\begin{example}\label{ex:consav}[Consumption-savings]
+  An infinite horizon consumption-savings problem, 
+  \[ \max_{\{c_t\}_{t=0}^\infty,\{s_t\}_{t=1}^\infty} \sum_{t=0}^\infty
+  \beta^t u(c_t) \text{ s.t. } s_{t+1} = (1+r_t)(s_t - c_t), \]  
+  involves maximizing over a countably infinite sequence of $c_t$ and
+  $s_t$. The interpretation of this problem is that $u(c)$ is the
+  per-period utility from consumption. $c_t$ is consumption at time
+  $t$. $s_t$ is the savings you have at time $t$. $r_t$ is the return to
+  savings at time $t$ in period $t+1$, and $\beta$ is the discount
+  factor. 
+\end{example}
+
+\begin{example}\label{ex:contract}[Contracting with a continuum of
+  types]
+  On problem set 5, we studied a problem where a price discriminating
+  monopolist was selling a good to two types of consumers. We could
+  also imagine a similar situation where there is a continuous
+  distribution of types. A consumer of type $\theta$ gets $0$ utility
+  from not buying the good, and $\theta \nu(q) - T$ from buying $q$
+  units of the good at cost $T$. Let the types be indexed by $\theta \in
+  [\theta_l,\theta_h]$ and suppose the density of $\theta$ is $f_\theta$. The
+  seller does not observe consumers' types. However, the seller can
+  offer a menu of contracts $(q(\theta),T(\theta))$ such that type
+  $\theta$ will choose contract $(q(\theta),T(\theta))$. The seller
+  chooses the contracts to maximize profits subject to the requirement
+  that each type chooses its contract.
+  \begin{align}
+    \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+    \left[T(\theta) - cq(\theta)\right]
+    f_\theta(\theta) d\theta \notag \\
+    & \text{s.t.} \notag \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+    \theta \label{pc} \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+    \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+    T(\tilde{\theta}) \forall \theta \label{ic} 
+  \end{align}
+  The first constraint (\ref{pc}) is referred to as the participation
+  (or individual rationality)
+  constraint. It says that each type $\theta$ must prefer buying the
+  good to not. The second constraint  (\ref{ic}) is referred to as the
+  incentive compatibility constraint. It says that type $\theta$ must
+  prefer buying the $\theta$ contract instead of pretending to be
+  some other type $\tilde{\theta}$. This approach to contracting with
+  asymmetric information---that you can setup contracts such that each
+  type chooses a contract designed for it---is called the revelation
+  principle because the choice of contract makes the consumers reveal
+  their types. Note that this setup does not just apply to price
+  discriminating monopolists. There are many other applications. For
+  example, if you consider a government that needs to raise a certain
+  amount of revenue by taxing workers with heterogeneous productivity,
+  then you end up with essentially the same problem. $\theta$ would be
+  worker productivity. $q(\theta)$ is the labor supplied by type
+  $\theta$, $\theta \nu(q(\theta))$ is the output of type $\theta$,
+  and $T(\theta)$ is the tax. The government maximizes total output
+  subject to a revenue constraint and the constraints above. 
+  
+  Anyway, in these sorts of problems, we need to take the maximum with
+  respect to a function instead of a finite dimensional vector. 
+\end{example}
+
+Dynamic programming and optimal control are two approaches to solving
+problems like the two examples above. In economics, dynamic
+programming is slightly more often applied to discrete time problems
+like example \ref{ex:consav} where we are maximizing over a sequence. Optimal
+control is more commonly applied to continuous time problems like
+\ref{ex:contract} where we are maximizing over functions. However,
+dynamic programming can also be applied to continuous time problems
+and optimal control can be applied to discrete time problems. 
+Optimal control and dynamic programming 
+problems are often treated quite differently than finite dimensional
+optimization problems. Indeed there are specialized techniques for
+solving optimal control and dynamic programming problems that do not
+appear in finite dimensional optimization. However, the basic theory
+of infinite dimensional and finite dimensional optimization are the
+same. 
+For infinite dimensional optimization problems, we can get the exact
+same first and second order conditions as we did in the finite
+dimensional case. To do this, we need to define derivatives in
+abstract (in particular infinite dimensional) vector spaces. 
+
+\subsection{References}
+A classic reference for optimization on vector spaces is
+\textit{Optimization by vector space methods} by Luenberger
+(1969). \textit{Applied dynamic programming} by Bellman and Dreyfus
+(1962) and \textit{Dynamic programming and the calculus of variations}
+by Dreyfus (1965) provide a good introduction to the main idea of
+dynamic programming, and are especially useful for contrasting the
+dynamic programming and optimal control approaches. Stokey and Lucas
+\textit{Recursive methods in economics dynamics} (1989) is the
+standard economics reference for dynamic programming. Bertsekas's
+\textit{Dynamic programming and stochastic control} is the standard
+reference for dynamic programming with uncertainty. Daron Acemoglu's
+\textit{Introduction to Modern Economic Growth} includes two very nice
+chapters on optimal control and dynamic programming.
+
+
+\section{Differentiation in vector spaces}
+
+Recall from earlier that there are many sets of functions that are
+vector spaces. We talked a little bit about $\mathcal{L}^p$ spaces of
+functions. The set of all continuous functions and the sets of all $k$
+times continuously differentiable functions are also vector
+spaces. One of these vector spaces of functions will be appropriate
+for finding the solution to optimal control problems like
+example \ref{ex:contract}. Exactly which vector space is a slightly
+technical problem dependent question, so we will not worry about that
+for now (and we may not worry about it at all). Similarly, there are
+vector spaces of infinite sequences. Little $\ell^p$ is similar to big
+$\mathcal{L}^p$, but with sequences instead of functions
+\[ \ell^p = \{\{x_t\}_{t=1}^\infty:
+\left(\sum_{t=1}^\infty |x_t|^p\right)^{1/p} < \infty\} \]
+There are others as well. Again, the right choice of vector space
+depends on the problem being considered, and we will not worry about
+it too much. 
+
+Recall our definition of the derivative for a function  $f:\R^n \to
+\R^m$ was that $Df_x$ satisfies
+\[ \lim_{\norm{h} \to 0} \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}}
+= 0 \]
+ $\R^n$ and $\R^m$ are just two particular vector spaces. To write
+down this definition of the derivative, we needed to have norms, so to
+define derivatives in an abstract vector space, the space should have
+a norm. The definition of a derivative also involves taking
+limits. Recall that a complete normed vector space is a normed vector
+space where all Cauchy sequences converge. This ensures that limits
+are well behaved. We call complete normed vector spaces \textbf{Banach
+  spaces}. Finally, $Df_x$ is an $m$ by $n$ matrix. It is a linear
+transformation from $\R^n \to \R^m$.
+\begin{definition}
+  Let $V$ and $W$ be Banach spaces and $f:V \to W$. The
+  \textbf{Fr\'{e}chet derivative} of $f$ at $x \in V$ is a linear
+  transformation from $V$ to $W$, denoted $Df_x$ such that 
+  \[ \lim_{\norm{h} \to 0} \frac{\norm{f(x+h) - f(x) - Df_x h
+    }}{\norm{h}} = 0. \]
+\end{definition}
+Notice that this definition of the derivative is exactly the same as our
+definition of the derivative for functions from $\R^n \to \R^m$. It is
+called the Fr\'{e}chet derivative because there are other notions of
+the derivative on abstract vector spaces. The G\^{a}teaux derivative
+is a directional derivative. It is a weaker concept in that
+Fr\'{e}chet differentiability implies G\^{a}teaux differentiability,
+but not vice versa. There is also an intermediate type of derivative
+called the Hadamard derivative, which is sometimes useful in
+econometrics and statistics. We will only use Fr\'{e}chet derivatives
+in this class, so henceforth, whenever we talk about the derivative of
+a function on Banach spaces, we mean the Fr\'{e}chet derivative.  
+
+Given two Banach spaces, $V$ and $W$, let $T(V,W)$ denote the set of
+all linear transformations from $V$ to $W$. The derivative of
+ $f:V \to
+W$ will be in $T(V,W)$. We can show that $T(V,W)$ is a vector space,
+and we can define a norm on $T(V,W)$ by 
+\[ \norm{D}_{T(V,W)} = \sup_{\norm{v}_V=1} \norm{D v}_{W} \]
+where $\norm{\cdot}_V$ is the norm on $V$ and $\norm{\cdot}_W$ is the
+norm on $W$. Moreover, we could show that $T(V,W)$ is complete. Thus,
+$T(V,W)$ is also a Banach space. Viewed as function of $x$, $Df_x$ is
+a function from $V$ to $T(V,W)$. As we just said, there are both
+Banach spaces, so can differentiate $Df_x$ with respect to $x$. In 
+this way, we can define the second and higher derivatives of $f:V \to
+W$. 
+
+With this definition of the derivative, almost everything that we
+proved in lecture 8 for functions from $\R^n \to \R^m$ also holds
+functions on Banach spaces. In particular, Taylor's theorem, the
+implicit function theorem, and the inverse function theorem
+hold. The proofs of these theorems on Banach spaces are essential the
+same as in lecture 8, so we will not go over them. The mean value
+theorem is slightly more delicate. It still holds for functions $f:V
+\to \R^m$, 
+but not when the target space of $f$ is infinite
+dimensional. If you find this interesting, you may want to go through
+the proofs of all these claims, but it is not necessary to do so.
+
+\section{Optimization in vector spaces}
+
+In the previous section we saw that differentiation for functions on
+Banach spaces is the same as for functions on finite dimensional
+vector spaces. All of our proofs of first and second order conditions
+only relied on Taylor expansions and some properties of linear
+transformations. Taylor expansions and linear transformations are the
+same on Banach spaces as on finite dimensional vector spaces, so our
+results for optimization will still hold. Let's just state for the
+first order condition for equality constraints. The other results are
+similar, but stating them gets to be slightly cumbersome.
+\begin{theorem}[First order condition for maximization with equality
+  constraints] \label{thm:econv} Let $f:U \to \R$ and $h:U \to W$ be
+  continuously differentiable on $U \subseteq V$, where 
+  $V$ and $W$ are Banach spaces.  Suppose $x^* \in
+  \mathrm{interior}(U)$ is a 
+  local maximizer of $f$ on $U$ subject to
+  $h(x) = 0$. Suppose that $Dh_{x^*}:V \to W$ is onto. 
+. Then, there exists
+  $\mu^* \in T(W,\R)$ such that for
+  \[ L(x,\mu) = f(x) - \mu h(x). \]
+  we have
+  \begin{align*}
+     D_xL(x^*,\mu^*) = & Df_{x*} - \mu^* Dh_{x^*} = 0_{T(V,\R)} \\
+     D_\mu L(x^*,\mu^*) = & h(x^*) = 0_{W}
+  \end{align*}
+\end{theorem}
+There are a few differences compared to the finite dimensional case
+that are worth commenting on. First, in the finite dimensional case,
+we had $h:U \to \R^m$, and the condition that $\rank Dh_{x^*} =
+m$. This is the same as 
+saying that the $Dh_{x^*}:\R^n \to \R^m$ is
+onto. Rank is not well-defined in infinite dimension, so we now state
+this condition as $Dh_{x^*}$ being onto instead of being rank
+$m$. 
+
+Secondly, previously $\mu \in \R^m$, and the Lagrangian was 
+\[ L(x,\mu) = f(x) - \mu^T h(x). \]
+Viewed as a $1$ by $m$ matrix, $\mu^T$ is a linear transformation from
+$\R^m$ to $\R$. Thus, in the abstract case, we just say $\mu \in
+T(W,\R)$.\footnote{The set of linear transformations for a vector
+  space $W$ to $\R$ appears quite often, and is called the dual space
+  of $W$. It is often denoted by $W^* = T(W,\R)$.}
+
+Finally, we have subscripted the zeroes in the first order condition
+with $T(V,\R)$ and $W$ to emphasize that the first equation is for
+linear transformations from $V$ to $\R$, and the second equation is in
+$W$. $Df_{x*}$ has been defined as a linear transformation from $V$ to
+$\R$. $Dh_{x*}$ goes from $V$ to $W$. $\mu$ goes from $W$ to $\R$, so
+$\mu$ composed with $Dh_{x*}$, which we just denoted by $\mu Dh_{x*}$
+is a linear transformation from $V$ to $\R$.
+
+\section{Optimal control}
+
+
+Optimal control is just one example of optimization in a vector
+space. 
+
+\subsection{Continous time optimal control}
+The classic continuous time optimal control problem has the
+following form: 
+\begin{align*}
+  \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
+  & \text{ s.t.} \\
+  & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+  & y(0) = y_0
+\end{align*}
+$x$ is called a control variable, and $y$ is called a state
+variable. The choice of $x$ controls the evolution of $y$ through the
+first constraint.
+
+In terms of our notation for optimization in vector spaces, the space
+being maximized over, $V$ is pairs of functions $(x(t),y(t))$ from
+$[0,T]$ to $\R$. The objective function is 
+\[ f(x,y) = \int_0^T F(x(t),y(t),t) dt. \]
+It is a mapping from $V$ to $\R$. The constraint, $h(x,y)$ is a
+function from $V$ to a space of functions from $[0,T]$ to $\R$. As
+above, we will call that space $W$, so $h:V \to W$ is 
+\[ h(x,y)(t) = \frac{dy}{dt}(t) - g(x(t),y(t),t). \]
+Let's apply theorem \ref{thm:econv}, and write out the first order
+condition. The multiplier, $\mu$ is a linear transformation from $W$
+to $\R$. There is also the constraint that $y_0 = y(0)$. Let $\mu_0$
+be the multiplier on that constraint.
+The Lagrangian, $L(x,y,\mu,\mu_0)$ is a map from $V \times T(W,\R)
+\times \R$
+to $\R$ given by
+\[ L(x,y,\mu,\mu_0) = \int_0^T F(x(t),y(t),t) dt  -
+\mu\left(\frac{dy}{dt} - g(x,y,\cdot) \right) - \mu_0(y(0) - y_0). \]
+I wrote $\frac{dy}{dt} - g(x,y,\cdot)$ to emphasize that this is some
+element of $W$, a function of $t$. $\mu$ takes this function of $t$
+and returns a real number. Many such transformations can be written as
+integrals. Let's assume that
+\[ \mu(w) = \int_{0}^T w(t) \lambda(t) dt \]
+for some function $\lambda$.  We can guarantee that this is true by
+appropriately defining $V$ and $W$.\footnote{One sufficient condition
+  is to make $W$ a Sobolev space that includes generalized
+  functions. Sobolev 
+  spaces that include generalized functions are Hilbert spaces, so it
+  follows from the Riesz representation theorem that $\mu(w) =
+  \iprod{w}{\lambda}$. However, we only briefly mentioned Hilbert
+  spaces, and we haven't talked at all about Sobolev spaces,
+  generalized functions, or the Riesz representation theorem, so this
+  footnote is likely very confusing and should be ignored.}
+
+The first order conditions are
+\begin{align}
+  [x]: && D_xf_{x^*,y^*} - \mu D_xh_{x^*,y^*} = & 0 \\
+  [y]: && D_yf_{x^*,y^*} - \mu D_yh_{x^*,y^*} - \mu_0 = & 0 \\
+  [\mu]: && h(x^*,y*) = & 0 
+\end{align}
+Let's work out exactly what each of these derivatives are. $D_xf$ is a
+linear map from $V \to \R$. Elements of $V$ are pairs of functions from
+$[0,T]$ to $\R$. If we consider a single function from $[0,T]$ to
+$\R$, $v$, and look at 
+\[ \frac{d}{d a} \left(f(x+a v,y) \right)|_{a=0} \],
+we get the directional derivative of $f$ in direction $v$ at $x,y$. By
+analogy with the finite dimensional case, when $f$ is differentiable,
+all its directional derivatives exist, are equal, and 
+\[ \frac{d}{d a} \left(f(x+a v,y) \right)|_{a=0}  = D_x f v. \]
+So to describe $D_xf$ it is enough to look at the directional
+derivatives of $f$. 
+\begin{align*}
+  \frac{d}{d a} f(x+a v,y) = & \frac{d}{da}  \int_0^T F(x(t)+a
+  v(t),y(t),t) dt \\
+  = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t) v(t) dt
+\end{align*}
+where we need $F$ to be continuously differentiable for 
+all $t \in
+[0,1]$ in a neighborhood of $(x(t),y(t),t)$ so that interchanging the
+derivative and integral is allowed. Thus,
+\[ D_x f_{x,y} v = \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t)
+v(t) dt. \]
+Notice that this expression is linear in $v$. Similarly,
+\begin{align*}
+  \frac{d}{d a} f(x,y+av) = & \frac{d}{da}  \int_0^T
+  F(x(t),y(t)+av(t),t) dt 
+   \\
+  = & \int_0^T \frac{\partial F}{\partial y}(x(t),y(t),t) v(t) dt   
+\end{align*}
+so 
+\[ D_y f_{x,y}v  =  \int_0^T \frac{\partial F}{\partial y}(x(t),y(t),t)
+v(t) dt. \]
+
+Now we calculate the derivative of $h$. $h:V \to W$, so its derivative
+is a linear map from $V$ to $W$. Here, $W$ is a function from $[0,T]$
+to $\R$, so $D_x h$ takes functions from $[0,T] \to \R$ and maps them
+to functions from $[0,T] \to \R$. Using the same reasoning as above,
+\begin{align*}
+  \frac{d}{d a} h(x+av,y)(t) = & \frac{d}{da}\left[
+     \frac{dy}{dt}(t) - g(x(t)+av(t),y(t),t)\right] \\
+   = & - \frac{\partial g}{\partial x}(x(t),y(t),t) v(t) 
+ \end{align*}
+so
+\[ D_xh(v)(t) = -\frac{\partial g}{\partial x}(x(t),y(t),t) v(t). \]
+Next,
+\begin{align*}
+  \frac{d}{d a} h(x,y+av)(t) = & \frac{d}{da}\left[
+     \frac{d(y+av)}{dt}(t) - g(x(t),y(t)+av(t),t)\right] \\
+   = & \frac{d v}{dt}(t) - \frac{\partial g}{\partial y}(x(t),y(t),t) v(t) 
+ \end{align*}
+so 
+\[ D_yh(v)(t) = \frac{d v}{dt}(t) - \frac{\partial g}{\partial
+  y}(x(t),y(t),t) v(t). \]
+Finally, as we assumed above, it can be shown that $\mu(w) = \int_0^T
+w(t) \lambda(t) dt$ for some function $\lambda$. 
+
+Combining all these facts, we can write the first order conditions for
+$x$ and $y$ as 
+\begin{align*}
+  [x]:&& 0 = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t) v(t) dt -
+  \int_0^T -\frac{\partial g}{\partial x}(x(t),y(t),t) v(t) \lambda(t)
+  dt \\ 
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial x}(x(t),y(t),t) +
+    \frac{\partial g}{\partial x}(x(t),y(t),t) \lambda(t)\right) dt \\
+  [y]:&& 0 = & \int_0^T \frac{\partial F}{\partial
+    y}(x(t),y(t),t) v(t) dt - 
+  \int_0^T \left(\frac{\partial v}{\partial t}(t) -\frac{\partial
+      g}{\partial y}(x(t),y(t),t) v(t)\right) \lambda(t)  dt  - \mu_0v(0)\\
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+    v(t) \lambda(t)  \right) - \int_0^T \frac{dv}{dt}(t)\lambda(t)
+  dt  - \mu_0v(0)\\
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+    v(t) \lambda(t)  \right) + \int_0^T \frac{d\lambda}{dt}(t)v(t)dt -
+  \lambda(T)v(T) + \lambda(0)v(0)  - \mu_0v(0).
+\end{align*}
+The last line comes from integration by parts. These equations must be
+zero for all $v \in V$. This can be true for all $v$ only if the
+integrands are zero everywhere.  That is if
+\begin{align*}
+  [x]:&& 0 = &\frac{\partial F}{\partial x}(x(t),y(t),t) +
+  \frac{\partial g}{\partial x}(x(t),y(t),t) \lambda(t) \\
+  [y]:&& -\frac{d\lambda}{dt}(t) = & \frac{\partial F}{\partial
+    y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+  v(t) \lambda(t) \\
+  [\mu]:&& \frac{dy}{dt} = & g(x(t),y(t),t) 
+\end{align*}
+and $\lambda(T) = 0$ and $\mu_0 = \lambda(0)$. These are the usual
+conditions that you get from using the Hamiltonian, which you may have
+seen before. The function $\lambda(t)$ is called the \textbf{costate}
+variable. The following theorem summarizes this result.
+\begin{theorem}[Pontryagin's maximum principle]\label{thm:optcon}
+  Consider 
+  \begin{align}
+    \max_{x,y \in U \subseteq X \times Y} & \int_0^T F(x(t),y(t),t) dt \notag \\
+    & \text{ s.t.} \\
+    &  \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in
+    [0,T] \label{e:maxp} \\ 
+    & y(0) = y_0. \notag
+  \end{align}
+  where $X$ and $Y$ are some Banach spaces of differentiable 
+  functions from $[0,T]$ to $\R$, and $F,g:\R^2 \times [0,T] \to \R$ are
+  continuously differentiable. Define the Hamiltonian as 
+  \[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t). \]
+  If $x^*$ and $y^*$ are a local constrained maximum of
+  (\ref{e:maxp}) in the interior of $U$, then there exists
+  $\lambda^*(t)$ such that 
+  \begin{align*}
+    [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+    \\
+    [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+    [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+      \lambda}(x^*,y^*,\lambda^*,t)
+  \end{align*}\footnote{The condition for $x$ is often stated somewhat
+    more generally as
+    \[ H(x^*,y^*,\lambda^*,t) = \max_x H(x,y^*,\lambda^*,t). \]
+  }
+\end{theorem}
+
+\subsection{Application: optimal contracting with a continuum of
+  types} 
+Let's solve example \ref{ex:contract}. 
+\begin{align}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta \notag \\
+  & \text{s.t.} \notag \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+  \theta \label{pc2} \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+  \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+  T(\tilde{\theta}) \forall \theta \label{ic2} 
+\end{align}
+First, notice that if the participation constraint (\ref{pc2}) holds for type
+$\theta_l$, and (\ref{ic2}) holds for $\theta$, then the participation
+constraint must also hold for $\theta$. 
+
+We can show that the incentive compatibility constraint (\ref{ic2}) is
+equivalent to the following local incentive 
+compatibility constraint and monotonicity constraint.
+\begin{align}
+  \theta \nu'(q(\theta))q'(\theta) - T'(\theta) = & 0 \label{lic} \\
+  \frac{dq(\theta)}{d\theta} \geq & 0 \label{mon}
+\end{align}
+Consider the incentive compatibility constraint
+(\ref{ic2}). The first order condition for the maximization is
+\[ \theta \nu'(q(\tilde{\theta})) q'(\tilde{\theta}) =
+T'(\tilde{\theta}). \]
+This is the same as the local incentive compatibility constraint with
+$\theta = \tilde{\theta}$.
+
+The second order condition for (\ref{ic2}) is 
+\[ \theta \nu''(q(\tilde{\theta}))q'(\tilde{\theta})^2 +
+\tilde{\theta} \nu'(q(\tilde{\theta})) q''(\tilde{\theta}) -
+T''(\tilde{\theta}) \leq 0 \]   
+On the other hand if we differentiate the local incentive
+compatibility constraint we get 
+\begin{align*}
+  \nu'(q(\theta))q'(\theta) + \theta \nu''(q(\theta)) q'(\theta)^2 + \theta
+  \nu'(q(\theta)) q''(\theta) - T''(\theta) = & 0 \\
+  \theta \nu''(q(\theta)) q'(\theta)^2 + \theta
+  \nu'(q(\theta)) q''(\theta) - T''(\theta) = & -\nu'(q(\theta))q'(\theta)  
+\end{align*}
+We assume that $\nu'>0$, and the monotonicity constraint says that
+$q'\geq 0$. Hence, this equation implies the second order
+condition. Therefore, we have shown that the local incentive
+compatibility constraint and monotonicity constraint are equivalent
+incentive compatibility constraint.
+
+Now, we can write the seller's problem as
+\begin{align}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta \notag \\
+  & \text{s.t.} \notag \\
+  &\theta_l \nu\left(q(\theta_l)\right) - T(\theta_l) \geq 0
+  \label{pcl} \\
+  & \theta \nu'(q(\theta))q'(\theta) - T'(\theta) =  0 \label{lic2} \\
+  & \frac{dq(\theta)}{d\theta} \geq  0 \label{mon2}
+\end{align}
+The first order condition for $T$ is for any $x:[\theta_l,\theta_h] \to \R$, 
+\begin{align*}
+  0 = &\int_{\theta_l}^{\theta_h} x(\theta) f_\theta(\theta)
+  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
+  \frac{dx}{d\theta}(\theta) d\theta + \mu_0 x(\theta_l)  \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( f_\theta(\theta) +
+    \frac{d\mu}{d \theta}(\theta)\right) - \mu(\theta_h)x(\theta_h) +
+  \mu(\theta_l)x(\theta_l) + \mu_0 x(\theta_l).
+\end{align*}
+From this we see that $\mu'(\theta) = -f_\theta(\theta)$,
+$\mu(\theta_l) = -\mu_0$, and $\mu(\theta_h) = 0$. Given $\mu'$ and
+$\mu(\theta_h)$, it must be that
+\begin{align*}
+  \mu(\theta) = & \int_{\theta_h}^\theta -f_\theta(\hat{\theta}) d\hat{\theta} \\
+  = & 1 - \int_{\theta_l}^\theta f_{\theta}(\hat{\theta})d\hat{\theta}
+  \\
+  = & 1 - F_\theta(\theta) 
+\end{align*}
+where $F_\theta$ is the cdf of $f_\theta$. 
+The first order condition for $q$ is
+\begin{align*}
+  0 = & \int_{\theta_l}^{\theta_h} c x(\theta) f_\theta(\theta)
+  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
+  \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) + \theta
+    \nu'(q(\theta)) x'(\theta) \right)d\theta - \\
+  & - \mu_0 \theta_l
+  \nu'(q(\theta_l))x'(\theta_l) - \int_{\theta_l}^{\theta_h}
+  \lambda(\theta) x'(\theta) d\theta \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+    - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) -
+      \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right)
+  d\theta + \\
+  & + \int_{\theta_l}^{\theta_h} 
+  \mu'(\theta) \theta \nu'(\theta) d\theta 
+  - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+  \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+  & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
+  - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+    + \mu(\theta) \nu'(q(\theta)) + 
+    \mu'(\theta) \theta \nu'(\theta)\right) d\theta  - \\
+    & - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+    \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+    & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
+    - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta 
+\end{align*}
+If we assume that the monotonicy constraint does not bind, so
+$\lambda(\theta) = 0$, we see that
+\begin{align*}
+  0 = &c f_\theta(\theta) + \mu(\theta) \nu'(q(\theta)) + \mu'(\theta)
+   \theta \nu'(q(\theta))  \\
+   0 = & cf_\theta(\theta) + (1-F_\theta(\theta)) \nu'(q(\theta)) -
+   f_{\theta}(\theta) \theta \nu'(q(\theta)) \\
+   \theta \nu'(q(\theta)) = & c +
+   \frac{1-F_\theta(\theta)}{f_\theta(\theta)} \nu'(q(\theta)) \\
+   \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
+   \right)\nu'(q(\theta)) = & c 
+ \end{align*}
+You may recall from problem set 5 that with symmetric information,
+$\theta \nu'(q(\theta)) = c$. Since $\nu'$ is decreasing in $q$, this
+implies that $q(\theta)$ is less than what it would be in the first
+best symmetric information case for all $\theta < \theta_h$. The
+highest type, $\theta_h$ gets the optimal level of consumption since
+$F_\theta(\theta_h) = 1$. 
+ 
+\subsection{Discrete time optimal control}
+We can also consider discrete time optimal control problems of the
+form
+\begin{align*}
+  \max_{x_t,y_y} & \sum_{t=0}^\infty F(x_t,y_t,t) \\
+  & \text{ s.t. } \\
+  & y_{t+1} - y_t = g(x_t,y_t,t) 
+\end{align*}
+with $y_0$ given. For simplicity, we will assume $x_t \in \R$ and $y_t \in
+\R$, but $x_t$ and $y_t$ could be elements of any normed vector
+spaces. Example \ref{ex:consav} has this form with $x_t = c_t$, $y_t =
+s_t$, 
+$F(x_t,y_t,t) = \beta^t u(c_t)$, and 
+$g(x_t,y_t,t) = r_t s_t -(1+r_t)c_t$. 
+We can apply theorem \ref{thm:econv} to this problem. Here we are
+maximizing over a pair of infinite sequences,
+$\{x_t,y_t\}_{t=0}^\infty \in V$, where $V$ is a Banach space of such
+sequences.\footnote{As in the continuous time case, we will be somewhat vague
+about this space because its details depends on the problem at
+hand. For example, it would often be appropriate to use the space of
+all bounded sequences, $\ell^\infty =\{x_t,y_t: x_t \leq M, y_t \leq M
+\forall t \text{ for some } M <\infty \}$. Other times it would be
+appropriate to use some other space. For example, in \ref{ex:consav}
+it might make sense to consider any sequence such that $\sum_{t=0}^\infty
+\beta^t u(c_t)$ is finite, or if $r_t=r$ is fixed, it might make sense
+to look at any sequence such that $\sum_{t=0}^\infty
+\frac{c_t}{(1+r)^t}$ is finite. We will not worry about these
+details.} The constraint can be written as 
+\[ h(x,y)_t =  y_{t+1} - y_t - g(x_t,y_t,t).  \]
+$h$ takes the pair of infinite sequences, $x,y \in V$ and returns
+another infinite sequence, which is in some Banach space $W$. The
+multiplier, $\mu$ is a map from $W$ to $\R$. If $W$ were finite
+dimension, we would have $\mu(w) = \mu^T w = \sum_{i=}^m \mu_m
+w_m$. It turns out that for infinite sequences, $\mu$, we could show
+that $\mu$ must have the same form, so $\mu(w) = \sum_{t=1}^\infty
+\mu_t w_t$. Thus, we can write the Lagrangian as
+\[ L(x,y,\mu) = \sum_{t=1}^\infty \left(F(x_t,y_t,t) -
+  \mu_t(y_{t+1}-y_t - g(x_t,y_t,t) \right). \]
+Note that the derivative of $L$ with respect to $x$ is a linear
+transformation from $V$ to $\R$. If we consider $v \in V$ and look at
+the directional derivative in direction $v$, like we did in the
+continuous case, we see that
+\[ D_xL(v) = \sum_{t=1}^\infty \left(\frac{\partial F}{\partial
+    x}(x_t,y_t,t)v_t  + \mu_t \frac{\partial g}{\partial
+    x}(x_t,y_t,t)v_t\right) = 0 \]
+This must hold for all $v_t$, so the summand must be zero for each
+$t$. Applying similar reasoning to the first order conditions for $y$
+and $\mu$, we obtain:
+\begin{align*}
+  [x]:&& \frac{\partial F}{\partial x}(x_t,y_t,t)  + \mu_t \frac{\partial
+    g}{\partial x}(x_t,y_t,t) = &  0 \\
+  [y]: && \mu_{t+1}-\mu_t = \frac{\partial F}{\partial
+    y}(x_t,y_t,t)  + \mu_t \frac{\partial 
+    g}{\partial y}(x_t,y_t,t) = &  0 \\
+  [mu]:&& y_{t+1} - y_t = & g(x_t,y_t,t) 
+\end{align*}
+and $y_0 = 0$
+Notice the similarity to theorem \ref{thm:optcon}. The only difference 
+is that these equations involve $\mu_{t+1} - \mu_t$ instead of
+$\frac{d\lambda}{dt}$ and $y_{t+1}-y_t$ instead of $\frac{dy}{dt}$. 
+
+\section{Dynamic programming}
+
+For problems like examples \ref{ex:consav} and \ref{ex:contract},
+optimal control focuses on characterizing $x^*$ through the first
+order conditions (given $x^*$, $y^*$ is easily determined through the
+constraint). That is, optimal control focus on characterizing the maximizer. An
+alternative approach is to focus on the value of the maximized
+function. This value will depend on the entire problem, but in
+particular it depends on the initial condition $y_0$. Thus, we can
+think of the value as function of the initial state. Dynamic
+programming focuses on characterizing the value function.  
+
+The basic idea of dynamic programming can be illustrated in a familiar
+finite dimensional optimization problem. Consider a finite horizon
+discrete time consumption savings choice. 
+\[ \max_{c_t,s_t} \sum_{t=0}^T \beta^t u(c_t) \text{ s.t. } s_{t+1} =
+(1+r_t) (s_t - c_t) \]
+with $s_0$ given, and the constraint that $s_{T+1} = 0$. We could just write down the first order conditions
+and try to solve them for $c_t$. However, if $T$ is large, this might
+be very difficult. We can divide this $T$ dimensional problem to a
+series of smaller ones by first thinking about what happens at time
+$T$. At time $T$ we have some savings $s_T$ and want to choose $c_T$
+to solve
+\[ \max_{c_T} u(c_T) \text{ s.t. } s_{T+1} = (1+r_T)(s_T -c_T) = 0 \]
+As long as $u$ is increasing, it must be that $c_T^*(s_T) = s_T$. If
+we define the value of savings at time $T$ as
+\[ V_T(s) = u(s), \]
+then at time $T-1$ given $s_{T-1}$, we can choose $c_{T-1}$ to solve
+\[ \max_{c_{T-1},s'} u(c_{T-1}) + \beta V_T(s') \text{ s.t.} s' =
+  (1+r_{T-1})(c_{T-1}-s_{T-1}). \]
+This is relatively simple maximization problem with just two
+variables, so we can solve it without too much difficulty. Repeating
+in this way, for each $t$ we can define the value of savings at time
+$t$ as
+\begin{align} 
+  V_t(s) = \max_{c_t,s'} u(c_{t}) + \beta V_{t+1}(s') \text{ s.t.} s' =
+  (1+r_{t})(c_{t}-s). \label{e:bell}
+\end{align}
+This approach to sequential optimization was first proposed by Richard
+Bellman, so (\ref{e:bell}) is called a Bellman equation. Notice that
+if $(c_t^*(s_t),s_{t+1}^*(s_t)$ is a maximizer of (\ref{e:bell}) for
+each $t$, then 
+the sequence of $c_0^*(s_0),s_1^*(s_0), c_1^*(s_1), ..., c_T^*$ must
+be a maximizer of the original problem. Bellman called this
+observation the \textbf{principle of optimality}. He described it as,
+``An optimal policy has the property that whatever the initial state
+and initial decision are, the remaining decisions must constitute an
+optimal policy with regard to the state resulting from the first
+decision.'' (Bellman and Dreyfus 1962). 
+
+In finite horizon problems, it easy to see that the
+Bellman equations will exist. However, if we have an infinite horizon
+problem, 
+\[ \max_{c_t,s_t} \sum_{t=0}^\infty \beta^t u(c_t) \text{ s.t. } s_{t+1} =
+(1+r_t) (s_t - c_t) \]
+then we cannot start from the last period to define the value
+function. However, if the problem is stationary, that is if the
+problem at time $t$ and at time $t+1$ are the same, then it seems
+reasonable to think that the value function would not depend on $t$
+and we could just write 
+\[ V(s) = \max_{c,s'} u(c) + \beta V(s') \text{ s.t. } s' =
+(1+r)(s-c). \]
+Stokey and Lucas (1989) provide a fairly comprehensive analysis of
+various conditions when this is possible. We will just look at one
+case. 
+
+Consider a problem that is slightly more general than the consumption
+savings choice problem with fixed interest rate.
+\begin{align*}
+  \max_{c_t,s_t} & \sum_{t=0}^\infty \beta^t u(c_t,s_t) \\
+  & s_{t+1} = g(c_t,s_t),
+\end{align*}
+where $c \in \R$, $s \in \R$, $0<\beta<1$, and $u,g:\R^2 \to \R$.
+We want to show that the value function exists. Suppose we start with
+some guess at the value function $v_0:\R\to \R$. Then we refine that guess by
+setting 
+\[ v_1(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
+s'=g(c,s) \]
+We could do this repeatedly. That is, if we let $T$ be the functional
+defined by this equation,
+\[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
+s'=g(c,s), \]
+we can construct a sequence with $v_{i+1} = T(v_i)$. Recall from
+lecture 9 that $T$ is a contraction mapping if 
+\[ \norm{T(v) - T(v')} \leq c \norm{v-v'} \]
+for some $c<1$ and all $v,v'$. We proved that contraction mappings
+have unique fixed points.\footnote{We did this for contractions on
+  $\R^n$, but our proof works for any complete vector space.} Thus, if
+we can show that $T$ is a contraction mapping, then $v_i \to V$, where
+$V$ is the value function that satisfies the Bellman equation, like we
+want. 
+
+Suppose $u$ is bounded, $u(c,s) \leq M$ for all $c$ and $s$. Then 
+\[ \sum_{t=0}^\infty \beta^t u(c_t,s_t)  \leq \frac{M}{1-\beta}. \]
+Therefore, we should only look at possible value functions with $v(s)
+\leq \frac{M}{1-\beta}$ for all $s$. To show that $T$ is a
+contraction, we must define the space that $v$ lies in and its
+norm. Given the boundedness of $v$, it is natural to look at
+$\mathcal{L}^\infty(\R)$, the space of all bounded real-valued function
+with norm $\norm{v} = \sup_{x \in \R} |v(x)|$. Consider
+\begin{align*}
+  T(v_0)(s)-T(v_1)(s) =  \left(u(c_0,s) + \beta v_0(s_0')  \right) -
+  \left(u(c_1,s) + \beta v_1(s_1')  \right)
+\end{align*} 
+where $c_i,s_i'$ is the maximizer to 
+\begin{align*}
+  \max_{c_i,s_i'} u(c_i,s) + \beta v_i(s_i') \text{ s.t. }
+  s_i'=g(c_i,s).
+\end{align*}
+We should assume something that ensures $c$ and $s'$ exist. Assuming
+$c',s$ lie in a compact set would be sufficient. Notice that
+\[ T v_0 (s) = u(c_0,s) + \beta v_0(s_0')  \geq u(c_1,s) + \beta
+v_0(s_1'). \]
+Therefore,
+\[ T(v_0)(s) - T(v_1)(s) \geq \beta (v_0(s_1') - v_1(s_1'). \]
+Similarly,
+\[ T(v_0)(s)-T(v_1)(s) \leq \beta (v_0(s_0') - v_1(s_0'). \]
+It follows that
+\begin{align*}
+  \norm{T(v_0)-T(v_1)} = & \sup_{s} \left\vert T(v_0)(s)-T(v_1)(s) \right\vert \\
+  \leq & \sup_s \left\vert \beta(v_0(s) -v_1(s)) \right\vert = \beta
+  \norm{v_0 - v_1}.
+\end{align*}
+Hence, $T$ is a contraction and has a unique fixed point $V$. 
+
+\subsection{Application: Diamond-Mortensen-Pissarides search model}
+
+The standard neo-classical and neo-Keynesian macroeconomic models do
+not have any involuntary unemployment. If we include a labor-leisure
+choice, these models may not have everyone working (or at least not
+working full-time), but everyone who does not work does so
+voluntarily. We need to add something to the model if we want there to
+be involuntary unemployment. The standard way of modeling
+involuntary unemployment is through a search model. We will go through
+a simple version of a search model. It is often called a
+Diamond-Mortensen-Pissarides search model because those three people
+were the first to propose it. 
+
+There is a continuum of identical workers with total measure
+one. There is also a continuum of identical firms. Time is
+discrete. Workers can be either unemployed or employed. Firms can
+either employ one worker, post a vacancy, or do nothing. There is free
+entry. Posting a vacancy costs $k$. When a firm has a worker, they
+produce output $y$. Matches are dissolved with exogenous probability
+$s$. Unemployed workers produce a benefit of $b$ each period. Workers'
+utility is just the discounted sum of their consumption.
+
+Let $u_t$ be the mass of unemployed workers at time $t$, and let $v_t$
+be the mass of vacancies. That is,
+\[ u_t = \int_{\text{all workers}} 1\{\text{worker $i$ unemployed}\} di \]
+\[ v_t = \int_{\text{all firms}} 1\{\text{firm $j$ unemployed}\} dj. \]
+There is some matching technology $m(u_t,v_t)$ such that the
+probability that any given unemployment worker finds a vacancy at time
+$t$ is $\frac{m(u_t,v_t)}{u_t}$. Similarly, the probability that any
+given vacant firm finds a worker is $\frac{m(u_t,v_t)}{v_t}$. We will
+assume that $m$ has constant returns to scale, so in particular,
+\[ m(u_t,v_t) = u_t m(1,v_t/u_t) = v_t m(u_t/v_t,1) \]
+We define labor market tightness as $\theta_t = \frac{v_t}{u_t}$. Then
+we can write the unemployed worker's and vacant firm's matching
+probabilities as 
+\[ \frac{m(u_t,v_t)}{u_t} = m(1,v_t/u_t) = m(1,\theta_t) \equiv
+\mu(\theta_t) \]
+and 
+\[ \frac{m(u_t,v_t)}{v_t} = \frac{m(1,v_t/u_t)u_t}{v_t} =
+\frac{\mu(\theta_t)}{\theta_t}. \] 
+To ensure that these are valid probabilities assume that $0 \geq \mu(\theta)
+\leq \min\{1,\theta\}$. Also, we will assume that $\mu$ is twice
+continuously differentiable with $\mu'>0$ and $\mu''<0$. 
+
+\subsubsection{Social planner}
+
+Suppose a social planner wants to maximize utility subject to the
+matching and production technologies. 
+\begin{align*}
+  \max_{c_t,v_t,u_t} & \sum_{t=0}^\infty \beta^t \left( (1-u_t)c_t^e + u_t
+    c_t^u\right) \\
+  & \text{ s.t.} \\
+  & c_t^e + c_t^u = u_t b + (1-u_t) y - k v_t \\
+  & u_{t+1} = (1-\mu(v_t/u_t)) u_t + s (1-u_t) 
+\end{align*}
+Note that all that matters is total consumption, not $c_t^e$ and
+$c_t^u$ separately. Therefore we can eliminate the first constraint, leaving
+\begin{align*}
+  \max_{v_t,u_t} & \sum_{t=0}^\infty \beta^t \left(u_t b + (1-u_t)
+    y - k v_t\right) \\ 
+  & u_{t+1} = (1-\mu(v_t/u_t)) u_t + s (1-u_t).
+\end{align*}
+Also, it is common to work with $\theta_t$ instead of $v_t$. Since
+$v_t = u_t \theta_t$, we can write the problem as
+\begin{align*}
+  \max_{\theta_t,u_t} & \sum_{t=0}^\infty \beta^t \left(u_t b + (1-u_t)
+    y - k \theta_t u_t\right) \\ 
+  & u_{t+1} = (1-\mu(\theta_t)) u_t + s (1-u_t).
+\end{align*}
+The Bellman equation for this problem is
+\begin{align*}
+  V(u) = \max_{\theta,u'} & u b + (1-u) y - k \theta u + \beta V(u') \\
+  & \text{ s.t. } u' = (1-\mu(\theta)) u + s(1-u)
+\end{align*}
+A common method for solving dynamic programming problems is to guess
+the form of the solution and then verify. It is often the case that
+$V(u)$ has the same form as the per-period payoff. Here, the
+per-period payoff is linear in $u$, so a good guess is that 
+\[ V(u) = \alpha_0 + \alpha_1 u. \]
+We plug this guess in for $V$, then use the first order condition for
+the Bellman equation to find out what $\alpha_0$ and $\alpha_1$ must
+be. If there are no $\alpha_0$ and $\alpha_1$ that make the first
+order condition hold, then our guess was incorrect. If our guess was
+correct, we will be able to uniquely solve for $\alpha_0$ and
+$\alpha_1$. Substituting the guess we have
+\begin{align*}
+  \alpha_0 + \alpha_1 u = \max_{\theta,u'} & u b + (1-u) y - k \theta
+  u + \beta \left(\alpha_0 + \alpha_1 u' \right) \\ 
+  & \text{ s.t. } u' = (1-\mu(\theta)) u + s(1-u)
+\end{align*}
+The first order conditions are
+\begin{align*}
+  0 = & -ku - \lambda \mu'(\theta) u \\
+  0 = & \beta \alpha_1 - \lambda
+\end{align*}
+To solve for $\alpha_1$ note that by the envelope theorem,
+\begin{align*} \alpha_1 = & b - y - k\theta + \beta
+  \alpha_1\left(1-\mu(\theta) - s \right) \\ 
+  \alpha_1 = & \frac{b - y - k\theta}{\beta\left(1-\mu(\theta) - s
+    \right)} 
+\end{align*}
+From the first order condition,
+\begin{align}
+  \mu'(\theta^*) = & \frac{-k}{\beta \alpha_1 u} \notag \\
+  \mu'(\theta^*) = & \frac{-k\left(1-\mu(\theta^*) - s \right)}{ \left(b-y-k
+      \theta^* \right)} \label{e:hosiosSP}
+\end{align}
+In particular, $\theta^*$ does not depend on $u$. Therefore, ${u^*}'$ only
+depends on $u$ through the constraint. Since the constraint is linear
+in $u$, ${u^*}'$ will also be linear in $u$. Finally, the guess $V(u) =
+\alpha_0 + \alpha_1 u$ is linear in $u$, so $V({u^*}')$ will also be
+linear in $u$. Therefore, our guess is verified. By itself, solving
+the social planner problem is not very insightful. The one useful
+thing is that we know that the efficient level of labor market
+tightness satisfies (\ref{e:hosiosSP}). We can use this equation as a
+benchmark to compare what happens under other conditions. 
+
+\subsubsection{Competitive equilibrium} 
+
+Due to the matching friction, wages cannot be determined by supply and
+demand in the usual way. A worker cannot just go and find another job
+at the prevailing wage. Likewise for a firm. Together, a matched
+worker and firm are strictly better off than an unmatched worker and
+firm. Matched workers and firms earn a surplus, and we need some way
+of deciding how to divide this surplus. The typical way is through
+Nash bargaining. If the total output of a match is $y$, the bargaining
+power of the worker is $\eta$, the outside option of the worker is
+$o_w$ and the outside option of the firm is $o_f$, then the Nash
+bargained wage solve
+\[ \max_w (w - o_w)^\eta (y-w - o_f)^{1-\eta}. \]
+The first order condition is
+\[ 0 = \eta (w - o_w)^{\eta-1} (y-w - o_f)^{1-\eta} - (1-\eta) (w -
+o_w)^\eta (y-w - o_f)^{-\eta}. \]
+Rearranging,
+\[ \frac{\eta}{1-\eta} = \frac{ w - o_w} {y-w - o_f}. \]
+The wage is such that benefit to the worker relative to the benefit to
+the firm is equal to the ratio of their bargaining powers. 
+
+To apply this result to our model, we must find the outside options of
+the worker and firm. That is, we must find the value of being
+unemployed and of being a vacant firm. Since there is free entry, the
+value of being a vacant firm must be zero. For simplicity, let's focus
+on the steady state when $\theta_t = \theta$ for all $t$. For workers,
+let $v(w)$ denote the value of value of being employed given wage $w$
+and $u(w)$ be the value of being unemployed. The Bellman equations for
+these are
+\begin{align*}
+  v(w) = & w + \beta \left( (1-s) v(w) + s u(w) \right) \\
+  u(w) = & b + \beta \left( \mu(\theta) v(w) + (1-\mu(\theta)) u(w)
+  \right) 
+\end{align*}
+Similarly, if $j(w)$ is the value of a firm having a worker, and
+$i(w)$ is the value of posting a vacancy, then must satisfy
+\begin{align*}
+  j(w) = & y - w + \beta (1-s)j(w) \\
+  i(w) = & 0 = -k + \beta \frac{\mu(\theta)}{\theta} j(w)
+\end{align*}
+$i(w)$ is zero because of free entry, but we still wrote down its
+Bellman equation since it will be useful later. 
+
+Now, we are ready to find the equilibrium wage. The benefit to a
+worker of getting wage $w$ is not just $w$, it is $v(w)$. Similarly,
+the firm gets not $y-w$, but $j(w)$. The outside option of the firm is
+$i(w) = 0$. The outside option is $u(w^e)$, where $w^e$ is the wage at
+other firms (the equilibrium wage). The bargaining problem is then
+\[ \max_w \left( v(w) - u(w^e) \right)^\eta j(w)^{1-\eta} \]
+As above, the wage solution satisfies
+\[ \frac{\eta}{1-\eta} = \frac{v(w) - u(w)}{j(w)} \]
+Combining this equation and the Bellman equations, we can solve for
+the wage and $\mu(\theta)$. The Bellman equation for $j(w)$ gives
+\[ j(w) = \frac{y-w}{1-\beta(1-s)} \]
+Combining with the Bellman equation of $i(w)$ we get
+\begin{align*}
+  k = & \beta \frac{\mu(\theta)}{\theta}  \frac{y-w}{1-\beta(1-s)} \\ 
+  w = & y - k \frac{1-\beta(1-s)}{\beta \mu(\theta)} 
+\end{align*}
+... \\
+Eventually we get the Hosios-Mortensen condition, that the competitive
+equilibrium is efficient only if
+\[1-\eta = \frac{\theta\mu'(\theta)} {\mu(\theta)}. \]
+
+
+
+
+\end{document}

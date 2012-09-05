@@ -1,0 +1,589 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Unconstrained optimization}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+\section{Notation and definitions}
+
+\begin{frame}
+  \frametitle{Notation and definitions}
+  \begin{itemize} 
+  \item Unconstrained optimization problem
+    \[ \max_{x\in U} F(x) \]
+    \begin{itemize}
+    \item $x \in U \subseteq \R^n$ 
+    \item $F: U \to \R$.
+    \end{itemize}
+  \end{itemize}
+  \begin{definition}\label{d:max}
+    $F^* = \max_{x \in U} F(x)$ is the \textbf{maximum} of $F$ on $U$ if
+    $F(x) \leq F^*$ for all $x \in U$ and $F(x^*) = F^*$ for some $x^*
+    \in U$
+  \end{definition}
+  \begin{definition} \label{d:maxer}
+    $x^* \in U$ is a \textbf{maximizer} of $F$ on $U$ if $F(x*)
+    = \max_{x \in U} 
+    F(x)$. The set of all maximizers is denoted $\argmax_{x \in U}
+    F(x)$.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}\label{d:smaxer}
+    $x^* \in U$ is a \textbf{strict maximizer} of $F$ on $U$ if $F(x*) > F(x)
+    $ for all $x \in U$ with $x \neq x*$. 
+  \end{definition}
+  \begin{definition}\label{d:lmax}
+    $F$ has a \textbf{local maximum} at $x$ if $\exists \delta > 0$ such
+    that $F(y) \leq F(x)$ for all $y \in  N_\delta(x) \cap U$. Each such
+    $x$ is called a \textbf{local maximizer} of $F$. If $F(y) < F(x)$
+    for all $y \neq x$, $y \in N_\delta(x) \cap U$, then we say $F$ has
+    a \textbf{strict local maximum} at $x$.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Here are some examples of functions from $\R \to \R$ and their
+    maxima and minima.
+    \begin{enumerate}
+    \item $F(x) = x^2$ is minimized at $x = 0$ with minimum $0$. 
+    \item $F(x) = c$ has minimum and maximum $c$. Any $x$ is a
+      maximizer.
+    \item $F(x) = \cos(x)$ has maximum $1$ and minimum $-1$. $2\pi n$
+      for $n \in \mathbb{Z}$ is a maximizer. 
+    \item $F(x) = \cos(x) + x/2$ has no global maximizer or minimizer,
+      but has many local ones.
+    \end{enumerate}
+  \end{example}
+\end{frame}
+
+\begin{frame}\frametitle{Supremum vs maximum}
+  \begin{itemize}
+  \item The supremum of $F$ on $U$ is $\sup_{x \in U} F(x) = S$ if $S
+    \geq F(x)$ $\forall x \in U$, and for any $S'<S$, $\exists x$
+    s.t. $F(x) > S'$. 
+  \item When $\max_{x \in U} F(x)$ exists, $\sup_{x \in U} F(x) =
+    \max_{x \in U} F(x)$
+  \item Sometimes maximum does not exist, but supremum does e.g.\
+    $F(x) = x$, $U = (0,1)$
+  \item The infinum is to the minimum as the supremum is to the
+    maximum 
+  \end{itemize}
+\end{frame}
+
+\section{First order conditions}
+\begin{frame}\frametitle{First order conditions}
+  \begin{theorem}
+    Let $U \subseteq \R^n$, $F: U \to \R$,  and suppose $F$ has a local
+    maximum or minimum at $x$, $F$ is differentiable at $x$, and $x \in
+    \mathrm{interior}(U)$ . Then $DF_x = 0$.  
+  \end{theorem}
+  
+  \begin{definition}
+    Any point such that $DF_x = 0$ is call a \textbf{critical point} of
+    $F$. 
+  \end{definition}
+  \begin{itemize}
+  \item $F$ cannot have local minima or maxima (=local extrema) at
+    interior non-critical points. 
+  \item $F$ might have a local extrema its critical
+    points, but it does not have to. 
+  \item e.g.\ $F(x) = x^3$,  $F(x) = x_1^2 - x_2^2$
+  \end{itemize}
+\end{frame}
+
+\section{Second order conditions}
+
+\begin{frame}\frametitle{Second order conditions}
+  \begin{itemize}
+  \item $F:\R^n \to \R$, $x^*$ is a critical
+    point
+  \item $DF_{x^*} = 0$
+  \item To check if $x^*$ is a local maximum,
+    need to look at $F(x^* + h)$ for small $h$
+  \item Taylor expansion:
+    \[ F(x^*+h) = F(x^*) + DF_{x^*} h + h^T D^2 F_{x*} h + r(x^*,h) \]
+  \item $D^2 F_{x^*}$ is the matrix of second derivatives, called the
+    \textbf{Hessian} of $F$.    
+  \item $r$ is small, so ignore it, then $F(x^*+h) < F(x^*)$ if
+    $h^T D^2 F_{x^*} h < 0$ for all $h$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $A$ be a symmetric matrix, then $A$ is
+    \begin{itemize}
+    \item \textbf{Negative definite} if $x^T A x < 0$ for all $x \neq 0$
+    \item \textbf{Negative semi-definite} if $x^T A x \leq 0$ for all $x \neq 0$
+    \item \textbf{Positive definite} if $x^T A x > 0$ for all $x \neq 0$
+    \item \textbf{Positive semi-definite} if $x^T A x \geq 0$ for all $x
+      \neq 0$
+    \item \textbf{Indefinite} if $\exists$ $x_1$ s.t. $x_1^T A x_1 > 0$ and
+      some other $x_2$ such that $x_2^T A x_2 < 0$.
+    \end{itemize}  
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Second order condition}
+  \begin{theorem}\label{thm:soc}
+    Let $F: U \to \R$ be twice continuously differentiable on $U$ and
+    let $x^*$ be a critical point in the interior of $U$. If
+    \begin{enumerate}
+    \item\label{c:smax} The Hessian, $D^2 F_{x^*}$ is negative definite,
+      then $x^*$ is a strict local maximizer.  
+    \item The Hessian, $D^2 F_{x^*}$ is positive definite, then $x^*$ is
+      a strict local minimizer. 
+    \item The Hessian, $D^2 F_{x^*}$ is indefinite, $x^*$ is neither a
+      local min nor a local max.
+    \item\label{c:ambig} The Hessian is positive or negative
+      semi-definite, then $x^*$ could be a local maximum, minimum, or
+      neither. 
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+
+\begin{proof}
+  \begin{align*}
+    F(x^*+h) - F(x^*) = & h^T D^2 F_{x^*} h + r(x^*,h) \\
+    = & h^T D^2 F_{x^*} h \pm h^T h \frac{r(x^*,h)}{\norm{h}^2} \\
+    = & 
+    h^T \left( D^2 F_{x^*}\pm \frac{r(x^*,h)}{\norm{h}^2} \right) h \\
+    \leq & h^T \left( D^2 F_{x^*}\pm \epsilon \right) h \\
+    \leq & t^2 (q^T D^2 F_{x*} q) + \epsilon t^2 \text{ where} tq=h, \norm{q}=1
+  \end{align*}
+  Pick $\epsilon < \inf_{\norm{q} =1} |q^T D^2  F_{x*} q|$. The set
+  $\{q: \norm{q} = 1\}$ is compact so there is 
+  some $q$ that achieves this minimum, and $q^T D^2 F_{x^*} q < 0$, so
+  $\epsilon >0$.
+  \begin{align*}
+    F(x^*+h) - F(x^*) < & t^2\left((q^T D^2 F_{x*} q) + |(q^T D^2 F_{x*}
+      q)|\right) \\
+    < & 0
+  \end{align*}
+\end{proof}
+
+\begin{frame}\begin{example}
+    $F:\R \to \R$, $F(x) = x^4$. The first order condition is $4x^3 =
+    0$, so $x^* = 0$ is the only critical point. The Hessian is $F''(x)
+    = 12x^2 = 0$ at $x^*$. However, $x^4$ has a strict local minimum at
+    $0$.
+  \end{example}
+\end{frame}  
+
+\begin{frame}
+  \begin{example}
+    $F: \R^2 \to \R$, $F(x_1,x_2) = -x_1^2$. The first order condition is
+    $DF_x = (-2x_1,0) = 0$, so the $x_1^*=0$, $x_2^* \in \R$ are all
+    critical points. The Hessian is
+    \[ D^2 F_x = \begin{pmatrix} -2 & 0 \\
+      0 & 0 \end{pmatrix} \]
+    This is negative semi-definite because $h^T D^2 F_x h = -2 h_1^2
+    \leq 0$. Also, graphing the function would make it clear that
+    $x_1^*=0$, $x_2^* \in \R$ are all (non-strict) local maxima. 
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    $F: \R^2 \to \R$, $F(x_1,x_2) = -x_1^2 + x_2^4$. The first order
+    condition is $DF_x = (-2x_1,4 x_2^3) = 0$, so the $x^* = (0,0)$ is a
+    critical point. The Hessian is  
+    \[ D^2 F_x = \begin{pmatrix} -2 & 0 \\
+      0 & 12 x_2^2 \end{pmatrix} \]
+    This is negative semi-definite at $0$ because $h^T D^2 F_0 h = -2 h_1^2
+    \leq 0$. However, $0$ is not a local maximum because $F(0,x_2)>
+    F(0,0)$ for any $x_2 \neq 0$. $0$ is also not a local minimum
+    because $F(x_1,0) < F(0,0)$ for all $x_1 \neq 0$.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    Let $F: U \to \R$ be twice continuously differentiable on $U$ and
+    let $x^*$ in the interior of $U$ be a local maximizer (or minimizer) of
+    $F$. Then $DF_{x^*} = 0$ and $D^2 F_{x^*}$ is negative (or positive)
+    semi-definite. 
+  \end{theorem}
+  \begin{proof}
+    Using the same notation and setup as in the proof of theorem
+    \ref{thm:soc}, 
+    \begin{align*}
+      0 > F(x^* + tq ) - F(x^*) = & t^2 q^T D^2 F_{x^*} q + r(x,tq)  \\
+      0 >  & t^2\left(q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) 
+    \end{align*}
+    Because $\lim_{t \to 0} \frac{r(x,tq)}{t^2} = 0$, for any $\epsilon
+    >0$ $\exists \delta > 0$ such that if $|t|< \delta$, then
+    \begin{align*}
+      0 > & t^2\left(q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) \geq  t^2
+      \left(q^T D^2 F_{x^*} q - \epsilon \right) \\
+      t^2 \epsilon >& t^2 q^T D^2 F_{x^*} q 
+    \end{align*}
+    This is only possible for all $\epsilon >0$ if $q^T D^2 F_{x^*}
+    q\leq 0$. 
+  \end{proof}
+\end{frame}
+
+\section{Definite matrices}
+
+\begin{frame}
+  \frametitle{Definite matrices}
+  \begin{itemize}
+  \item Second order condition depends on checking whether $x^T A x$
+    is always positive or negative for symmetric $A$
+  \item $1$ by $1$: $x^T A x = ax^2$, negative definite if $a<0$
+  \item $2$ by $2$:
+    \begin{align*}
+      x^T A x = & \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}^T 
+      \begin{pmatrix}
+        a & b \\ b & c 
+      \end{pmatrix}
+      \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}
+      \\ 
+      = & a x_1^2 + 2b x_1 x_2 + c x_2^2
+      = & a\left(x_1 + \frac{2b}{a} x_1 x_2 + \frac{b^2}{a^2}
+        x_2^2\right) - \frac{b^2}{a} x_2^2 + c x_2^2 \\
+      = &a\left(x_1 + \frac{b}{a} x_2\right)^2 + \frac{ac-b^2}{a} x_2^2 
+    \end{align*}
+    Thus $x^T A x < 0$ for all $x \neq 0$ if $a < 0$ and
+    $\det A = ac - b^2 > 0$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $A$ by an $n$ by $n$ matrix. The $k$ by $k$ submatrix 
+    \[ A_k = \begin{pmatrix} a_{11} & \cdots a_{1k} \\
+      \vdots & & \vdots \\
+      a_{k1} & \cdots & a_{kk} \end{pmatrix} \]
+    is the \textbf{$k$th leading principal submatrix} of $A$. The
+    determinant of $A_k$ is the $k$th order \textbf{leading principal
+      minor} of $A$.
+  \end{definition}
+\end{frame}  
+
+\begin{frame}
+  \begin{theorem}
+    Let $A$ be an $n$ by $n$ symmetric matrix. Then 
+    \begin{enumerate}
+    \item $A$ is positive definite if and only if all $n$ of its leading
+      principal minors are strictly positive.
+    \item $A$ is positive semi-definite if and only if all $n$ of its leading
+      principal minors are weakly positive.
+    \item $A$ is negative definite if and only if all $n$ of its leading
+      principal minors alternate in sign as follows: $\det A_1 < 0$,
+      $\det A_2 > 0$, $\det A_3 < 0$, etc.
+    \item $A$ is negative semi-definite if and only if all $n$ of its
+      leading principal minors weakly alternate in sign as follows:
+      $\det A_1 \leq 0$, $\det A_2 \geq 0$, $\det A_3 \leq 0$, etc
+    \item $A$ is indefinite if and only if none of the five above cases
+      hold, and $\det A_k \neq 0$ for at least one $k$.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}\frametitle{Positive definite}
+  \includegraphics[width=\linewidth]{pd} 
+\end{frame}
+
+\begin{frame}\frametitle{Negative definite}
+  \includegraphics[width=\linewidth]{nd} 
+\end{frame}
+
+\begin{frame}\frametitle{Positive semi-definite}
+  \includegraphics[width=\linewidth]{psd} 
+\end{frame}
+
+\begin{frame}\frametitle{Negative semi-definite}
+  \includegraphics[width=\linewidth]{nsd} 
+\end{frame}
+
+\begin{frame}\frametitle{Indefinite}
+  \includegraphics[width=\linewidth]{id} 
+\end{frame}
+
+\subsection{Eigenvectors and eigenvalues}
+
+\begin{frame}\frametitle{Eigenvalues and eigenvectors}
+  \begin{definition}
+    If $A$ is an $n$ by $n$ matrix, $\lambda$ is a scalar, $v \in \R^n$
+    with $\norm{v} = 1$, 
+    and 
+    \[ Av = \lambda v \]
+    then $\lambda$ is a \textbf{eigenvalue} of $A$ and $v$ is an
+    \textbf{eigenvector}. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    Let $A$ be an $n$ by $n$ matrix and $\lambda$ a scalar. Each of the
+    following are equivalent.
+    \begin{enumerate}
+    \item\label{eig1} $\lambda$ is a eigenvalue of $A$.
+    \item\label{eig2} $A - \lambda I$ is singular.
+    \item\label{eig3} $\det(A - \lambda I ) = 0$.
+    \end{enumerate}
+  \end{lemma}
+  \begin{proof}
+    We know that (\ref{eig2}) and (\ref{eig3}) from our results on
+    systems of linear equations and matrices. Also, if $A - \lambda I$
+    is singular, then the null space of $A - \lambda I$ contains
+    non-zero vectors. Choose $v \in \mathcal{N}(A-\lambda I)$ such that
+    $v \neq 0$. Then $(A-\lambda I) v = 0$, so $A(v/\norm{v}) =
+    \lambda(v/\norm{v})$ as in the definition of eigenvalues. 
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item $\chi_A:\R\to\R$ defined by $\chi_A(x) = \det(A - x I)$
+    is called the \textbf{characteristic polynomial} of $A$
+    \begin{itemize} 
+    \item Polynomial of order $n$.
+    \item $n$ roots, possibly not real and not distinct
+    \item For symmetric nonsingular matrices, the roots are real and
+      distinct
+    \end{itemize}
+  \end{itemize}
+  \begin{lemma}
+    Let $A$ be an $n$ by $n$ matrix with $n$ distinct real eigenvalues
+    then the eigenvectors of $A$ are linearly independent.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item So if $A$ has $n$ distinct eigenvalues, it has $n$ linearly
+    independent eigenvectors.
+  \item Can make the eigenvectors orthogonal
+  \item Make matrix $V$ with columns composed of the orthogonal
+    eigenvectors, then $V$ is orthogonal, so $V^{-1} = V^T$. 
+  \item Definition of eigenvalues implies
+    \[ A V = V \Lambda \]
+    where $\Lambda$ is diagonal matrix of eigenvalues.
+  \end{itemize}
+  \begin{theorem}[Eigendecomposition]
+    Let $A$ be an $n$ by $n$ non-singular symmetric matrix, then $A$ has
+    $n$ distinct real eigenvalues
+    \[ A = V \Lambda V^T \]
+    where $\Lambda$ is the diagonal matrix consisting of the eigenvalues
+    of $A$ and the columns of $V$ are the eigenvectors of $A$, and $V$
+    is an orthogonal matrix.  
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    If $A$ is an $n$ by $n$ symmetric non-singular matrix with
+    eigenvalues $\lambda_1, ..., \lambda_n$, then
+    \begin{enumerate}
+    \item $\lambda_i > 0$ for all $i$, iff $A$ is positive definite,
+    \item $\lambda_i \geq 0$ for all $i$, iff $A$ is positive semi-definite,
+    \item $\lambda_i < 0$ for all $i$, iff $A$ is negative definite,    
+    \item $\lambda_i \leq 0$ for all $i$, iff $A$ is negative
+      semi-definite,
+    \item if some $\lambda_i > 0$ and some $\lambda_j < 0$, then $A$ is
+      indefinite.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+\begin{frame}
+  \begin{proof}
+    Let $A = V \Lambda V^T$ be the eigendecomposition of $A$. Let $x
+    \neq 0 \in \R^n$. Then $x^T V = z^T \neq 0$ because $V$ is
+    nonsingular. Also, 
+    \[ x^T A x = x^T V \Lambda V^T x = z^T \Lambda z. \]
+    Since $\Lambda$ is diagonal we have
+    \[ z^T \Lambda z = z_1^2 \lambda_1 + ... + z_n^2 \lambda_n \]
+    Thus, $x^T A  x= z^T \Lambda z > 0$ for all $x$ iff $\lambda_i>0$
+    for each $i$. The other parts of the theorem follow similarly. 
+  \end{proof}
+\end{frame}
+
+\section{Global maximum and minimum}
+
+\begin{frame}
+  \frametitle{Global maximum and minimum}
+  \begin{itemize}
+  \item First and second order conditions give nice way of finding
+    local maxima
+  \item Global maximum: find all interior local maxima and compare
+    them with each other and the value of $F$ on the boundary
+  \item Tedious if many local maxima or boundary of $U$ is complicated 
+  \item Generally, no nice necessary and sufficient condition for
+    global maximum
+  \item One sufficient condition is that concave functions on convex
+    sets have a unique global maximum
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $f:U \to \R$. $f$ is \textbf{convex} if for all $x,y \in U$ with
+    $\ell(x,y) \subseteq U$ we have $f(tx + (1-t)y) \leq tf(x) + (1-t)
+    f(y)$ for all $t \in [0,1]$.
+  \end{definition}
+  \begin{definition}
+    Let $f:U \to \R$. $f$ is \textbf{concave} if for all $x,y \in U$ with
+    $\ell(x,y) \subseteq U$ we have $f(tx + (1-t)y) \geq tf(x) + (1-t)
+    f(y)$ for all $t \in [0,1]$.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    Let $F: U \to \R$ be twice continuously differentiable and $U
+    \subseteq \R^n$ be convex. Then,
+    \begin{enumerate}
+    \item The following three conditions are equivalent:
+      \begin{enumerate}
+      \item $F$ is a concave function on $U$
+      \item $F(y) - F(x) \leq DF_x(y-x)$ for all $x,y \in U$,
+      \item $D^2 F_x$ is negative semi-definite for all $x, y \in U$
+      \end{enumerate}
+    \item If $F$ is a concave function on $U$ and $DF_{x^*} = 0$ for
+      some $x^* \in U$, then
+      $x^*$ is the global maximizer of $F$ on $U$.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\section{Applications}
+
+\subsection{Profit maximization}
+
+\begin{frame}
+  \frametitle{Application: profit maximization}
+  
+\end{frame}
+
+\subsubsection{Competitive multi-product firm}
+Suppose a firm has produces $k$ goods using $n$ inputs with production
+function $f: \R^n \to \R^k$. The prices of the goods are $p$, and the
+prices of the inputs are $w$, so that the firm's profits are 
+\[ \Pi(x) =  p^T f(x) -  w^Tx. \]
+The firm chooses $x$ to maximize profits.
+\[ \max_x p^T f(x) - w^T x \]
+The first order condition is
+\[ p^T Df_{x^*} - w = 0. \]
+or without using matrices,
+\[ \sum_{j=1}^k p_j \frac{\partial f_j}{\partial x_i}(x^*) = w_i \]
+for $i=1,..., n$. The second order condition is that 
+\[ D[p^T Df]_{x^*} = \begin{pmatrix} \sum_{j=1}^k p_j \frac{\partial^2
+    f_j}{\partial x_1^2}(x^*) & \cdots & \sum_{j=1}^k p_j \frac{\partial^2
+    f_j}{\partial x_1\partial x_n}(x^*)  \\ \vdots & & \vdots \\
+  \sum_{j=1}^k p_j \frac{\partial^2
+    f_j}{\partial x_1\partial x_n}(x^*) & \cdots & \sum_{j=1}^k p_j
+  \frac{\partial^2 f_j}{\partial x_n^2}(x^*) \end{pmatrix} 
+\]
+must be negative semidefinite. 
+
+\subsubsection{Multi-product monopolist}
+Consider the same setup as before, but now with a monopolist who
+recognizes that prices depend on output. Let the inverse demand
+function be $P(q)$ where $P:\R^k \to \R^k$. Now the firm's problem
+is 
+\[ \max_x P(f(x))^T f(x) - w^T x \]
+The first order condition is
+\[ Df_{x^*}^T DP_{f(x^*)}^T f(x^*) + P(f(x^*)) Df_{x^*} - w = 0 \]
+or without matrices,
+\[ \sum_{j=1}^k \left( \sum_{l=1}^k \frac{\partial P_j}{\partial q_l}(f(x^*))
+  \frac{\partial f_l}{\partial x_i}(x^*) f_l(x^*) + 
+  P_j(f(x^*)) \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
+= w_i \]
+We can get something a bit more interpretable by writing this in terms
+of elasticities. Recall that the elasticity of demand for good $l$
+with respect to the price of good $j$ is $(\epsilon^l_j)^{-1}=
+\frac{\partial P_j}{\partial q_l} \frac{q_l}{P_l}$. Then,
+\begin{align*}
+  \sum_{j=1}^k P_j(f(x^*)) \left(\sum_{l=1}^k (\epsilon^l_j)^{-1} \frac{\partial
+      f_l}{\partial x_i}(x^*) +  \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
+  = & w_i \\
+  \sum_{j=1}^k P_j(f(x^*)) \left[\frac{\partial f_j}{\partial x_i}(x^*)
+    \left(f_j(x^*) + (\epsilon_j^j)^{-1} \right) + \sum_{l \neq j}
+  (\epsilon_j^l)^{-1} \frac{\partial f_l}{\partial x_i}(x^*) \right] = & w_i 
+\end{align*}
+There is a way to compare the price and quantity produced by the
+monopolist to the competitive firm. There are also things that can be
+said about the comparison between a single product monopolist ($k=1$)
+vs a multi-product monopolist. It might be interesting to derive some
+of these results. To begin with let $k = 1$ and compare the monopolist
+to the competitive firm. Under some reasonable assumptions on $f$ and
+$P$, you can show that $x^m < x^c$ where $x^m$ is $x^*$ for the
+monopolist and $x^c$ is $x^*$ for the competitive firm. You can also
+show that $p^m>p^c$ and that $|\epsilon^1_1| < 1$ for the
+monopolist. (Although I left it out of the notation above, $\epsilon$
+depends on $x$). 
+
+\end{document}

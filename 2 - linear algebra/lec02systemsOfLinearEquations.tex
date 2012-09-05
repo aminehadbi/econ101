@@ -1,0 +1,965 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\newcommand{\rank}{\mathrm{rank}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\title{Systems of Linear Equations}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+This lecture analyzes systems of linear equations. It is largely based
+on Chapters 6-7 of Simon and Blume. 
+
+Systems of linear appear throughout economics. There are some
+interesting economic models that naturally have a linear
+structure. Chapter 6 of Simon and Blume gives five examples: taxation
+and deductions, Leontief production, Markovian employment, IS-LM, and
+investment and arbitrage. Linear systems also arise as local
+approximations to nonlinear systems. Therefore, understanding linear
+systems is essential for understanding nonlinear systems as well.
+
+A system of linear equations is any set of equations in which the
+unknown only appear linearly. An example of a linear system with 2
+unknowns and 2 equations is
+\begin{align*}
+  5 x_1 - 7 x_2 = & 9 \\
+  -8 x_1 + x_2 = 0.
+\end{align*}
+In general, a linear system with $m$ equation and $n$ unknowns has the
+form 
+\begin{align*}
+  a_{11} x_1 + a_{12} x_2 + ... + a_{1n} x_n = & b_1 \\
+  a_{21} x_1 + a_{22} x_2 + ... + a_{2n} x_n = & b_2 \\
+  \vdots & \vdots \\
+  a_{m1} x_1 + a_{m2} x_2 + ... + a_{mn} x_n = & b_m ,
+\end{align*}
+where $a_{ij}$ and $b_i$ are given, and $x_j$ are unknown.  This
+system of equations be also be written in matrix form.
+\begin{align*}
+  \begin{pmatrix} a_{11} &  \cdots & a_{1n} \\
+    \vdots & & \vdots \\
+    a_{m1} & \cdots & a_{mn} 
+  \end{pmatrix} 
+  \begin{pmatrix} x_1 \\ \vdots \\ x_n
+  \end{pmatrix} = & \begin{pmatrix} b_1 \\ \vdots \\ b_m
+  \end{pmatrix} \\
+  A \mathbf{x} = & \mathbf{b},
+\end{align*}
+where the $m$ by $n$ matrix $A$ is called the \textbf{coefficient
+  matrix}, $\mathbf{x}$ is an $n\times 1$ vector of unknowns and
+$\mathbf{b}$ is an $m \times 1$ vector.  We can represent a system of
+equations slightly more compactly by working with the
+\textbf{augmented coefficient matrix},
+\begin{align*}
+  \hat{A} =   \begin{pmatrix} a_{11} &  \cdots & a_{1n} & b_1 \\
+    \vdots & & \vdots & \vdots \\
+    a_{m1} & \cdots & a_{mn} & b_m 
+  \end{pmatrix}  = \begin{pmatrix} A \mathbf{b}
+  \end{pmatrix}.
+\end{align*}
+
+\subsection*{Example: Markov model of employment}
+
+Let $s_t$ be some variable, like employment, that is randomly changing
+over time. We call this a random process (or stochastic process). In
+general, the probability of being employed at time $t$ could depend on
+the entire history of $s_{t-1}, s_{t-2}, ...$. We could write it as
+$P(s_t|s_{t-1}, s_{t-2}, ...)$. We call $s_t$ \textbf{Markovian} if
+instead the probability of being employed at time $t$ only depends on
+$s_{t-1}$.
+\[ P(s_t|s_{t-1}, s_{t-2}, ...) = P(s_t | s_{t-1}) \] In this case,
+$\{s_t\}$ is said to be a Markov process. Given a Markov process, we
+are often interested in its stationary distribution. A stationary
+distribution is a distribution that $s_t$ that will stay the same as
+time changes. If $s_t \in S$ is discrete, a stationary distribution
+must satisfy 
+\[ q(s) = \sum_{s_0 \in S} P(s|s_0)q(s_0) \]
+for all $s \in S$. 
+
+Markov processes appear in many areas of economics. It is usually
+easier to work with a Markov process than a general stochastic
+process.  Often, we assume variables are Markovian to make a model
+tractable. This is really why we are about to assume employment is a
+Markov process. Other times, economic theory implies that some
+variable must follow a Markov process. This sometimes happens with
+asset prices. Markov processes are also very important for Bayesian
+estimation.
+
+If employment follows a Markov process, then its evolution over time
+is completely described by four probabilities: the probability that
+someone who is employed today is employed tomorrow, the probability
+that someone who is employed today is unemployed tomorrow, the
+probability that someone who is unemployed today is employed tomorrow,
+and the probability that someone who is unemployed today is also
+unemployed tomorrow. We will denote these four probabilities by
+$p_{ee}$, $p_{ue}$, $p_{eu}$, and $p_{uu}$. Given these for
+probabilities, we might be interested in the equilibrium employment
+rate, i.e.\ the employment rate in the stationary distribution of the
+process.  Let $\pi_e$ and $\pi_u$ be stationary employment and
+unemployment rates. They must satisfy 
+\begin{align*}
+  \pi_e =& p_{ee} \pi_e + p_{eu} \pi_u \\
+  \pi_u =& p_{ue} \pi_e + p_{uu} \pi_e \\
+  1 = & \pi_e + \pi_u,
+\end{align*}
+or, equivalently, in the general form written above
+\begin{align*}
+  (p_{ee}-1) \pi_e + p_{eu} \pi_u = & 0\\
+  p_{ue} \pi_e + (p_{uu}-1) \pi_e= & 0\\
+  \pi_e + \pi_u = & 1 .
+\end{align*}
+The augmented matrix for this system is
+\[ \hat{A} = \begin{pmatrix} p_{ee} - 1 & p_{eu} & 0 \\
+  p_{ue} & p_{uu}-1 & 0 \\
+  1 & 1 & 1 \end{pmatrix}. \]
+Three questions to ask about such a system of equations are:
+\begin{enumerate}
+\item Does any solution exist? 
+\item How many solutions exist?
+\item How can a solution be computed?
+\end{enumerate}
+We will begin by examining the first question.  Then, we will see that
+the answers to the first two questions depend on the coefficients of
+the system of equations. 
+
+\section{Solving systems of equations}
+You likely already have experience solving small systems of
+equations. The two basic techniques are
+\begin{enumerate}
+\item substitution: solve for one variable in terms of the others and
+  substitute 
+\item elimination: add a multiple of one equation to another to
+  eliminate one variable.
+\end{enumerate}
+One way of viewing elimination is that transforms one system of
+equations to another that is easier to solve, while ensuring the
+solution remains the same. Three basic \textbf{equation operations}
+that we can perform while preserving the solution of the system are:
+\begin{enumerate}
+\item Multiply an equation by a non-zero constant,
+\item Add a multiple of one equation to another, and
+\item Interchange two equations.
+\end{enumerate}
+We could also perform these operations on the augmented coefficient
+matrix. We then call them \textbf{row operations} instead.  Given a
+reasonably small system of equations, you might be able to solve
+the system without thinking too carefully about the steps
+involved. However, if we want to solve large systems of equations (or
+write a computer programmer to solve large systems of equations), we
+will need to think carefully about the steps involved. 
+
+\subsection{Gaussian elimination}
+
+Gaussian elimination is the process of using these operations to
+transform the augmented matrix of a system of equation into row
+echelon form.  A matrix is in \textbf{row echelon form} if each row
+begins with more zeros than the row above it or the row is all
+zeros. The first non-zero entry in each row of a matrix in row echelon
+form is called a \textbf{pivot}.  \textbf{Gaussian elimination} can be
+performed as follows:
+\renewcommand{\theenumi}{GE\arabic{enumi}}
+\begin{enumerate}
+\item\label{ge1} Identify the first column to contain any non-zero
+  elements, call this column $c^*$.
+\item\label{ge2} Interchange rows so that a nonzero entry appears at
+  the top of column $c^*$. 
+  % Divide the new first row by its first
+  %non-zero entry, so its first non-zero entry becomes one. 
+\item\label{ge3} Add a multiple of the first row to each of the rows
+  below so that the entries in column $c^*$ below the first row are
+  zero.
+\item\label{ge4} Repeat \ref{ge1}-\ref{ge2} on the submatrix
+  consisting of the lower right part of the original matrix below the
+  first row and to the right of column $c^*$. Stop if this submatrix
+  has no columns or has no rows.
+\end{enumerate}
+
+\begin{example}[Gaussian elimination]
+  Consider the system
+  \begin{align*}
+    \begin{array}{ccccccccc} 
+      &   & 3x_2 & + & 2x_3 & - & 4x_4 & = & 4 \\
+      6x_1 & - &  x_2 &   &      & +  & x_4 & = & -2 \\
+      x_1 & + & x_2  & +   & x_3 &    &     & = & 1 \\
+      &   &     &     & 4x_3 & - & x_4 & = &  3
+    \end{array}
+  \end{align*}
+  The augmented matrix for this system is 
+  \begin{align*}
+    \hat{A} = & \begin{pmatrix} 
+      0 &  3 &  2 & -4 & 4 \\
+      6 & -1 &  0 & 1  & -2 \\
+      1 & 1  &  1 & 0  & 1 \\
+      0 & 0  & 4 & -1  & 3 
+    \end{pmatrix}
+  \end{align*}
+  Following the steps above:
+  \begin{itemize}
+  \item[\ref{ge1}] $c^* = 1$
+  \item[\ref{ge2}] Swap 2nd and 1st row.
+    \begin{align*}
+      \begin{pmatrix} 
+        6 & -1 &  0 & 1  & -2 \\
+        0 &  3 &  2 & -4 & 4 \\
+        1 & 1  &  1 & 0  & 1 \\
+        0 & 0  & 4 & -1  & 3 
+      \end{pmatrix}
+    \end{align*}
+  \item[\ref{ge3}] Add $-1/6(row$ 1$)$ to row 3.
+    \begin{align*}
+      \begin{pmatrix} 
+        6 & -1 &  0 & 1  & -2 \\
+        0 &  3 &  2 & -4 & 4 \\
+        0 & 7/6  &  1 & -1/6  & 4/3 \\
+        0 & 0  & 4 & -1  & 3 
+      \end{pmatrix}
+    \end{align*}
+  \item[\ref{ge1}] Now ignoring first row and column, $c^* = 2$.
+  \item[\ref{ge2}] Leave row 2 where it is.
+  \item[\ref{ge3}] Add $-7/18$ row 2 to row 3.
+    \begin{align*}
+      \begin{pmatrix} 
+        6 & -1 &  0 & 1  & -2 \\
+        0 &  3 &  2 & -4 & 4 \\
+        0 & 0  &  2/9 & 25/18 & -4/9 \\
+        0 & 0  & 4 & -1  & 3 
+      \end{pmatrix}
+    \end{align*}  
+  \item[\ref{ge1}] Now ignoring first to columns and rows, $c^* = 3$.
+  \item[\ref{ge2}] Leave row 3.
+  \item[\ref{ge3}] Add $-18$ row 3 to row 4.
+    \begin{align*}
+      \begin{pmatrix} 
+        6 & -1 &  0 & 1  & -2 \\
+        0 &  3 &  2 & -4 & 4 \\
+        0 & 0  &  2/9 & 14/9 & -4/9 \\
+        0 & 0  & 0 & -26  & 11
+      \end{pmatrix}
+    \end{align*}  
+  \end{itemize}
+  Given the above row echelon form, it is relatively easy to solve the
+  system of equations. From the last row, we know $x_4 =
+  -11/26$. Substituting into the second last row, we get $x_3 = 9/2
+  (-4/9 + 14/9\times 11/26)$. Back substituting back to the first row
+  gives a complete solution.
+\end{example}
+
+It is always possible to transform a matrix into row echelon
+form. Moreoevr, we can prove that the above procedure always work.
+\begin{theorem}[Existence of row echelon form] \label{thm:ge}
+  Any matrix can be put into row echelon form using Gaussian
+  elimination. 
+\end{theorem}
+\begin{proof}
+  Let $m$ be the number of rows of a matrix and $n$ be the number of
+  columns. We will prove the theorem by induction on $m$ and $n$. Any
+  $1$ by $n$ matrix is already in row echelon form. Also, given any
+  $m$ by $1$ matrix, if it is all zeros, it is already in row-echelon
+  form. Otherwise, it contains a nonzero entry. We can move this
+  nonzero entry to the first row. Then we can add a multiple of the
+  first entry to all other entries to make all entries after the first
+  into zeros. Thus, any $m$ by $1$ matrix can be put into row echelon
+  form.
+  
+  Now suppose we can put matrix with less than $m$ rows or less than
+  $n$ columns into row echelon form. Given an $m$ by $n$ matrix either
+  the first column contains a nonzero entry or it does not. If the
+  first column is all zeros, then we may ignore it, and we just have
+  to transform the remainging $m$ by $n-1$ matrix into row echelon
+  form, which can be done due to our inductive assumption. 
+  
+  If the first column is not all zeros, then we can follow steps
+  (\ref{ge1}-\ref{ge3}) to make the first element of the matrix
+  nonzero and all other entries in the first column zero. We can then
+  just work on transforming the remaining $m-1$ by $n$ matrix after
+  the first row into row echelon form, which again is possible by our
+  inductive assumption.
+\end{proof}
+Note that the row echelon form of a matrix is not unique because, for
+example, we could multiply any row by a constant and the matrix would
+still be in row echelon form. 
+
+\subsection{Gauss-Jordan elimination}
+
+A matrix is in \textbf{reduced row echelon form} if it is in row
+echelon form with each pivot equal to one and each column that
+contains a pivot has no other non-zero entries. For example,
+\begin{align*}
+  \begin{pmatrix}
+    1 & 0 & 0 & b_1 \\
+    0 & 1 & 0 & b_2 \\
+    0 & 0 & 1 & b_3 
+  \end{pmatrix}
+\end{align*}
+is in reduced row echelon form. The solution to a system of linear
+equations is given immediately by its augmented matrix in reduced row
+echelon form. In the previous example, the solution is $x_1 = b_1$,
+$x_2 = b_2$, and $x_3 = b_3$. 
+\textbf{Gauss-Jordan elimination} transforms a matrix into reduced row
+echelon form and can be performed as follows:
+\renewcommand{\theenumi}{GJ\arabic{enumi}}
+\begin{enumerate}
+\item\label{gj1} Put the matrix into row echelon form by performing
+  Gaussian elimination
+\item\label{gj2} Divide the bottom row by its pivot. 
+\item\label{gj3} Add a multiple of the bottom row to each row above it
+  such that the column above the bottom row's pivot is made equal to
+  all zeros.
+\item\label{gj4} Repeat \ref{gj2} and \ref{gj3} with the next row up.
+\end{enumerate}
+\begin{example}[Gauss-Jordan elimination]
+  Suppose we have performed Gaussian elimination to get
+  \[ \begin{pmatrix}
+    2 & 3 & 0 & -1 \\
+    0 & -1 & -2 & 3 \\
+    0 & 0 & 7 & 14 
+  \end{pmatrix} 
+  \]
+  Following the steps above, we get
+  \begin{align*}
+    \begin{pmatrix}
+      2 & 3 & 0 & -1 \\
+      0 & -1 & -2 & 3 \\
+      0 & 0 & 1 & 2 
+    \end{pmatrix} & (\text{\ref{gj2}}) \\
+    \begin{pmatrix}
+      2 & 3 & 0 & -1 \\
+      0 & -1 & 0 & 7 \\
+      0 & 0 & 1 & 2 
+    \end{pmatrix} & (\text{\ref{gj3}}) \\
+    \begin{pmatrix}
+      2 & 3 & 0 & -1 \\
+      0 & 1 & 0 & -7 \\
+      0 & 0 & 1 & 2 
+    \end{pmatrix} & (\text{\ref{gj2}}) \\
+    \begin{pmatrix}
+      2 & 0 & 0 & 20 \\
+      0 & 1 & 0 & -7 \\
+      0 & 0 & 1 & 2 
+    \end{pmatrix} & (\text{\ref{gj3}}) \\
+    \begin{pmatrix}
+      1 & 0 & 0 & 10 \\
+      0 & 1 & 0 & -7 \\
+      0 & 0 & 1 & 2 
+    \end{pmatrix} & (\text{\ref{gj2}}) 
+  \end{align*}
+\end{example}
+
+As with row echelon form and Gaussian elimination, we can prove that
+a reduced row echelon form always exists and Gauss-Jordan elimination
+can produce it.
+\begin{theorem}[Existence of reduced row echelon form]\label{thm:gj}
+  Any matrix can be put into reduced row echelon form using
+  Gauss-Jordan elimination.
+\end{theorem}
+\begin{proof}
+  Let $A$ by an $m$ by $n$ matrix. By Theorem \ref{thm:ge}, $A$ can
+  be transformed into row echelon form. Steps \ref{gj2}-\ref{gj4} will
+  transform $A$ into reduced row echelon form. 
+\end{proof}
+
+\section{Existence of solutions}
+
+We now have a method for solving systems of equations. Will this
+method always work? The answer is no. It is easy to write down systems
+of equations that cannot be solved. For example, $\begin{array}{ccc} x
+  & = & 2 \\ - x & = & 3 \end{array}$, has no solutions. However, it
+is not always so obvious when a system of equations has no solutions. 
+\begin{example}
+  Consider the system:
+  \begin{align*}
+    x + 2 y - z = & 2 \\
+    4 y + z = & 5 \\
+    -2x - 4y + 2z = & 1.
+  \end{align*}
+  Let's transform this system into row echelon form. Let $\hat{A}
+  \simeq \hat{B}$ mean that the systems of equations represent by
+  $\hat{A}$ and $\hat{B}$ have the same solution.
+  \begin{align*}
+    \begin{pmatrix} 
+      1 & 2 & -1 & 2 \\
+      0 & 4 & 1 & 5 \\ 
+      -2 & -4 & 2 & 1 
+    \end{pmatrix}  \simeq &     
+    \begin{pmatrix} 
+      1 & 2 & -1 & 2 \\
+      0 & 4 & 1 & 5 \\ 
+      0 & 0 & 0 & 3 
+    \end{pmatrix} 
+  \end{align*}
+  The third equation in the transformed system is 
+  \[ 0 x + 0y + 0z = 3, \] 
+  which has no solution. Then, the entire transfrom system must have
+  no solution. By construction, the transformed system has the same
+  solutions as the original system, so the original system of
+  equations must also have no solution. 
+\end{example}
+
+In the preceding example, we saw a system of equations with no
+solution because its row echelon form had a row with all zeros except
+for the final column. This observation applies more generally. 
+\begin{definition}
+  The \textbf{rank} of a matrix is the number of nonzero rows in its
+  row echelon form. 
+\end{definition}
+This definition is slighty problematic because, as stated earlier, the
+row echelon form of a matrix is not unique. To show that rank is well
+defined, we should prove that any row echelon form of a matrix has the
+same number of nonzero rows. We will prove that rank is a well-defined
+a little later in the course. 
+\begin{lemma}\label{lem:rankcr}
+  The rank of a matrix $A$ is always less than or equal to the number
+  of columns of $A$ and less than or equal to the number of rows of $A$.
+\end{lemma}
+\begin{proof}
+  The first claim follows form the definition of row echelon form. If
+  each row of the row echelon form of $A$ must start with more zeros
+  than the preceding row, then there can be at most as many nonzero
+  rows as there are columns. $A$ also cannot have more nonzero rows
+  than total rows, so the second claim is trivial.
+\end{proof}
+\begin{lemma}\label{lem:rankaug}
+  Let $A$ be a coefficient matrix and $\hat{A}$ be an augmented
+  coefficient matrix. Then $\rank A \leq \rank \hat{A}$.
+\end{lemma}
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}[Existence of solutions]\label{thm:exist}
+  A system of linear equations with coefficient matrix $A$ and
+  augmented coefficient matrix $\hat{A}$ has a solution (perhaps more
+  than one) if and only if $\rank A = \rank \hat{A}$.
+\end{theorem}
+\begin{proof}
+  Suppose $\rank A \neq \rank \hat{A}$. From \ref{lem:rankaug}, we
+  know that $\rank A < \rank \hat{A}$. There is a zero row in the row
+  echelon form of $A$ and a corresponding nonzero row in the row
+  echelon form of $\hat{A}$. The equation associated with this row is
+  of the form
+  \[ 0 x_1 + ... + 0 x_n = b'_m \]
+  for some $b'_m \neq 0$. As in the example, this equation has no
+  solution, so the system has no solution. 
+
+  Now suppose $\rank A = \rank \hat{A}$. Let $A'$ be the row echelon
+  form of $A$. We can prove the existence of solutions by induction on
+  the number of rows. If $A'$ is $1$ by $n$ with a nonzero entry, say
+  $a_{1j}$, we can produce a solution by choosing any values for
+  $\{x_{1}, ... , x_{n}\} \setminus \{x_j\}$ and set
+  \begin{align*}
+    x_{j} = \frac{1}{a_{1j_1}} \left(b_1 - \sum_{k \neq j} a_{1k}
+      x_{k} \right).
+  \end{align*}
+  
+  Now let $A$ be $m$ by $n$ and suppose we have proven the claim for
+  all $(m-1)$ by $n$ matrices. If the $m$th row of $A'$ has all zeros,
+  then we may ignore it and only work with the first $m-1$ rows. If
+  the $m$th row of $A'$ has a nonzero entry, let $a_{mj}'$ be the
+  first nonzero entry in the $m$th row. Choose any values for
+  $x_{j+1},...,x_n$ and set
+  \begin{align*}
+    x_{j} = \frac{1}{a_{1j_1}} \left(b_m' - \sum_{k = j+1}^n a'_{mk}
+      x_{k} \right).
+  \end{align*}
+  Substitute these values of $x_j, ..., x_n$ into the $m-1$ rows above
+  to produce the system
+  \begin{align*}
+    \hat{B}' = \begin{pmatrix}
+      a'_{1,1} & \cdots  & a'_{1,j-1} & b'_1 - \sum_{k=j}^n a_{1,k} x_k  \\
+      0 & \ddots &                & \vdots \\ 
+          & \cdots  & a_{m-1,j-1} & b'_{m-1} - \sum_{k=j}^n a_{m-1,k}x_k 
+    \end{pmatrix}.
+  \end{align*}
+  We must have $a_{m-1,j-1} \neq 0$ because $a_{m,j} \neq 0$ and
+  $\hat{A}$ was in row echelon form. Similarly, all of $\hat{B}$ must
+  be row echelon form because $\hat{A}$ was in row echelon form. Thus,
+  $\rank B = m-1$ and the coefficient matrix associated with $\hat{B}$
+  also has rank $m-1$. By the inductive assumption, there exists $x_1,
+  ... , x_{j-1}$ that solve the system represented by $\hat{B}$. This
+  solution combined with the values for $x_j , ..., x_n$ described
+  above is a solution to the entire original system.
+\end{proof}
+
+We now have a nice condition for when there exists at least one
+solution to a system of linear equations. If there is a solution can
+be more than one? From looking at simple systems like $x + y = 0$, the
+answer is clearly yes. If you look carefully at the proof of Theorem
+\ref{thm:exist} you might be able to see that multiple solutions will
+exist whenever at least one solution exists and the row echelon form
+of the coefficient matrix has a row with more than one more zero than
+the row preceding it. That is, there will be multiple solutions
+whenever the rank of the augmented coefficient matrix is equal to rank
+of the coefficient matrix, and rank is less than the number of
+variables in the system (which is equal to the number of columns). We
+will state these ideas formally and prove them below. Before that,
+let's look at another example.
+\begin{example}
+  Consider the system:
+  \begin{align*}
+    4 y + z = & 5 \\    
+    x + 2 y - z = & 2 \\
+    -8y - 2z = & -10.
+  \end{align*}
+  Let's transform this system into row echelon form. Let $\hat{A}
+  \simeq \hat{B}$ mean that the systems of equations represent by
+  $\hat{A}$ and $\hat{B}$ have the same solution.
+  \begin{align*}
+    \begin{pmatrix} 
+      0 & 4 & 1 & 5 \\ 
+      1 & 2 & -1 & 2 \\
+      0 & -8 & 2 & -10 
+    \end{pmatrix}  \simeq &     
+    \begin{pmatrix} 
+      1 & 2 & -1 & 2 \\
+      0 & 4 & 1 & 5 \\     
+      0 & -8 & 2 & -10 
+    \end{pmatrix}  \\
+    \simeq & 
+    \begin{pmatrix} 
+      1 & 2 & -1 & 2 \\
+      0 & 4 & 1 & 5 \\     
+      0 & 0 & 0 & 0 
+    \end{pmatrix}  
+  \end{align*}
+  For any value of $z\in \mathbb{R}$, $y = \frac{1}{4}(5 - z)$ and $x
+  = 2 - \frac{1}{2}(5 - z) + z = -\frac{1+z}{2}$ is a solution to the
+  system.  
+\end{example}
+When solving a system of equations, we call variables whose value is
+indeterminate \textbf{free} variables. We call variables whose value
+is either completely determined or determined by the value of the free
+variables \textbf{basic}. In the above examples, $z$ is a free
+variable and $x$ and $y$ are basic. Note that free and basic are
+just names that are sometimes useful, but they are not concrete
+definitions. In the above example, we could have just as easily
+described the set of solutions by saying: $x \in \mathbb{R}$,
+$z = 2x - 1$, and $y = \frac{3 - x}{2}$. 
+
+In the above example we saw a system of equations with infinitely many
+solutions. It turns out that whenever there is more than one solution,
+there must be infinitely many.
+\begin{lemma}\label{lem:sinf}
+  \footnote{We state and prove this lemma using matrix notation. We
+    will study matrix algebra in greater detail in the next
+    lecture. If you are uncomfortable with matrix notation and
+    operations here, it may help to restate and prove the theorem
+    without using matrices.}  
+  Suppose $\mathbf{x}_1$ and $\mathbf{x}_2$ are two distinct solutions
+  to the system of equations $A \mathbf{x} = \mathbf{b}$. Then the
+  system of equations has (uncountably) infinitely many solutions.
+\end{lemma}
+\begin{proof}
+  Let $w \in \mathbb{R} \setminus$. Consider $\mathbf{x}(w) = w
+  \mathbf{x}_1 + (1 - w)\mathbf{x}_2$. Since $\mathbf{x}_1 \neq
+  \mathbf{x}_2$, for each $w$, $\mathbf{x}(w)$ is unique. Also,
+  \begin{align*}
+    A \mathbf{x}(w) = & A \left( \mathbf{x}_1 w + \mathbf{x}_2 (1-w)
+    \right) \\
+    = & A \mathbf{x}_1 w + A \mathbf{x}_2 (1-w) \\
+    = & b w + b (1- w) \\
+    = & b,
+  \end{align*}
+  so $\mathbf{x}(w)$ is another solution. 
+\end{proof}
+
+Another interesting observation about the previous example is that if
+were to just change $b_3$ from $-10$ to any other number, it would have
+no solutions instead of a unique solution. In particular, the third
+row of the row echelon form would be $\begin{pmatrix} 0 & 0 & 0 & b_3
+  + 10 \end{pmatrix}$.  It would be good to know when the existence
+of solutions depends on the choice of $b$ and when it does not.
+\begin{theorem}[Solution existence]\label{thm:sexist}
+  A system of linear equations with coefficient matrix $A$ will have a
+  solution for any choice of $b_1, ..., b_m$ if and only if $\rank A$
+  is equal to the number of rows of $A$.
+\end{theorem}
+\begin{proof}
+  If $\rank$ of $A$ is equal to the number of rows of $A$, then the
+  row echelon form of $A$ has no all zero rows. For any choice of $b$,
+  the augmented matrix, $\hat{A}$, must also have no all zero
+  rows. Hence, $\rank A = \rank \hat{A}$ and by theorem
+  \ref{thm:exist}, at least one solution exists. 
+
+  If $\rank A$ is less than the number of rows of $A$, then the last
+  row of the row echelon form of $A$, $A'$ has all zeros. If we
+  augment produce an augmented matrix in row echelon form $\hat{A}'$
+  with $b_m \neq 0$, then the last equation has no solutions. We can
+  then reverse the steps of Gaussian elimination used to produce $A'$
+  to arrive at an augmented matrix $\hat{A}$ corresponding to a system
+  with coefficient matrix $A$ that has no solution. 
+\end{proof}
+The following corollary is an immediate consequence of the second part
+of the above proof.
+\begin{corollary}
+  For any system of equations with more equations than variables,
+  there exists a choice of $\textbf{b}$ such that no solutions exist. 
+\end{corollary}
+We call a system of equations with more equations than variables
+\textbf{overdetermined}. A system with more variables than equations
+is called \textbf{underdetermined}. 
+
+\section{Uniqueness of solutions}
+
+\begin{theorem}[Solution uniqueness] \label{thm:sunique}
+  Any system of equations with coefficient matrix $A$ has at most one
+  solution for any $b_1, ... , b_m$ if and only if $\rank A$ equals
+  the number of columns of $A$. 
+\end{theorem}
+\begin{proof}
+  Suppose $\rank A$ is equal to the number of columns of $A$. Then the
+  row echelon form of $A$ must be of the form
+  \begin{align*}
+    \begin{pmatrix}
+      a'_{11} & a'_{12} & ... & a'_{1n} \\
+      0 & a'_{22} & ... & a'_{2n}  \\
+      0 & 0 & \ddots \\
+      0 & \cdots & 0 & a_{kn}' \\
+      0 & \cdots & \cdots & 0 \\
+      \vdots &  &  & \vdots \\
+      0 & \cdots & \cdots & 0 
+    \end{pmatrix}
+  \end{align*}
+  The only possible solution is $x_n = b_k/a'_{kn}$, $x_{n-1} =
+  \frac{b_{k-1} - a_{k-1,n}' x_n}{a_{k-1,n-1}'}$. Thus, if any
+  solution exists, it is unique. 
+
+  Conversely, suppose $\rank A$ is less than the number of columns of
+  $A$. We can prove that $A$ can have multiple solutions by performing
+  induction on $m$. If $A$ is $1$ by $n$ and has at least one non-zero
+  entry, then the system will have infinite solutions for any
+  $b_1$. On the other hand, if $A$ is all zeros, then the system has
+  infinite solutions for $b_1 = 0$.\footnote{The only other possible
+    case is that $A$ is all zeros and $b_1 \neq 0$, in that case $A$
+    has no solutions. Thus, if $A$ has any solution, then $A$ has
+    multiple solutions. This observation is not needed for this proof,
+    but will be used to prove corollary \ref{cor:smult}.}
+  
+  Now, suppose we have shown that any $m-1$ by $n$ matrix with rank
+  less than the number of columns can have multiple solutions. If $A$
+  is $m$ by $n$ with rank less than $n$, consider three cases: (i) the
+  last row of the row echelon form of $A$ is identically zero, (ii)
+  the last row of the row echelon from of $A$ has one non-zero entry
+  and (iii) the last row of the row echelon form of $A$ has multiple
+  non-zero entries. Every $A$ will fit into one of these three cases.
+
+  In case (iii), we can produce a solution for any value of $x_n$, so
+  multiple solutions exist.
+
+  In case (i), we can delete the last row of the row echelon form of
+  $A$ without changing its rank. Let $A_1$ be the row echelon form of
+  $A$ with the last row deleted. When $b_m = 0$, any solution to $A_1$
+  is also a solution to $A$. Furthermore, the rank of $A_1$ must equal
+  the rank of $A$, and the number of columns of $A_1$ equals the
+  number of columns of $A$. Hence, $A_1$ is $m-1$ by $n$ with rank
+  less than the number of columns, so by induction, multiple solutions
+  will exist.
+
+  In case (ii), let $A_1$ be the row echelon form of $A$ with last row
+  and last column deleted.  Finally, $\rank A_1 = \rank A - 1$ and
+  $A_1$ has one column less than $A$, so $A_1$ is $m-1$ by $n-1$ and
+  by induction multiple solutions exist. Let $b_1, ..., b_{m-1}$
+  combined with $A_1$ produces multiple solutions. Then any solution
+  to the system $A_1$ along with $x_{n} = b_m/\tilde{a}_{mn}$, where
+  $\tilde{a}_{mn}$ is the last entry in the last row of the row
+  echelon form of $A$, will be a solution to the system with
+  coefficients $A$ and right hand side $b_1 + \tilde{a}_{1n}
+  b_m/\tilde{a}_{mn}, \cdots , b_{m-1} + \tilde{a}_{m-1,n}
+  b_m/\tilde{a}_{mn} , b_m$. Thus, multiple solutions to $A$ also
+  exist.
+\end{proof}
+The following corollary is a nice consequence of the above proof.
+\begin{corollary}\label{cor:smult}
+  If $\rank A$ is less than the number of columns of $A$ then either
+  no solutions exists or multiple solutions exists. 
+\end{corollary}
+\begin{proof}
+  As noted in the footnote in the previous proof, the first step
+  showed that any $1$ by $n$ matrix with rank less than $n$ has either
+  no solutions or multiple solutions. The same inductive argument as
+  in the previous proof then shows that whenever any solution exists,
+  there must be multiple solutions. 
+\end{proof}
+
+We call a coefficient matrix $A$ \textbf{nonsingular} if for any $b_1,
+..., b_m$ the system of equations has exactly one solution. Combining
+the last two theorems, (\ref{thm:sexist} and \ref{thm:sunique}) we get
+the following corollary.
+\begin{corollary}
+  $A$ is nonsingular if and only if $A$ has an equal number of columns
+  and rows ($A$ is square) and has rank equal to its number of columns
+  (or rows).
+\end{corollary}
+
+We now know conditions under which a system has a solution and when
+the solution is unique. To review, we know from theorem
+\ref{thm:exist} that a particular system has a solution if and only if
+$\rank A = \rank \hat{A}$.  Additionally, if $\rank A$ is equal to its
+number of columns, then the solution is unique (theorem
+\ref{thm:sunique}).  On the other hand if $\rank A$ is less than the
+number of columns, then there are infinite solutions (corollary
+\ref{cor:smult} and lemma \ref{lem:sinf}). 
+
+\section{Set of solutions}
+A final issue to investigate is: if there are infinite solution, how
+can we describe the set of solutions.  Figure \ref{fig:solnSets} plots
+the solution sets to three systems of equations with multiple
+solutions. 
+\begin{figure}\caption{Solution sets \label{fig:solnSets}}
+  \begin{tabular}{ccc}
+    $-2x + y = 1$
+    &
+    $\begin{array}{cc} 
+      x - y - z = & 0 \\
+      -2x + y + 3z = & 1 
+    \end{array}$    
+    & 
+    $
+    -2x - y +  z =  2
+    $
+    \\
+    \includegraphics[width=0.3\linewidth]{fig1} & 
+    \includegraphics[width=0.3\linewidth]{fig2} & 
+    \includegraphics[width=0.3\linewidth]{fig3} 
+  \end{tabular}
+\end{figure}
+Generalizing the these three examples, we can guess that:
+\begin{itemize}
+\item The set of solutions to an equation with two variables,
+  \begin{align*}
+    a x + b y = c,
+  \end{align*}
+  is a line in $\mathbb{R}$.
+\item The set of solutions to two equation with
+  three variables,
+  \begin{align*}
+    a_1 x + b_1 y + c_1 z =&  d_1 \\
+    a_2 x + b_2 y + c_2 z =&  d_2, \\
+  \end{align*}
+  is also a line in $\mathbb{R}^3$. 
+\item The set of solutions to a single equation with three variables, 
+  \begin{align*}
+    a_1 x + b_1 y + c_1 z =&  d_1 
+  \end{align*}
+  is a plane in $\mathbb{R}^2$.
+\end{itemize}
+We will prove that these three guesses are true next week. In fact, we
+will prove that when generalized to systems with more variables, these
+guesses remain true. In this lecture we will just state the general
+result. To do so, we need some more definitions. We will use the
+definition much more when we talk about Euclidean spaces in a week or
+so.
+\begin{definition}
+  The set $S \subseteq \mathbb{R}^n$ is called a \textbf{linear
+    subspace} if it is closed under (i) scalar multiplication and (ii)
+  addition in other words, if 
+  \begin{itemize}
+  \item[(i)] for every $(x_1, ..., x_n)\in S$ and $a \in \mathbb{R}$,
+    we have $(a x_1, a x_2, ..., a x_n) \in S$, and
+  \item[(ii)] for every $(x_1, ..., x_n)\in S$ and $(y_1, ..., y_n)\in
+    S$, we have
+    $(x_1 + y_1, ..., x_n + y_n)  \in S$
+  \end{itemize}
+\end{definition}
+\begin{definition}
+  A set of vectors in $\mathbb{R}^n$, $\{\textbf{x}_j = (x^j_1,...,
+  x^j_n)\}_{j=1}^J$, is \textbf{linearly independent} if the only
+  solution to 
+  \begin{align*}
+    \sum_{j=1}^J c_j \textbf{x}_j = 0 
+  \end{align*}
+  is $c_1 = c_2 = ... = c_J = 0$. 
+\end{definition}
+Observe that two points on a line are not linearly independent. Three
+points on a plane are also not linearly independent. This suggests the
+following definition.
+\begin{definition}
+  The dimension of a linear subspace $S \subseteq \mathbb{R}^n$ is the
+  cardinality of the largest set of linearly independent elements in
+  $S$. 
+\end{definition} 
+With this defition, a line has dimension one, a plane has dimension
+two, and $\mathbb{R}^n$ has dimension $n$. We can now state a result
+that summarizes everything we know about the solutions to linear
+systems. 
+\begin{theorem}[Rouch\'{e}-Capelli] \label{thm:rc} A system of linear
+  equations with $n$ variables has a solution if and only if the rank
+  of its coefficient matrix, $A$, is equal to the rank of its
+  augmented matrix, $\hat{A}$. If a solution exists and $\rank A$ is
+  equal to its number of columns, the solution is unique. If a
+  solution exists and $\rank A$ is less than its number of columns,
+  there are infinite solutions. In this case the set of solutions
+  forms is of the form\footnote{A set of this form is called an affine
+    subspace. It is a linear subspace that has been shifted so that it
+    no longer necessarily contains the origin.}
+  \[ 
+  \{s+x^* \in \mathbb{R}^n : s \in S \text{ and } Ax^* = b \} 
+  \]
+  where $S$ is a linear subspace of dimension $n - \rank A$ and $x^*$
+  is a solution to $A x = b$.
+\end{theorem}
+The first part of this theorem is just a restatement of things we have
+already proven. We will prove the last claim, that the set of solutions
+forms a linear subspace of dimension $n - \rank A$, next week.
+
+\subsection*{Example: Markov model of employment (continued)}
+We can now answer the three questions posed at the beginning of this
+lecture. 
+\renewcommand{\theenumi}{\arabic{enumi}}
+\begin{enumerate}
+\item \emph{Does any solution exist? } \\
+  A solution exists if $\rank A = \rank \hat{A}$. For this example, 
+  \begin{align*}
+    A = & \begin{pmatrix} 
+      p_{ee} - 1 & p_{eu}  \\ 
+      p_{ue} & p_{uu}-1  \\ 
+      1 & 1  \end{pmatrix}.  \\
+    \hat{A} = & \begin{pmatrix} 
+      p_{ee} - 1 & p_{eu} & 0 \\ 
+      p_{ue} & p_{uu}-1 & 0 \\ 
+      1 & 1 & 1 \end{pmatrix}. 
+  \end{align*}
+If we perform Gaussian elimination on $A$, we get\footnote{You should
+  check that the steps being performed do not involve division by
+  zero.}
+\begin{align*}
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu}  \\ 
+    p_{ue} & p_{uu}-1  \\ 
+    1 & 1  \end{pmatrix} \simeq & 
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu}  \\ 
+    0 & \frac{p_{ee}- 1 - p_{eu}}{p_{ee}-1}  \\
+    0 & \frac{(p_{ee}-1) (p_{uu}- 1) - p_{eu} p_{ue}}{p_{ee}-1} 
+  \end{pmatrix} \\
+  \simeq &  
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu}  \\ 
+    0 & \frac{p_{ee}- 1 - p_{eu}}{p_{ee}-1}  \\
+    0 & 0 \end{pmatrix}. \\
+\end{align*}
+For $\hat{A}$, we get
+\begin{align*}
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu} & 0 \\ 
+    1 & 1 & 1 \\
+    p_{ue} & p_{uu}-1 & 0 
+  \end{pmatrix} 
+  \simeq & 
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu} & 0 \\ 
+    0 & \frac{p_{ee}- 1 - p_{eu}}{p_{ee}-1}  & 1 \\
+    0 & \frac{(p_{ee}-1) (p_{uu}- 1) - p_{eu} p_{ue}}{p_{ee}-1} & 0 
+  \end{pmatrix}  \\
+  \simeq & 
+  \begin{pmatrix} 
+    p_{ee} - 1 & p_{eu} & 0 \\ 
+    0 & \frac{p_{ee}- 1 - p_{eu}}{p_{ee}-1} &  1 \\
+    0 & 0 & -\frac{(p_{ee}-1) (p_{uu}- 1) - p_{eu} p_{ue}}{p_{ee}-1} 
+    \frac{p_{ee} - 1}{p_{ee} - 1 - p_{eu}}.
+  \end{pmatrix}
+\end{align*}
+and we see that the rank $\hat{A}$ will be greater than the rank $A$
+of unless 
+\[ 
+   -\frac{(p_{ee}-1) (p_{uu}- 1) - p_{eu} p_{ue}}{p_{ee}-1} 
+    \frac{p_{ee} - 1}{p_{ee} - 1 - p_{eu}} = 0 .
+\]
+Fortunately, if these are valid probabilities, then $p_{ee} + p_{ue} =
+1$ and $p_{uu} + p_{eu} = 1$, so 
+\begin{align*}
+  (p_{ee}-1) (p_{uu}- 1) - p_{eu} p_{ue} = & (-p_{ue})(-p_{eu}) -
+  p_{eu} p_{ue} \\
+  = & 0.
+\end{align*}
+Thus, the system does have a solution. 
+\item \emph{How many solutions exist?} \\
+  From the above, we see that $\rank A = 2$ provided that $-p_{ue} -
+  p_{eu} \neq 0$ and $p_{ee} - 1 \neq 0$. Therefore, there is a unique
+  solution. 
+\item \emph{How can a solution be computed?} \\
+  By Gaussian or Gauss-Jordan elimination, like we did above.
+\end{enumerate}
+
+
+\end{document}

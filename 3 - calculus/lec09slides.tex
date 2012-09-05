@@ -1,0 +1,437 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Implicit and inverse function theorems}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+\section{Inverse functions}
+
+\begin{frame}
+  \frametitle{Inverse functions}
+  \begin{itemize}
+  \item $f:\R^n \to \R^m$
+  \item When can we solve $f(x) = y$ for $x$? 
+  \item Use derivative and what we know about linear equations to get
+    a local answer  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inverse functions}
+  \begin{itemize}
+  \item If $f(a) = b$, expand $f$ around $a$.
+    \[ f(x) = f(a) = Df_a(x-a) + r_1(a,x-a) = y\]
+  \item If $r_1$ is small, we almost have a system of linear equations
+    \[ Df_a x = y - f(a) + Df_a a \]
+  \item Know:
+    \begin{itemize}
+    \item Solution exists if 
+      \[ \rank Df_a =
+      \rank \begin{pmatrix} Df_a &  y - f(a) + Df_a a \end{pmatrix} \]
+    \item Solution unique and if $\rank Df_a = n$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Inverse function]
+    Let $f: \R^n \to \R^n$ be continuously differentiable on an open set
+    $E$. Let $a \in E$, $f(a) = b$, and $Df_a$ be invertible . Then 
+    \begin{enumerate}
+    \item there exist open sets $U$ and $V$ such that $a \in U$,
+      $b \in
+      V$, $f$ is one-to-one on $U$ and $f(U) = V$, and
+    \item the inverse of $f$ exists and is continuously differentiable
+      on $V$ with derivative $\left(Df_{f^{-1}(x)}\right)^{-1}$.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \begin{proof}
+    Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}} = 1/2$. Since
+    $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
+    that $\norm{Df_x - Df_a} < \lambda$ for all $x \in U$. For any $y
+    \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
+    \right)$. Note that 
+    \begin{align}
+      D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
+      = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}} \lambda =
+      \frac{1}{2} \label{e50}
+    \end{align}
+    Then, by the mean value theorem for $x_1, x_2 \in U$, 
+    \[ \norm{\varphi^y(x_1) - \varphi^y(x_2)} = \norm{D\varphi^y_{\bar{x}}
+      (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
+    $\varphi^y$ is a contraction, so it has a unique fixed point.
+    When $\varphi^y(x) = x$, it must be that $y = f(x)$. Thus for each
+    $y \in f(U)$, there is at most one $x$ such that $f(x) = y$. That
+    is, $f$ is one-to-one on $U$. This proves the first part of the
+    theorem and that $f^{-1}$ exists. 
+  \end{proof}
+\end{frame}
+
+\section{Contraction mappings}
+
+\begin{frame}
+  \begin{definition}
+    Let $f:\R^n \to \R^n$. $f$ is a \textbf{contraction mapping} on $U
+    \subseteq \R^n$ if for all $x,y \in U$, 
+    \[ \norm{f(x) - f(y)} \leq c \norm{x - y} \]
+    for some $0 \geq c < 1$.
+  \end{definition}
+  If $f$ is a contraction mapping, then an $x$ such that $f(x) = x$ is
+  called a \textbf{fixed point} of the contraction mapping.
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    Let $f:\R^n \to \R^n$ be a contraction mapping on $U \subseteq
+    \R^n$. If $x_1 = f(x_1)$ and $x_2 = f(x_2)$ for some $x_1, x_2 \in
+    U$, then $x_1 = x_2$.
+  \end{lemma}
+  \begin{proof}
+    Since $f$ is a contraction mapping, 
+    \[ \norm{f(x_1) - f(x_2)} \leq c \norm{x_1 - x_2}. \]
+    $f(x_i) = x_i$, so
+    \[ \norm{x_1 - x_2} \leq c \norm{x_1 - x_2}. \]
+    Since $0 \geq c < 1$, the previous inequality can only be true if
+    $\norm{x_1 - x_2} = 0$. Thus, $x_1 = x_2$.
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}
+    Let $f: \R^n \to \R^n$ be a contraction mapping on $U \subseteq
+    \R^n$, and suppose that $f(U) \subseteq U$.  Then $f$ has a unique
+    fixed point.
+  \end{lemma}
+  \begin{proof}
+    Pick $x_0 \in U$. As in the discussion before the lemma, construct
+    the sequence defined by $x_n = f(x_{n-1})$. Each $x_n \in U$ because
+    $x_n = f(x_{n-1}) \in f(U)$ and $f(U) \subseteq U$ by
+    assumption. Since $f$ is a contraction on $U$, $\norm{x_{n+1} - x_{n}}
+    \leq c^n \norm{x_1 - x_0}$, so $\lim_{n \to \infty} \norm{x_{n+1} -
+      x_{n}} = 0$, and $\{x_n\}$ is a Cauchy sequence. Let $x = \lim_{n
+      \to \infty} x_n$. Then 
+    \begin{align*}
+      \norm{x - f(x)} \leq & \norm{x - x_n} + \norm{f(x) - f(x_n)} \\
+      \leq & \norm{x - x_n} + c\norm{x - x_n}
+    \end{align*}
+    $x_n \to x$, so for any $\epsilon > 0$ $\exists N$, such that if $n
+    \geq N$, then $\norm{x - x_n} < \frac{\epsilon}{1+c}$. Then,
+    \[ \norm{x - f(x)} < \epsilon \]
+    for any $\epsilon>0$. Therefore, $x = f(x)$. 
+  \end{proof}
+\end{frame}
+
+\section{Implicit functions}
+
+\begin{frame}
+  \frametitle{Implicit functions}
+  \begin{itemize}
+  \item Cannot always write conditions of a model as $f(x) = y$ 
+  \item Often only $f(x,y) = c$.
+  \item Using same sort of idea, can get $x$ as a function of $y$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item $f:\R^{n+m} \to \R^{n}$, $x \in \R^n$, $y \in \R^m$
+  \item Have a model that requires $f(x,y) = c$
+  \item Know that $f(x_0,y_0) = c$
+  \item Expand $f$ around $x_0$ and $y_0$
+    \begin{align*}
+      f(x,y) = & f(x_0,y_0) + \underbrace{D_x
+      f_{(x_0,y_0)}}_{n \times n} (x-x_0) + 
+      \underbrace{D_y f_{(x_0,y_0)}}_{n \times m} 
+      (y-y_0) + r(x,y) = c 
+    \end{align*}
+  \item If $r$ small enough, 
+    \begin{align*}
+      f(x_0,y_0) + D_xf_{(x_0,y_0)} (x-x_0) + D_yf_{(x_0,y_0)}
+      (y-y_0) & \approx c \\
+      D_xf_{(x_0,y_0)} (x-x_0) & \approx \left(c -  f(x_0,y_0) -
+        D_yf_{(x_0,y_0)} (y-y_0)\right) 
+    \end{align*}
+    a system of linear equations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Implicit function]\label{thm:implicit}
+    Let $f:\R^{n+m} \to \R^n$ be continuously differentiable on some open
+    set $E$ and suppose $f(x_0,y_0) = c$ for some $(x_0,y_0) \in E$,
+    where $x_0 \in \R^n$ and $y_0 \in \R^m$. If 
+    $D_xf_{(x_0,y_0)}$ is invertible, then there exists open sets $U
+    \subset \R^n$ and $W \subset \R^{n-k}$ with $(x_0,y_0) \in U$ and
+    $y_0 \in W$ such that 
+    \begin{enumerate}
+    \item\label{imp1} 
+      For each $y\in W$ there is a unique $x$ such that $(x,y) \in
+      U$ and $f(x,y) = c$.
+    \item\label{imp2}
+      Define this $x$ as $g(y)$. Then $g$ is continuously
+      differentiable on $W$, $g(y_0) = x_0$,
+      $f(g(y),y) = c$ for all $y
+      \in W$, and $Dg_{y_0} = -\left(D_xf_{(x_0,y_0)}\right)^{-1}
+      D_yf_{(x_0,y_0)}$ 
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Applications}
+\subsection{Roy's Identity}
+
+\begin{frame}
+  \frametitle{Application: Roy's identity}
+  \begin{itemize}
+  \item $V(m,p)$ an \textbf{indirect utility function} 
+    \begin{align}
+      V(m,p) = \max_c U(c) \text{ s.t. } pc \leq m. \label{eq:iu}
+    \end{align}
+  \item \textbf{expenditure function}, $E(u,p)$
+    \begin{align}
+      E(u,p) = \min_c pc \text{ s.t. } U(c) \geq u. \label{eq:ex}
+    \end{align}
+  \item Observe that $V(E(u,p),p) = u$ (if $U$ continuous and $p \neq 0$)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Application: Roy's identity}
+  \begin{itemize}
+  \item Differentiate
+    \begin{align*}
+      \frac{\partial V}{\partial m} (E(u,p),p) \frac{\partial E}{\partial
+        p_i}(u,p) + \frac{\partial V}{\partial p_i} (E(u,p),p) = & 0 \\
+      \frac{\partial E}{\partial
+        p_i}(u,p) = & -\frac{\frac{\partial V}{\partial m} (E(u,p),p)}
+      {\frac{\partial V}{\partial p_i} (E(u,p),p)} 
+    \end{align*}
+  \item Shephard's lemma is
+    \[ c_i^*(u,p) =  \frac{\partial E}{\partial p_i}(u,p), \]
+  \item Roy's identity is
+    \[ c_i^*(m,p) = -\frac{\frac{\partial V}{\partial m} (m,p)}
+    {\frac{\partial V}{\partial p_i} (m,p)}. \]
+  \end{itemize}
+\end{frame}
+
+
+\subsection{Comparative statics}
+
+\begin{frame}\frametitle{Comparative statics}
+  \begin{itemize}
+  \item Finite horizon macro model. 
+  \item Production
+    \[ y_t = A_t k_t^\alpha \]
+  \item Budget
+    \[ c_t + k_{t+1} = (1-\delta) k_t + A_t k_t^\alpha. \]
+  \item Social planner's problem
+    \[ \max_{\{c_t,k_t\}_{t=0}^T} \sum_{t=0}^T \beta^t
+    \frac{c_t^{1-\gamma}} {1-\gamma}  \text{ s.t. } c_t + k_{t+1} =
+    (1-\delta) k_t + A_t k_t^\alpha. \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Lagrangian
+    \[ \max_{\{c_t,k_t,\lambda_t\}_{t=0}^T} \sum_{t=0}^T \beta^t
+    \frac{c_t^{1-\gamma}} {1-\gamma}  + \lambda_t(c_t + k_{t+1} - 
+    (1-\delta) k_t - A_t k_t^\alpha) \]
+  \item First order conditions
+    \begin{align*}
+      [c_t]: & & \beta^t c_t^{-\gamma} = & \lambda_t \\
+      [k_t]: & & \lambda_{t-1} = & \lambda_t\left((1-\delta) + A_t \alpha
+        k_t^{\alpha-1}\right) \\
+      [\lambda_t]: & & c_t + k_{t+1} = & (1-\delta) k_t + A_t k_t^\alpha
+    \end{align*}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \begin{itemize}
+  \item Suppose $A_t$ changes unexpectedly at time $T-1$ 
+  \item Want to find the change in $c_{T-1}$, $c_T$, and $k_T$
+  \item Relevant first order conditions
+    \begin{align*}
+      0 =&  F(c_{T},c_{T-1},k_{T},A_T,A_{T-1},c_{T-2},k_{T-1}) \\
+      = & \begin{pmatrix} 
+        c_{T-1} + k_{T} - (1-\delta) k_{T-1} - A_{T-1} k_{T-1}^\alpha \\
+        c_T - (1-\delta) k_T - A_T k_T^\alpha \\
+        c_{T-1}^{-\gamma} - c_T^{-\gamma} \beta \left((1-\delta) +  A_T \alpha k_T^{\alpha-1}\right)
+      \end{pmatrix}
+    \end{align*}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \begin{itemize}
+  \item The implicit function theorem says that
+    \begin{align*}
+      \begin{pmatrix} \frac{\partial c_{T-1}}{\partial A_{T-1}} \\ 
+        \frac{\partial c_{T}} {\partial A_{T-1}} \\ 
+    \frac{\partial
+      k_{T}} {\partial A_{T-1}} \end{pmatrix} = & 
+  -\begin{pmatrix} 
+    \frac{\partial F_1}{\partial c_{T-1}} & 
+    \frac{\partial F_1}{\partial c_{T}} & 
+    \frac{\partial F_1}{\partial k_{T}} \\
+    \frac{\partial F_2}{\partial c_{T-1}} & 
+    \frac{\partial F_2}{\partial c_{T}} & 
+    \frac{\partial F_2}{\partial k_{T}} \\
+    \frac{\partial F_3}{\partial c_{T-1}} & 
+    \frac{\partial F_3}{\partial c_{T}} & 
+    \frac{\partial F_3}{\partial k_{T}} 
+  \end{pmatrix}^{-1} \begin{pmatrix} 
+    \frac{\partial F_1}{\partial A_{T-1}} \\     
+    \frac{\partial F_2}{\partial A_{T-1}} \\
+    \frac{\partial F_3}{\partial A_{T-1}} 
+  \end{pmatrix} \\
+  = & 
+  -\begin{pmatrix} 
+    1 & 0 & 1 \\
+    0 & 1 & -(1-\delta) - A_T\alpha k_T^{\alpha-1} \\
+    -\gamma c_{T-1}^{-\gamma-1} & \gamma c_{T}^{-\gamma-1}
+    \beta\left((1-\delta) + A_T \alpha k_T^{\alpha-1}\right) &
+    -c_T^{-\gamma} \beta A_T \alpha (\alpha-1) k_T^{\alpha-2} 
+  \end{pmatrix}^{-1} 
+  \begin{pmatrix}
+    -k_{T-1}^\alpha \\
+    0 \\
+    0
+  \end{pmatrix} \\
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Gaussian elimination:
+    \begin{align*}
+      & \begin{pmatrix} 
+        1 & 0 & 1 & k_{T-1}^\alpha \\
+        0 & 1 & -(1-\delta) - A_T\alpha k_T^{\alpha-1} & 0 \\
+    -\gamma c_{T-1}^{-\gamma-1} & \gamma c_{T}^{-\gamma-1}
+    \beta\left((1-\delta) + A_T \alpha k_T^{\alpha-1}\right) &
+    -c_T^{-\gamma} \beta A_T \alpha (\alpha-1) k_T^{\alpha-2} & 0
+  \end{pmatrix} \simeq \\
+  \simeq &   \begin{pmatrix} 
+    1 & 0 & 1 & k_{T-1}^\alpha \\
+    0 & 1 & -(1-\delta) - A_T\alpha k_T^{\alpha-1} & 0 \\
+    0 & \gamma c_{T}^{-\gamma-1}
+    \beta\left((1-\delta) + A_T \alpha k_T^{\alpha-1}\right) &    
+    -c_T^{-\gamma} \beta A_T \alpha (\alpha-1) k_T^{\alpha-2} + \gamma
+    c_{T-1}^{-\gamma-1} & \gamma c_{t-1}^{-\gamma-1} k_{T-1}^\alpha 
+  \end{pmatrix}  \\
+  \simeq &   \begin{pmatrix} 
+    1 & 0 & 1 & k_{T-1}^\alpha \\
+    0 & 1 & -(1-\delta) - A_T\alpha k_T^{\alpha-1} & 0 \\
+    0 & 0 & E & \gamma c_{t-1}^{-\gamma-1} k_{T-1}^\alpha
+  \end{pmatrix} \\
+\end{align*}
+where
+\begin{align*}
+  E = &\left(\gamma c_{T}^{-\gamma-1} \beta\left((1-\delta) + A_T
+      \alpha k_T^{\alpha-1}\right)\right)
+  \left((1-\delta) + A_T\alpha k_T^{\alpha-1} \right) + \\
+  & -c_T^{-\gamma} \beta A_T \alpha (\alpha-1) k_T^{\alpha-2} + \gamma 
+  c_{T-1}^{-\gamma-1}.
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Assume $\alpha \leq 1$, so 
+    that $E > 0$. Then,
+    \[ 
+    \frac{\partial k_T}{\partial A_{T-1}} = \frac{\gamma
+      c_{T-1}^{-\gamma-1} k_{T-1}^\alpha} {E} > 0 \]
+  \item 
+    \[ \frac{\partial c_T}{\partial A_{T-1}} = \frac{\partial
+      k_T}{\partial A_{T-1}}  \left((1-\delta) + A_T \alpha _T
+      k_T^{\alpha-1} \right), \]
+  \item 
+    \begin{align*}
+      \frac{\partial c_{T-1}}{\partial A_{T-1}} = & k_{T-1}^\alpha -
+      \frac{\partial k_T}{\partial A_{T-1}} \\
+      = & \frac{k_{T-1}^\alpha E - \gamma c_{T-1}^{-\gamma-1}
+        k_{T-1}^\alpha } {E} \\
+      = & \frac{k_{T-1}^\alpha \left(\gamma c_{T}^{-\gamma-1}
+          \beta\left((1-\delta) + A_T 
+            \alpha k_T^{\alpha-1}\right)\right)
+        \left((1-\delta) + A_T\alpha k_T^{\alpha-1} \right) - c_T^{-\gamma}
+        \beta A_T \alpha (\alpha-1) k_T^{\alpha-2} } {E} \\
+      0  \leq & \frac{\partial c_{T-1}}{\partial A_{T-1}} <  k_{T-1}^\alpha 
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\end{document}

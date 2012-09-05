@@ -1,0 +1,684 @@
+\documentclass[12pt,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+%\usepackage[small,compact]{titlesec} 
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage[normalem]{ulem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{assumption}{}[section]
+%\renewcommand{\theassumption}{C\arabic{assumption}}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{step}{Step}[section]
+\newtheorem{remark}{Comment}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead{}
+\fancyfoot{} 
+%\fancyhead[LE,LO]{\tiny{\thepage}}
+\fancyhead[CE,CO]{\tiny{\rightmark}}
+\fancyfoot[C]{\small{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\small{\thepage}} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \null 
+  \begin{center}%
+    \rule{\linewidth}{1pt} 
+    {\Large \textbf{\textsc{\@title}}} \par
+    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{\@date}} \par
+    {\small \textsc{University of British Columbia}} \par
+    {\small \textsc{Economics 526}} \par
+    \rule{\linewidth}{1pt} 
+  \end{center}%
+  \par \vskip 0.9em
+}
+\makeatother
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Differential Calculus}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+%\section*{Midterm}
+
+%\begin{itemize}
+%\item Affine vs linear subspace (mistake I often make)
+%\item Infinite unions and intersections
+%\item 
+
+\section{Derivatives}
+
+\subsection{Partial derivatives}
+You are probably already familiar with the derivative of a function of
+one variable. Let $f: \R \to \R$. $f$ is differentiable at $x_0$ if 
+\[ \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h} = \frac{d
+  f}{dx}(x_0) \]
+exists. Similiarly, if $f: \R^n \to \R$ we define its $i$th partial
+derivative as follows.
+\begin{definition}
+  Let $f:\R^n \to R$. The $i$th \textbf{partial derivative} of $f$ is 
+  \[ \frac{\partial f}{\partial x_i} (x_0) = \lim_{h \to 0}
+  \frac{f(x_{01},...,x_{0i}, ... x_{0n}}{h}. \]
+\end{definition}
+The $i$th partial derivative tells you how much the function changes
+as its $i$th argument changes.
+\begin{example}
+  Let $f:\R^n \to \R$ be a production function. Then we call
+  $\frac{\partial f}{\partial x_i}$ the \textbf{marginal product} of
+  $x_i$. If $f$ is Cobb-Douglas, $f(k,l) = Ak^\alpha l^\beta$, where
+  $k$ is capital and $l$ is labor, then the marginal products of
+  capital and labor are
+  \begin{align*}
+    \frac{\partial f}{\partial k} (k,l) = & A \alpha k^{\alpha-1}
+    l^\beta \\
+    \frac{\partial f}{\partial l} (k,l) = & A \beta k^{\alpha}
+    l^{\beta -1}.
+  \end{align*}
+\end{example}
+
+\subsection{Examples}
+\begin{example}
+  If $u:\R^n \to \R$ is a utility function, then we call
+  $\frac{\partial u}{\partial x_i}$ the marginal utility of $x_i$.  
+  If $u$ is CRRA, 
+  \[u(c_1,...,c_T) =
+  \sum_{t=1}^T \beta^t \frac{c_t^{1-\gamma}}{1-\gamma} \]
+  then  the marginal utility of consumption in period $t$ is 
+  \[ \frac{\partial u}{\partial c_t} = \beta^t c_t^{-\gamma}. \]
+\end{example}
+
+\begin{example}
+  The price elasticity of demand is the percentage change in demand
+  divided by the percentage change in its price. If $q_1:\R^3 \to \R$ is
+  a demand function with three arguments: own price $p_1$, the price
+  of another good, $p_2$, and consumer income, $y$.  The own price
+  elasticity is 
+  \[ \epsilon_{q_1,p_1} = \frac{\partial q_1}{\partial p_1}
+  \frac{p_1}{q_1(p_1,p_2,y)}. \]
+  The cross price elasticity is the percentage change in demand
+  divided by the percentage change in the other good's price, i.e.
+  \[ \epsilon_{q_1,p_2} = \frac{\partial q_1}{\partial p_2}
+  \frac{p_2}{q_1(p_1,p_2,y)}. \]
+  Similarly, the income elasticity of demand is
+  \[ \epsilon_{q_1,y} = \frac{\partial q_1}{\partial y}
+  \frac{y}{q_1(p_1,p_2,y)}. \]
+\end{example}
+
+\subsection{Total derivatives}
+
+Derivatives of univariate functions have a number of useful properties
+that partial derivatives do not always share. Examples of useful
+properties include univariate derivatives giving the slope of a
+tangent line, the implicit function theorem, and Taylor series
+approximations. We would like the derivatives of multivariate
+functions to have these properties, but partial derivatives are not
+enough for this.
+
+\begin{example}\label{ex:nondiff}
+  Consider $f:\R^2 \to \R$, 
+  \[ f(x,y) = \begin{cases} x^2+y^2 & \text{ if } xy < 0 \\
+    x + y \text{ if } xy \geq 0 
+  \end{cases}
+  \]
+  \includegraphics[width=\linewidth]{nondiff}
+  
+  The partial derivatives of this function at $0$ are $\frac{\partial
+    f}{\partial x}(0,0) = 1$ and $\frac{\partial f}{\partial y}(0,0) =
+  1$. However, there are points arbitrarily close to zero with
+  $\frac{\partial f}{\partial x}(x,y) = 2x + 2y$. If we were to try to
+  draw a tangent plane to the function at zero, we would find that we
+  cannot. Although the partial derivatives of this function exist
+  everywhere, it is in some sense not differentialable at zero (or
+  anywhere with $xy = 0$).
+\end{example}
+Partially motivated by the preceding example, we define the total
+derivative.
+\begin{definition}
+  Let $f: \R^n \to \R$. The \textbf{derivative} (or total derivative
+  or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
+  \R^n \to \R^1$ such that
+  \begin{align*}
+    \lim_{h \to 0} \frac{\left|f(x_0 + h) - f(x_0) - Df_{x_0} h\right|} {\norm{h}}
+    = 0.
+  \end{align*}
+\end{definition}
+The $h$ in this definition is an $n$ vector in $\R^n$. This is
+contrast to the $h$ in the definition of partial derivatives, which
+was just a scalar. The fact that $h$ is now a vector is important
+because $h$ can approach $0$ along any path. Partial derivatives only
+look at the limits as $h$ approaches $0$ along the axes. This allows
+partial derivatives to exist for strange functions like the one in
+example \ref{ex:nondiff}. We can see that the function from the
+example is not differentiable by letting $h$ approach $0$ along a path
+that switches from $xy<0$ to $xy\geq 0$ infinitely many times close to
+$0$. The limit in the definition of the derivative does not exist
+along such a path, so the derivative does not exist. 
+
+If the derivative of $f$ at $x_0$ exists, then so do the partial
+derivatives, and the total derivative is simply the $1 \times n$
+matrix of partial derivatives.
+\begin{theorem}\label{thm:tdiff}
+  Let $f: \R^n \to \R$ be differentiable at $x_0$, then
+  $\frac{\partial f}{\partial x_i}(x_0)$ exists for each $i$ and 
+  \[ Df_{x_0} h = \begin{pmatrix} \frac{ \partial f}{\partial x_1}(x_0) &
+    \cdots \frac{ \partial f}{\partial x_n }(x_0)
+  \end{pmatrix} h. \]
+\end{theorem}
+\begin{proof}
+  Since $f$ is differentiable at $x_0$, we can make $h = e_i t$ for
+  $e_i$ the $i$th standard basis vector, and $t$ a scalar. The
+  definition of derivative says that
+  \begin{align*}
+    \lim_{t \to 0} \frac{\left|f(x_0 + e_i t) - f(x_0) - Df_{x_0} (e_i t)\right|}
+    {\norm{e_i t} } & = 0 \\
+    \lim_{t \to 0} \frac{f(x_0 + e_i t) - f(x_0) - t D f_{x_0} e_i}
+    {|t| } & =  0
+  \end{align*}
+  This implies that
+  \begin{align*}
+    f(x_0 + e_i t) - f(x_0) = t D f_{x_0} e_i + r_i(x_0,t)
+  \end{align*}
+  with $\lim_{t \to 0} \frac{|r_i(x_0,t)|}{|t|} = 0$. Dividing by $t$, 
+  \begin{align*}
+    \frac{f(x_0 + e_i t) - f(x_0)}{t} = D f_{x_0} e_i + \frac{r_i(x_0,t)}{t}
+  \end{align*}
+  and taking the limit
+  \begin{align*}
+    \lim_{t \to 0} \frac{f(x_0 + e_i t) - f(x_0)}{t} = D f_{x_0} e_i 
+  \end{align*}
+  we get the exact same expression as in the definition of the partial
+  derivative. Therefore, $\frac{\partial f}{\partial x_i} = D
+  f_{x_0}e_i$. Finally, as when we first introduced matrices, we know
+  that linear transformation $D f_{x_0}$ must be represented by
+  \[ Df_{x_0} h = \begin{pmatrix} \frac{ \partial f}{\partial x_1}(x_0) &
+    \cdots \frac{ \partial f}{\partial x_n }(x_0)
+  \end{pmatrix} h. \]
+\end{proof}
+We know from example \ref{ex:nondiff} that the converse of this
+theorem is false. The existence of partial derivatives is not enough
+for a function to be differentiable. However, if the partial
+derivatives exist and are continuous in a neighborhood, then the
+function is differentiable. 
+\begin{theorem}\label{thm:ptdiff}
+  Let $f:\R^n \to \R$ and suppose its partial derivatives exist and
+  are continuous in $N_\delta(x_0)$ for some $\delta>0$. Then $f$
+  is differentiable at $x_0$ with 
+  \[ Df_{x_0}= \begin{pmatrix} \frac{ \partial f}{\partial x_1}(x_0) &
+    \cdots \frac{ \partial f}{\partial x_n }(x_0)
+  \end{pmatrix}. \]
+\end{theorem}
+\begin{proof}
+  Let $h = (h_1, ..., h_n)$ with $\norm{h}<r$. Notice that
+  \begin{align} 
+    f(x_0+h) - f(x_0) = & f(x_0 + h_1 e_1) - f(x_0) + f(x_0+h_1 e_1 +
+    h_2 e_2) - f(x_0 + h_1 e_1) + ... + f(x_0 + h) - f(x_0 -
+    \sum_{i=1}^n-1 h_i e_i) \\
+    &  = \sum_{j=1}^n f\left(x_0 + \sum_{i=1}^j h_i e_i\right) -
+    f\left(x_0 + \sum_{i=1}^{j-1} h_i e_i\right).
+  \end{align}
+  By the mean value theorem (\ref{thm:mvt}), 
+  \[ f\left(x_0 + \sum_{i=1}^j h_i e_i\right) -
+  f\left(x_0 + \sum_{i=1}^{j-1} h_i e_i\right) = h_j \frac{\partial f}
+  {\partial x_j} (x_0 +  \sum_{i=1}^{j-1} h_i e_i + \bar{h}_je_j) \]
+  for some $\bar{h}_j$ between $0$ and $h_j$.  The partial derivatives
+  are continuous by assumption, so by making $r$ small enough, we can
+  make  
+  \[\left| \frac{\partial f}
+    {\partial x_j} (x_0 +  \sum_{i=1}^{j-1} h_i e_i + \bar{h}_je_j) -
+    \frac{\partial f}{\partial x_j}(x_0) \right| < \epsilon /n, \]
+  for any $\epsilon>0$. 
+  Combined with an earliear equation now we have,
+  \begin{align} 
+    f(x_0+h) - f(x_0) = & \sum_{j=1}^n  h_j \left(\frac{\partial f}{\partial
+        x_j} (x_0) + \frac{\epsilon}{n}\right) \\
+    \left| f(x_0+h) - f(x_0)  - \sum_{j=1}^n  h_j \frac{\partial f}{\partial
+        x_j} (x_0) \right| = & \left| \sum_{j=1}^n h_j \epsilon/n \right|
+    \\
+    \left| f(x_0+h) - f(x_0)  - Df_{x_0} h \right| \leq & \epsilon
+    \norm{h} 
+  \end{align}
+  Dividing by $\norm{h}$ and taking the limit, 
+  \[ \lim_{h \to 0} \frac{\left| f(x_0+h) - f(x_0)  - Df_{x_0} h
+    \right|}{\norm{h}} \leq \epsilon.
+  \]
+  This is true for any $\epsilon>0$, so the limit must be 0. 
+\end{proof}
+A minor modification of this proof would show the stronger result that
+$f:\R^n \to \R$ has a continuous derivative on an open set $U
+\subseteq \R^n$ if and only if its partial derivatives are continuous
+on $U$. We call such a function \textbf{continuously differentiably}
+on $U$ and denote the set of all such function as $C^1(U)$. 
+
+\subsection{Mean value theorem}
+
+The mean value theorem in $\R^1$ says that $f(x+h) - f(x) =
+f'(\bar{x}) h$ for some $\bar{x}$ between $x+h$ and $x$. The same
+theorem holds for multivariate functions. To prove it, we will need a
+couple of intermediate results. Recall the following from the midterm
+review. 
+\begin{theorem}
+  Let $f:\R^n \to \R$ be continuous and $K \subset \R^n$ be
+  compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
+  \forall x \in K$. 
+\end{theorem}
+Simon and Blume call this Weierstrass's theorem (30.1). 
+\begin{definition}
+  Let $f: \R^n \to \R$. we say that $f$ has a local maximum at $x$ if
+  $\exists \delta > 0$ such that $f(y) \leq f(x)$ for all $y \in
+  N_\delta(x)$. 
+\end{definition}
+Next, we need a result that relates derivatives to maxima. 
+\begin{theorem}
+  Let $f: \R^n \to \R$ and suppose $f$ has a local maximum at $x$ and
+  is differentiable at $x$. Then $Df_x = 0$. 
+\end{theorem}
+\begin{proof}
+  Choose $\delta$ as in the definition of a local maximum. Since $f$
+  is differentiable, we can write
+  \[ \frac{f(x+h) - f(x)}{\norm{h}} =\frac{ Df_x h +
+    r(x,h)}{\norm{h}} \] where $\lim_{h \to 0}
+  \frac{|r(x,h)|}{\norm{h}} = 0$. Let $h = t v$ for some $v \in \R^n$
+  with $\norm{v} =1$ and $t \in \R$. If $D f_x v > 0$, then for $t>0$
+  small enough, we would have $\frac{f(x+tv) - f(x)}{|t|} = D
+  f_x v + \frac{r(x,tv)}{|t|} > D
+  f_x v / 2 > 0$ and $f(x+tv)> f(x)$ in contradiction to $x$ being a
+  local maximum. Similary, if $D f_v v < 0$ then for $t<0$ and small,
+  we would have $\frac{f(x+tv) - f(x)}{|t|} = D
+  -f_x v + \frac{r(x,tv)}{|t|} > -D
+  f_x v / 2 > 0$ and $f(x+tv)> f(x)$. Thus, it must be that $D f_x v =
+  0$ for all $v$, i.e. $D f_x = 0$. 
+\end{proof}
+Now we can prove the mean value theorem.
+\begin{theorem}[mean value]\label{thm:mvt}
+  Let $f:\R^n \to \R^1$ be in $C^1(U)$ for some open $U$. Let $x, y
+  \in U$ be such that the line connecting $x$ and $y$, $\ell(x,y) =
+  \{z\in \R^n: z = \lambda x + (1-\lambda) y, \lambda \in [0,1]\}$, is
+  also in $U$. Then there is some $\bar{x} \in \ell(x,y)$ such that
+  \[ f(x) - f(y) = Df_{\bar{x}} (x-y). \]
+\end{theorem}
+\begin{proof}
+  Let $g(z) = f(y)  - f(z) + \frac{f(x) - f(y)}{x-y} (z - y)$. Note
+  that $g(x) = g(y) = 0$. The set $\ell(x,y)$ is closed and bounded, so
+  it is compact. Hence, $g(z)$ must attain its maximum on
+  $\ell(x,y)$, say at $\bar{x}$. If $\bar{x} = x$ or $y$, then either
+  $g$ is constant, in which case $f$ is constant and $Df = 0$, so the
+  theorem is true, or $g$ must have an interior minimum, and we can
+  look at the maximum of $-g$ instead. When $\bar{x}$ is not $x$ or
+  $y$, then the previous theorem shows that $Dg_{\bar{x}} = 0$. Simple
+  calculation shows that
+  \[ Dg_{\bar{x}} = -Df_{\bar{x}} +  \frac{f(x) - f(y)}{x-y} = 0 \]
+  so 
+  \[ Df_{\bar{x}}(x-y) = f(x) - f(y). \]
+\end{proof}
+
+\subsection{Functions from $\R^n \to \R^m$}
+
+So far we have only looked at functions from $\R^n$ to $\R$. Functions
+to $\R^m$ work essentially the same way. 
+\begin{definition}
+  Let $f: \R^n \to \R^m$. The \textbf{derivative} (or total derivative
+  or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
+  \R^n \to \R^m$ such that
+  \begin{align*}
+    \lim_{h \to 0} \frac{\left\Vert f(x_0 + h) - f(x_0) - Df_{x_0}
+        h\right\Vert} {\norm{h}} = 0. 
+  \end{align*}
+\end{definition}
+Theorems \ref{thm:tdiff} and \ref{thm:ptdiff} sill hold with no
+modification. The total derivative of $f$ can be represented by the
+$m$ by $n$ matrix of partial derivatives,
+\[ Df_{x_0}  = \begin{pmatrix} \frac{\partial f_1}{\partial x_1}(x_0) &
+  \cdots & \frac{\partial f_1}{\partial x_n}(x_0) \\
+  \vdots & & \vdots \\
+  \frac{\partial f_m}{\partial x_1}(x_0) & \cdots & \frac{\partial
+    f_m}{\partial x_n}(x_0)  
+\end{pmatrix}. \] 
+This matrix of partial derivatives is often called
+the \textbf{Jacobian} of $f$. 
+
+The mean value theorem \ref{thm:mvt} holds for each of the component
+functions of $f:\R^n \to \R^m$. Meaning, that $f$ can be written as
+$f(x) = \begin{pmatrix} f_1(x) & \cdots & f_m(x) \end{pmatrix}^T$
+where each $f_j:\R^n \to \R$. The mean value theorem is true for each
+$f_j$, but the $\bar{x}$'s will typically differ with $j$.
+\begin{corollary}[mean value for $\R^n \to \R^m$]\label{thm:mvtm}
+  Let $f:\R^n \to \R^m$ be in $C^1(U)$ for some open $U$. Let
+  $x, y
+  \in U$ be such that the line connecting $x$ and
+  $y$, $\ell(x,y) =
+  \{z\in \R^n: z = \lambda x + (1-\lambda) y, \lambda \in [0,1]\}$, is
+  also in $U$. Then there are $\bar{x}_j \in \ell(x,y)$ such that
+  \[ f_j(x) - f_j(y) = D{f_j}_{\bar{x}_j} (x-y) \]
+  and
+  \[ f(x) - f(y) = \begin{pmatrix} D{f_1}_{\bar{x}_1} \\
+    \vdots \\
+    D{f_m}_{\bar{x}_m} \end{pmatrix} (x-y). 
+  \]  
+\end{corollary}
+Slightly abusing notation, we might at times write $Df_{\bar{x}}$
+instead of $\begin{pmatrix} D{f_1}_{\bar{x}_1} & \cdots &
+  D{f_m}_{\bar{x}_m} \end{pmatrix}^T$ with the understanding that we
+mean the later.  
+
+\subsection{Chain rule}
+
+For univariate functions, the chain rule says that the derivative of
+$f(g(x))$ is $f'(g(x)) g'(x)$. The same is true for multivariate
+functions.
+\begin{theorem} \label{thm:chain}
+  Let $f:\R^n \to \R^m$ and $g: \R^k \to \R^n$. Let $g$ be
+  continuously differentiable on some open set $U$ and $f$ be
+  continuously differentiable on $g(U)$. Then $h:\R^k \to \R^m$, $h
+  (x) = f(g(x))$ 
+  is continuously differentiable on $U$ with 
+  \[ Dh_x = D f_{g(x)} D g_x \]
+\end{theorem}
+\begin{proof}
+  Let $x \in U$. Consider
+  \begin{align*}
+    \frac{\norm{ f(g(x+d)) - f(g(x))}} {\norm{d}}.
+  \end{align*}
+  Since $g$ is differentiable by the mean value theorem, $g(x+d) =
+  g(x) + Dg_{\bar{x}(d)} d$, so
+  \begin{align*}
+    \norm{ f(g(x+d)) - f(g(x))} = &  
+    \norm{ f(g(x) + D g_{\bar{x}(d)} d ) - f(g(x))} \\
+    \leq & \norm{f(g(x) + D g_x d) - f(g(x))} + \epsilon
+  \end{align*}
+  where the inequality follows from the the continuity of $D g_x$ and
+  $f$, and holds for any $\epsilon >0$. $f$ is differentiable, so
+  \[ \lim_{D g_x d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} = 0 \]
+  Using the Cauchy-Schwarz inequality, $\norm{D g_x d} \leq \norm{D
+    g_x} \norm{d}$, we get
+  \[ \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x} \norm{d}} \leq
+  \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} 
+  \]
+  so
+  \[ \lim_{ d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{d}} = 0. \]   
+\end{proof}
+
+\subsection{Higher order derivatives}
+We can take higher order derivatives of multivariate functions just
+like of univariate functions. If $f: \R^n \to \R^m$, then is has $nm$
+partial first derivatives. Each of these has $n$ partial derivatives,
+so $f$ has $n^2m$ partial second derivatives, written
+$\frac{\partial^2 f_k}{\partial x_i \partial x_j}$. 
+\begin{theorem}
+  Let $f: \R^n \to \R^m$ be twice continuously differentiable on some
+  open set $U$. Then
+  \[ \frac{\partial^2 f_k}{\partial x_i \partial
+    x_j}(x) =  \frac{\partial^2 f_k}{\partial x_j \partial
+    x_i} (x) \]
+  for all $i,j,k$ and $ x \in U$.
+\end{theorem}
+\begin{proof}
+  Using the definition of partial derivative, twice, we have
+  \begin{align*}
+    \frac{\partial^2 f}{\partial x_i \partial x_j} = & \lim_{t_j \to 0}
+    \frac{ \lim_{t_i \to 0} \frac{ f(x + t_i e_i + t_j e_j) - f(x +
+        t_j e_j)}{t_i} - \lim_{t_i \to 0} \frac{ f(x + t_i e_i) -
+        f(x)}{t_i} }{t_j} \\
+    = & \lim_{t_j \to 0} \lim_{t_i \to 0} \frac{f(x+t_je_j + t_i e_i)
+      - f(x + t_j e_j) - f(x + t_i e_i) + f(x)} {t_j t_i}
+  \end{align*}
+  from which it is apparent that we get the same expression for $
+  \frac{\partial^2 f}{\partial x_j \partial x_i} $.\footnote{This
+    proof is not completely correct. We should carefully show that we
+    can interchange the order of taking limits. Interchanging limits
+    is not always possible, but the assumed continuity makes it
+    possible here.}
+\end{proof}
+The same argument shows that in general the order of partial
+derivatives does not matter.
+\begin{corollary}
+  Let $f: \R^n \to \R^m$ be $k$ times continuously differentiable on
+  some open set $U$. Then 
+  \[ \frac{\partial^k f}{\partial x_1^{j_1} \cdots
+     \partial x_n^{j_n}} = 
+  \frac{\partial^k f}{\partial x_{p(1)}^{j_{p(1)}}  \cdots \partial
+    x_{p(n)}^{j_{p(n)}}} \]
+  where $\sum_{i=1}^n j_i = k$ and $p:\{1,..,n\} \to \{1,...,n\}$ is
+  any permutation (i.e. reordering).
+\end{corollary}
+
+\subsection{Taylor series}
+
+You have probably seen Taylor series for univariate functions
+before. A function can be approximated by a polynomial whose
+coefficients are the function's derivatives. 
+\begin{theorem}
+  Let $f: \R \to \R$ be $k+1$ times continuously differentiable on some
+  open set $U$, and let $a$, $a+h \in U$. Then 
+  \[ f(a+h) = f(a) + f'(a) h + \frac{f^2(a)}{2} h^2 + ... +
+  \frac{f^k(a)}{k!} h^k + \frac{f^{k+1}(\bar{a})}{(k+1)!} h^{k+1
+  \]
+  where $\bar{a}$ is between $a$ and $h$. 
+\end{theorem}
+The same theorem is true for multivariate functions.
+\begin{theorem}
+  Let $f:\R^n \to \R^m$ be $k$ times continuously differentiable on
+  some open set $U$ and $a, a+h \in U$. Then there exists a $k$ times
+  continuously differentiable function $r_k(a,h)$ such that
+  \[ f(a+h) = f(a) + \sum_{\sum_{i=1}^n {j_i}=1}^k\frac{1}{k!} \frac{\partial^{\sum j_i}
+    f}{\partial x_{1}^{j_1} \cdots \partial x_{n}^{j_n}}(a) h_1^{j_1}h_2^{j_2} \cdots h_n^{j_n} + r_k(a,h) \]
+  and $\lim_{h \to 0} \norm{r_k(a,h)}{\norm{h}^k} = 0$.
+\end{theorem}
+\begin{proof}
+  Follows from the mean value theorem. For $k=1$, the mean value
+  theorem says that
+  \begin{align*}
+    f(a+h) - f(a) = & Df_{\bar{a}} h \\
+    f(a+h) = & f(a) + Df_{\bar{a}} h \\
+    = & f(a) + Df_{a} h + \underbrace{(Df_{\bar{a}} -Df_a)h}_{r_1(a,h)}  
+  \end{align*}
+  $Df_a$ is continuous as a function of $a$, and as $h \to 0$,
+  $\bar{a} \to a$, so $\lim_{h \to 0} r_1(a,h) = 0$, and the theorem
+  is true for $k = 1$. For general $k$, suppose we have proven the
+  theorem up to $k-1$. Then repeating the same argument with the
+  $k-1$st derivative of $f$ in place of $f$ shows that theorem is true
+  for $k$. 
+\end{proof}
+
+\section{Implicit functions}
+
+We have extensively studied how to solve systems of linear
+equations. We know how to check whether solutions exist and whether
+they are unique. The inverse and implicit function theorems provide
+similar results for nonlinear equations. 
+
+\subsection{Inverse functions}
+
+Suppose $f: \R^n \to \R^m$. If we know $f(x) = y$, when can we solve
+for $x$ in terms of $y$? In other words, when is $f$ invertible? Well,
+suppose we know that $f(a) = b$ for some $a \in \R^n$ and $b \in
+\R^m$. Then we can expand $f$ around $a$,
+\begin{align*}
+  f(x) = f(a) + Df_a (x-a) + r_1(a,x-a)
+\end{align*}
+where $r_1(a,x-a)$ is small. Since $r_1$ is small, we can hopefully
+ignore it then $y = f(x)$ can be rewritten as a linear equation:
+\begin{align*}
+  f(a) + Df_a (x-a) & = y\\
+  Df_a x = & y - f(a) + Df_a a
+\end{align*}
+we know that this equation has a solution if $\rank Df_a =
+\rank \begin{pmatrix} Df_a &  y - f(a) + Df_a a \end{pmatrix}$. It has
+a solution for any $y$ if $\rank Df_a = m$. Moreoever, this solution
+is unique if $\rank Df_a = n$. This discussion is not entirely
+rigorous because we have not been very careful about what $r_1$ being
+small means. The following theorem makes it more precise.
+\begin{theorem}[Inverse function]
+  Let $f: \R^n \to \R^n$ be continuously differentiable on an open set
+  $E$. Let $a \in E$, $f(a) = b$, and $Df_a$ be invertible . Then 
+  \begin{enumerate}
+  \item there exist open sets $U$ and $V$ such that $a \in U$, $b \in
+    V$, $f$ is one-to-one on $U$ and $f(U) = V$, and
+  \item the inverse of $f$ exists and is continuously differentiable
+    on $V$ with derivative $Df_{f^{-1}(x)}^{-1}$.
+  \end{enumerate}
+\end{theorem}
+The open sets $U$ and $V$ are the areas where $r_1$ is small
+enough. The continuity of $f$ and its derivative are also needed to
+ensure that $r_1$ is small enough.
+\begin{proof}
+  Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}} = 1/2$. Since
+  $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
+  that $\norm{Df_x - Df_a} < \lambda$ for all $x \in U$. For any $y
+  \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
+  \right)$. Note that 
+  \begin{align}
+    D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
+    = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}} \lambda =
+    \frac{1}{2} \label{e50}
+  \end{align}
+  Then, by the mean value theorem for $x_1, x_2 \in U$, 
+  \[ \norm{\varphi^y(x_1) - \varphi^y(x_2)} = \norm{D\varphi^y_{\bar{x}}
+    (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
+  It follows that if $\varphi^y(x_1) = x_1$ and $\varphi^y(x_2) =
+  x_2$, then $x_1 = x_2$.
+  \footnote{Functions like $\varphi^y$ that have $d(phi(x),\phi(y))
+    \leq c d(x,y)$ for $c<1$ are called contraction mappings. The $x$
+    with $x=\phi(x)$ is called a fixed point of the contraction
+    mapping. The argument in the proof shows that contraction mappings
+    have at most one fixed point. It is not hard to show that
+    contraction mappings always have exactly one fixed point.}
+  When $\varphi^y(x) = x$, it must be that $y = f(x)$. Thus for each
+  $y \in f(U)$, there is at most one $x$ such that $f(x) = y$. That
+  is, $f$ is one-to-one on $U$. This proves the first part of the
+  theorem and that $f^{-1}$ exists. 
+
+  We now show that $f^{-1}$ is continuously differentiable with the
+  stated derivative. Let $y, y+k \in V = f(U)$. Then $\exists x, x+h
+  \in U$ such that $y = f(x)$ and $y+k = f(x+h)$. With $\varphi^y$ as
+  defined above, we have
+  \begin{align*}
+    \varphi^y(x+h) - \varphi^y(x) = & h + Df_a^{-1}(f(x) - f(x+h))  \\
+    = & h - Df_a^{-1} k
+  \end{align*}
+  By \ref{e50}, $\norm{h - Df_a^{-1} k} \leq \frac{1}{2} \norm{h}$. It
+  follows that $\norm{Df_a^{-1} k} \geq \frac{1}{2} \norm{h}$ and 
+  \[ \norm{h} \leq 2 \norm{Df_a^{-1}} \norm{k} = \lambda^{-1}
+  \norm{k}. \]
+  Importantly as $k \to 0$, we also have $h \to 0$. Now, 
+  \begin{align*}
+    \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k }}{\norm{k}}
+    = & \frac{\norm{-Df_x^{-1}(f(x+h) - f(x) - Df_x h)}}{\norm{k}}
+    \\
+    \leq & \norm{Df_x}^{-1}\lambda \frac{\norm{f(x+h) - f(x) - Df_x
+        h}}{\norm{h}} \\
+    \lim_{k \to 0} \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k
+      }}{\norm{k}} \leq & \lim_{k \to 0} \norm{Df_x}^{-1}\lambda
+    \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}} = 0
+  \end{align*}
+  Finally, since $Df_x$ is continuous, so is $(Df_{f^{-1}(y)})^{-1}$,
+  which is the derivative of $f^{-1}$.  
+\end{proof}
+
+The proof of the inverse function theorem might be a bit
+confusing. The important idea is that if the derivative of a function
+is nonsingular at a point, then you can invert the function around
+that point because inverting the system of linear equations given by
+the mean value expansion around that point nearly gives the inverse of
+the function. 
+
+\subsection{Implicit functions}
+
+The implicit function theorem is a generalization of the inverse
+function theorem. In economics, we usually have some variables, say
+$x$, that we want to solve for in terms of some parameters, say
+$\beta$. For example, $x$ could be a person's consumption of a bundle of
+goods, and $b$ could be the prices of each good and the parameters of
+the utility function. Sometimes, we might be able to separate $x$ and
+$\beta$ so that we can write the conditions of our model as $f(x) =
+b(\beta)$. Then we can use the inverse function theorem to compute
+$\frac{\partial x_i}{  \partial \beta_j}$ and other quantities of
+interest. However, it is not always easy and sometimes not possible to
+separate $x$ and $\beta$ onto opposite sides of the equation. In this
+case our model gives us equations of the form $f(x,\beta) = c$. The
+implicit function theorem tells us when we can solve for $x$ in terms
+of $\beta$ and what $\frac{\partial x_i}{\partial \beta_j}$ will be.
+
+The basic idea of the implicit function theorem is the same as that
+for the inverse function theorem. We will take a first order expansion
+of $f$ and look at a linear system whose coefficients are the first
+derivatives of $f$. 
+
+TO BE CONTINUED
+
+%30.4 and 30.5: optimization; cover later
+
+
+
+\end{document}
