@@ -136,6 +136,26 @@ contain duplicates, so for example, $\{ 1, 1, 2 \} \equiv \{1, 2
 \}$. Sets can be empty. The empty set, also called the null set, is
 denoted by $\emptyset$ or, less commonly, $\{ \}$.
 
+\subsection{Economic examples}
+
+Naturally sets appear all over economics.\footnote{These examples come
+from chapter 1 of Carter.} 
+\begin{example}[Sample space]
+  In a random experiment, the set of all possible outcomes is called
+  the \textbf{sample space}. E.g. for the roll of a dice, the sample
+  space if $\{1,2 ,3 , 4, 5, 6\}$. An \textbf{event} is any subset of
+  the sample space.
+\end{example}
+
+\begin{example}[Games]
+  ALSO USE AS EXAMPLE OF PRODUCT AND POWER SET
+\end{example}
+
+\begin{example}[Consumption set]
+  ALSO USE AS EXAMPLE OF PREFERENCE RELATION
+\end{example}
+
+
 \subsection{Set operations}
 
 Given two sets $A$ and $B$, a new set can be formed with the following
@@ -146,6 +166,8 @@ three operations:
   B\}$. 
 \item \textbf{Minus:} $A \setminus B = \{ x: x\in A \text{ and }
   \not\in B \}$
+\item \textbf{Product:} $A \times B = \{(x,y): x \in A, y \in B \}$
+\item \textbf{Power set:} $\mathcal{P}(A) =$ set of all subsets of $A$ 
 \end{enumerate}
 Often, we will discuss sets that are all subsets of some universal
 set, $U$. In this case, the \textbf{complement} of $A$ in $U$ is $A^c
@@ -354,7 +376,7 @@ $|A| = |B|$ and $|B| = |C|$ then $|A| = |C|$).
   \[ 
   d^*_n
   = \begin{cases} d_{nn} + 1 \text{ if } d_{nn} \neq 8 \\
-    d_{nn} - 1 \text{ if } d_{nn} = 8 
+    0 \text{ if } d_{nn} = 8 
   \end{cases} .
   \]  
   $x^*$ is in $(0,1)$, but $x^* \neq r_n$ for any $n$ because $d^*_n
@@ -368,7 +390,7 @@ Countable sets are said to have cardinality $\aleph_0$ (``aleph
 null''). Note that an implication of theorem \ref{thm:countsubset} is
 that $\aleph_0$ is the smallest infinite cardinal number. The real
 numbers have cardinality of the continuum, sometimes written
-$2^{\aleph_0}$ or $\mathbb{c}$. You might be wondering whether there
+$2^{\aleph_0}$ or $\mathbf{c}$. You might be wondering whether there
 are larger cardinal numbers. The answer is yes. The set of all subsets
 of a set, $A$, called the \textbf{power set} of $A$, always has larger
 cardinality $2^{|A|}$ (the proof of this is similar to the proof that
@@ -379,14 +401,14 @@ cardinality between $\aleph_0$ and $2^{\aleph_0}$. The answer to that
 question is whatever you want it to be. The conjecture that there are
 no cardinal numbers between $\aleph_0$ and $2^{\aleph_0}$ is known as
 the continuum hypothesis. It was proposed by Cantor in the 1870s. In
-1900, Hilbert made a famous list of 23 unsolved important problemts in
+1900, Hilbert made a famous list of 23 important unsolved problems in
 mathematics. The continuum hypothesis was the first. In 1940,
-G\:{o}del showed that the continuum hypothesis cannot be disproved
+G\"{o}del showed that the continuum hypothesis cannot be disproved
 from the standard axioms that lie at the foundation of mathematics.
 In 1963, Cohen showed that the continuum hypothesis cannot be proved
-from the standard axioms. This is an example of G\:{o}del's
+from the standard axioms. This is an example of G\"{o}del's
 incompleteness theorem, a very interesting result that we won't be
-able to cover in this course. Loosely speaking, G\:{o}del's
+able to cover in this course. Loosely speaking, G\"{o}del's
 incompleteness theorem says that for any non-trivial set of
 assumptions and system of logic, you can make statements consistent
 with the system of logic that cannot be proven or disproven from the
@@ -398,7 +420,20 @@ assumptions.
 We have been assuming familiarity with the natural numbers, integers,
 rationals, and real numbers. This section explores some properties of
 these sets of numbers and heuristically describes how these sets of
-numbers are constructed. 
+numbers are constructed. It may appear silly and slightly confusing to
+try to be ``rigorous'' about something like real numbers that we
+already feel like we understand.  Much of mathematics is about finding
+and describing patterns that apply to abstract objects. Many of the
+abstract objects that we will study are similar to the real numbers in
+some ways, but different in others. Examples of things that are
+similar to the real numbers include complex numbers, vector spaces,
+matrices, and sets of functions. Some of these things we will be able
+to add and multiple just like real numbers, but not all of them. A
+natural sort of question is: this class of objects shares properties
+X, Y, and Z with the real numbers; what theorems that we know about
+the real numbers will also be true of this class of objects? Before
+answering this sort of question we have to be precise about what
+properties the real numbers have.
 
 We will take for granted that we understand what the natural numbers
 are. Note, however, that it is possible to rigorously construct the
@@ -450,10 +485,11 @@ that $(A,\oplus)$ is a group, and $\odot$ has properties 1-3 and
 repeatedly in this course is the set of all $n$ by $n$ matrices with
 the usual matrix addition and multiplication. A \textbf{field} is set
 with two operations such that 1-6 hold for both
-operations. $(\mathbb{Q},+,\cdot)$ is a field. Other fields that you
-may have encountered include the complex numbers with the usual
-addition and multiplication, and the intergers modulo any prime
-number.
+operations. $(\mathbb{Q},+,\cdot)$ is a field. Another field that you
+may have encountered is the complex numbers with the usual addition
+and multiplication. If you're interested you may want to verify that
+the integers modulo any number is a ring, and the integers modulo any
+prime number if a field.
 
 \subsection{Real numbers}
 
@@ -481,12 +517,13 @@ the numbers that we think it should. For example,
 \end{proof}
 Apparently, the rationals have some holes in them that we should fill
 in. To do so in a unique way, we need to define another property of
-the rational numbers. An \textbf{ordered set} is a set, $A$, and a
-relation, $<$, such that (i) $\forall a,b \in A$ either $a < b$ or $a
-= b$ or $a > b$; and (ii) if $a < b$ and $b < c$ then $a < c$. An
-\textbf{ordered field} is a field that is an ordered set and addition
-and multiplication preserve the ordering in that (i) if $b<c$ then $a
-+ b < a + c$ (ii) if $a>0$ and $b>0$ then $ab>0$.
+the rational numbers. A \textbf{totally ordered set} is a set, $A$,
+and a relation, $<$, such that (i) (total) $\forall a,b \in A$ either
+$a < b$ or $a = b$ or $a > b$; and (ii) (transitive) if $a < b$ and $b
+< c$ then $a < c$. An \textbf{ordered field} is a field that is a
+totally ordered set and addition and multiplication preserve the
+ordering in that (i) if $b<c$ then $a + b < a + c$ (ii) if $a>0$ and
+$b>0$ then $ab>0$.
 
 We need one more definition. Simon and Blume state that one property
 of real numbers that will be used throughout the book is the least
@@ -527,5 +564,7 @@ multiplication, addition, and ordering). The proof proceeds by
 supposing that $\mathbb{R}$ and $\mathbb{F}$ are two ordered fields
 with the least-upper-bound property and then shows that there is an
 isomorphism between them.
+
+
 
 \end{document}
