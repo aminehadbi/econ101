@@ -30,6 +30,8 @@
 \def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
 \def\inprob{\,{\inprobHIGH}\,} 
 \def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\pref{\succeq}
+\def\Re{\mathbb{R}}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{conjecture}{Conjecture}[section]
@@ -148,12 +150,19 @@ from chapter 1 of Carter.}
   the sample space.
 \end{example}
 
-\begin{example}[Games]
-  ALSO USE AS EXAMPLE OF PRODUCT AND POWER SET
+\begin{example}\label{ex:games}[Games]
+  A game is a model of strategic decision making. A game consists of a
+  finite set of $n$ players, say $N = \{1,2,..., n\}$. Each player $i
+  \in N$ chooses an action $a_i$ from a set of actions $A_i$. The
+  outcome of the game depends on the actions chosen by all players. 
 \end{example}
 
-\begin{example}[Consumption set]
-  ALSO USE AS EXAMPLE OF PREFERENCE RELATION
+\begin{example}\label{ex:conset}[Consumption set]
+  The \textbf{consumption set} is the set of all feasible consumption
+  bundles. Suppose there are $n$ commodities. A consumer chooses a
+  consumption bundle $\mathbf{x} = (x_1, x_2, ..., x_n)$. Consumption
+  cannot be negative, so the consumption set is a subset of $\Re^n_+ =
+  \{(x_1, ..., x_n) : x_1 \geq 0, x_2 \geq 0, ... x_n \geq 0 \}$.
 \end{example}
 
 
@@ -180,6 +189,17 @@ which is denoted by $A \subset B$ or $B \supset A$. If we have an
 indexed collection of sets, $\{A_k \}_{k \in \mathcal{K}}$, we may
 may take the union or intersection of all these sets and denote it as
 $\cup_{k \in \mathcal{K}} A_k $ or $\cap_{k \in \mathcal{K}} A_k$. 
+
+\begin{example*}[\ref{ex:games} Games continued] 
+  In a game subsets of players are called \textbf{coalitions}. The set
+  of all coalitions is the power set of the set of players,
+  $\mathcal{P}(N)$. 
+
+  The \textbf{action space} of a game is the set of all possible
+  outcomes or combinations of actions, $A = A_1 \times A_2 \times
+  ... \times A_n$. An element of $A$, $a = (a_1, a_2, ..., a_n)$ is
+  called an \textbf{action profile}. 
+\end{example*}
 
 \subsection{Equivalence between logic and set
   operations \label{s:setLogic}} 
@@ -566,6 +586,64 @@ supposing that $\mathbb{R}$ and $\mathbb{F}$ are two ordered fields
 with the least-upper-bound property and then shows that there is an
 isomorphism between them.
 
+\section{Relations}
+
+Orderings, or, more generally, relations, are important in economics
+because they can be used to represent preferences. Relations are
+things like $=$, $<$, $\leq$, and $\subset$. Formally,
+\begin{definition}[Relation]
+  A \textbf{relation} on two sets $A$ and $B$ is any subset of $A
+  \times B$, $R \subseteq A \times B$. We usually denote relations by
+  $a \sim_R b$ if $(a,b) \in R$ (where $\sim_R$ could be some other symbol).
+\end{definition}
+Usually, $A=B$, and then we say $\sim_R$ is a relation on $A$. 
+\begin{example}
+  Let $A=B=\Re$. Then $<$ is associated with $R_{<} = \{(a,b) \in \Re^2
+  : a<b \}$. 
+\end{example}
+The relations that we will study will have some or all of the
+following properties.
+\begin{definition}[Properties of relations]  
+  A relation $\sim_R$ on $A$ is 
+  \begin{itemize}
+  \item \textbf{reflexive} if $a \sim_R a$ $\forall a \in A$,
+  \item \textbf{symmetric} if $a \sim_R b$ implies $b \sim_R a$,
+  \item \textbf{transitive} if $a \sim_R b$ and $b \sim_R c$ implies
+    $a \sim_R c$,
+  \item \textbf{antisymmetric} if $a \sim_R b$ and $b \sim_R a$
+    implies $a=b$,
+  \item \textbf{asymmetric} if $a \sim_R b$ implies $b$ is not
+    $\sim_R a$, and
+  \item \textbf{complete} if either $a \sim_R b$ or $b \sim_R a$ or
+    both $\forall a, b \in A$. 
+  \end{itemize}
+\end{definition}
+As an exercise, you may want to work out which of the above properties
+$=$, $<$, and $\leq$ on $\Re$ have.
+\begin{example}[Preference relation] 
+  A consumer's preference relation, $\pref$, is a relation on her
+  consumption set, $X$. $x \pref y$ means that the consumer likes the
+  bundle of goods $x$ at least as much of the bundle of goods $y$. We
+  usually assume that preference relations are complete and
+  transitive.
+\end{example}
+An \textbf{equivalence relation} is a relation that is complete,
+transitive, and symmetric. If $\sim$ is an equivalence relation on
+$X$, then the \textbf{equivalence class} of $x$ is $\sim(x) = \{ a
+\in X: a \sim x \}$. Since equivalence relations are complete all $x
+\in X$ must be in some equivalence class. Also, since equivalence
+relations are symmetric, each $x \in X$ is in only one equivalence
+class. 
+\begin{example}[Indifference]
+  Let $\pref$ be a preference relation on $X$. Then we can define an
+  equivalence relation by $x \sim y$ if $x \pref y$ and $y \pref
+  x$. This relation is called the indifference relation. The
+  equivalence classes of $\sim$ are called indifference classes. You
+  are probably familiar with graphs of indifference
+  curves. Indifference curves are indifference classes. 
+\end{example}
+There is much more that can be said about relations, particularly
+types of order relations. See Carter section 1.2 for more. 
 
 
 \end{document}
