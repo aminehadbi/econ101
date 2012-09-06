@@ -32,6 +32,7 @@
 \def\indist{\,{\buildrel d \over \rightarrow}\,} 
 \def\pref{\succeq}
 \def\Re{\mathbb{R}}
+\def\rel{\,{\buildrel R \over \sim}\,}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{conjecture}{Conjecture}[section]
@@ -141,7 +142,7 @@ denoted by $\emptyset$ or, less commonly, $\{ \}$.
 
 \subsection{Economic examples}
 
-Naturally sets appear all over economics.\footnote{These examples come
+Sets appear all over economics.\footnote{These examples come
 from chapter 1 of Carter.} 
 \begin{example}[Sample space]
   In a random experiment, the set of all possible outcomes is called
@@ -594,9 +595,9 @@ things like $=$, $<$, $\leq$, and $\subset$. Formally,
 \begin{definition}[Relation]
   A \textbf{relation} on two sets $A$ and $B$ is any subset of $A
   \times B$, $R \subseteq A \times B$. We usually denote relations by
-  $a \sim_R b$ if $(a,b) \in R$ (where $\sim_R$ could be some other symbol).
+  $a \rel b$ if $(a,b) \in R$ (where $\rel$ could be some other symbol).
 \end{definition}
-Usually, $A=B$, and then we say $\sim_R$ is a relation on $A$. 
+Usually, $A=B$, and then we say $\rel$ is a relation on $A$. 
 \begin{example}
   Let $A=B=\Re$. Then $<$ is associated with $R_{<} = \{(a,b) \in \Re^2
   : a<b \}$. 
@@ -604,17 +605,17 @@ Usually, $A=B$, and then we say $\sim_R$ is a relation on $A$.
 The relations that we will study will have some or all of the
 following properties.
 \begin{definition}[Properties of relations]  
-  A relation $\sim_R$ on $A$ is 
+  A relation $\rel$ on $A$ is 
   \begin{itemize}
-  \item \textbf{reflexive} if $a \sim_R a$ $\forall a \in A$,
-  \item \textbf{symmetric} if $a \sim_R b$ implies $b \sim_R a$,
-  \item \textbf{transitive} if $a \sim_R b$ and $b \sim_R c$ implies
-    $a \sim_R c$,
-  \item \textbf{antisymmetric} if $a \sim_R b$ and $b \sim_R a$
+  \item \textbf{reflexive} if $a \rel a$ $\forall a \in A$,
+  \item \textbf{symmetric} if $a \rel b$ implies $b \rel a$,
+  \item \textbf{transitive} if $a \rel b$ and $b \rel c$ implies
+    $a \rel c$,
+  \item \textbf{antisymmetric} if $a \rel b$ and $b \rel a$
     implies $a=b$,
-  \item \textbf{asymmetric} if $a \sim_R b$ implies $b$ is not
-    $\sim_R a$, and
-  \item \textbf{complete} if either $a \sim_R b$ or $b \sim_R a$ or
+  \item \textbf{asymmetric} if $a \rel b$ implies $b$ is not
+    $\rel a$, and
+  \item \textbf{complete} if either $a \rel b$ or $b \rel a$ or
     both $\forall a, b \in A$. 
   \end{itemize}
 \end{definition}
