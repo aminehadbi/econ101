@@ -104,10 +104,10 @@ unknown only appear linearly. An example of a linear system with 2
 unknowns and 2 equations is
 \begin{align*}
   5 x_1 - 7 x_2 = & 9 \\
-  -8 x_1 + x_2 = 0.
+  -8 x_1 + x_2 = & 0.
 \end{align*}
-In general, a linear system with $m$ equation and $n$ unknowns has the
-form 
+In general, a linear system with $m$ equation and $n$ unknowns can be
+written
 \begin{align*}
   a_{11} x_1 + a_{12} x_2 + ... + a_{1n} x_n = & b_1 \\
   a_{21} x_1 + a_{22} x_2 + ... + a_{2n} x_n = & b_2 \\
@@ -326,7 +326,7 @@ performed as follows:
 \end{example}
 
 It is always possible to transform a matrix into row echelon
-form. Moreoevr, we can prove that the above procedure always work.
+form. Moreover, we can prove that the above procedure always work.
 \begin{theorem}[Existence of row echelon form] \label{thm:ge}
   Any matrix can be put into row echelon form using Gaussian
   elimination. 
@@ -630,7 +630,7 @@ there must be infinitely many.
   system of equations has (uncountably) infinitely many solutions.
 \end{lemma}
 \begin{proof}
-  Let $w \in \mathbb{R} \setminus$. Consider $\mathbf{x}(w) = w
+  Let $w \in \mathbb{R}$. Consider $\mathbf{x}(w) = w
   \mathbf{x}_1 + (1 - w)\mathbf{x}_2$. Since $\mathbf{x}_1 \neq
   \mathbf{x}_2$, for each $w$, $\mathbf{x}(w)$ is unique. Also,
   \begin{align*}
@@ -875,7 +875,8 @@ systems.
   \[ 
   \{s+x^* \in \mathbb{R}^n : s \in S \text{ and } Ax^* = b \} 
   \]
-  where $S$ is a linear subspace of dimension $n - \rank A$ and $x^*$
+  where $S$ is the linear subspace of dimension $n - \rank A$ defined
+  by $S = \{s \in \mathbb{R}^n: As = 0 \}$ and $x^*$
   is a solution to $A x = b$.
 \end{theorem}
 The first part of this theorem is just a restatement of things we have

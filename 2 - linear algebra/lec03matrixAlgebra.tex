@@ -372,7 +372,7 @@ matrices are integral and differential operators,
 \end{example}
 \begin{example}[Differential operator]
   Let $C^\infty(0,1)$ be the set of all infinitely differentiable
-  functions from $(0,1)$ to $\R$. It can easily be shown that
+  functions from $(0,1)$ to $\R$. It can be shown that
   $C^\infty(0,1)$ is a vector space. Let $D:C^\infty(0,1) \rightarrow
   C^\infty(0,1)$ be defined by 
   \[ (D f) (x) = \frac{d f}{dx}(x) \]
@@ -902,9 +902,9 @@ $A^{-1}$ or solve a system of equations.
 Last class, someone asked about whether there was a more efficient way
 to calculate the rank of a matrix than Gaussian elimination. The way
 we usually compare the efficiency of algorithms is by looking at the
-number of steps required grows as the size of the problem
-increases. As an example, we will compare solving a system of
-equations by Gaussian elimination to using Cramer's rule. 
+rate at which number of steps required grows as the size of the
+problem increases. As an example, we will compare solving a system of
+equations by Gaussian elimination to using Cramer's rule.
 
 Let's start by considering computing the determinant
 recursively as in definition \ref{detc}. Let $d(n)$ be the number of
@@ -937,7 +937,7 @@ determinants, so Cramer's rule is $O((n+1)!)$.
 
 Now lets look at Gaussian elimination. Let $g(n)$ be the maximal
 number of steps Gaussian elimination takes on an $n$ by $n$ matrix. In
-the worst case, Gaussian elimination on the first involves multiplying
+the worst case, Gaussian elimination on the first row involves multiplying
 the first row by $n-1$ numbers, so there are $n(n-1)$ multiplications,
 and adding it to each of the $n-1$ rows, so there are $n(n-1)$
 additions. The total number of steps to get to the next $n-1$ by $n-1$
@@ -958,9 +958,9 @@ much faster than Cramer's rule.
 
 \section{Matrix decompositions}
 
-There are number of matrix decompositions that are useful for solving
-systems of linear equations, inverting matrices, and computing
-determinants. 
+There are number of matrix decompositions that are useful for
+computing solutions to systems of linear equations, inverting
+matrices, and computing determinants. 
 
 \begin{definition}
   The \textbf{LU decomposition} of a square matrix is a decomposition

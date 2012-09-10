@@ -32,6 +32,7 @@
 \def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
 \def\inprob{\,{\inprobHIGH}\,} 
 \def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\Pr{\mathrm{P}}
 \newcommand{\rank}{\mathrm{rank}}
 
 % \newtheorem{theorem}{Theorem}[section]
@@ -62,26 +63,26 @@
 
 \frame{\titlepage}
 
-\section{Overview}
+%\section{Overview}
 
-\begin{frame}
-  \frametitle{Overview}
-  \begin{itemize}
-  \item Review last lecture
-    \begin{itemize}
-    \item Two more theorems on countability (helpful for homework) 
-    \item Gaussian and Gauss-Jordan elimination
-    \end{itemize}
-  \item Solutions to systems of linear equations
-    \begin{itemize}
-    \item Existence
-    \item Uniqueness
-    \item Characterizing the set of solutions
-    \end{itemize}
-  \end{itemize}
-\end{frame}
+%\begin{frame}
+%  \frametitle{Overview}
+%  \begin{itemize}
+  % \item Review last lecture
+  %   \begin{itemize}
+  %   \item Two more theorems on countability (helpful for homework) 
+  %   \item Gaussian and Gauss-Jordan elimination
+  %   \end{itemize}
+%  \item Solutions to systems of linear equations
+%    \begin{itemize}
+%    \item Existence
+%    \item Uniqueness
+%    \item Characterizing the set of solutions
+%    \end{itemize}
+%  \end{itemize}
+%\end{frame}
 
-\section{More countability}
+%\section{More countability}
 \begin{frame}
   \frametitle{More countability}
   \begin{itemize}
@@ -133,21 +134,130 @@
   \end{proof}  
 \end{frame}
 
-\section{Solving systems of linear equations}
+%\section{Solving systems of linear equations}
 
-\begin{frame}
-  \frametitle{Systems of linear equations: review}
-  \begin{itemize}
-  \item Coefficient matrix
-  \item Augmented coefficient matrix
-  \item Row echelon form
-  \item Reduced row echelon form
-  \item Gaussian elimination
-  \item Gauss-Jordan elimination
+\section{Introduction and definitions}
+\begin{frame} 
+  \frametitle{Systems of linear equations}
+  \begin{itemize} 
+  \item Example:
+    \begin{align*}
+      5 x_1 - 7 x_2 = & 9 \\
+      -8 x_1 + x_2 = & 0.
+    \end{align*}
+  \item In general:
+    \begin{align*}
+      a_{11} x_1 + a_{12} x_2 + ... + a_{1n} x_n = & b_1 \\
+      a_{21} x_1 + a_{22} x_2 + ... + a_{2n} x_n = & b_2 \\
+      \vdots & \vdots \\
+      a_{m1} x_1 + a_{m2} x_2 + ... + a_{mn} x_n = & b_m ,
+    \end{align*}
   \end{itemize}
 \end{frame}
 
-\subsection{Existence of solutions}
+\begin{frame}
+  \frametitle{Coefficient matrix}
+  \begin{itemize}
+  \item Coefficient matrix $A$
+    \begin{align*}
+      \begin{pmatrix} a_{11} &  \cdots & a_{1n} \\
+        \vdots & & \vdots \\
+        a_{m1} & \cdots & a_{mn} 
+      \end{pmatrix} 
+      \begin{pmatrix} x_1 \\ \vdots \\ x_n
+      \end{pmatrix} = & \begin{pmatrix} b_1 \\ \vdots \\ b_m
+      \end{pmatrix} \\
+      A \mathbf{x} = & \mathbf{b}
+    \end{align*}
+  \item Augmented coefficient matrix $\hat{A}$
+    \begin{align*}
+      \hat{A} =   \begin{pmatrix} a_{11} &  \cdots & a_{1n} & b_1 \\
+        \vdots & & \vdots & \vdots \\
+        a_{m1} & \cdots & a_{mn} & b_m 
+      \end{pmatrix}  = \begin{pmatrix} A \mathbf{b}
+      \end{pmatrix}
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\section{Gaussian elimination}
+
+\begin{frame}
+  \frametitle{Equation/row operations}
+  \begin{itemize}
+  \item Familiar with solving equations by:
+    \begin{itemize}
+    \item Substitution
+    \item Elimination
+    \end{itemize}
+  \item Use \textbf{equation (row) operations} that preserve set of
+    solutions
+    \begin{enumerate}
+    \item Multiply an equation by a non-zero constant,
+    \item Add a multiple of one equation to another, and
+    \item Interchange two equations.
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Row echelon form}
+  \begin{itemize}
+  \item \textbf{Row echelon form}: each row begins with more zeros
+    than the row above it or the row is all zeros
+  \item Examples: 
+    \begin{align*}
+      \begin{pmatrix} 
+        a_{11} & a_{12} \\
+        0     & a_{22}
+      \end{pmatrix}
+    \end{align*}
+    \begin{align*}
+      \begin{pmatrix}
+        a_{11} & a_{12} & a_{13} \\
+        0     & 0     & a_{23} 
+      \end{pmatrix}
+    \end{align*}
+  \item Once a system is in row echelon form it is easy to solve by
+    back substitution
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Gaussian elimination}
+  \begin{itemize}
+  \item Systematic way to transform system of equations to row echelon
+    form
+    \begin{enumerate}
+    \item\label{ge1} Identify the first column to contain any non-zero
+      elements, call this column $c^*$.
+    \item\label{ge2} Interchange rows so that a nonzero entry appears at
+      the top of column $c^*$. 
+      % Divide the new first row by its first
+      % non-zero entry, so its first non-zero entry becomes one. 
+    \item\label{ge3} Add a multiple of the first row to each of the rows
+      below so that the entries in column $c^*$ below the first row are
+      zero.
+    \item\label{ge4} Repeat \ref{ge1}-\ref{ge2} on the submatrix
+      consisting of the lower right part of the original matrix below the
+      first row and to the right of column $c^*$. Stop if this submatrix
+      has no columns or has no rows.
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Gaussian elimination: example} 
+  \begin{align*}
+    \begin{array}{ccccccc}
+      x_1  &+ & x_2  &+& 3 x_3 &=& 0 \\
+      2x_1 &+ & 3x_2 &+&  7 x_3 &=& 9 \\
+      3x_1 &+ & 5x_2 &+& 13x_3  &=& 1 
+    \end{array}
+  \end{align*}
+\end{frame}
+
+\section{Existence of solutions}
 \begin{frame}
   Transform the following system into row echelon form:
   \begin{align*}
@@ -336,8 +446,23 @@
 \begin{frame}
   \frametitle{Example: Markov model of employment}
   \begin{itemize} 
-  \item Recall model from last class
+  \item Employment $s_t \in \{u, e\}$.
+  \item Markovian: $\Pr(s_t | s_{t-1}, s_{t-2} , ... ) = \Pr(s_t|
+    s_{t-1})$
+  \item Stationary distribution: $(\pi_e, \pi_u)$ such that if $s_t = e$
+    with probability $\pi_e$ and $u$ with probability $\pi_u$, then
+    $s_{t+1}$ has same distribution, i.e.\ 
     \begin{align*}
+       \Pr(e|e) \pi_e + \Pr(e|u) \pi_u = & \pi_e \\
+       \Pr(u|e) \pi_e + \Pr(u|u) \pi_u = & \pi_u
+    \end{align*}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Example: Markov model of employment}
+  \begin{itemize}
+  \item Stationary distribution is a solution to:
+  \begin{align*}
       (p_{ee}-1) \pi_e + p_{eu} \pi_u = & 0\\
       p_{ue} \pi_e + (p_{uu}-1) \pi_e= & 0\\
       \pi_e + \pi_u = & 1 .
