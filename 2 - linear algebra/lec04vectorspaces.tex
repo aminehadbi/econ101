@@ -115,15 +115,15 @@ reason for defining and studying abstract vector spaces is to take our
 intuitive understanding of two and three dimensional Euclidean space
 and apply it to other contexts. If you find the discussion of abstract
 vector spaces and their variations to be confusing, you can ignore it
-and just think of two or three dimensional Euclidean space
-instead. For the exams in this course, I will not ask anything about
-vector spaces other than $\R^n$. It is likely that you will not need
-to know anything about vector spaces other than $\R^n$ throughout the
-masters program. However, if you read enough articles in economics
-journals, you will come across abstract vector spaces, and hopefully
-what we have covered in this course will be helpful. Also, if you plan
-to continue and get a PhD it will be useful to know about abstract
-vector spaces. 
+and think of two or three dimensional Euclidean space instead. For the
+exams in this course, I am unlikely to ask about vector spaces
+other than $\R^n$. It is likely that you will not need to know
+anything about vector spaces other than $\R^n$ throughout the masters
+program. However, if you read enough articles in economics journals,
+you will come across abstract vector spaces, and hopefully what we
+have covered in this course will be helpful. Also, if you plan to
+continue and get a PhD it will be useful to know about abstract vector
+spaces.
 
 \section{Normed vector spaces}
 
@@ -278,10 +278,10 @@ following theorem,
 \end{proof}
 In inner product spaces other than $\R^n$, we could define angles to
 fit theorem \ref{thm:angle}. For example, this would allow us to talk
-about the angle between two functions in $\mathcal{L}^2(0,1)$. I have
-never seen this used though, so we will not worry about it. The really
+about the angle between two functions in $\mathcal{L}^2(0,1)$. We will
+not use this definition of angle very much though. The really
 important thing to remember about inner product spaces and angles is
-that vectors can be orthogonal and the Pythagorean theorem holds. 
+that vectors can be orthogonal and the Pythagorean theorem holds.
 
 \subsection{Useful inequalities}
 When we start looking at limits next week, will we often need to prove
@@ -729,7 +729,7 @@ contain 0.
   u_n$. 
 
   Now we will show that  $A u_{k+1}, ..., A u_n$ are a basis for the
-  column space. They are in the column space by definition. They a
+  column space. They are in the column space by definition. They are
   linearly independent because
   \begin{align*}
     c_{k+1} A u_{k+1} + ... + c_n A u_{n} = & A (c_{k+1} u_{k+1} +
@@ -764,9 +764,10 @@ equations.
   If a solution exists and $\rank A$ is equal to its number of
   columns, the solution is unique. If a solution exists and $\rank A$
   is less than its number of columns, there are infinite solutions. In
-  this case the set of solutions forms is $x_0 + \mathcal{N}(A)$,
-  where $x_0$ is any particular solution to $A x = b$. This set of
-  solutions is an affine subspace of dimension $n - \rank A$.
+  this case the set of solutions forms is an affine space, $x_0 +
+  \mathcal{N}(A)$, where $x_0$ is any particular solution to $A x =
+  b$. This set of solutions is an affine subspace of dimension $n -
+  \rank A$.
 \end{theorem}
 
 \section{Lines, planes, and hyperplanes }
@@ -824,6 +825,89 @@ S_2$, we can never have $\iprod{s_1}{\xi}\xi = \iprod{s_2}{\xi}\xi $.
 
 \section{Applications}
 
+\subsection{Portfolio analysis}
+
+This section presents a basic model of portfolio
+analysis.\footnote{This example is taken from sections 6.2, 7.X and
+  28.2 of Simon and Blume.} We will setup the model, define some
+special types of portfolios, and then use our results on systems of
+linear equations and matrices to say things about the existence of
+these special types of portfolios. 
+
+Suppose there are $A$ assets and $S$ states of nature. States of
+nature are things about which we are uncertain. You could think of the
+assets as various stocks and the states of nature could be all
+possible combinations of prices of the stocks tomorrow. For this
+example, we will assume $A$ and $S$ are finite so that everything can
+be represented by matrices, but we could allow them to be infinite and
+use abstract linear transformations instead.  We will think about a
+single period model. At the start of the period, the value of asset $i
+\in \{1,..,A\}$ is $v_i$. Then some state of nature, $s \in \{1, ...,
+S\}$, is drawn and the value of the asset becomes $y_{si}$. The
+realized return of asset $i$ in state $s$ is $R_{si} =
+\frac{y_{si}}{v_i}$. Let $\mathcal{R}$ be the $S$ by $A$ matrix
+consisting of the $R_{si}$.
+
+The investor has wealth $w_0$ is choosing to buy $n_{i}$ units or
+shares of asset $i$. The budget constraint is
+\begin{align}
+  \sum_{i=1}^A n_i v_i = w_0
+\end{align}
+Let $x_i = \frac{n_i v_i}{w_0}$ be the share of wealth in asset
+$i$. We call $(x_1, ..., x_A)$ a portfolio. 
+The return to a portfolio $x = (x_1,...,x_A)$ in state $s$ is
+\begin{align}
+  R_s = \sum_{i=1}^A \frac{y_{si}}{v_i} x_i = \sum_{i=1}^A R_{si} x_i 
+\end{align}
+\begin{definition}
+  A portfolio is \textbf{riskless} if 
+  \begin{align*}
+    \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
+  \end{align*}
+  or in matrix form,
+  \begin{align*}
+    \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
+    \underbrace{c}_{S \times 1}
+  \end{align*}
+\end{definition}
+A riskless portfolio has the same return in all states of nature. When
+does a riskless portfolio exist? A riskless portfolio solves
+\[ \mathcal{R} x = c \] where $c$ is an $S$ by $1$ vector with all
+entries equal. We know that this equation has a solution if $ c \in
+\col(\mathcal{R})$. 
+\begin{definition}
+  A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
+  that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
+  0$ for all $s \neq s^*$. 
+\end{definition}
+If state $s^*$ is insurable, then there must be a solution to 
+\[ \mathcal{R}x = e_{s^*} \] As above, state $s^*$ is insurable if and
+only if $e_{s^*} \in \col(\mathcal{R})$. If all states are insurable,
+then $\col(\mathcal{R}) = \R^S$ and $\rank \mathcal{R} = S$. In
+particular, if all states are insurable, then there are at least as
+many assets as states. Also, in that case, we must also have a
+riskless portfolio. This makes sense, if every state is insurable, we
+should be able to eliminate all risk. 
+\begin{definition}
+  A portfolio $x$ is \textbf{duplicable} if there is
+  another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i
+  $ and 
+  \[ \mathcal{R} x = \mathcal{R} w. \]
+\end{definition}
+Duplicable portfolios satisfy\footnote{Until now, we ignored the
+  budget constraint $\sum x_i = 1$, but now we include it. Why was it
+  okay to ignore the budget constraint earlier? Why does it matter now?}
+\begin{align*}
+  \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} x 
+  = \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} w 
+\end{align*}
+If $\underbrace{\widetilde{\mathcal{R}}}_{(S+1) \times A}
+=   \begin{pmatrix} \mathcal{R} \\ 1 \cdots  1 \end{pmatrix} $, then
+the above equation has solutions $x \neq w$ 
+if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$. This will
+be the case if and only if $\rank \widetilde{\mathcal{R}} < A$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{First and second welfare theorems}
 
 You may have heard of the first and second welfare theorems
@@ -836,8 +920,8 @@ theorems very precisely and prove them in a very general setting.  Do
 not worry if you find the proofs confusing. The proofs are somewhat
 long, and they use continuity, something that we have not yet
 covered. We will be talking a lot about continuity and related
-concepts next week, so this should be a good preview. In term of
-mathematics, the things that you should understand are parts were we
+concepts next week, so this should be a good preview. In terms of
+mathematics, the things that you should understand are parts where we
 use properties of linear transformations, convexity, and the
 separating hyperplane theorem. In terms of economics, the important
 things to understand are the two theorems, the assumptions of the
@@ -1170,87 +1254,5 @@ utility function.
   exists, we must have $p x_i < p x_i^e$.   
 \end{proof}
 
-
-\subsection{Portfolio analysis}
-
-This section presents a basic model of portfolio
-analysis.\footnote{This example is taken from sections 6.2, 7.X and
-  28.2 of Simon and Blume.} We will setup the model, define some
-special types of portfolios, and then use our results on systems of
-linear equations and matrices to say things about the existence of
-these special types of portfolios. 
-
-Suppose there are $A$ assets and $S$ states of nature. States of
-nature are things about which we are uncertain. You could think of the
-assets as various stocks and the states of nature could be all
-possible combinations of prices of the stocks tomorrow. For this
-example, we will assume $A$ and $S$ are finite so that everything can
-be represented by matrices, but we could allow them to be infinite and
-use abstract linear transformations instead.  We will think about a
-single period model. At the start of the period, the value of asset $i
-\in \{1,..,A\}$ is $v_i$. Then some state of nature, $s \in \{1, ...,
-S\}$, is drawn and the value of the asset becomes $y_{si}$. The
-realized return of asset $i$ in state $s$ is $R_{si} =
-\frac{y_{si}}{v_i}$. Let $\mathcal{R}$ be the $S$ by $A$ matrix
-consisting of the $R_{si}$.
-
-The investor has wealth $w_0$ is choosing to buy $n_{i}$ units or
-shares of asset $i$. The budget constraint is
-\begin{align}
-  \sum_{i=1}^A n_i v_i = w_0
-\end{align}
-Let $x_i = \frac{n_i v_i}{w_0}$ be the share of wealth in asset
-$i$. We call $(x_1, ..., x_A)$ a portfolio. 
-The return to a portfolio $x = (x_1,...,x_A)$ in state $s$ is
-\begin{align}
-  R_s = \sum_{i=1}^A \frac{y_{si}}{v_i} x_i = \sum_{i=1}^A R_{si} x_i 
-\end{align}
-\begin{definition}
-  A portfolio is \textbf{riskless} if 
-  \begin{align*}
-    \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
-  \end{align*}
-  or in matrix form,
-  \begin{align*}
-    \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
-    \underbrace{c}_{S \times 1}
-  \end{align*}
-\end{definition}
-A riskless portfolio has the same return in all states of nature. When
-does a riskless portfolio exist? A riskless portfolio solves
-\[ \mathcal{R} x = c \] where $c$ is an $S$ by $1$ vector with all
-entries equal. We know that this equation has a solution if $ c \in
-\col(\mathcal{R})$. 
-\begin{definition}
-  A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
-  that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
-  0$ for all $s \neq s^*$. 
-\end{definition}
-If state $s^*$ is insurable, then there must be a solution to 
-\[ \mathcal{R}x = e_{s^*} \] As above, state $s^*$ is insurable if and
-only if $e_{s^*} \in \col(\mathcal{R})$. If all states are insurable,
-then $\col(\mathcal{R}) = \R^S$ and $\rank \mathcal{R} = S$. In
-particular, if all states are insurable, then there are at least as
-many assets as states. Also, in that case, we must also have a
-riskless portfolio. This makes sense, if every state is insurable, we
-should be able to eliminate all risk. 
-\begin{definition}
-  A portfolio $x$ is \textbf{duplicable} if there is
-  another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i
-  $ and 
-  \[ \mathcal{R} x = \mathcal{R} w. \]
-\end{definition}
-Duplicable portfolios satisfy\footnote{Until now, we ignored the
-  budget constraint $\sum x_i = 1$, but now we include it. Why was it
-  okay to ignore the budget constraint earlier? Why does it matter now?}
-\begin{align*}
-  \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} x 
-  = \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} w 
-\end{align*}
-If $\underbrace{\widetilde{\mathcal{R}}}_{(S+1) \times A}
-=   \begin{pmatrix} \mathcal{R} \\ 1 \cdots  1 \end{pmatrix} $, then
-the above equation has solutions $x \neq w$ 
-if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$. This will
-be the case if and only if $\rank \widetilde{\mathcal{R}} < A$. 
 
 \end{document}

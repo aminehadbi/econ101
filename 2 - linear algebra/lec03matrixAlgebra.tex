@@ -242,7 +242,12 @@ differentiable.
 \begin{example}\label{ex:LP}
   Let $1 \leq p < \infty$ and let $\mathcal{L}^p(0,1)$ be the set of
   functions from $(0,1)$ to $\R$ such that $\int_0^1 |f(x)|^p dx$ is
-  finite.  Then $\mathcal{L}^p (0,1)$ with the field $\R$ and addition
+  finite.
+  \footnote{For now, you can just think of $\mathcal{L}^p(0,1)$ as
+    consisting of all functions from $(0,1) \to \R$. The $p$ and finite
+    integral part only become important when we think of $\mathcal{L}^p$
+    as normed vector spaces, which we will do in the next set of notes.}
+  Then $\mathcal{L}^p (0,1)$ with the field $\R$ and addition
   and scalar multiplication defined as
   \begin{align*}
     (f + g)(x) = & f(x) + g(x) \\
@@ -626,8 +631,9 @@ definition for matrices.
 
 \subsubsection{Transpose and inner products}
 
-To define the transpose in terms of linear transformations, we first
-need to define another property of Euclidean space.
+Another way to define the transpose in terms of linear
+transformations, is to use another property of Euclidean
+space. 
 \begin{definition}
   A real \textbf{inner product space} is a vector space over the field
   $\R$ with an additional operation called the inner product that is
@@ -643,7 +649,7 @@ need to define another property of Euclidean space.
   \end{enumerate}  
 \end{definition}
 Although it is not obvious from this definition, an inner product
-space is a vector space where we can think about the angle between two
+space is a vector space where we can measure the angle between two
 vectors. We will come back to this point next lecture.
 \begin{example}
   $\R^n$ with the \textbf{dot product}, $x \cdot y = \sum_{i=1}^n x_i
