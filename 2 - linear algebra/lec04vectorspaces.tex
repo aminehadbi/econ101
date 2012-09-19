@@ -344,21 +344,21 @@ The mapping from $u$ to $tv$ that we saw in the proofs of theorem
 \ref{thm:angle} and \ref{thm:cauchy-schwarz} is so common that it has
 a name.
 \begin{definition}
-  Let $V$ be an inner product space and $x,y \in V$. The
+  Let $V$ be an inner product space and $x,y \in V$. The (orthogonal) 
   \textbf{projection} of $y$ onto $x$ is 
   \[ P_x y = \frac{\iprod{y}{x}}{\norm{x}^2} x. \]
   More generally, the projection of $y$ onto a finite set $\{x_1, x_2,
-  ... , x_k\}$ is\footnote{In class, I had mistakenly said that
-    $P_{\{x_j\}_j=1^k} y = \sum_{j=1}^k P_{x_j} y$. This definition
-    only works if the $x_j$ are orthogonal. We could show that $x_j
-    -\sum_{i=1}^{j-1} P_{x_i} x_j$ are orthogonal to one another by
-    induction.}
-  \[ P_{\{x_j\}_{j=1}^k} y = \sum_{j=1}^k P_{x_j - \sum_{i=1}^{j-1}
-    P_{x_i} x_j} y. \]
+  ... , x_k\}$ is
+  \[ P_{\{x_j\}_{j=1}^k} y = \sum_{j=1}^k P_{x_j - P_{\{x_i\}_{i \neq
+        j}}} x_j y. \]
+  Equivalently, 
+  \[ P_{\{x_j\}_{j=1}^k} y = X (X^T X)^{-1} X^T y \]
+  where $X$ as an $n$ by $k$ matrix whose columns are $x_k$. 
+  
   More generally still, if $X \subseteq V$ is a linear subspace, then
   the projection of $y$ onto $X$ is
   \[ P_{X} y = P_{\{b_j\}_{j=1}^k} y \]
-  where $b_j \in X$ and $b_1, ..., b_k$ span $X$. 
+  where  $b_1, ..., b_k$ are an orthogonal basis for $X$. 
   
   Finally, if $Y \subseteq V$ the projection of $Y$ onto $X$ is just
   the set consisting of the projection of each element of $y$ onto
@@ -401,12 +401,13 @@ and matrices as well.
     = & P_x y.
   \end{align*}
 \end{proof}
-It turns out that any idempotent linear transformation can be written
-in the form used to define projections. Therefore, projections are
-sometimes defined as idempotent linear transformations instead. This
-definition is equivalent to ours. We will not prove this, but we will
-have the tools to prove it after this lecture so you might want to do
-it as an exercise.
+It turns out that any symmetric idempotent linear transformation can
+be written in the form used to define (orthogonal)
+projections. Therefore, projections are sometimes defined as
+idempotent linear transformations instead. This definition is
+equivalent to ours. We will not prove this, but we will have the tools
+to prove it after this lecture so you might want to do it as an
+exercise.
 
 \section{Linear independence}
 
@@ -627,8 +628,8 @@ set of solutions to systems of linear equations.
 
 Let us examine the dimension of the column space of $A$.
 \begin{definition}
-  A column of a matrix, $A$, if the corresponding column of the row
-  echelon form, $A_r$, contains a pivot. 
+  A column of a matrix $A$ is \textbf{basic} if the corresponding
+  column of the row echelon form, $A_r$, contains a pivot.
 \end{definition}
 \begin{theorem}
   The basic columns of $A$ form a basis for $\col(A)$. 
@@ -783,18 +784,20 @@ affine space splits $\R^n$ into two pieces.
 Any hyperplane can be written in the form:
 \[ H_{\xi,c} = \{x: \iprod{\xi}{x} = c \} \] where $c \in \R$, $\xi \in
 \R^n$, and $\norm{\xi} = 1$.  Hyperplanes play an important role in
-optimization. There is one theorem, which we state here without proof
+optimization. There is one theorem, which we state here without proof,
 that is especially useful.  We will use this theorem to prove the
 second welfare theorem. First, a definition.
 \begin{definition}
-  A set $S \subseteq \R^n$ is convex if $\forall x_1, x_2 \in S$ and
-  $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda) \in S$.  
+  A set $S \subseteq \R^n$ is \textbf{convex} if $\forall x_1, x_2 \in
+  S$ and $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda)
+  \in S$.
 \end{definition}
 If a set is convex, when we draw a line between any two points in the
 set, the line remains entirely within the set.  In $\R^2$, convex sets
 include things shaped like triangles, squares, pentagons, circles,
 ellipses, etc. Some non-convex shapes are stars, horseshoes, rings,
 etc.
+
 \begin{theorem}[Separating hyperplane theorem] \label{thm:sht}
   If $S_1$ and $S_2 \subseteq \R^n$ are convex and $S_1 \cap S_2 =
   \emptyset$ then there exists a hyperplane, $H_{\xi c} = \{ x: \xi'x
@@ -908,21 +911,21 @@ if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$. This will
 be the case if and only if $\rank \widetilde{\mathcal{R}} < A$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{First and second welfare theorems}
+\subsection{First and second welfare theorems \label{sec:welfare}}
 
 You may have heard of the first and second welfare theorems
 before. The first welfare theorem says that under some conditions,
 every competitive equilibrium is Pareto efficient. The second welfare
 theorem says that under some stronger conditions, every Pareto
 efficient allocation can be achieved by some competitive
-equilibrium. We now have enough mathematical tools to state these
-theorems very precisely and prove them in a very general setting.  Do
-not worry if you find the proofs confusing. The proofs are somewhat
-long, and they use continuity, something that we have not yet
-covered. We will be talking a lot about continuity and related
-concepts next week, so this should be a good preview. In terms of
-mathematics, the things that you should understand are parts where we
-use properties of linear transformations, convexity, and the
+equilibrium. We now have (nearly) enough mathematical tools to state
+these theorems very precisely and prove them in a very general
+setting.  Do not worry if you find the proofs confusing. The proofs
+are somewhat long, and they use continuity and convexity, which we
+have not yet covered. We will be talking a lot about continuity and
+related concepts next week, so this should be a good preview. In terms
+of mathematics, the things that you should understand are parts where
+we use properties of linear transformations, convexity, and the
 separating hyperplane theorem. In terms of economics, the important
 things to understand are the two theorems, the assumptions of the
 theorems (and how they relate to the real world), and the general role
@@ -1000,15 +1003,14 @@ equilibrium. A price system is a continuous linear
 transformation\footnote{All linear transformations on finite
   dimensional vector spaces are continuous, so matrices are always
   continuous linear transformations. There are discontinuous linear
-  operators are infinite dimensional vector spaces (differentiation on
+  operators on infinite dimensional vector spaces (differentiation on
   $C^\infty$ is one example), but they are beyond the scope of this
-  course. Also, they are not really relevant for this proof, unless
-  you think proving things about economies with an infinite number of
-  goods is useful.}, $p:S \rightarrow \R$. In the case where $S =
-\R^n$, a price system is just a $1 \times n$ matrix. The entries in
-this price matrix are the prices of each of the $n$ goods. $px$ for $x
-\in S$ represents the total expenditure needed to purchase the bundle
-of goods $x$.
+  course. Also, they are not needed for this proof, unless you want
+  allow economies with an infinite number of goods.}, $p:S \rightarrow
+\R$, i.e. $p \in S^\ast$. In the case where $S = \R^n$, a price system
+is just a $1 \times n$ matrix. The entries in this price matrix are
+the prices of each of the $n$ goods. $px$ for $x \in S$ represents the
+total expenditure needed to purchase the bundle of goods $x$.
 \begin{definition}
   An allocation, $((x_i^0),(y_j^0))$, along with a price system, $p$,
   is a \textbf{competitive equilibrium} if 
