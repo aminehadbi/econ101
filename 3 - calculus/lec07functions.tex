@@ -97,7 +97,7 @@
 \newcommand{\pref}{\succ}
 \newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
 \renewcommand{\to}{{\rightarrow}}
-
+\newcommand{\corres}{\overrightarrow{\rightarrow}}
 
 \title{Functions}
 \date{\today}
@@ -396,5 +396,79 @@ $f$ is \textbf{bijective}. A bijective function has an inverse.
   drink from his/her donut?  Because they're topologically
   isomorphic. Hahaha.
 \end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Correspondences \label{sec:corr}} 
+
+\footnote{This section is largely based on section 2.1.5 of Carter.}A
+function, $f:X \to Y$ associates exactly one element of $Y$, $f(x)$,
+with each $x \in X$. Often we encounter things that are like
+functions, but for each $x \in X$, there are multiple elements of
+$Y$. We call this generalization of a function as correspondence. 
+\begin{definition}
+  A \textbf{correspondence} from a set $X$ to a set $Y$, is a rule
+  that assigns to each a $x \in X$ a subset of $Y$. We denote a
+  correspondence by $\phi: X \corres Y$.
+\end{definition}
+An equivalent definition is that $\phi: X \corres Y$ is a function
+from $X$ to the power set of $Y$. Correspondences appear often in
+economics, especially as constraint sets in optimization problems.
+\begin{example}[Budget correspondence]
+  Suppose there are $n$ goods with prices $p \in \R^n$. Then given
+  income of $m$, a consumer can afford $\chi(p,m)=\{ x \in X \subseteq
+  \R^n: p'x \leq m\}$, which defines a correspondence $\chi: \R^{n+1}
+  \corres X$. We can write the consumer's problem of maximizing
+  utility subject to the budget constraint as
+  \begin{align*}
+    \max_{x \in \chi(p,m)} u(x) 
+  \end{align*}
+  If this problem has a solution, then the indirect utility function
+  is the maximized utility,
+  \[ v(p,m) = \max_{x \in \chi(p,m)} u(x). \]
+  The demand correspondence (usually function) is
+  \[ x^*(p,m) = \argmax_{x \in \chi(p,m)} u(x). \] 
+  Such maximization problems are central to economics. To derive
+  properties of the indirect utility and demand functions it is often
+  useful to treat the budge set as a correspondence.
+\end{example}
+Correspondences also appear in economics in any model where we
+multiple equilibria, such as many games. 
+
+Defining continuity is a bit more complicated for correspondences than
+for functions. A function can either be continuous or it can jump. A
+correspondence can also expand or contract. For example, consider
+$\xi:\R \corres \R$ defined by 
+\[ \xi(x) = \begin{cases} 
+  [0,1] & \text{ if } x > 0 \\
+  [1/4,3/4] & \text{ if } x \leq 0 
+\end{cases} \]
+and $\psi: \R \corres \R$ defined by
+\[ \psi(x) = \begin{cases} 
+  [0,1] & \text{ if } x \geq 0 \\
+  [1/4,3/4] & \text{ if } x < 0 
+\end{cases} \]
+Both these correspondences are somewhat continuous because they
+contain a continuous function, e.g. $f(x) = 1/2$,  for all
+$x$. However, they are also somewhat discontinuous because the
+corresponding set changes suddenly at $0$. Motivated by this
+observation we define the following:
+\begin{definition}
+  A correspondence, $\phi: X \corres Y$ is upper hemicontinuous at $x$
+  if for all sequences $x_n \to x$ and $y_n \in \phi(x_n)$ with $y_n
+  \to y$, then $y \in \phi(x)$. 
+\end{definition}
+In the previous example, $\psi$ is upper hemicontinuous at  $0$, but $\xi$ is
+not. To see this consider $x_n = 1/n$ and $y_n = 1$. 
+\begin{definition}
+  A correspondence, $\phi: X \corres Y$ is lower hemicontinuous at $x$
+  if for all sequences $x_n \to x$ and $y \in \phi(x)$, there exists a
+  subsequence, $x_{nk}$ and $y_k \in x_{nk}$ with $y_k \to y$.  
+\end{definition}
+In the previous example, $\xi$ is lower hemicontinuous at $0$, but
+$\psi$ is not. To see this consider $x_n = -1/n$ and $y = 1$. 
+
+We say that a correspondence is continuous if it is both upper and
+lower hemicontinuous. At all $x \neq 0$, $\xi$ and $\psi$ are
+continuous. 
 
 \end{document}
