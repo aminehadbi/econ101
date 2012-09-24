@@ -96,7 +96,7 @@
 \newcommand{\prefeq}{\succeq}
 \newcommand{\pref}{\succ}
 \newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
-\newcommand{\to}{{\rightarrow}}
+%\newcommand{\to}{{\rightarrow}}
 
 
 \title{Limits and topology of metric spaces}
@@ -106,7 +106,9 @@
 
 \maketitle
 
-This lecture focuses on sequences, limits, and topology. 
+This lecture focuses on sequences, limits, and topology. Similar
+material is covered in chapters 12 and 29 of Simon and Blume, or 1.3
+of Carter. 
 
 \section{Sequences and limits}
 
@@ -446,8 +448,10 @@ shows that their definition is equivalent to ours.
 \end{definition}
 By a finite subcover, we mean that there is finite set $G_{\alpha_1},
 ... G_{\alpha_k}$ such that $S \subset \cup_{j=1}^k
-G_{\alpha_j}$. Compact sets are very useful because we often want to
-show that a set has some property. If the set is compact, we can cover
+G_{\alpha_j}$. Compact sets are a generalization of finite sets. Many
+facts that are obviously true of finite sets are also true for compact
+sets, but not true for infinite sets that are not compact. Suppose we
+to show a set has some property. If the set is compact, we can cover
 it with a finite number of small $\epsilon$ balls and then we just
 need to show that each small ball has the property we want. We will
 see many concrete examples of this technique in the next few weeks.
@@ -562,6 +566,12 @@ sequence in $K$ has a subsequence that converges in $K$.
   not always be possible to find such $x_n$. In other words, $S$ must
   be bounded.
 \end{proof}
+
+\begin{remark}
+  This theorem is sometimes stated as ``each bounded sequence in $\R^n$
+  has a convergent subsequence.'' As an exercise, you may want to
+  verify that this statement is equivalent to the one above.
+\end{remark}
 Simon and Blume also prove this theorem in chapter 29.2. They do not
 prove the Heine-Borel theorem first though, so their proof is of the
 Bolzano-Weierstrass theorem is longer. Perhaps unsurprisingly, the
@@ -634,10 +644,19 @@ you may want to skip it unless you are especially interested.
   without a metric by simply specifying which sets are open and making
   it such that theorem \ref{thm:uio} holds. Such a space is called a
   topological space. You can then define closed sets, compact sets,
-  and sequential compactness in terms of open sets. Topology is the
-  branch of mathematics that studies topological spaces. As far as I
-  know, topological spaces that are not metric spaces do not come up
-  very often in economics, so we will not be studying them. 
+  and sequential compactness in terms of open sets. On the problem
+  set, you will see that you can define continuity of functions in
+  terms of open and closed sets. Topology is the branch of mathematics
+  that studies topological spaces. One interesting observation is that
+  on $\R^n$, if a set is open with respect to some $p$-norm, then it
+  is also open with respect to any other $p$-norm. Thus, we say that
+  $\R^n$ with the $p$-norms are topologically equivalent or
+  homeomorphic. Properties like continuity and compactness are the
+  same regardless of what $p$-norm we use. 
+  
+  As far as I know, topological spaces that are not metric spaces do
+  not come up very often in economics, so we will not be studying
+  them.
 \end{remark}
 
 To review, in $\R^n$ a set is compact if any of the following three
