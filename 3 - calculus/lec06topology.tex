@@ -593,7 +593,7 @@ you may want to skip it unless you are especially interested.
 \begin{proof}
   Let $K$ be compact. If $\{x_n\}$ is a sequence in $K$ with no
   accumulation point in $K$, then each $x_n$ has some neighborhood
-  with $N_{\epsilon_n}(x_n) \cap K = \emptyset$. The collection
+  with $N_{\epsilon_n}(x_n) \cap K = \{x_n\}$. The collection
   $N_{\epsilon_n}(x_n)$ along with the complement of the closure the
   set of $\{x_n\}$ is an open cover for $K$, but there can be no
   finite subcover. Therefore, $\{x_n\}$ must has an accumulation point
@@ -601,41 +601,43 @@ you may want to skip it unless you are especially interested.
 
   Suppose every sequence in $K$ has a convergent subsequence with a
   limit point in $K$. Let $G_{\alpha}$, $\alpha \in \mathcal{A}$ be an
-  open cover of $K$. We will begin by showing that there must be a
-  countable subcover.  Let $n=1$. Pick $x_1 \in K$. If possible choose
-  $x_2 \in K$ such that $d(x_1,x_2) \geq 1/n$, and choose Repeat this
-  process, choosing $x_j$ in $K$ such that $d(x_j,x_i) \geq 1/n$ for
-  each $i<j$. Eventually this will no longer be possible because
-  otherwise we could construct a sequence with no convergent
-  subsequence. When it is no longer possible, set $n = n+1$. This
-  gives a countable collection of open neighborhoods $N_{1/n}(x_i)$
-  that cover $K$ for each $n$ and get arbitrarily small as $n$
-  increases. Call these neighborhoods $\eta_j$ for $j = 1,2,..$. Let
-  $J$ be set of all $\eta_j$ such that $\eta_j \subseteq G_\alpha$ for
-  some $\alpha$. Note that $\cup_{j \in J} \eta_j \supset K$ because
-  if $x \in K$, then $x \in G_\alpha$ for some $\alpha$, and then
-  $\exists \epsilon$ such that $N_{\epsilon}(x) \in G_{\alpha}$ and
-  $\exists j$ s.t. $\eta_j \subset N_{\epsilon}(x)$.  Finally, for
-  each $j \in J$ choose $G_{\alpha_j}$ such that $\eta_j \subseteq
-  G_{\alpha_j}$. Such $\alpha_j$ exist by construction. Also $\cup_{j
-    \in J} G_{\alpha_j} \supset \cup_{j \in J} \eta_j \supset K$. So
-  $G_{\alpha_j}$ is a countable subcover.
+  open cover of $K$. $\mathcal{A}$ could be uncountable, so we will
+  begin by showing that there must be a countable subcover.  Let
+  $n=1$. Pick $x_1 \in K$. If possible choose $x_2 \in K$ such that
+  $d(x_1,x_2) \geq 1/n$. Repeat this process, choosing $x_j$ in $K$
+  such that $d(x_j,x_i) \geq 1/n$ for each $i<j$. Eventually this will
+  no longer be possible because otherwise we could construct a
+  sequence with no convergent subsequence. When it is no longer
+  possible, set $n = n+1$. This gives a countable collection of open
+  neighborhoods $N_{1/n}(x_i)$ that cover $K$ for each $n$ and get
+  arbitrarily small as $n$ increases. Call these neighborhoods
+  $\eta_j$ for $j = 1,2,..$. Let $J$ be set of all $\eta_j$ such that
+  $\eta_j \subseteq G_\alpha$ for some $\alpha$. $J$ is a subset of a
+  countable set, so $J$ is countable. Note that $\cup_{j \in J} \eta_j
+  \supset K$ because if $x \in K$, then $x \in G_\alpha$ for some
+  $\alpha$, and then $\exists \epsilon$ such that $N_{\epsilon}(x) \in
+  G_{\alpha}$ and $\exists j$ s.t. $\eta_j \subset N_{\epsilon}(x)$.
+  Finally, for each $j \in J$ choose $G_{\alpha_j}$ such that $\eta_j
+  \subseteq G_{\alpha_j}$. Such $\alpha_j$ exist by construction. Also
+  $\cup_{j \in J} G_{\alpha_j} \supset \cup_{j \in J} \eta_j \supset
+  K$. So $G_{\alpha_j}$ is a countable subcover.
 
   If $G_{\alpha_j}$ has no finite subcover, then for each $n$, 
   \[ F_n = \left(\cup_{i=1}^n G_{\alpha_i}\right)^c \cap K \] is not
-  empty. Choose $x_n \in F_n$. Then $\{x_n\}$ is a sequence in $K$,
+  empty (if it were empty, then $\cup_{i=1}^n G_{\alpha_i}$ would be a
+  finite subcover). Choose $x_n \in F_n$. Then $\{x_n\}$ is a sequence in $K$,
   and it must have a convergent subsequence with a limit, $x_0$, in
   $K$. However, each $F_{i+1} \subset F_i$ and $F_i$ are all
   closed. Therefore, the sequence $\{x_j\}_{j=i}^\infty$ is also in
   $F_i$ and so is its limit. Then $x_0 \in \cap_{i=1}^\infty
   F_i$. However, 
   \[ \cap_{i=1}^\infty F_i = \left(\cup_{i=1}^\infty
-    G_{\alpha_i}\right)^c \cap K \]  
-  and $G_{\alpha_i}$ is a countable cover of $K$. So 
+    G_{\alpha_i}\right)^c \cap K, \]  
+  but $G_{\alpha_i}$ is a countable cover of $K$, which implies 
   \[ \cap_{i=1}^\infty F_i = \left(\cup_{i=1}^\infty
-    G_{\alpha_i}\right)^c \cap K = \emptyset\]  
-  which is a contradiction. Therefore, $G_{\alpha_j}$ must have a
-  finite subcover, and $K$ is compact.   
+    G_{\alpha_i}\right)^c \cap K = \emptyset\] 
+  and we have a contradiction. Therefore, $G_{\alpha_j}$ must have a
+  finite subcover, and $K$ is compact.
 \end{proof}
 
 \begin{remark}

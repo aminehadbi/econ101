@@ -477,9 +477,9 @@ the standard basis vectors in $\R^n$. In particular, $A e_j =
 To define matrix addition, it makes sense to
 require $(A+B)x = Ax + Bx$. Then,
 \begin{align*}
-  (A + B) e_i = & A e_i + B e_i \\
-  = & \sum_{j=1}^n a_{ij} e_j + \sum_{j=1}^n b_{ij} e_j\\
-  = & \sum_{j=1}^n (a_{ij} + b_{ij}) e_j,
+  (A + B) e_j = & A e_i + B e_j \\
+  = & \sum_{j=1}^m a_{ij} e_i + \sum_{j=1}^m b_{ij} e_i\\
+  = & \sum_{j=1}^m (a_{ij} + b_{ij}) e_i,
 \end{align*}
 so the only way sensible way to define matrix addition is 
 \begin{align*}
@@ -521,18 +521,18 @@ defined matrices by looking at how a linear tranformation acts on a
 basis vectors, so to define multiplication, we should look at $A(B
 e_k)$
 \begin{align*}
-  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_i) & \text{definition of $Be_k$}\\
-  = & \sum_{j=1}^n b_{jk} A e_i & \text{Definition of linear
+  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_j) & \text{definition of $Be_k$}\\
+  = & \sum_{j=1}^n b_{jk} A e_j & \text{Definition of linear
     transformtion} \\
-  = & \sum_{j=1}^n b_{jk} \left(\sum_{l=1}^m a_{ij} e_l\right)  &
-  \text{definition of $Ae_i$} \\
-  = & \sum_{l=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_l \\
+  = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right)  &
+  \text{definition of $Ae_j$} \\
+  = & \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
   = & \begin{pmatrix} 
     \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
     \vdots & \ddots & \vdots \\
     \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
-  \end{pmatrix} e_l \\
-  = & (AB) e_l.
+  \end{pmatrix} e_k  \\
+  = & (AB)e_k .
 \end{align*}
 The indexing in the above equations is unpleasant and could be
 confusing. The important thing to remember is that matrix
