@@ -126,7 +126,7 @@ derivative as follows.
 \begin{definition}
   Let $f:\R^n \to R$. The $i$th \textbf{partial derivative} of $f$ is 
   \[ \frac{\partial f}{\partial x_i} (x_0) = \lim_{h \to 0}
-  \frac{f(x_{01},...,x_{0i}, ... x_{0n}}{h}. \]
+  \frac{f(x_{01},...,x_{0i}, ... x_{0n})}{h}. \]
 \end{definition}
 The $i$th partial derivative tells you how much the function changes
 as its $i$th argument changes.
@@ -199,8 +199,9 @@ enough for this.
   everywhere, it is in some sense not differentialable at zero (or
   anywhere with $xy = 0$).
 \end{example}
-Partially motivated by the preceding example, we define the total
-derivative.
+Partially motivated by the preceding example, we define the
+total derivative (or just the derivative; we're saying ``total'' to
+emphasize the difference between partial derivatives and the derivative).
 \begin{definition}
   Let $f: \R^n \to \R$. The \textbf{derivative} (or total derivative
   or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
@@ -279,8 +280,9 @@ function is differentiable.
   Let $h = (h_1, ..., h_n)$ with $\norm{h}<r$. Notice that
   \begin{align} 
     f(x_0+h) - f(x_0) = & f(x_0 + h_1 e_1) - f(x_0) + f(x_0+h_1 e_1 +
-    h_2 e_2) - f(x_0 + h_1 e_1) + ... + f(x_0 + h) - f(x_0 -
-    \sum_{i=1}^n-1 h_i e_i) \\
+    h_2 e_2) - f(x_0 + h_1 e_1) + ... \\
+    & + f(x_0 + h) - f\left(x_0 -
+    \sum_{i=1}^{n-1} h_i e_i\right) \\
     &  = \sum_{j=1}^n f\left(x_0 + \sum_{i=1}^j h_i e_i\right) -
     f\left(x_0 + \sum_{i=1}^{j-1} h_i e_i\right).
   \end{align}
@@ -428,6 +430,119 @@ instead of $\begin{pmatrix} D{f_1}_{\bar{x}_1} & \cdots &
   D{f_m}_{\bar{x}_m} \end{pmatrix}^T$ with the understanding that we
 mean the later.  
 
+\subsection{Functions on vector spaces}
+To analyze infinite dimensional optimization problems, we will need to
+differentiate functions on infinite dimensional vector spaces. We will
+come back to this point when we study optimal control and dynamic
+programming. Anyway, we can define the derivative of a function
+between any two vector spaces as follows. 
+\begin{definition}
+  Let $f: V \to W$. The Fr\'{e}chet \textbf{derivative} of $f$ at $x_0$ is a
+  linear mapping, $Df_{x_0}: V \to W$ such that
+  \begin{align*}
+    \lim_{h \to 0} \frac{\left\Vert f(x_0 + h) - f(x_0) - Df_{x_0}
+        h\right\Vert} {\norm{h}} = 0. 
+  \end{align*}
+\end{definition}
+\begin{example}\label{ex:fre}
+  Let $V = \mathcal{L}^\infty(0,1)$ and $W = \R$. Suppose $f$ is given by
+  \[ f(x) = \int_0^1 g(x(\tau),(\tau)) d\tau \] 
+  for some continuously differentiable function $g:\R^2 \to
+  \R$. 
+  Then $Df_{x}$ is a linear transformation from $V$ to $\R$. How
+  can we calculate $Df_x$? If $V$ were $\R^n$ we would calculate the
+  partial derivatives of $f$ and then maybe check that they are
+  continuous so that theorem \label{thm:ptdiff} holds. For an infinite
+  dimensional space there are infinite partial derivatives, so we
+  cannot possibly compute them all. However, we can look at
+  directional derivatives. 
+\end{example}
+\begin{definition}
+  Let $f: V \to W$, $v \in V$ and $x \in U \subseteq V$ for some open
+  $U$. The \textbf{directional derivative} (or G\^{a}teaux derivative
+  when $V$ is infinite dimensional)  in direction $v$ at $x$ is
+  \begin{align*}
+    df(x;v) = \lim_{\alpha \to 0} \frac{f(x + \alpha v) - f(x)}{\alpha}.
+  \end{align*}  
+  where $\alpha \in \R$ is a scalar.
+\end{definition}
+An analog of theorem \ref{thm:tdiff} relates the G\^{a}teaux
+derivative to the Fr\'{e}chet derivative. 
+\begin{lemma}\label{lem:fregat}
+  If $f: V \to W$ is Fr\'{e}chet differentiable at $x$, then the
+  G\^{a}teaux derivative, $df(x;v)$, exists for all $v \in V$, and
+  \[ df(x;v) = Df_x v. \]
+\end{lemma}
+\begin{example*}[Example \ref{ex:fre} continued]
+  Motivated by lemma \ref{lem:fregat}, we can find the Fr\'{e}chet
+  derivative of $f$ by computing its G\^{a}teaux derivatives. Let $v
+  \in V$. Remember that both $x$ and $v$ are functions in this
+  example. Then,
+  \[ f(x+\alpha v) = \int_{0}^1 g(x(\tau) + \alpha v(\tau), \tau)
+  d\tau \]
+  and
+  \begin{align*}
+    df(x;v) = & \lim_{\alpha \to 0} \frac{\int_0^1 g(x(\tau) + \alpha
+      v(\tau), \tau) d\tau}{\alpha} \\
+    = & \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau) v(\tau)
+    d\tau
+  \end{align*}    
+  Therefore, we should guess and verify that 
+  \[ Df_x(v) = \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau)
+  v(\tau) d\tau. \]
+  Note that this expression is linear in $v$ as it must be for it to
+  be the derivative. Now, we check that the limit in the definition of
+  the derivative is zero,
+  \begin{align*}
+    \lim_{h \to 0} \frac{\norm{f(x+h) - f(x) - Df_x(h) }}{\norm{h}} & = 
+      \lim_{h \to 0} \frac{ \abs{ \int g(x(\tau) + h(\tau), \tau) -
+        g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+        h(\tau) d\tau} } {\norm{h}} \\ 
+    & \leq \lim_{h \to 0} \frac{  \int \abs{ g(x(\tau) + h(\tau), \tau) -
+        g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+        h(\tau)} d\tau } {\norm{h}} 
+  \end{align*}
+  where the inequality follows from the triangle inequality.  To
+  simplify, let us assume that $g$ and $\frac{\partial g}{\partial x}$
+  are bounded. Then, by the dominated convergence, theorem, we can
+  interchange the integral and the limit.\footnote{We have not covered
+    the dominated convergence theorem. Unless specifically stated
+    otherwise, on homeworks and exams you can assume that
+    interchanging limits and integrals is allowed. However, do not
+    forget that this is not always allowed. The issue is the order of
+    taking limits. Integrals are defined in terms of limits (either
+    Riemann sums or integrals of simple functions). It is not
+    difficult to come up with examples where $a_{m,n}$ is a doubly
+    indexed sequence and $\lim_{m \to \infty} \lim_{n \to \infty}
+    a_{m,n} \neq \lim_{n \to \infty} \lim_{m \to \infty} a_{m,n}$.  
+  } 
+  We then have
+  \begin{align*}
+    \;\; & \leq  \int \lim_{h \to 0} \frac{ \abs{ g(x(\tau) + h(\tau), \tau) -
+        g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+        h(\tau)} } {\norm{h}} d\tau 
+  \end{align*}
+  The definition of $\frac{\partial g}{\partial x}$ says that
+  \[ \abs{\frac{ g(x(\tau) + h(\tau), \tau) -
+      g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+      h(\tau)}{h(\tau)}} \to 0 \]
+  Also $\frac{\abs{h(\tau)}}{\norm{h}} \leq 1$ for all $\tau$ because
+  in $\mathcal{L}^\infty(0,1)$, $\norm{h} = \sup_{0 \leq \tau \leq 1}
+  \abs{h(\tau)}$. Thus, we can conclude that
+  \begin{align*}
+    \lim_{h \to 0} & \frac{ \abs{ g(x(\tau) + h(\tau), \tau) -
+        g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+        h(\tau)} } {\norm{h}}
+    = \\ 
+    & = \lim_{h \to 0} \frac{ \abs{ g(x(\tau) + h(\tau), \tau) -
+        g(x(\tau),\tau) - \frac{\partial g}{\partial x}(x(\tau),\tau)
+        h(\tau)} } {\abs{h(\tau)}} \frac{\abs{h(\tau)}} {\norm{h}}  
+    = 0,
+  \end{align*}
+  so $f$ is Fr\'{e}chet differentiable at $x$ with derivative $Df_x$. 
+\end{example*}
+
+
 \subsection{Chain rule}
 
 For univariate functions, the chain rule says that the derivative of
@@ -522,7 +637,7 @@ coefficients are the function's derivatives.
   Let $f: \R \to \R$ be $k+1$ times continuously differentiable on some
   open set $U$, and let $a$, $a+h \in U$. Then 
   \[ f(a+h) = f(a) + f'(a) h + \frac{f^2(a)}{2} h^2 + ... +
-  \frac{f^k(a)}{k!} h^k + \frac{f^{k+1}(\bar{a})}{(k+1)!} h^{k+1
+  \frac{f^k(a)}{k!} h^k + \frac{f^{k+1}(\bar{a})}{(k+1)!} h^{k+1}
   \]
   where $\bar{a}$ is between $a$ and $h$. 
 \end{theorem}
@@ -531,8 +646,9 @@ The same theorem is true for multivariate functions.
   Let $f:\R^n \to \R^m$ be $k$ times continuously differentiable on
   some open set $U$ and $a, a+h \in U$. Then there exists a $k$ times
   continuously differentiable function $r_k(a,h)$ such that
-  \[ f(a+h) = f(a) + \sum_{\sum_{i=1}^n {j_i}=1}^k\frac{1}{k!} \frac{\partial^{\sum j_i}
-    f}{\partial x_{1}^{j_1} \cdots \partial x_{n}^{j_n}}(a) h_1^{j_1}h_2^{j_2} \cdots h_n^{j_n} + r_k(a,h) \]
+  \[ f(a+h) = f(a) + \sum_{\sum_{i=1}^n {j_i}=1}^k\frac{1}{k!}
+  \frac{\partial^{\sum j_i} f}{\partial x_{1}^{j_1} \cdots \partial
+    x_{n}^{j_n}}(a) h_1^{j_1}h_2^{j_2} \cdots h_n^{j_n} + r_k(a,h) \]
   and $\lim_{h \to 0} \norm{r_k(a,h)}{\norm{h}^k} = 0$.
 \end{theorem}
 \begin{proof}
@@ -550,135 +666,6 @@ The same theorem is true for multivariate functions.
   $k-1$st derivative of $f$ in place of $f$ shows that theorem is true
   for $k$. 
 \end{proof}
-
-\section{Implicit functions}
-
-We have extensively studied how to solve systems of linear
-equations. We know how to check whether solutions exist and whether
-they are unique. The inverse and implicit function theorems provide
-similar results for nonlinear equations. 
-
-\subsection{Inverse functions}
-
-Suppose $f: \R^n \to \R^m$. If we know $f(x) = y$, when can we solve
-for $x$ in terms of $y$? In other words, when is $f$ invertible? Well,
-suppose we know that $f(a) = b$ for some $a \in \R^n$ and $b \in
-\R^m$. Then we can expand $f$ around $a$,
-\begin{align*}
-  f(x) = f(a) + Df_a (x-a) + r_1(a,x-a)
-\end{align*}
-where $r_1(a,x-a)$ is small. Since $r_1$ is small, we can hopefully
-ignore it then $y = f(x)$ can be rewritten as a linear equation:
-\begin{align*}
-  f(a) + Df_a (x-a) & = y\\
-  Df_a x = & y - f(a) + Df_a a
-\end{align*}
-we know that this equation has a solution if $\rank Df_a =
-\rank \begin{pmatrix} Df_a &  y - f(a) + Df_a a \end{pmatrix}$. It has
-a solution for any $y$ if $\rank Df_a = m$. Moreoever, this solution
-is unique if $\rank Df_a = n$. This discussion is not entirely
-rigorous because we have not been very careful about what $r_1$ being
-small means. The following theorem makes it more precise.
-\begin{theorem}[Inverse function]
-  Let $f: \R^n \to \R^n$ be continuously differentiable on an open set
-  $E$. Let $a \in E$, $f(a) = b$, and $Df_a$ be invertible . Then 
-  \begin{enumerate}
-  \item there exist open sets $U$ and $V$ such that $a \in U$, $b \in
-    V$, $f$ is one-to-one on $U$ and $f(U) = V$, and
-  \item the inverse of $f$ exists and is continuously differentiable
-    on $V$ with derivative $Df_{f^{-1}(x)}^{-1}$.
-  \end{enumerate}
-\end{theorem}
-The open sets $U$ and $V$ are the areas where $r_1$ is small
-enough. The continuity of $f$ and its derivative are also needed to
-ensure that $r_1$ is small enough.
-\begin{proof}
-  Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}} = 1/2$. Since
-  $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
-  that $\norm{Df_x - Df_a} < \lambda$ for all $x \in U$. For any $y
-  \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
-  \right)$. Note that 
-  \begin{align}
-    D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
-    = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}} \lambda =
-    \frac{1}{2} \label{e50}
-  \end{align}
-  Then, by the mean value theorem for $x_1, x_2 \in U$, 
-  \[ \norm{\varphi^y(x_1) - \varphi^y(x_2)} = \norm{D\varphi^y_{\bar{x}}
-    (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
-  It follows that if $\varphi^y(x_1) = x_1$ and $\varphi^y(x_2) =
-  x_2$, then $x_1 = x_2$.
-  \footnote{Functions like $\varphi^y$ that have $d(phi(x),\phi(y))
-    \leq c d(x,y)$ for $c<1$ are called contraction mappings. The $x$
-    with $x=\phi(x)$ is called a fixed point of the contraction
-    mapping. The argument in the proof shows that contraction mappings
-    have at most one fixed point. It is not hard to show that
-    contraction mappings always have exactly one fixed point.}
-  When $\varphi^y(x) = x$, it must be that $y = f(x)$. Thus for each
-  $y \in f(U)$, there is at most one $x$ such that $f(x) = y$. That
-  is, $f$ is one-to-one on $U$. This proves the first part of the
-  theorem and that $f^{-1}$ exists. 
-
-  We now show that $f^{-1}$ is continuously differentiable with the
-  stated derivative. Let $y, y+k \in V = f(U)$. Then $\exists x, x+h
-  \in U$ such that $y = f(x)$ and $y+k = f(x+h)$. With $\varphi^y$ as
-  defined above, we have
-  \begin{align*}
-    \varphi^y(x+h) - \varphi^y(x) = & h + Df_a^{-1}(f(x) - f(x+h))  \\
-    = & h - Df_a^{-1} k
-  \end{align*}
-  By \ref{e50}, $\norm{h - Df_a^{-1} k} \leq \frac{1}{2} \norm{h}$. It
-  follows that $\norm{Df_a^{-1} k} \geq \frac{1}{2} \norm{h}$ and 
-  \[ \norm{h} \leq 2 \norm{Df_a^{-1}} \norm{k} = \lambda^{-1}
-  \norm{k}. \]
-  Importantly as $k \to 0$, we also have $h \to 0$. Now, 
-  \begin{align*}
-    \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k }}{\norm{k}}
-    = & \frac{\norm{-Df_x^{-1}(f(x+h) - f(x) - Df_x h)}}{\norm{k}}
-    \\
-    \leq & \norm{Df_x}^{-1}\lambda \frac{\norm{f(x+h) - f(x) - Df_x
-        h}}{\norm{h}} \\
-    \lim_{k \to 0} \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k
-      }}{\norm{k}} \leq & \lim_{k \to 0} \norm{Df_x}^{-1}\lambda
-    \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}} = 0
-  \end{align*}
-  Finally, since $Df_x$ is continuous, so is $(Df_{f^{-1}(y)})^{-1}$,
-  which is the derivative of $f^{-1}$.  
-\end{proof}
-
-The proof of the inverse function theorem might be a bit
-confusing. The important idea is that if the derivative of a function
-is nonsingular at a point, then you can invert the function around
-that point because inverting the system of linear equations given by
-the mean value expansion around that point nearly gives the inverse of
-the function. 
-
-\subsection{Implicit functions}
-
-The implicit function theorem is a generalization of the inverse
-function theorem. In economics, we usually have some variables, say
-$x$, that we want to solve for in terms of some parameters, say
-$\beta$. For example, $x$ could be a person's consumption of a bundle of
-goods, and $b$ could be the prices of each good and the parameters of
-the utility function. Sometimes, we might be able to separate $x$ and
-$\beta$ so that we can write the conditions of our model as $f(x) =
-b(\beta)$. Then we can use the inverse function theorem to compute
-$\frac{\partial x_i}{  \partial \beta_j}$ and other quantities of
-interest. However, it is not always easy and sometimes not possible to
-separate $x$ and $\beta$ onto opposite sides of the equation. In this
-case our model gives us equations of the form $f(x,\beta) = c$. The
-implicit function theorem tells us when we can solve for $x$ in terms
-of $\beta$ and what $\frac{\partial x_i}{\partial \beta_j}$ will be.
-
-The basic idea of the implicit function theorem is the same as that
-for the inverse function theorem. We will take a first order expansion
-of $f$ and look at a linear system whose coefficients are the first
-derivatives of $f$. 
-
-TO BE CONTINUED
-
-%30.4 and 30.5: optimization; cover later
-
 
 
 \end{document}
