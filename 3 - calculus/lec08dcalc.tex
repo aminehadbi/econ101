@@ -129,6 +129,18 @@ rigor.
 \section{Derivatives}
 
 \subsection{Partial derivatives}
+We have discussed limits of sequences, but perhaps not limits of
+functions. To be complete, we define limits as follows.
+\begin{definition}
+  Let $X$ and $Y$ be metric spaces and $f:X \to Y$.
+  \[ \lim_{x \to x_0} f(x) = c \]
+  where $x$ and $x_0 \in X$ and $c \in Y$, 
+  means that $\forall \epsilon > 0$ $\exists \delta > 0$ such that
+  $d(x,x_0) < \delta $ implies $d(f(x),c) < \epsilon$. 
+\end{definition}
+Equivalently, we could say $ \lim_{x \to x_0} f(x) = c $ means that
+for any sequence $\{x_n\}$ with $x_n \to x$, $f(x_n) \to c$. 
+
 You are probably already familiar with the derivative of a function of
 one variable. Let $f: \R \to \R$. $f$ is differentiable at $x_0$ if 
 \[ \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h} = \frac{d
@@ -216,7 +228,7 @@ total derivative (or just the derivative; we're saying ``total'' to
 emphasize the difference between partial derivatives and the derivative).
 \begin{definition}
   Let $f: \R^n \to \R$. The \textbf{derivative} (or total derivative
-  or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
+  or differential) of $f$ at $x_0$ is a  linear mapping, $Df_{x_0}:
   \R^n \to \R^1$ such that
   \begin{align*}
     \lim_{h \to 0} \frac{\left|f(x_0 + h) - f(x_0) - Df_{x_0} h\right|} {\norm{h}}
@@ -234,6 +246,11 @@ example is not differentiable by letting $h$ approach $0$ along a path
 that switches from $xy<0$ to $xy\geq 0$ infinitely many times close to
 $0$. The limit in the definition of the derivative does not exist
 along such a path, so the derivative does not exist. 
+\begin{remark}
+  In proofs, it will be useful to define $r(x,h) = f(x+h) - f(x) -
+  Df_x h$. We will then repeatedly use the fact that $\lim_{h \to 0}
+  \frac{|r(x,h)|}{\norm{h}} = 0$.
+\end{remark}
 
 If the derivative of $f$ at $x_0$ exists, then so do the partial
 derivatives, and the total derivative is simply the $1 \times n$
@@ -251,15 +268,14 @@ matrix of partial derivatives.
   definition of derivative says that
   \begin{align*}
     \lim_{t \to 0} \frac{\left|f(x_0 + e_i t) - f(x_0) - Df_{x_0} (e_i t)\right|}
-    {\norm{e_i t} } & = 0 \\
-    \lim_{t \to 0} \frac{f(x_0 + e_i t) - f(x_0) - t D f_{x_0} e_i}
-    {|t| } & =  0
+    {\norm{e_i t} } & = 0.
   \end{align*}
-  This implies that
+  Let 
   \begin{align*}
-    f(x_0 + e_i t) - f(x_0) = t D f_{x_0} e_i + r_i(x_0,t)
+    r_i(x_0,t) = f(x_0 + e_i t) - f(x_0) - t D f_{x_0} e_i 
   \end{align*}
-  with $\lim_{t \to 0} \frac{|r_i(x_0,t)|}{|t|} = 0$. Dividing by $t$, 
+  and note that $\lim_{t \to 0} \frac{|r_i(x_0,t)|}{|t|} =
+  0$. Rearranging and dividing by $t$, 
   \begin{align*}
     \frac{f(x_0 + e_i t) - f(x_0)}{t} = D f_{x_0} e_i + \frac{r_i(x_0,t)}{t}
   \end{align*}
@@ -296,7 +312,7 @@ function is differentiable.
     & + f(x_0 + h) - f\left(x_0 -
     \sum_{i=1}^{n-1} h_i e_i\right) \\
     &  = \sum_{j=1}^n f\left(x_0 + \sum_{i=1}^j h_i e_i\right) -
-    f\left(x_0 + \sum_{i=1}^{j-1} h_i e_i\right).
+    f\left(x_0 + \sum_{i=1}^{j-1} h_i e_i\right). \label{eq:earlier}
   \end{align}
   By the mean value theorem (\ref{thm:mvt}), 
   \[ f\left(x_0 + \sum_{i=1}^j h_i e_i\right) -
@@ -309,7 +325,7 @@ function is differentiable.
     {\partial x_j} (x_0 +  \sum_{i=1}^{j-1} h_i e_i + \bar{h}_je_j) -
     \frac{\partial f}{\partial x_j}(x_0) \right| < \epsilon /n, \]
   for any $\epsilon>0$. 
-  Combined with an earlier equation now we have,
+  Combined with equation \ref{eq:earlier} now we have,
   \begin{align} 
     f(x_0+h) - f(x_0) = & \sum_{j=1}^n  h_j \left(\frac{\partial f}{\partial
         x_j} (x_0) + \frac{\epsilon}{n}\right) \\
@@ -453,8 +469,11 @@ come back to this point when we study optimal control and dynamic
 programming. Anyway, we can define the derivative of a function
 between any two vector spaces as follows. 
 \begin{definition}
-  Let $f: V \to W$. The Fr\'{e}chet \textbf{derivative} of $f$ at $x_0$ is a
-  linear mapping, $Df_{x_0}: V \to W$ such that
+  Let $f: V \to W$. The Fr\'{e}chet \textbf{derivative} of $f$ at
+  $x_0$ is a continuous\footnote{From the midterm, we know that if $V$
+    and $W$ are finite dimensional, then all linear functions are
+    continuous. In infinite dimensions, there can be discontinuous
+    linear functions.} linear mapping, $Df_{x_0}: V \to W$ such that
   \begin{align*}
     \lim_{h \to 0} \frac{\left\Vert f(x_0 + h) - f(x_0) - Df_{x_0}
         h\right\Vert} {\norm{h}} = 0. 
@@ -492,30 +511,46 @@ G\^{a}teaux derivative to the Fr\'{e}chet derivative.
 The proof of theorem \ref{thm:ptdiff} relies on the fact that $\R^n$
 is finite dimensional. In fact, in an infinite dimensional space it is
 not enough that all the directional derivatives be continuous on an
-open set around $x$ for the function to be differentiable at
-$x$. Nonetheless, the following is true:
+open set around $x$ for the function to be differentiable at $x$; we
+also require the directional derivatives to be linear in $v$. In
+finite dimensions we can always create a linear map from the partial
+derivatives by arranging the partial derivatives in a matrix. In
+infinite dimensions, we cannot do that. 
 \begin{lemma}\label{lem:gatfre}
-  If $f$ has continuous G\^{a}teaux derivatives in an open
-  neighborhood, $N_\delta(x_0)$, and moreover, 
-  \[  \lim_{\alpha \to 0} \sup_{x \in N_\delta(x_0), v \in V}  \norm{ \frac{f(x + \alpha v) - f(x)
-      - df(x;v)\alpha}{\alpha}} = 0 \]
-  then $Df_{x_0}$ exists and $Df_{x_0}(v) = df(x_0;v)$
+  If $f: V \to W$ has G\^{a}teaux derivatives that are linear in $v$
+  and ``continuous'' in $x$ in the sense that $\forall \epsilon>0$
+  $\exists \delta > 0$ such that if $\norm{x_1 - x} < \delta$, then
+  \begin{align*}
+    \sup_{v \in V} \frac{\norm{df(x_1;v) - df(x;v)}}{\norm{v}} < \epsilon
+  \end{align*}
+  then $f$ is Fr\'{e}chet differentiable with $Df_{x_0} v = df(x;v)$.
 \end{lemma}
-\begin{remark}
-  This sort of $\lim \sup$ requirement is called uniform convergence
-  in general, and uniform differentiability in this particular
-  case. It was not required in finite dimensions because we could look
-  at basis directions and make things less than $\epsilon/n$. In the
-  infinite dimensional case, this does not work because
-  $\epsilon/\infty=0$.
-\end{remark}
-\begin{remark}
-  I have not written out the proof of this theorem, or checked its
-  statement against a reliable source. I am sure that the idea:
-  uniform G\^{a}teaux differentiable implies Fr\'{e}chet
-  differentiable, but you should probably double check the lemma
-  before relying on all its details.
-\end{remark}
+\begin{proof}
+  This proof goes somewhat beyond the scope of the course. Note that
+  \[ f(x+h) - f(x) = \int_0^1 df(x+th,h) dt \]
+  by the fundamental theorem of calculus (which we should really
+  prove, but do not have time for, so we will take it as given). Then,
+  \begin{align*}
+    \norm{ f(x+h) - f(x) - df(x;h)} = & \norm{ \int_0^1 df(x+th,h) -
+      df(x,h) dt} \\
+    \leq & \int_0^1 \norm{df(x+th,h) -df(x,h)} dt
+  \end{align*}
+  By the definition of $\sup$, 
+  \[ \norm{\left(df(x+th;h) - df(x;h) \right)} \leq \sup_{v \in V}
+  \frac{\norm{\left(df(x+th;v) - df(x;v)
+      \right)}}{\norm{v}}\norm{h}. \] 
+  The ``continuity'' in $x$ implies for any $\epsilon>0$ $\exists
+  \delta > 0$ such that if $\norm{th} < \delta$, then $\sup_{v \in V}
+  \frac{\norm{\left(df(x+th;v) - df(x;v) \right)}}{\norm{v}} < \epsilon$.
+  Thus,
+  \[ 
+  \norm{ f(x+h) - f(x) - df(x;h)} < \int_0^1 \epsilon \norm{h} dt =
+  \epsilon \norm{h}. \]
+  In other words, for any $\epsilon>0$ $\exists \delta>0$ such that
+  if $\norm{h} < \delta$, then 
+  \[ \norm{f(x+h) - f(x) - df(x;h)}{\norm{h}}< \epsilon, \]
+  and we can conclude that $df(x;h) = Df_x h$. 
+\end{proof}
 \begin{example*}[Example \ref{ex:fre} continued]
   Motivated by lemmas \ref{lem:fregat} and \ref{lem:gatfre}, we can
   find the Fr\'{e}chet derivative of $f$ by computing its G\^{a}teaux
@@ -530,8 +565,8 @@ $x$. Nonetheless, the following is true:
     = & \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau) v(\tau)
     d\tau
   \end{align*}    
-  Now, we can either check that these derivatives are uniform, or just
-  guess and verify that
+  Now, we can either check that these derivatives are linear and
+  continuous, or just guess and verify that
   \[ Df_x(v) = \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau)
   v(\tau) d\tau. \]
   Note that this expression is linear in $v$ as it must be for it to
