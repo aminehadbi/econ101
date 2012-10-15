@@ -210,12 +210,12 @@ condition for $x$ to be a local maximizer or minimizer of $F$.
   Any point such that $DF_x = 0$ is call a \textbf{critical point} of
   $F$. 
 \end{definition}
-$F$ cannot have local minima or maxima (=local extrema) at
-non-critical points. $F$ might have a local extrema its critical
-points, but it does not have to. Consider $F(x) = x^3$ $F'(0) = 0$,
-but $0$ is not a local maximizer or minimizer of $F$. Similarly, if
-$F:\R^2 \to \R$, $F(x) = x_1^2 - x_2^2$, then $DF_0 = 0$, but $0$ is
-not a local minimum or maximum of $F$. 
+If $F$ is differentiable, $F$ cannot have local minima or maxima
+(=local extrema) at non-critical points. $F$ might have a local
+extrema its critical points, but it does not have to. Consider $F(x) =
+x^3$ $F'(0) = 0$, but $0$ is not a local maximizer or minimizer of
+$F$. Similarly, if $F:\R^2 \to \R$, $F(x) = x_1^2 - x_2^2$, then $DF_0
+= 0$, but $0$ is not a local minimum or maximum of $F$.
 
 \section{Second order conditions}
 
@@ -231,7 +231,7 @@ where $D^2 F_{x^*}$ is the matrix of $F$'s second derivatives. It is
 called the \textbf{Hessian} of $F$. 
 \[ D^2 F_{x^*} = \begin{pmatrix} \frac{\partial ^2 F}{\partial x_1^2}
   & \cdots & \frac{\partial ^2 F}{\partial x_1\partial x_n} \\
-  \vdots & & \vdots
+  \vdots & \ddots & \vdots \\
   \frac{\partial ^2 F}{\partial x_1\partial x_n} & \cdots &
   \frac{\partial ^2 F}{\partial x_n}^2 \end{pmatrix}.
 \]
@@ -260,7 +260,7 @@ definition.
 In the next section we will derive some conditions on $A$ that ensure
 it is negative (semi-)definite. For now, just observe that if $D^2
 F_{x*}$ is negative semi-definite, then $x^*$ must be a local
-maximum. If $D^2$ is negative definite, then $x^*$ is a strict local
+maximum. If $D^2F_{x^*}$ is negative definite, then $x^*$ is a strict local
 maximum. The following theorem restates the results of this
 discussion.
 \begin{theorem}\label{thm:soc}
@@ -286,29 +286,28 @@ discussion.
   \[ F(x^*+h) - F(x^*) = h^T D^2 F_{x^*} h + r(x^*,h) \leq 0. \]
   We can rewrite this as
   \begin{align*}
-    h^T D^2 F_{x^*} h + r(x^*,h) = & h^T D^2 F_{x^*} h \pm h^T h
+    h^T D^2 F_{x^*} h + r(x^*,h) = & h^T D^2 F_{x^*} h + h^T h
     \frac{r(x^*,h)}{\norm{h}^2} 
   \end{align*}
-  where we get $+$ or $-$ depending on whether $h^T h = \norm{h}^2$ or
-  $h^T h = - \norm{h}^2$. Factoring, we have
+  Factoring, we have
   \begin{align*}
-    h^T D^2 F_{x^*} h \pm h^T h \frac{r(x^*,h)}{\norm{h}^2} = 
+    h^T D^2 F_{x^*} h + h^T h \frac{r(x^*,h)}{\norm{h}^2} = 
     & 
-    h^T \left( D^2 F_{x^*}\pm \frac{r(x^*,h)}{\norm{h}^2} \right) h.
+    h^T \left( D^2 F_{x^*}+ \frac{r(x^*,h)}{\norm{h}^2} \right) h.
   \end{align*}
   From our theorem on Taylor series, we know $\lim_{h \to 0}
   \frac{r(x^*,h)}{\norm{h}^2} = 0$. Then for any $\epsilon > 0$
   $\exists$ $\delta > 0$ such that if $\norm{h} < \delta$, then
   $\frac{|r(x^*,h)|}{\norm{h}^2} < \epsilon$. So,
   \begin{align*}
-    h^T \left( D^2 F_{x^*}\pm \frac{r(x^*,h)}{\norm{h}^2} \right) h
-    \leq & h^T \left( D^2 F_{x^*}\pm \epsilon \right) h \\
+    h^T \left( D^2 F_{x^*}+ \frac{r(x^*,h)}{\norm{h}^2} \right) h
+    \leq & h^T \left( D^2 F_{x^*}+ \epsilon \right) h \\
     \leq & h^T D^2 F_{x*} h + \epsilon \norm{h}^2
   \end{align*}
   Let $t = \norm{h}$ and $q = \frac{h}{\norm{h}}$, so $h = t q$. 
   Then we have
    \begin{align*}
-    h^T \left( D^2 F_{x^*}\pm \frac{r(x^*,h)}{\norm{h}^2} \right) h
+    h^T \left( D^2 F_{x^*}+ \frac{r(x^*,h)}{\norm{h}^2} \right) h
     \leq & t^2 (q^T D^2 F_{x*} q) + \epsilon t^2
   \end{align*}
   We can pick $\epsilon < \inf_{\norm{q} =1} |q^T D^2
@@ -610,13 +609,14 @@ definiteness of a matrix.
 
 The second order condition (\ref{thm:soc}) along with the first order
 condition gives a nice way of finding local maxima of a function, but
-what about the global maximum?  In general, you can use the first and
+what about the global maximum?  In general, you could use the first and
 second order conditions to find each of the local maxima of $F$ in the
 interior of $U$. You then must compare each of these local maxima with
 each other and the value of $F$ on the boundary of $U$ to find the
 global maximum of $F$ on $U$. If there are many local maxima or the
-boundary of $U$ is complicated, these procedure can be quite
-complicated. It would be nice if there was some simpler necessary and
+boundary of $U$ is complicated, this procedure can be quite
+complicated. 
+It would be nice if there was some simpler necessary and
 sufficient for a global maximum. Unfortunately, there is no such
 general necessary and sufficient condition. There is, however, a
 sufficient condition that is sometimes useful.
@@ -668,9 +668,26 @@ f(x)\}$ is convex.
 \end{theorem}
 This theorem is often summarized by saying that convex minimization
 problems (i.e. the set $U$ and function $F$ are both convex) have
-unique solutions.  
-We will not prove this theorem until after covering concave functions
-in more detail, which we will cover in a week or so.
+unique solutions.  We will not prove this theorem until after covering
+convexity in more detail, which we may or may not have time for. An
+important fact about convex optimization problems is that their
+solutions can be efficiently computed. A general optimization problem
+is what is known as NP-hard, which in practice means that you can
+write down what looks like a reasonable not too large optimization
+problem whose solution is impossible to compute. In contrast convex
+optimization problems can be solved in polynomial time. In particular,
+if $f$ is convex, $x$ is $n$ dimensional, the steps needed to compute
+$f(x)$ is $M$, and you want to find $\hat{x}$ such that
+$\abs{f(\hat{x}) - f(x^\ast)} < \epsilon$, then there are algorithms
+that can find $\hat{x}$ in $O\left(n(n^3+M)\log(1/\epsilon)\right)$
+steps. In fact, there are algorithms for special types of convex
+problems that can solve them nearly as fast as a least squares problem
+or a linear program. In practice, this means that some convex problems
+can be solved very quickly even with tens or hundreds of thousands of
+variables. The discovery that convex optimization problems can be
+solved efficiently was fairly recent. The main theoretical
+breakthroughs began in the late eighties and early nineties, and it
+remains an active area of research.
 
 \section{Applications}
 

@@ -149,16 +149,41 @@ The open sets $U$ and $V$ are the areas where $r_1$ is small
 enough. The continuity of $f$ and its derivative are also needed to
 ensure that $r_1$ is small enough. The proof of this theorem is a bit
 long, but the main idea is the same as the discussion preceding the
-theorem.
-\begin{proof}
-  Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}} = 1/2$. Since
+theorem. 
+\begin{remark}
+  The proof uses the fact that the space of all continuous linear
+  transformations between two normed vector spaces is itself a vector
+  space. I do not think we have talked about this before. Anyway, it
+  is a useful fact that already came up in the proof that continuous
+  G\^{a}teaux differentiable implies Fr\'{e}chet differentiable last
+  lecture. Let $V$ and $W$ be normed vector spaces with norms
+  $\norm{\cdot}_V$ and $\norm{\cdot}_W$. Let $BL(V,W)$ denote the set
+  of all continuous (or equivalently bounded) linear transformations
+  from $V$ to $W$. Then $BL(V,W)$ is a normed vector space with norm
+  \[ \norm{A}_{BL} \equiv \sup_{v \in V} \frac{\norm{Av}_W}{\norm{v}_V}. \]
+  This is sometimes called the operator norm on $BL(V,W)$. Last
+  lecture, the proof that G\^{a}teaux differentiable implies
+  Fr\'{e}chet differentiable required that the mapping from $V$ to
+  $BL(V,W)$ defined by $Df_x$ as a function of $x \in V$ had to be
+  continuous with respect to the above norm. 
+
+  We will often use the inequality,
+  \[ \norm{Av}_W \leq \norm{A}_{BL} \norm{v}_V, \] which follows from
+  the definition of $\norm{\cdot}_{BL}$. We will also use the fact
+  that if $V$ is finite dimensional and $f(x,v): V \times V \to W$, is
+  continuous in $x$ and $v$ and linear in $v$ for each $x$, then 
+  $ f(x, \cdot):V \to BL(V,W)$ is continuous in $x$ with respect to
+  $\norm{\cdot}_{BL}$. 
+\end{remark}
+\begin{proof} 
+  Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}}_{BL} = 1/2$. Since
   $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
-  that $\norm{Df_x - Df_a} < \lambda$ for all $x \in U$. For any $y
+  that $\norm{Df_x - Df_a}_{BL} < \lambda$ for all $x \in U$. For any $y
   \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
   \right)$. Note that 
   \begin{align}
     D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
-    = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}} \lambda =
+    = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}}_{BL} \lambda =
     \frac{1}{2} \label{e50}
   \end{align}
   Then, by the mean value theorem for $x_1, x_2 \in U$, 
@@ -166,7 +191,7 @@ theorem.
     (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
   It follows that if $\varphi^y(x_1) = x_1$ and $\varphi^y(x_2) =
   x_2$, then $x_1 = x_2$.
-  \footnote{Functions like $\varphi^y$ that have $d(phi(x),\phi(y))
+  \footnote{Functions like $\varphi^y$ that have $d(\phi(x),\phi(y))
     \leq c d(x,y)$ for $c<1$ are called contraction mappings. The $x$
     with $x=\phi(x)$ is called a fixed point of the contraction
     mapping. The argument in the proof shows that contraction mappings
@@ -187,7 +212,7 @@ theorem.
   \end{align*}
   By \ref{e50}, $\norm{h - Df_a^{-1} k} \leq \frac{1}{2} \norm{h}$. It
   follows that $\norm{Df_a^{-1} k} \geq \frac{1}{2} \norm{h}$ and 
-  \[ \norm{h} \leq 2 \norm{Df_a^{-1}} \norm{k} = \lambda^{-1}
+  \[ \norm{h} \leq 2 \norm{Df_a^{-1}}_{BL} \norm{k} = \lambda^{-1}
   \norm{k}. \]
   Importantly as $k \to 0$, we also have $h \to 0$. Now, 
   \begin{align*}
@@ -197,7 +222,7 @@ theorem.
     \leq & \norm{Df_x}^{-1}\lambda \frac{\norm{f(x+h) - f(x) - Df_x
         h}}{\norm{h}} \\
     \lim_{k \to 0} \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k
-      }}{\norm{k}} \leq & \lim_{k \to 0} \norm{Df_x}^{-1}\lambda
+      }}{\norm{k}} \leq & \lim_{k \to 0} \norm{Df_x}_{BL}^{-1}\lambda
     \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}} = 0
   \end{align*}
   Finally, since $Df_x$ is continuous, so is $(Df_{f^{-1}(y)})^{-1}$,

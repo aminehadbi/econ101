@@ -525,6 +525,15 @@ infinite dimensions, we cannot do that.
   \end{align*}
   then $f$ is Fr\'{e}chet differentiable with $Df_{x_0} v = df(x;v)$.
 \end{lemma}
+\begin{remark}
+  This continuity in $x$ is actually a very natural definition. If $V$
+  and $W$ are normed vector spaces, then the set of all bounded (or
+  equivalently continuous) linear transformations is also a normed
+  vector space with norm 
+  \[ \norm{A} \equiv \sup_{v \in V} \frac{\norm{Av}_W}{\norm{v}_V}. \]
+  We are requiring $df(x;v)$ as a function of $x$ to be continuous with 
+  respect to this norm. 
+\end{remark}
 \begin{proof}
   This proof goes somewhat beyond the scope of the course. Note that
   \[ f(x+h) - f(x) = \int_0^1 df(x+th,h) dt \]
