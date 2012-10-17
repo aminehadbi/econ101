@@ -235,11 +235,11 @@ rapidly, it must be that going in that direction would violate the
 constraint. That is, for any $\delta > 0$
 \begin{align*} 
   g(x^* + \delta Df_{x^*}^T) > & b \\ 
-  g(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b
+  g(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b \\
   Dg_{x^*} Df_{x^*}^T > & 0
 \end{align*}
 The first order condition says that 
-\[ Df_{x^*} Df_{x^*}^T =  \lambda D g_{x^*} D f_{x^*} \]
+\[ Df_{x^*} Df_{x^*}^T =  \lambda D g_{x^*} D f_{x^*}^T \]
 $Df_{x^*} Df_{x^*}^T$ is always positive, so it must that when the
 constraint binds, $\lambda > 0$. If the constraint does not bind, we
 can use the same first order condition with $\lambda=0$. Thus, we have
@@ -400,9 +400,9 @@ ignored. Then $v$ satisfies the constraints if
   Dh_{x^*} v = & 0
 \end{align*}
 Thus, $x^*$ is a local maximizer of $f$ subject to $h(x) = c$ if
-\[ v^T D^2 f_{x^*} v \leq 0 \]
-for all $v$ such that that $Dh_{x^*} v = 0$. The following
-theorem makes precisely states the result of this discussion.
+\[ v^T D^2 f_{x^*} v \leq 0 \] for all $v$ such that that $Dh_{x^*} v
+= 0$. The following theorem precisely states the result of this
+discussion.
 \begin{theorem}[Second order condition for constrained maximization]
   Let $f:U \to \R$ be twice continuously
   differentiable on $U$, and $h:U \to \R^l$ and $g: U \to \R^m$ be
@@ -444,7 +444,7 @@ theorem makes precisely states the result of this discussion.
 \end{theorem}
 Recall from the last lecture that an $n$ by $n$ matrix, $A$, is
 negative definite if $x^T A x < 0$ for all $x \neq 0$. Similarly, we
-say that $A$ is negative definite on the null space of $B$ is $x^T A x
+say that $A$ is negative definite on the null space of $B$ if $x^T A x
 < 0$ for all $x \in \mathcal{N}(B) \setminus\{0\}$. Thus, the second
 order condition for constrained optimization could be stated as saying
 that the Hessian of the objective function must be negative definite
@@ -499,7 +499,7 @@ constraint can be written
   0 = & B x = \begin{pmatrix} B_1 & B_2 \end{pmatrix} \begin{pmatrix}
     x_1 \\ x_2 \end{pmatrix} \\
   = & B_1 x_1 + B_2 x_2 \\
-  x_1 = & (B_1)^{-1} B_2 x_2
+  x_1 = & -(B_1)^{-1} B_2 x_2
 \end{align*}
 and the set of $x$ that satisfy the constraint are
 \begin{align*} x = & \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} \\
@@ -553,7 +553,7 @@ have
   = & \mu^T 
 \end{align*}
 Thus, the multiplier, $\mu$, is the derivative of the maximized
-function with respect to $c$.  We could have looked a
+function with respect to $c$.  We could have looked at a
 problem with inequality constraints and gotten the same
 conclusion. The following theorem summarizes this observation.
 \begin{theorem}[Multiplier interpretation]\label{thm:muint} 
@@ -570,7 +570,7 @@ conclusion. The following theorem summarizes this observation.
   \[ \frac{\partial}{\partial c_j} f(x^*(b,c)) = \mu_j(b,c). \]
 \end{theorem} 
 In economic terms, the multiplier is the
-marginal value of increasing the constraint. Because of the
+marginal value of increasing the constraint. Because of this 
 $\lambda_j$ is often called the shadow price of $b_j$. 
 
 \section{Envelope theorem}
@@ -594,7 +594,7 @@ Let $x^*(\alpha)$ be a local maximizer. Using the chain rule,
   \frac{d }{d \alpha_j} f(x^*(\alpha),\alpha) = & \sum_{i=1}^n
   \frac{\partial f}{\partial x_i} \frac{\partial x_i^*}{\partial \alpha_j}
   + \frac{\partial f}{\partial \alpha_j } \\
-  = \frac{\partial f}{\partial \alpha_j }(x^*(\alpha),\alpha)
+  & = \frac{\partial f}{\partial \alpha_j }(x^*(\alpha),\alpha)
 \end{align*}
 where the second line follows from the first order condition.
 

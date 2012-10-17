@@ -1,0 +1,333 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+
+
+\title{Constrained optimization}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+\section{First order conditions}
+
+\subsection{Equality constraints}
+\begin{frame}[shrink]{\frametitle{Equality constraints}}
+  \[ \max f(x) \text{ s.t. } h(x) = c \]
+  \begin{itemize}
+  \item $f: \R^n \to \R$ , $h: \R^n \to \R^m$
+  \item Draw picture of $n=2$ and $m=1$
+    \begin{itemize}
+    \item At optimum, constraint tangent to level curve of function
+      \begin{align*}
+        \frac{(\partial f)/(\partial x_1) (x^*)}
+        {(\partial f)/(\partial x_2)(x^*)} = & \frac{(\partial h)/(\partial x_1)(x^*)}
+        {(\partial h)/(\partial x_2)(x^*)} \\
+        \frac{(\partial f)/(\partial x_1)(x^*)}
+        {(\partial h)/(\partial x_1)(x^*)} = & \frac{(\partial f)/(\partial x_2)(x^*)}
+        {(\partial h)/(\partial x_2)(x^*)} \equiv \mu
+      \end{align*}
+    \end{itemize}
+  \item Rewrite as
+    \begin{align}
+      \frac{\partial f}{\partial x_1} (x^*) - \mu \frac{\partial
+        h}{\partial x_1}(x^*) = & 0 \label{ef1} \\
+      \frac{\partial f}{\partial x_2} (x^*) - \mu \frac{\partial
+        h}{\partial x_2}(x^*) = & 0 \label{ef2} \\
+      h(x^*) - c = & 0\label{ebc}
+    \end{align}
+  \item Lagrangian $ L(x,\mu) \equiv f(x) - \mu(h(x) - c).$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{FOC with equality constraints}
+\begin{theorem} \label{thm:econ}
+  Let $f:U \to \R$ and $h: U \to \R^m$ be continuously
+  differentiable on $U \subseteq \R^n$. Suppose $x^* \in
+  \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
+  $h(x) = c$. Also assume that $Dh_{x^*}$ has rank $m$. Then there
+  exists $\mu^* \in \R^m$ such that $(x^*, \mu^*)$ is a critical point
+  of the Lagrangian,
+  \[ L(x,\mu) = f(x) - \mu^T (h(x) - c). \]
+  i.e.
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\mu^*) = & \frac{\partial
+      f}{\partial x_i} - {\mu^*}^T \frac{\partial h}{\partial
+      x_i}(x^*) = 0 \\
+    \frac{\partial L}{\partial \mu_j}(x^*,\mu^*) = & h(x^*) -
+    c = 0
+  \end{align*}
+  for $i = 1, ..., n$ and $j=1,...,m$.
+\end{theorem}
+\end{frame}
+
+\subsection{Inequality constraints}
+\begin{frame}\frametitle{Inequality constraints}
+  \[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \]
+  \begin{itemize}
+  \item Binding constraints, $g_j(x^*) = b_j$ are just like equality
+    constraints
+    \[ Df_{x^*} - \lambda_j D g_{j,x^*} = 0. \]
+  \item $Df_{x^*}$ is direction $f$ increases, so $x^* + \delta
+    Df_{x^*}$ must violate constraint or $x^*$ cannot be a maximizer
+    \begin{align*} 
+      g_j(x^* + \delta Df_{x^*}^T) > & b_j \\ 
+      g_j(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b_j \\
+      Dg_{j,x^*} Df_{x^*}^T > & 0
+    \end{align*}
+  \item Combine with first order condition to get $\lambda_j > 0$ 
+  \item Thus, $\lambda_j \geq 0$ and $\lambda_j = 0$ iff $g_j(x^*) <
+    b_j$ (complementary slackness condition)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink]\frametitle{FOC with inequality constraints}
+\begin{theorem} \label{thm:icon}
+  Let $f:U \to \R$ and $g: U \to \R^m$ be continuously
+  differentiable on $U \subseteq \R^n$. Suppose $x^* \in
+  \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
+  $g(x) \leq b$. Suppose that the first $k \leq m$ constraints, bind
+  \[ g_j(x^*) = b_j \]
+  for $j = 1 ... k$ and that the Jacobian for these constraints, 
+  has rank $k$. Then, there exists
+  $\lambda^* \in \R^m$ such that for
+  \[ L(x,\lambda) = f(x) - \lambda^T (g(x) - b). \]
+  we have
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \lambda_j^* \left(g(x^*) - c \right)= 0 \\
+    \lambda_j^* & \geq 0 \\
+    g(x^*) & \leq b
+  \end{align*}
+  for $i = 1, ..., n$ and $j=1,...,m$.
+\end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Mixed equality and inequality constraints}
+  \begin{itemize}
+  \item Similar result
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Second order conditions}
+
+\begin{frame}\frametitle{Second order conditions}
+  \begin{itemize}
+  \item Second order expansion of $f(x)$ around $x^*$. 
+    \begin{align*}
+      f(x^*+v) - f(x^*) = & Df_{x^*} v + v^T D^2 f_{x^*}
+      v + r(v,x^*) \\
+      = & v^T D^2 f_{x^*} v + r(v,x^*) \\
+    \end{align*}
+  \item $x^* + v$ must satisfy the constraints 
+    \[ h(x^* + v) = h(x^*) + Dh_{x*} v + r_h(v,x^*) = c. \]
+    so $Dh_{x^*} v = 0$
+  \item $x^*$ is a local maximizer of $f$ subject to $h(x) = c$ if
+    \[ v^T D^2 f_{x^*} v \leq 0 \] for all $v$ such that that $Dh_{x^*} v
+    = 0$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink]\frametitle{Second order condition for constrained maximization}
+\begin{theorem}
+  Let $f:U \to \R$ be twice continuously
+  differentiable on $U$, and $h:U \to \R^l$ and $g: U \to \R^m$ be
+  continuously differentiable on $U \subseteq \R^n$. Suppose $x^* \in    
+  \mathrm{interior}(U)$ and there exists
+  $\mu^* \in \R^l$ and $\lambda^* \in \R^m$ such that for 
+  \[ L(x,\lambda,\mu) = f(x) - \lambda^T (g(x) - b) - \mu^T(h(x) - c). \]
+  the first order condition is satisfied. 
+  Let $B$ be the matrix of the derivatives of the binding constraints
+  evaluated at $x^*$.
+  If 
+  \[ v^T D^2 f_{x*} v < 0 \]
+  for all $v \neq 0$ such that $B v = 0$, then $x^*$ is a strict
+  local constrained maximizer for $f$ subject to $h(x) = c$ and $g(x)
+  \leq b$. 
+\end{theorem}
+\end{frame}
+
+\subsection{Definiteness on subspaces}
+\begin{frame}\frametitle{Definiteness on subspaces}
+  \begin{definition}
+    Let $A$ be an $n$ by $n$ symmetric matrix and $B$ be $m$ by $n$, then $A$ is 
+    \begin{itemize}
+    \item \textbf{Negative definite on $\mathcal{N}(B)$} if $x^T A x <
+      0$ for all $x \in \mathcal{N}(B) \setminus \{0\}$ 
+    \item \textbf{Positive definite on $\mathcal{N}(B)$} if $x^T A x >
+      0$ for all $x \in \mathcal{N}(B) \setminus \{0\}$ 
+    \item \textbf{Indefinite on $\mathcal{N}(B)$} if $\exists$ $x_1 \in
+      \mathcal{N}(B) \setminus \{0\}$  
+      s.t. $x_1^T A x_1 > 0$ and 
+      some other $x_2 \in \mathcal{N}(B) \setminus \{0\}$  such that
+      $x_2^T A x_2 < 0$. 
+    \end{itemize}  
+  \end{definition}
+\end{frame}
+
+\begin{frame}\frametitle{Checking definiteness using determinants}
+  \begin{theorem}\label{thm:nds}
+    Let $A$ be an $n$ by $n$ symmetric matrix and $B$ be $m$ by
+    $n$. Then $A$ is negative definite on $\mathcal{N}(B)$ iff the
+    last $n-m$ leading principal minors of
+    \[
+    \begin{pmatrix} 0 & B \\
+      B & A 
+    \end{pmatrix}
+    \]
+    alternate in sign, and the final $(n+m)$th principal minor has the
+    same sign as $(-1)^n$.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}[shrink]\frametitle{Checking definiteness using eigenvalues}
+  \begin{itemize}
+  \item Write $B = \begin{pmatrix} B_1 & B_2 \end{pmatrix}$ with
+    $\rank B = \rank B_1 = m$. 
+    \begin{align*}
+      0 = & B x = \begin{pmatrix} B_1 & B_2 \end{pmatrix} \begin{pmatrix}
+        x_1 \\ x_2 \end{pmatrix} \\
+      x_1 = & -(B_1)^{-1} B_2 x_2
+    \end{align*}    
+    so $x \in \mathcal{N}(B)$ iff 
+    $
+      x = \begin{pmatrix} -(B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix} x_2
+    $
+    for some $x_2 \in \R^{n-m}$
+  \item $x^T A x$ for $x \in \mathcal{N}(B)$
+    \begin{align*}
+      x^T A x = & x_2^T \begin{pmatrix}
+        (B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix}^T \begin{pmatrix} A_1 & A_2
+        \\ A_2^T & A_3 \end{pmatrix} \begin{pmatrix}
+        (B_1)^{-1} B_2 \\ I_{n-m} \end{pmatrix} \\
+      = & x_2^T \underbrace{\left( B_2^T (B_1^T)^{-1} A_1 (B_1)^{-1} B_2 +
+        B_2^T (B_1^T)^{-1} A_2 +  A_2^T (B_1)^{-1} B_2 +
+        A_3\right)}_{\equiv C} x_2
+    \end{align*}
+  \item $A$ negative definite on $\mathcal{N}(B)$ iff $C$ is negative
+    definite on $\R^m$, i.e. $C$ has negative eigenvalues
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Multiplier interpretation}
+
+\begin{frame}
+\begin{theorem}[Multiplier interpretation]\label{thm:muint} 
+  Under the conditions of theorem \ref{thm:icon}, let $x^*(b,c)$
+  denote the solution of the constrained maximization problem,
+  \begin{align*}
+    \max_{x \in U} f(x) \text{ s.t. } & g(x) \leq b \\
+    & h(x) = c ,
+  \end{align*}
+  and let $\mu(b,c)$ and $\lambda(b,c)$ denote the corresponding
+  Lagrange multipliers. The for each $j=1..m$,
+  \[ \frac{\partial}{\partial b_j} f(x^*(b,c)) = \lambda_j(b,c) \]
+  and for each $j=1,...,l$,
+  \[ \frac{\partial}{\partial c_j} f(x^*(b,c)) = \mu_j(b,c). \]
+\end{theorem} 
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Envelope theorem}
+
+
+\subsection{Unconstrained problems}
+\begin{frame} \frametitle{Envelope theorem}
+  Let $f:U \times A \to \R$ where $U \subseteq \R^n$ and $A
+  \subseteq \R^k$. Consider
+  \[ \max_{x \in U} f(x,\alpha). \]
+  Let $x^*(\alpha)$ be a local maximizer. Using the chain rule,
+  \begin{align*}
+    \frac{d }{d \alpha_j} f(x^*(\alpha),\alpha) = & \sum_{i=1}^n
+    \frac{\partial f}{\partial x_i} \frac{\partial x_i^*}{\partial \alpha_j}
+    + \frac{\partial f}{\partial \alpha_j } \\
+    & = \frac{\partial f}{\partial \alpha_j }(x^*(\alpha),\alpha)
+  \end{align*}
+  where the second line follows from the first order condition.
+\end{frame}
+
+\subsection{Constrained problems}
+\begin{frame} \frametitle{Envelope theorem}
+  Let $f:U \times A \to \R$ and $h:U \times A \to \R^l$ where $U
+  \subseteq \R^n$ and $A \subseteq \R^k$. Consider
+  \[ \max_{x \in U} f(x,\alpha) \text{ s.t. } h(x,\alpha) = 0. \]
+  Let $x^*(\alpha)$ be a local maximizer, and let
+  $L(x^*(\alpha),\mu^*(\alpha),\alpha)$ be the Lagrangian. Using the
+  chain rule, 
+  \begin{align*}
+    \frac{d}{d \alpha_j} L(x^*(\alpha),\mu^*(\alpha),\alpha) = & \sum_{i=1}^n
+    \frac{\partial L}{\partial x_i} \frac{\partial x_i^*}{\partial
+      \alpha_j} + \sum_{k=1}^l\frac{\partial L}{\partial
+      \mu_k} \frac{\partial \mu_k^*}{\partial 
+      \alpha_j}   + \frac{\partial L}{\partial \alpha_j } \\
+    = \frac{\partial L}{\partial \alpha_j
+    }(x^*(\alpha),\mu^*(\alpha),\alpha) 
+  \end{align*}
+\end{frame}
+
+\end{document}

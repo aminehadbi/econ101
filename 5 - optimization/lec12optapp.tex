@@ -154,10 +154,10 @@ m(y_i,x_i;\theta). \]
 Since $\En$ will differ from $\Er$ there may not be any $\theta$ that
 exactly solves 
 \begin{align} \En[m(y,x;\theta)]=0 \label{e:emn} \end{align}
-even if there is some a solution with the true expectation. For this
+even if there is a solution with the true expectation. For this
 reason, we estimate $\theta$ by finding $\hat{\theta}$ that
-approximately solves (\ref{e:emn}). We want the best approximately
-solution, so one way to choose the best would be to set
+approximately solves (\ref{e:emn}). We want the best approximate
+solution, so one way to choose the best is to set
 \[ \hat{\theta} = \argmin \En[m(y,x;\theta)]^T \En[m(y,x;\theta)]. \]
 More generally, we could say
 \[ \hat{\theta} = \argmin \En[m(y,x;\theta)]^T W
@@ -224,7 +224,7 @@ $\theta_0$, then
 If $D^2Q_n{\bar{\theta}}$ is invertible then,
 \[ (\hat{\theta} - \theta_0) =  -(D^2{Q_n}_{\bar{\theta}} )^{-1}
 D{Q_n}_{\theta_0} \]   
-Generally, $D^2 Q_n \in D^2 Q$ and $DQ_n \inprob DQ$, but this is not
+Generally, $D^2 Q_n \inprob D^2 Q$ and $DQ_n \inprob DQ$, but this is not
 what we want. We want to get a distribution for
 $\hat{\theta}-\theta_0$, not a point limit. Therefore, we should
 multiple by some $a_n$ to make $a_n(\hat{\theta}-\theta_0)$ converge
@@ -238,15 +238,14 @@ because, you can often show that
 This fact follows from a central limit theorem. For example, it is
 often the case that 
 \[ D{Q_n}_{\theta_0} = \frac{1}{n} \sum_{i=1}^n D_\theta
-f(y_i,x_i,\theta_0). \] 
-Additionally, if observations are independent
-and identically distributed\footnote{This can be relaxed and the
-  finite variance condition strengthened, and the conclusion still
-  holds.}, $\Er[D_\theta f(y_i,x_i,\theta)] = 0$, and
-theorem says that (\ref{e:normd}) holds. Regardless of why, if we just
+f(y_i,x_i,\theta_0). \] Then, if observations are independent and
+identically distributed, $\Er[D_\theta f(y_i,x_i,\theta)] = 0$, and
 $\Er[f(y,x,\theta_0)^2]$ is finite then the classical central limit
-theorem says that (\ref{e:normd}) holds. Regardless of why, if we just
-assume (\ref{e:normd}), then
+theorem says that (\ref{e:normd}) holds\footnote{There are other types
+  of central limit theorems with different assumptions. For example,
+  independence can be relaxed and the finite variance condition
+  strengthened, and the conclusion still holds.}. Regardless of why,
+if we just assume (\ref{e:normd}), then
 \begin{align*}
   \sqrt{n}(\hat{\theta} - \theta_0) = & D^2 {Q_n}_{\bar{\theta}}
   (\sqrt{n} D {Q_n}_{\theta_0} ) \\
@@ -363,7 +362,7 @@ of devoting fewer resources to preventing pollution.
 
 \subsection{Competitive equilibrium}
 
-Let the price of $c$ be $p$ and $\ell$ be $w$. Pollution, $z$ is not
+Let the price of $c$ be $p$ and $\ell$ be $w$. Pollution, $z$, is not
 traded. The firm's problem is
 \begin{align*}
   \max_{c,\alpha,\ell,z} p f_c(\alpha \ell) - w \ell \text{ s.t. } & 0
@@ -420,20 +419,20 @@ conditions are:
 \begin{align*} 
   [\ell]: & & p f_c'(\alpha \ell) \alpha - w - \tau \left( f_z'(\alpha
     \ell)\alpha - g((1-\alpha)\ell)(1-\alpha) \right) = &
-  0  \\
+  0   \\
   [\alpha]: & & p f_c'(\alpha \ell) \ell - \tau \left( f_z'(\alpha\ell)
     \ell + g'((1-\alpha)\ell) \ell \right) + \lambda_{0} - \lambda_{1} =
   & 0  \\ 
   [\lambda_{1}]: && \lambda_{1}(\alpha -1) = & 0 \\
   [\lambda_{0}]: && \lambda_{0}\alpha = & 0 
 \end{align*}
-Notice that (\ref{ftl}) is nearly the same as the social planner's
+Notice that $[\ell]$ is nearly the same as the social planner's
 first order condition for $\ell$ (\ref{sl}), except the former has
 $p$, $w$, and $\tau$ whereas the later has $\mu_c$, $\mu_\ell$, and
 $\mu_z$. Suppose the government sets the tax rate to 
 \[ \tau = -\mu_z = -
 \frac{\partial u}{\partial z}(c^*,z^*) \].
-If $p = \mu_c$ and $w=\mu_\ell$, then $c^*$ and $c^*$ solve the firm's
+If $p = \mu_c$ and $w=\mu_\ell$, then $\alpha^*$ and $c^*$ solve the firm's
 first order condition with taxes. To show this is an equilibrium, we
 just need to verify that the consumer's first order conditions hold.
 The consumer's problem is now 
@@ -472,10 +471,6 @@ being $\mu_z$, and $p=\mu_c$ and $w=\mu_\ell$\footnote{Actually only
   allocation.}as above, so this is another way of decentralizing the
 efficient allocation.  
 
-\section{Demand theory}
-
-Marshallian demand, Hicksian demand, Roy's identity, Slutsky equation,
-etc. See Simon and Blume chapter 22. 
 
 
 

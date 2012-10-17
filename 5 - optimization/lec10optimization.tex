@@ -570,7 +570,7 @@ not orthogonal set, $\tilde{v}_2 = \frac{v_2 - v_1^T v_2
   v_1}{\norm{v_2 - v_1^T v_2 v_1}}$, etc. Then $V$ will be an
 orthogonal matrix, so $V^{-1} = V^T$. This relationship is called the
 eigendecomposition of $A$.
-\begin{theorem}[Eigendecomposition]
+\begin{theorem}[Eigendecomposition]\label{thm:eigen}
   Let $A$ be an $n$ by $n$ non-singular symmetric matrix, then $A$ has
   $n$ distinct real eigenvalues
   \[ A = V \Lambda V^T \]
@@ -674,15 +674,17 @@ important fact about convex optimization problems is that their
 solutions can be efficiently computed. A general optimization problem
 is what is known as NP-hard, which in practice means that you can
 write down what looks like a reasonable not too large optimization
-problem whose solution is impossible to compute. In contrast convex
-optimization problems can be solved in polynomial time. In particular,
-if $f$ is convex, $x$ is $n$ dimensional, the steps needed to compute
-$f(x)$ is $M$, and you want to find $\hat{x}$ such that
-$\abs{f(\hat{x}) - f(x^\ast)} < \epsilon$, then there are algorithms
-that can find $\hat{x}$ in $O\left(n(n^3+M)\log(1/\epsilon)\right)$
-steps. In fact, there are algorithms for special types of convex
-problems that can solve them nearly as fast as a least squares problem
-or a linear program. In practice, this means that some convex problems
+problem whose solution takes prohibitively long to compute. In
+contrast convex optimization problems can be solved in polynomial
+time. In particular, if $f$ is convex, $x$ is $n$ dimensional, the
+steps needed to compute $f(x)$ is $M$, and you want to find $\hat{x}$
+such that $\abs{f(\hat{x}) - f(x^\ast)} < \epsilon$, then there are
+algorithms that can find $\hat{x}$ in
+$O\left(n(n^3+M)\log(1/\epsilon)\right)$ steps. In fact, there are
+algorithms for special types of convex problems that can solve them
+nearly as fast as a least squares problem or a linear program. In
+practice, this means that most convex problems can be solved quickly
+with up to about a one thousand variables, and some convex problems
 can be solved very quickly even with tens or hundreds of thousands of
 variables. The discovery that convex optimization problems can be
 solved efficiently was fairly recent. The main theoretical
