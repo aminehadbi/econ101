@@ -1,0 +1,404 @@
+\documentclass[compress]{beamer} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+\renewcommand{\L}{{\mathcal{L}}}
+
+
+\title{Optimal control and dynamic programming}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction} 
+
+\begin{frame} \frametitle{Example: consumption and savings}
+  \begin{itemize}
+  \item Infinite horizon consumption-savings problem, 
+    \[ \max_{\{c_t\}_{t=0}^\infty,\{s_t\}_{t=1}^\infty} \sum_{t=0}^\infty
+    \beta^t u(c_t) \text{ s.t. } s_{t+1} = (1+r_t)(s_t - c_t), \]  
+  \item Countably infinite $c_t$ and $s_t$
+  \end{itemize} 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: contracting with continuum of types}
+  \begin{itemize}
+  \item Type $\theta$ gets $0$ utility from not buying the good, and
+    $\theta \nu(q) - T$ from buying $q$ units of the good at cost
+    $T$
+  \item $\theta \in [\theta_l,\theta_h]$, density $f_\theta$
+  \item Menu of contracts $(q(\theta),T(\theta))$ such that type $\theta$ will
+    choose contract $(q(\theta),T(\theta))$
+    \begin{align}
+      \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+      \left[T(\theta) - cq(\theta)\right]
+      f_\theta(\theta) d\theta \notag \\
+      & \text{s.t.} \notag \\
+      &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+      \theta \label{pc} \\
+      &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+      \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+      T(\tilde{\theta}) \forall \theta \label{ic} 
+    \end{align}
+  \end{itemize}
+\end{frame}
+
+\begin{frame} \frametitle{}
+  \begin{itemize}
+  \item These problems can be solved using same techniques as before
+    \begin{itemize}
+    \item First and second order conditions
+    \item Involves differentiation in infinite dimensional vector
+      spaces
+    \item This approach sometimes called ``calculus of variations''
+    \end{itemize}
+  \item Optimal control and dynamic programming are special tricks to
+    make solving these problems easier
+    \begin{itemize}
+    \item Can be derived from calculus of variations
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Differentiation in vector spaces}
+
+\begin{frame}\frametitle{Differentiation in vector spaces}
+  \begin{align*}
+    \max_{x \in U} f(x) \text{ s.t } & h(x) = c \\
+    & g(x) \leq b 
+  \end{align*}
+  \begin{itemize}
+  \item $x \in U \subseteq V$, a Banach space
+    \begin{itemize}
+    \item Countably infinite problems, usually 
+      \[ V = \ell^p = \{\{x_t\}_{t=1}^\infty:
+      \left(\sum_{t=1}^\infty |x_t|^p\right)^{1/p} < \infty\} \]      
+    \item Uncountably infinite problems, usually $V = \mathcal{L}^p$
+      or $V = C^k$
+    \end{itemize}
+  \item $f: V \to \R$, derivative $Df_x: V \to \R$ is continuous and
+    linear such that
+    \[ \lim_{\norm{h} \to 0} \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}}
+    = 0 \]    
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $V$ and $W$ be Banach spaces and $f:V \to W$. The
+    \textbf{Fr\'{e}chet derivative} of $f$ at $x \in V$ is a continuous linear
+    transformation from $V$ to $W$, denoted $Df_x$ such that 
+    \[ \lim_{\norm{h} \to 0} \frac{\norm{f(x+h) - f(x) - Df_x h
+      }}{\norm{h}} = 0. \]
+  \end{definition}
+  
+  \begin{definition}
+    The \textbf{directional (G\^{a}teaux) derivative} in direction $v$
+    at $x$ is
+    \begin{align*}
+      df(x;v) = \lim_{\alpha \to 0} \frac{f(x + \alpha v) - f(x)}{\alpha}.
+    \end{align*}  
+    where $\alpha \in \R$ is a scalar.
+  \end{definition}
+
+\end{frame}
+
+\begin{frame}
+  \begin{lemma}\label{lem:fregat}
+    If $f: V \to W$ is Fr\'{e}chet differentiable at $x$, then the
+    G\^{a}teaux derivative, $df(x;v)$, exists for all $v \in V$, and
+    \[ df(x;v) = Df_x v. \]
+  \end{lemma}
+
+  \begin{lemma}\label{lem:gatfre}
+    If $f: V \to W$ has G\^{a}teaux derivatives that are linear in $v$
+    and ``continuous'' in $x$ in the sense that $\forall \epsilon>0$
+    $\exists \delta > 0$ such that if $\norm{x_1 - x} < \delta$, then
+    \begin{align*}
+      \sup_{v \in V} \frac{\norm{df(x_1;v) - df(x;v)}}{\norm{v}} < \epsilon
+    \end{align*}
+    then $f$ is Fr\'{e}chet differentiable with $Df_{x_0} v = df(x;v)$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}\frametitle{Dual spaces}
+  Lagrange multipliers are elements of dual spaces
+  \begin{definition}
+    Let $V$ be a vector space. The \textbf{dual space} of $V$, denote $V^\ast$
+    is the set of all (continuous) linear functionals, $v^\ast: V \to \R$.
+  \end{definition}
+  Examples
+  \begin{itemize}
+  \item $(\R^n)^\ast = \R^n$
+  \item $(\ell^p)^\ast = \ell^q$ where $\frac{1}{p} + \frac{1}{q} = 1$
+  \item $(\L^p)^\ast = \L^q$ where $\frac{1}{p} + \frac{1}{q} = 1$
+  \item $(\ell^1)^\ast = \ell^\infty$, but $(\ell^\infty)^\ast \supset
+    \ell^1$, not equal
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Optimization in vector spaces}
+
+\begin{frame} 
+  \begin{theorem}[First order condition for maximization with equality
+    constraints] \label{thm:econv} Let $f:U \to \R$ and $h:U \to W$ be
+    continuously differentiable on $U \subseteq V$, where $V$ and $W$
+    are Banach spaces.  Suppose $x^* \in \mathrm{interior}(U)$ is a
+    local maximizer of $f$ on $U$ subject to $h(x) = 0$. Suppose that
+    $Dh_{x^*}:V \to W$ is onto. Then, there exists $\mu^* \in W^\ast$
+    such that for
+    \[ L(x,\mu) = f(x) - \mu h(x). \]
+    we have
+    \begin{align*}
+      D_xL(x^*,\mu^*) = & Df_{x*} - \mu^* Dh_{x^*} = 0_{} \\
+      D_\mu L(x^*,\mu^*) = & h(x^*) = 0_{W}
+    \end{align*}
+  \end{theorem}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Optimal control}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Continous time optimal control}
+\begin{frame}[shrink] 
+  \frametitle{Optimal control}
+  Classic continuous time optimal control problem:
+  \begin{align*}
+    \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
+    & \text{ s.t.} \\
+    & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+    & y(0) = y_0
+  \end{align*}
+  \begin{itemize}
+  \item $x$ is called a control variable
+  \item $y$ is called a state variable
+  \item $V =$ space of pairs of functions $(x(t),y(t))$ from
+    $[0,T]$ to $\R$
+  \item Objective $f(x,y) = \int_0^T F(x(t),y(t),t) dt$, $f:V \to \R$
+  \item Constraint $h(x,y): V \to W = $ functions from $[0,T]$ to $\R$
+    \[ h(x,y)(t) = \frac{dy}{dt}(t) - g(x(t),y(t),t) \]
+  \item Multipliers $\mu \in W^\ast$, $\mu_0 \in \R^\ast = \R$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{align*}
+    \max_{x(t),y(t)} \int_0^T & F(x(t),y(t),t) dt \\
+    \text{ s.t.} & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+    & y(0) = y_0
+  \end{align*}
+  \begin{itemize}
+  \item Lagrangian: 
+    \begin{align*}
+      L(x,y,\mu,\mu_0) = & \int_0^T F(x(t),y(t),t) dt  -
+      \mu\left(\frac{dy}{dt} - g(x,y,\cdot) \right) -\\ 
+      & - \mu_0(y(0) - y_0) 
+    \end{align*}
+  \item Assume that $\mu(w) = \int_{0}^T w(t) \lambda(t) dt$
+  \item First order conditions are
+    \begin{align}
+      [x]: && D_xf_{x^*,y^*} - \mu D_xh_{x^*,y^*} = & 0 \\
+      [y]: && D_yf_{x^*,y^*} - \mu D_yh_{x^*,y^*} - \mu_0 = & 0 \\
+      [\mu]: && h(x^*,y*) = & 0 
+    \end{align}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink]
+  \begin{itemize}
+  \item Rewrite first order conditions as 
+    {\small
+    \begin{align*}
+      [x]:\, 0 =& \int_0^T v(t) \left(\frac{\partial F}{\partial x}(x(t),y(t),t) +
+        \frac{\partial g}{\partial x}(x(t),y(t),t) \lambda(t)\right)
+      dt  \\
+      [y]:\, 0 = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+          y} + \frac{\partial g}{\partial y}
+        \lambda(t)  \right)dt  + \\
+      & + \int_0^T \frac{d\lambda}{dt}(t)v(t)dt -
+      \lambda(T)v(T) + \lambda(0)v(0)  - \mu_0v(0) \\
+      [\mu]:\, \frac{dy}{dt} = & g(x(t),y(t),t)  
+    \end{align*}    
+  }
+  \item Equivalently, $\forall t \in [0,T]$
+    {\small
+    \begin{align*}
+      [x]:&& 0 = &\frac{\partial F}{\partial x}(x(t),y(t),t) +
+      \frac{\partial g}{\partial x}(x(t),y(t),t) \lambda(t) \\
+      [y]:&& -\frac{d\lambda}{dt}(t) = & \frac{\partial F}{\partial
+        y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+      v(t) \lambda(t) \\
+      [\mu]:&& \frac{dy}{dt} = & g(x(t),y(t),t) 
+    \end{align*}
+    }
+    and $\lambda(T) = 0$ and $\mu_0 = \lambda(0)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Pontryagin's maximum principle]\label{thm:optcon}
+    Consider 
+    \begin{align}
+      \max_{x,y \in U \subseteq X \times Y} & \int_0^T F(x(t),y(t),t) dt \notag \\
+      & \text{ s.t.} \\
+      &  \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in
+      [0,T] \label{e:maxp} \\ 
+      & y(0) = y_0. \notag
+    \end{align}
+    where $X$ and $Y$ are some Banach spaces of differentiable 
+    functions from $[0,T]$ to $\R$, and $F,g:\R^2 \times [0,T] \to \R$ are
+    continuously differentiable. Define the Hamiltonian as 
+    \[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t). \]
+    If $x^*$ and $y^*$ are a local constrained maximum of
+    (\ref{e:maxp}) in the interior of $U$, then there exists
+    $\lambda^*(t)$ such that 
+    \begin{align*}
+      [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+      \\
+      [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+      [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+        \lambda}(x^*,y^*,\lambda^*,t)
+    \end{align*}
+  \end{theorem}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\subsection{Application: optimal contracting with a continuum of
+  types} 
+
+\begin{frame}\frametitle{Application: optimal contracting with a continuum of
+    types}
+  \begin{align}
+    \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+    \left[T(\theta) - cq(\theta)\right]
+    f_\theta(\theta) d\theta \notag \\
+    & \text{s.t.} \notag \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+    \theta \label{pc2} \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+    \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+    T(\tilde{\theta}) \forall \theta \label{ic2} 
+  \end{align}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Can show equivalent to
+    \begin{align}
+      \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+      \left[T(\theta) - cq(\theta)\right]
+      f_\theta(\theta) d\theta \notag \\
+      & \text{s.t.} \notag \\
+      &\theta_l \nu\left(q(\theta_l)\right) - T(\theta_l) \geq 0
+      \label{pcl} \\
+      & \theta \nu'(q(\theta))q'(\theta) - T'(\theta) =  0 \label{lic2} \\
+      & \frac{dq(\theta)}{d\theta} \geq  0 \label{mon2}
+    \end{align}
+  \item Manipulate first order conditions to eventually show
+    \begin{align*}
+      \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
+      \right)\nu'(q(\theta)) = & c 
+    \end{align*}
+  \end{itemize}
+\end{frame}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Discrete time optimal control}
+
+\begin{frame}
+  \frametitle{Discrete time optimal control}
+  \begin{align*}
+    \max_{x_t,y_y} & \sum_{t=0}^\infty F(x_t,y_t,t) \\
+    & \text{ s.t. } \\
+    & y_{t+1} - y_t = g(x_t,y_t,t) 
+  \end{align*}
+  First order conditions can be written as:
+  \begin{align*}
+    [x]: && \frac{\partial F}{\partial x}(x_t,y_t,t)  + \mu_t \frac{\partial
+      g}{\partial x}(x_t,y_t,t) = &  0 \\
+    [y]: && \mu_{t+1}-\mu_t = \frac{\partial F}{\partial
+      y}(x_t,y_t,t)  + \mu_t \frac{\partial 
+      g}{\partial y}(x_t,y_t,t) = &  0 \\
+    [\mu]:&& y_{t+1} - y_t = & g(x_t,y_t,t) 
+  \end{align*}
+  and $y_0 = 0$
+  \begin{itemize}
+  \item Same as continuous time, but with $\mu_{t+1} - \mu_t$ instead
+    of $\frac{d\lambda}{dt}$ and $y_{t+1}-y_t$ instead of
+    $\frac{dy}{dt}$
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Dynamic programming}
+
+%\begin{frame}\frametitle{Dynamic programming}  
+%\end{frame}
+
+\end{document}
