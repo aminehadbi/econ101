@@ -55,7 +55,7 @@
 \newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
 \renewcommand{\to}{{\rightarrow}}
 \renewcommand{\L}{{\mathcal{L}}}
-
+\newcommand{\Er}{\mathrm{E}}
 
 \title{Optimal control and dynamic programming}
 \author{Paul Schrimpf}
@@ -398,7 +398,189 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Dynamic programming}
 
-%\begin{frame}\frametitle{Dynamic programming}  
-%\end{frame}
+\begin{frame}\frametitle{Dynamic programming}
+  \begin{itemize}
+  \item Optimal control: characterize maximizer $x^\ast$
+  \item Dynamic programming: characterize maximal function value
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Finite horizon}
+\begin{itemize}
+\item Example: finite horizon consumption and savings
+  \[ \max_{c_t,s_t} \sum_{t=0}^T \beta^t u(c_t) \text{ s.t. }
+  s_{t+1} = (1+r_t) (s_t - c_t) \]
+  $s_0$ given and $s_{T+1} = 0$
+\item Backward induction:
+  \begin{itemize}
+  \item Time $T$
+    \[ V_T(s_T) \equiv \max_{c_T} u(c_T) \text{ s.t. } s_{T+1} = (1+r_T)(s_T
+    -c_T) = 0 \] 
+  \item $T-1$
+    \[ V_{T-1}(s_{T-1}) \equiv \max_{c_{T-1},s'} u(c_{T-1}) + \beta V_T(s') \text{ s.t.} s' =
+    (1+r_{T-1})(c_{T-1}-s_{T-1}) \]
+  \item In general, Bellman equation
+    \begin{align} 
+      V_t(s) = \max_{c_t,s'} u(c_{t}) + \beta V_{t+1}(s') \text{ s.t.} s' =
+      (1+r_{t})(c_{t}-s)
+    \end{align}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \textbf{Principle of optimality}: 
+  ``An optimal policy has the property that whatever the initial state
+  and initial decision are, the remaining decisions must constitute an
+  optimal policy with regard to the state resulting from the first
+  decision.''  (Bellman and Dreyfus 1962) 
+\end{frame}
+
+\begin{frame}\frametitle{Example: exercising a stock option}
+  \begin{itemize}
+  \item Option contract: any time in next $T$ periods, can buy a share
+    at price $p$
+  \item Market price at time $t$ is $x_t$, $x_t = x_{t-1} +
+    \epsilon_t$, $\epsilon_t$ i.i.d. with $\Er|\epsilon_t|$ finite
+  \item Problem: choose selling time $s$ to maximize expected $x_s -
+    p$
+  \item Backward induction:
+    \begin{itemize}
+    \item $V_T(x_T) = \max\{ x_T - p, 0 \}$
+    \item $V_{T-1}(x_{T-1}) = \max\{ x_{T-1} - p, \Er[V_T(x_T) |
+      x_{T-1}]\} = \max\{ x_{T-1} - p, \Er[V_T(x_{T-1} +
+      \epsilon_{T-1}) ]\}$
+    \item $V_t(x) = \max\{x - p, \Er[V_{t+1}(x + \epsilon) ] \}$    
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Example: exercising a stock option}
+  \begin{itemize}
+  \item Use induction to show:
+    \begin{enumerate}
+    \item\label{vt} If $t < \tau$ then $V_t(x) \geq V_\tau(x)$
+    \item\label{vx} If $x < y$ then $V_t(x) - x \geq V_t(y) - y$
+    \item\label{vc} $V_t(x)$ is continuous
+    \end{enumerate}
+  \item \ref{vx}, \ref{vc}, and $F(x) \geq x-p$ imply should use
+    option at time $t$ if $x \geq a_t$ 
+  \item \ref{vt} implies $a_1 \geq a_2 \geq ... \geq a_T$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Infinite horizon}
+  \begin{itemize}
+  \item Example:
+    \[ \max_{c_t,s_t} \sum_{t=0}^\infty \beta^t u(c_t) \text{ s.t. } s_{t+1} =
+    (1+r_t) (s_t - c_t) \]
+  \item Cannot use backward induction
+  \item If problem does not depend on $t$, 
+    \[ V(s) = \max_{c,s'} u(c) + \beta V(s') \text{ s.t. } s' =
+    (1+r)(s-c) \] 
+  \item When will $V$ not depend on $t$? Or will $\exists V$ that
+    solves the above equation? And when does that $V$ match the
+    original problem?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Existence of value function}
+  \begin{itemize}
+  \item Example:
+    \begin{align*}
+      \max_{c_t,s_t} & \sum_{t=0}^\infty \beta^t u(c_t,s_t) \\
+      & s_{t+1} = g(c_t,s_t),
+    \end{align*}
+    where $c \in \R$, $s \in \R$, $0<\beta<1$, and $u,g:\R^2 \to \R$.
+  \item Finding value function:
+    \begin{itemize}
+    \item Guess $v_0: \R\to \R$
+    \item Set 
+      \[ v_1(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
+      s'=g(c,s) \]
+    \item Repeat: $v_j(s) = T(v_{j-1})(s)$ with 
+      \[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
+      s'=g(c,s) \]
+    \item Recall: contraction mappings  have unique fixed points 
+    \item If $T$ is a contraction, then $V$ exists and $v_j \to V$
+    \end{itemize} 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Existence of value function}
+  \begin{itemize}
+  \item Want to show $T$ is contraction mapping, i.e.\
+    \[ \norm{T(v) - T(v')} \leq c \norm{v-v'} \]
+    for $c < 1$
+  \item Sufficient conditions:
+    \begin{itemize}
+    \item Define space for $v$: $u$ bounded, $u(c,s) \leq M$, then
+      $v(s) \leq \frac{M}{1-\beta}$, i.e. $v \in
+      \mathcal{L}^\infty(\R)$, and $\norm{v} = \sup_{x \in \R}
+      \abs{v(s)}$
+    \item Assure solution to 
+      \begin{align*}
+        \max_{c_i,s_i'} u(c_i,s) + \beta v_i(s_i') \text{ s.t. }
+        s_i'=g(c_i,s).
+      \end{align*}
+      exists: assume $c,s'$ in compact set
+    \end{itemize}
+  \item Other more general conditions known
+  \end{itemize}
+\end{frame}
+
+\begin{frame}  \frametitle{Existence of value function}
+  \begin{itemize}
+  \item Show $T$ contraction: 
+    \begin{itemize}
+    \item Note:
+      \begin{align*}
+        T(v_0)(s)-T(v_1)(s) =  \left(u(c_0,s) + \beta v_0(s_0')  \right) -
+        \left(u(c_1,s) + \beta v_1(s_1')  \right)
+      \end{align*} 
+      where $c_i,s_i'$ are maximizer to Bellman equation with $v_i$
+    \item By maximization: 
+      \[ T v_0 (s) = u(c_0,s) + \beta v_0(s_0')  \geq u(c_1,s) + \beta
+      v_0(s_1') \] 
+      and vice versa
+    \item 
+      Therefore, 
+      \[ T(v_0)(s) - T(v_1)(s) \geq \beta (v_0(s_1') - v_1(s_1')) \]
+      and
+      \[ T(v_0)(s)-T(v_1)(s) \leq \beta (v_0(s_0') - v_1(s_0'))  \]
+    \item Conclude:
+      \begin{align*}
+        \norm{T(v_0)-T(v_1)} = & \sup_{s} \left\vert T(v_0)(s)-T(v_1)(s) \right\vert \\
+        \leq & \sup_s \left\vert \beta(v_0(s) -v_1(s)) \right\vert =
+        \beta \norm{v_0 - v_1}
+      \end{align*}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame} \frametitle{Example: linear-quadratic}
+  \[ \min_{x_t,u_t} \sum_{t=0}^\infty \beta^t (x_t - a)^2 \text{
+    s.t. } x_{t+1} = b x_t + c u_t \]
+  \begin{itemize}
+  \item Strategy: guess and check functional form of $V(x)$ 
+    \begin{itemize}
+    \item Does not always work, but when it does $V$ usually has same
+      form as the objective function
+    \item Many problems have no closed form expression for $V$
+    \end{itemize}
+  \item Guess $V(x) = v_0 + v_1 x + v_2 x^2$
+  \item Solve $\min_u (x-a)^2 + \beta V(bx + c u)$, get $u^\ast(x) =
+    \frac{v_1}{v_2} - \frac{b}{c} x$
+  \item Substitute:
+    \begin{align*}
+      V(x) = & (x-a)^2 + \beta V(bx+cu^\ast(x)) \\
+      v_0 + v_1 x + v_2 x^2 = & (x-a)^2 + \beta\left[ v_0 + \frac{c
+          v_1^2}{v_2} + \frac{v_1^2 c^2}{v_2} \right]
+    \end{align*}
+    solve for $v_0, v_1, v_2$ (will not be possible if guess incorrect)
+  \end{itemize}
+\end{frame}
+
 
 \end{document}
