@@ -1,0 +1,254 @@
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{verbatim}
+%\usepackage[small,compact]{titlesec} 
+%\usecolortheme{beaver}
+\usetheme{Hannover}
+%\usecolortheme{whale}
+
+%\usepackage{pxfonts}
+%\usepackage{isomath}
+%\usepackage{mathpazo}
+%\usepackage{arev} %     (Arev/Vera Sans)
+%\usepackage{eulervm} %_   (Euler Math)
+%\usepackage{fixmath} %  (Computer Modern)
+%\usepackage{hvmath} %_   (HV-Math/Helvetica)
+%\usepackage{tmmath} %_   (TM-Math/Times)
+%\usepackage{tgheros}
+%\usepackage{cmbright}
+%\usepackage{ccfonts} \usepackage[T1]{fontenc}
+%\usepackage[garamond]{mathdesign}
+\usepackage{color}
+\usepackage{ulem}
+
+\setbeamertemplate{navigation symbols}{}
+\AtBeginSection[] % Do nothing for \section*
+{ \frame{\sectionpage} }
+
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
+\def\inprobLOW{\rightarrow_p}
+\def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
+\def\inprob{\,{\inprobHIGH}\,} 
+\def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\newcommand{\gmatrix}[1]{\begin{pmatrix} {#1}_{11} & \cdots &
+    {#1}_{1n} \\ \vdots & \ddots & \vdots \\ {#1}_{m1} & \cdots &
+    {#1}_{mn} \end{pmatrix}}
+\newcommand{\iprod}[2]{\left\langle {#1} , {#2} \right\rangle}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\renewcommand{\det}{\mathrm{det}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\spn}{\mathrm{span}}
+\newcommand{\row}{\mathrm{Row}}
+\newcommand{\col}{\mathrm{Col}}
+\renewcommand{\dim}{\mathrm{dim}}
+\newcommand{\prefeq}{\succeq}
+\newcommand{\pref}{\succ}
+\newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
+\renewcommand{\to}{{\rightarrow}}
+\renewcommand{\L}{{\mathcal{L}}}
+\newcommand{\Er}{\mathrm{E}}
+
+\title{Monotone comparative statics}
+\author{Paul Schrimpf}
+\institute{UBC \\ Economics 526}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+%\setcounter{tocdepth}{2}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction} 
+
+\begin{frame}
+  \frametitle{References}
+  \begin{itemize}
+  \item Amir (2005) ``Supermodularity and
+    Complementarity in Economics: An Elementary Survey,''
+    \textit{Southern Economic Journal}
+    \url{http://www.jstor.org/stable/20062066}
+  \item Carter sections 2.2.3, 6.2.3
+  \item Milgrom and Shannon (1994) ``Monotone Comparative Statics''
+    \textit{Econometrica} \url{http://www.jstor.org/stable/2951479}
+  \item Athey, Milgrom, and Roberts \textit{Robust Comparative
+      Statics} 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introduction}
+  \begin{itemize}
+  \item Problem:
+    \[ x^*(\alpha) \in \argmax_x f(x,\alpha) \text{ s.t. }
+    g(x,\alpha) \leq 0 \]
+    How does $x^*(\alpha)$ vary with $\alpha$
+  \item Approaches:
+    \begin{enumerate}
+    \item Explicitly solve for $x^*(\alpha)$
+      \begin{itemize}
+      \item Often not possible
+      \end{itemize}
+    \item Implicit function theorem
+      \begin{itemize}
+      \item Apply to first order condition, if constraint does not
+        bind,  
+        \begin{align*}
+          0 = & \frac{\partial f}{\partial x} (x^\ast, \alpha) \\
+          \frac{d x^\ast}{d \alpha} = & -\left(\frac{\partial^2 f}{\partial
+              x \partial \alpha}\right)^{-1} \frac{\partial^2 f}{\partial
+            \alpha^2} 
+        \end{align*}
+      \item Requires $f$ to be smooth, $\frac{\partial^2 f}{\partial
+          x \partial \alpha} \neq 0$, constraint not binding,
+        $x^\ast(\alpha)$ unique maximizer
+      \end{itemize}
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Introduction}
+  \begin{itemize}
+  \item Original problem:
+    \[ \max_{x \in \mathcal{X}} f(x,\alpha) \text{ s.t. }
+    g(x,\alpha) \leq 0 \]
+    \begin{itemize}
+    \item Same as
+      \[ \max_{x \in \mathcal{X}} h(f(x,\alpha)) \text{ s.t. } g(x,\alpha) \leq 0 \]  
+      for any strictly increasing $h:\R \to \R$ including non differentiable
+      and non continuous $h$
+    \item \[ \max_{y \in \mathcal{Y}} f(k(y),\alpha)) \text{ s.t. }
+      g(k(y),\alpha) \leq 0 \]   
+      for any surjective $k:\mathcal{Y} \to \mathcal{X}$
+      including non differentiable and non continuous $k$
+    \end{itemize}
+  \item $\Rightarrow$ Conclusions of comparative statics should not
+    depend on smoothness, uniqueness of $x^*$, etc
+  \end{itemize}
+\end{frame}
+
+\section{Monotone maximum theorem}
+
+\begin{frame} \frametitle{Simple setup}
+  \[ x^*(\alpha) = \argmax_x f(x,\alpha) \text{ s.t. } x \in
+  [g(\alpha),h(\alpha)] \] 
+  \begin{itemize}
+  \item $x, \alpha \in \R$, $f:\R^2 \to \R$, $g, h:\R \to \R$
+  \item $x^*(\alpha)$ is set valued
+  \item Define $\bar{x}(\alpha) = \sup_{x \in x^*(\alpha)} x$,
+    $\underline{x}(\alpha) = \inf_{x \in x^*(\alpha)} x$ 
+  \item Goal: find conditions for $\bar{x}(\alpha)$ to be increasing
+    in $\alpha$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \[ x^*(\alpha) = \argmax_x f(x,\alpha) \text{ s.t. } x \in
+  [g(\alpha),h(\alpha)] \] 
+  \begin{itemize}
+  \item $f(x,\alpha) = x$ or $-x$ implies $x^*(\alpha) = \{h(\alpha)\}$ or
+    $\{g(\alpha)\}$, so need $h(\alpha)$ and $g(\alpha)$ to both be
+    increasing in $\alpha$
+  \item Let $\alpha' > \alpha$ and suppose $\bar{x}(\alpha')<
+    \bar{x}(\alpha)$ we want to find flexible assumptions that make
+    this impossible
+  \item $h(\alpha) \leq h(\alpha') \leq \bar{x}(\alpha') <
+    \bar{x}(\alpha) \leq g(\alpha) \leq g(\alpha')$
+    \note{First inequality from $h$ increasing. Second from
+      $\bar{x}(\alpha') \in [h(\alpha'),g(\alpha')$]. Third by
+      assumption. Fourth and fifth same as second and first.}
+  \item Maximization implies
+    \[ f(\bar{x}(\alpha),\alpha) - f(\bar{x}(\alpha'),\alpha) \geq 0\]
+    and 
+    \[ f(\bar{x}(\alpha),\alpha') - f(\bar{x}(\alpha'),\alpha') \leq
+    0\]    
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Define: $f$ has \textbf{increasing differences} in $x,\alpha$
+    if for all $x'>x$, $\alpha'>\alpha$ 
+    \[ f(x',\alpha') - f(x,\alpha') \geq f(x',\alpha) - f(x,\alpha) \]
+  \item Increasing differences implies:
+    \[ 0 \geq f(\bar{x}(\alpha),\alpha') - f(\bar{x}(\alpha'),\alpha')
+    \geq f(\bar{x}(\alpha),\alpha) - f(\bar{x}(\alpha'),\alpha) \geq
+    0 \]
+    i.e. $f(\bar{x}(\alpha),\alpha')=f(\bar{x}(\alpha'),\alpha')$
+  \item But then $\bar{x}(\alpha) \in x^*(\alpha')$ and
+    $\bar{x}(\alpha)>\bar{x}(\alpha')$, contradicting
+    $\bar{x}(\alpha') = \sup \{x^*(\alpha')\}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Monotone maximum theorem on $\R$}
+  \begin{theorem}
+    Let $f: \R^2 \to \R$, $g,h: \R \to \R$. Define
+    \[ x^*(\alpha) = \argmax_{x \in [g(\alpha), h(\alpha)]}
+    f(x,\alpha). \]
+    If 
+    \begin{enumerate}
+    \item $f$ has increasing differences
+    \item $g$ and $h$ are increasing
+    \end{enumerate}
+    then $\bar{x}(\alpha) = \sup\{x^*(\alpha)\}$ and
+    $\underline{x}(\alpha) = \inf\{x^*(\alpha)\}$ are increasing in
+    $\alpha$ 
+  \end{theorem}
+\end{frame}
+
+\begin{frame}\frametitle{Increasing differences}
+  \begin{itemize}
+  \item $f$ has \textbf{increasing differences} in $x,\alpha$
+    if for all $x'>x$, $\alpha'>\alpha$ 
+    \[ f(x',\alpha') - f(x,\alpha') \geq f(x',\alpha) - f(x,\alpha) \]
+  \item Equivalently
+    \[ f(x',\alpha') - f(x',\alpha) \geq f(x,\alpha') - f(x,\alpha) \]
+  \item If $f$ is twice continuously differentiable, then $f$ has
+    increasing differences iff $\frac{\partial^2 f}{\partial
+      x \partial \alpha} \geq 0$ $\forall x, \alpha$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Example: normal good}
+  \[ \max_{x_1\geq 0, x_2\geq 0} u(x_1,x_2) \text{ s.t. } p_1 x_1 + p_2 x_2 \leq m \]
+  \begin{itemize}
+  \item $u$ increasing in $x_2$ implies constraint binds
+    \[ \max_{x_1} u\left(x_1,\frac{m-p_1 x_1}{p_2} \right) \text{
+      s.t. } x_1 \in [0, m/p_1] \]
+  \item Question: when is $x_1$ a normal good, i.e. $x_1^*(m)$ is
+    increasing?
+  \item Monotone maximum theorem says if $u\left(x_1,\frac{m-p_1
+        x_1}{p_2} \right)$ has increasing difference in $(x_1, m)$
+    \begin{itemize}
+    \item If $u$ smooth, has increasing differences iff
+      \[ \frac{1}{p_2}\frac{\partial^2 u}{\partial x_1 \partial x_2}
+      - \frac{\partial^2 u}{\partial x_2^2} \frac{p_1}{p_2^2} \geq
+      0 \] 
+    \end{itemize}
+  \item Conclusion holds even if 
+    \begin{itemize}
+    \item Demand integer constrained
+    \item Constraint binds sometimes but not always
+    \item $u$ not concave
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+
+\end{document}
