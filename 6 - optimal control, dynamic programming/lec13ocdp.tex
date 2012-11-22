@@ -707,14 +707,14 @@ and $\mu$, we obtain:
 \begin{align*}
   [x]:&& \frac{\partial F}{\partial x}(x_t,y_t,t)  + \mu_t \frac{\partial
     g}{\partial x}(x_t,y_t,t) = &  0 \\
-  [y]: && \mu_{t+1}-\mu_t = \frac{\partial F}{\partial
+  [y]: && \mu_{t-1}-\mu_t = \frac{\partial F}{\partial
     y}(x_t,y_t,t)  + \mu_t \frac{\partial 
     g}{\partial y}(x_t,y_t,t) = &  0 \\
   [mu]:&& y_{t+1} - y_t = & g(x_t,y_t,t) 
 \end{align*}
 and $y_0 = 0$
 Notice the similarity to theorem \ref{thm:optcon}. The only difference 
-is that these equations involve $\mu_{t+1} - \mu_t$ instead of
+is that these equations involve $\mu_{t} - \mu_{t-1}$ instead of
 $\frac{d\lambda}{dt}$ and $y_{t+1}-y_t$ instead of $\frac{dy}{dt}$. 
 
 \section{Dynamic programming}
