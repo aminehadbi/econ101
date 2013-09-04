@@ -32,6 +32,9 @@
 \def\inprobHIGH{\,{\buildrel p \over \rightarrow}\,} 
 \def\inprob{\,{\inprobHIGH}\,} 
 \def\indist{\,{\buildrel d \over \rightarrow}\,} 
+\def\pref{\succeq}
+\def\Re{\mathbb{R}}
+\def\rel{\,{\buildrel R \over \sim}\,}
 
 
 % \newtheorem{theorem}{Theorem}[section]
@@ -62,24 +65,8 @@
 
 \frame{\titlepage}
 
-\section{Overview}
-
 \begin{frame}
-  \frametitle{Overview}
-  \begin{itemize}
-  \item Sets 
-    \begin{itemize}
-    \item Definitions, basic operations
-    \item Relation to logic
-    \item Cardinality 
-    \end{itemize}
-  \item Numbers --- definition and special properties of integers,
-    rationals, and reals
-    \begin{itemize}
-    \item Ordered field
-    \item Least-upper-bound property
-    \end{itemize}
-  \end{itemize}
+  \tableofcontents  
 \end{frame}
 
 
@@ -100,6 +87,35 @@
       B = & \{ A_1, A_6, A_7 \} & \emptyset 
     \end{align*}
   \end{itemize}
+\end{frame}
+\subsection{Economic examples}
+
+\begin{frame}
+  \begin{example}\label{ex:sampleSpace}[Sample space]
+    In a random experiment, the set of all possible outcomes is called
+    the \textbf{sample space}. E.g. for the roll of a dice, the sample
+    space if $\{1,2 ,3 , 4, 5, 6\}$. An \textbf{event} is any subset of
+    the sample space.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{ex:games}[Games]
+    A game is a model of strategic decision making. A game consists of a
+    finite set of $n$ players, say $N = \{1,2,..., n\}$. Each player $i
+    \in N$ chooses an action $a_i$ from a set of actions $A_i$. The
+    outcome of the game depends on the actions chosen by all players. 
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{ex:conset}[Consumption set]
+    The \textbf{consumption set} is the set of all feasible consumption
+    bundles. Suppose there are $n$ commodities. A consumer chooses a
+    consumption bundle $\mathbf{x} = (x_1, x_2, ..., x_n)$. Consumption
+    cannot be negative, so the consumption set is a subset of $\Re^n_+ =
+    \{(x_1, ..., x_n) : x_1 \geq 0, x_2 \geq 0, ... x_n \geq 0 \}$.
+  \end{example}
 \end{frame}
 
 \subsection{Set operations}
@@ -159,7 +175,7 @@
   \end{corollary}
 \end{frame}
 
-\subsection{Cardinality \label{s:card}}
+\section{Cardinality \label{s:card}}
 
 \begin{frame}
   \frametitle{Cardinality}
@@ -181,17 +197,23 @@
   \begin{lemma}
     $\mathbb{Z}$ is countable. 
   \end{lemma}
-  
+\end{frame}  
+
+\begin{frame}
   \begin{theorem} \label{thm:countsubset}
     Every infinite subset of a countable set $A$ is countable.
   \end{theorem}
+\end{frame}
 
+\begin{frame}
   \begin{theorem}
-    The rational numbers are countable.
+    The rational numbers are ??????
   \end{theorem}
-  
+\end{frame}
+
+\begin{frame}
   \begin{theorem}
-    The real numbers are uncountable.
+    The real numbers are ??????
   \end{theorem}
 \end{frame}
 
@@ -284,6 +306,61 @@
     $\mathbb{R}$ is ``unique''.
   \end{theorem}
 \end{frame}
+
+\section{Relations}
+
+\begin{frame}\frametitle{Relations}
+  \begin{definition}[Relation]
+    A \textbf{relation} on two sets $A$ and $B$ is any subset of $A
+    \times B$, $R \subseteq A \times B$. We usually denote relations by
+    $a \rel b$ if $(a,b) \in R$ (where $\rel$ could be some other symbol).
+  \end{definition}
+\end{frame}
+
+\begin{frame}\frametitle{Properties of relations}
+  A relation $\rel$ on $A$ is 
+  \begin{itemize}
+  \item \textbf{reflexive} if $a \rel a$ $\forall a \in A$,
+  \item \textbf{symmetric} if $a \rel b$ implies $b \rel a$,
+  \item \textbf{transitive} if $a \rel b$ and $b \rel c$ implies
+    $a \rel c$,
+  \item \textbf{antisymmetric} if $a \rel b$ and $b \rel a$
+    implies $a=b$,
+  \item \textbf{asymmetric} if $a \rel b$ implies $b$ is not
+    $\rel a$, and
+  \item \textbf{complete} if either $a \rel b$ or $b \rel a$ or
+    both $\forall a, b \in A$. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{example}[Preference relation] 
+  A consumer's preference relation, $\pref$, is a relation on her
+  consumption set, $X$. $x \pref y$ means that the consumer likes the
+  bundle of goods $x$ at least as much of the bundle of goods $y$. We
+  usually assume that preference relations are complete and
+  transitive.
+\end{example}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Equivalence}
+  \begin{itemize}
+  \item \textbf{equivalence relation} $=$ complete,transitive, \&
+    symmetric
+  \item \textbf{equivalence class} of $x$ is $\sim(x) = \{ a
+    \in X: a \sim x \}$
+  \end{itemize}
+  \begin{example}[Indifference]
+    \begin{itemize}
+    \item Take $\pref$, a preference relation on $X$
+    \item  Indifference relation $x \sim y$ if $x \pref y$ and $y
+      \pref x$
+    \item Indifference classes $=$ indifference curves
+    \end{itemize}
+  \end{example}
+\end{frame}
+
 
 
 \end{document}
