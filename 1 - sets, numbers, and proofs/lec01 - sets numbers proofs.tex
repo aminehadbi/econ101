@@ -343,15 +343,14 @@ $|A| = |B|$ and $|B| = |C|$ then $|A| = |C|$).
   $A$ is countable, so there exists a bijection from $A$ to
   $\mathbb{N}$. We can use this mapping to arrange the elements of $A$
   in a sequence, $\{a_{n}\}^\infty_{n=1}$\footnote{By this notation,
-    we mean an infinite ordered list of elements of $A$, $a_1, a_2,
-    a_3, ...$.}. Let $B$ be an infinite
-  subset of $A$. Let $n_1$ be the smallest number such that $a_{n_1}
-  \in B$. Given $\{a_{n_1}, ... , a_{n_{k-1}}\}$, let $n_k$ be the
-  smallest number such that $a_{n_k} \in B \\ \{a_{n_1}, ... ,
-  a_{n_{k-1}}\}$. Such an $n_k$ always exists since $B$ is
+    we mean an infinite ordered list of elements of $A$, i.e. $a_1,
+    a_2, a_3, ...$.}. Let $B$ be an infinite subset of $A$. Let $n_1$
+  be the smallest number such that $a_{n_1} \in B$. Given $n_{k-1}$,
+  let $n_k$ be the smallest number greater than $n_{k-1}$ such that
+  $a_{n_k} \in B$. Such an $n_k$ always exists since $B$ is
   infinite. Also, $B = \{a_{n_k} \}_{k=1}^\infty$ since otherwise
-  there would be a $b \in B$, but $b\not\in A$. Thus, $f(k) = a_{n_k}$ is
-  a one-to-one correspondence between $B$ and $\mathbb{N}$.
+  there would be a $b \in B$, but $b\not\in A$. Thus, $f(k) = a_{n_k}$
+  is a one-to-one correspondence between $B$ and $\mathbb{N}$.
 \end{proof}
 
 \begin{theorem}
@@ -405,19 +404,25 @@ $|A| = |B|$ and $|B| = |C|$ then $|A| = |C|$).
   mapping from $\mathbb{N}$ to $(0,1)$. That is we can list all real
   numbers in $(0,1)$ as
   \begin{align*}
-    r_1 = & 0.d_{11} d_{12} d_{13} ... \\
-    r_2 = & 0.d_{21} d_{22} d_{23} ... \\
-    \vdots & 
+    \begin{array}{c c ccc c}
+      r_1 & =  0. & d_{11}& d_{12}& d_{13}& ... \\
+      r_2 & =  0. &d_{21}& d_{22}& d_{23}& ... \\
+      r_3 & =  0. &d_{31}& d_{32}& d_{33}& ... \\
+      \vdots & & \vdots 
+    \end{array}
   \end{align*}
   where each $d_{ij} \in \{0,1,...,9\}$, and no expansion ends in all
   nines. We will now show that there is a real number in $(0,1)$ that
-  is not in the list. Let $x^* = 0.d^*_1 d^*_2 d^*_3 ...$. where 
+  is not in the list. Let $x^* = 0.d^*_1 d^*_2 d^*_3 ...$. where
+  $d^*_n$ is chosen such that $d^*_n \neq d_{nn}$ and $x^*$ is sure
+  not to end in all nines. There are many possibilities, but to be
+  concrete, let's set
   \[ 
   d^*_n
   = \begin{cases} d_{nn} + 1 \text{ if } d_{nn} < 8 \\
     0 \text{ if } d_{nn} \geq 8 
   \end{cases} .
-  \]    
+  \]      
   $x^*$ is in $(0,1)$, but $x^* \neq r_n$ for any $n$ because $d^*_n
   \neq d_{nn}$. Thus, we have a contradiction, and there cannot be a
   onto mapping from $\mathbb{N}$ to $(0,1)$.  If there is no
