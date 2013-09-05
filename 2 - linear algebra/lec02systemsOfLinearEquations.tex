@@ -9,6 +9,7 @@
 \usepackage{multirow}
 \usepackage{verbatim}
 \usepackage{fancyhdr}
+\usepackage{framed}
 %\usepackage[small,compact]{titlesec} 
 
 %\usepackage{pxfonts}
@@ -333,14 +334,30 @@ form. Moreover, we can prove that the above procedure always work.
 \end{theorem}
 \begin{proof}
   Let $m$ be the number of rows of a matrix and $n$ be the number of
-  columns. We will prove the theorem by induction on $m$ and $n$. Any
-  $1$ by $n$ matrix is already in row echelon form. Also, given any
-  $m$ by $1$ matrix, if it is all zeros, it is already in row-echelon
-  form. Otherwise, it contains a nonzero entry. We can move this
-  nonzero entry to the first row. Then we can add a multiple of the
-  first entry to all other entries to make all entries after the first
-  into zeros. Thus, any $m$ by $1$ matrix can be put into row echelon
-  form.
+  columns. We will prove the theorem by induction on $m$ and $n$. 
+
+  Any $1$ by $n$ matrix is already in row echelon form. 
+
+  Also, given any $m$ by $1$ matrix, if it is all zeros, it is already
+  in row-echelon form. Otherwise, it contains a nonzero entry. We can
+  move this nonzero entry to the first row. Then we can add a multiple
+  of the first entry to all other entries to make all entries after
+  the first into zeros.  Thus, any $m$ by $1$ matrix can be put into
+  row echelon form.
+  
+  \begin{framed}
+    For example, consider 
+    \begin{align*}
+      A = & \begin{pmatrix} 0 \\ 2 \\ -7 \\ 9  \end{pmatrix} \\
+      & \text{swap row 1 and 2 } \\
+      \simeq & \begin{pmatrix} 2 \\ 0 \\ -7 \\ 9  \end{pmatrix} \\
+      & \text{add row 1 times 7/2 to row 3 } \\
+      \simeq & \begin{pmatrix} 2 \\ 0 \\ 0 \\ 9  \end{pmatrix} \\
+      & \text{add row 1 times -9/2 to row 3 } \\
+      \simeq & \begin{pmatrix} 2 \\ 0 \\ 0 \\ 0  \end{pmatrix} \\
+      & \text{ It's now in row echelon form}
+    \end{align*}
+  \end{framed}
   
   Now suppose we can put matrix with less than $m$ rows or less than
   $n$ columns into row echelon form. Given an $m$ by $n$ matrix either
@@ -504,7 +521,23 @@ a little later in the course.
   coefficient matrix. Then $\rank A \leq \rank \hat{A}$.
 \end{lemma}
 \begin{proof}
-
+  Let 
+  \[ \hat{A}' = 
+  \begin{pmatrix} a'_{11} & \cdots & a_{1n}' & b_1' \\
+    \vdots & & & \vdots \\
+    a'_{m1} & \cdots & a'_{mn} & b_m'
+  \end{pmatrix}
+  \]
+  be a row echelon form of $\hat{A}$. Then the first $n$ columns of
+  $\hat{A}'$ is a row echelon form for $A$. Finally, the number of
+  nonzero rows of $\hat{A}'$ must be greater than or equal to the
+  number of nonzero rows of its submatrix, 
+  \[  
+  \begin{pmatrix} a'_{11} & \cdots & a_{1n}' \\
+    \vdots & & \vdots \\
+    a'_{m1} & \cdots & a'_{mn} 
+  \end{pmatrix}.
+  \]  
 \end{proof}
 
 \begin{theorem}[Existence of solutions]\label{thm:exist}
@@ -513,20 +546,24 @@ a little later in the course.
   than one) if and only if $\rank A = \rank \hat{A}$.
 \end{theorem}
 \begin{proof}
-  Suppose $\rank A \neq \rank \hat{A}$. From \ref{lem:rankaug}, we
-  know that $\rank A < \rank \hat{A}$. There is a zero row in the row
-  echelon form of $A$ and a corresponding nonzero row in the row
-  echelon form of $\hat{A}$. The equation associated with this row is
-  of the form
+  We'll first prove the ``only if'' part of this theorem. Suppose
+  $\rank A \neq \rank \hat{A}$. We want to show that then there are no
+  solutions to the associated system of equations. From
+  \ref{lem:rankaug}, we know that $\rank A < \rank \hat{A}$. There is
+  a zero row in the row echelon form of $A$ and a corresponding
+  nonzero row in the row echelon form of $\hat{A}$. The equation
+  associated with this row is of the form
   \[ 0 x_1 + ... + 0 x_n = b'_m \]
   for some $b'_m \neq 0$. As in the example, this equation has no
   solution, so the system has no solution. 
 
-  Now suppose $\rank A = \rank \hat{A}$. Let $A'$ be the row echelon
-  form of $A$. We can prove the existence of solutions by induction on
-  the number of rows. If $A'$ is $1$ by $n$ with a nonzero entry, say
-  $a_{1j}$, we can produce a solution by choosing any values for
-  $\{x_{1}, ... , x_{n}\} \setminus \{x_j\}$ and set
+  Now we will prove the ``if'' part of the theorem. Suppose $\rank A =
+  \rank \hat{A}$. Let $\hat{A}'$ be a row echelon form of $\hat{A}$
+  and $A' = $ the first $n$ columns of $\hat{A}'$ be the associated
+  row echelon form of $A$. We can prove the existence of solutions by
+  induction on the number of rows. If $A'$ is $1$ by $n$ with a
+  nonzero entry, say $a_{1j}$, we can produce a solution by choosing
+  any values for $\{x_{1}, ... , x_{n}\} \setminus \{x_j\}$ and set
   \begin{align*}
     x_{j} = \frac{1}{a_{1j_1}} \left(b_1 - \sum_{k \neq j} a_{1k}
       x_{k} \right).
@@ -539,26 +576,27 @@ a little later in the course.
   first nonzero entry in the $m$th row. Choose any values for
   $x_{j+1},...,x_n$ and set
   \begin{align*}
-    x_{j} = \frac{1}{a_{1j_1}} \left(b_m' - \sum_{k = j+1}^n a'_{mk}
+    x_{j} = \frac{1}{a_{mj_1}'} \left(b_m' - \sum_{k = j+1}^n a'_{mk}
       x_{k} \right).
   \end{align*}
   Substitute these values of $x_j, ..., x_n$ into the $m-1$ rows above
   to produce the system
   \begin{align*}
-    \hat{B}' = \begin{pmatrix}
-      a'_{1,1} & \cdots  & a'_{1,j-1} & b'_1 - \sum_{k=j}^n a_{1,k} x_k  \\
+    \hat{B} = \begin{pmatrix}
+      a'_{1,1} & \cdots  & a'_{1,j-1} & b'_1 - \sum_{k=j}^n a_{1,k}' x_k  \\
       0 & \ddots &                & \vdots \\ 
-          & \cdots  & a_{m-1,j-1} & b'_{m-1} - \sum_{k=j}^n a_{m-1,k}x_k 
+          & \cdots  & a_{m-1,j-1}' & b'_{m-1} - \sum_{k=j}^n a_{m-1,k}'x_k 
     \end{pmatrix}.
   \end{align*}
-  We must have $a_{m-1,j-1} \neq 0$ because $a_{m,j} \neq 0$ and
-  $\hat{A}$ was in row echelon form. Similarly, all of $\hat{B}$ must
-  be row echelon form because $\hat{A}$ was in row echelon form. Thus,
-  $\rank B = m-1$ and the coefficient matrix associated with $\hat{B}$
-  also has rank $m-1$. By the inductive assumption, there exists $x_1,
-  ... , x_{j-1}$ that solve the system represented by $\hat{B}$. This
-  solution combined with the values for $x_j , ..., x_n$ described
-  above is a solution to the entire original system.
+  We must have one of the elements of the $m-1$ row non zero because
+  otherwise $\hat{A}'$ would not have been in row echelon
+  form. Similarly, all of $\hat{B}$ must be row echelon form because
+  $\hat{A}$ was in row echelon form. Thus, $\rank \hat{B} = m-1$ and the
+  coefficient matrix associated with $\hat{B}$ also has rank $m-1$. By
+  the inductive assumption, there exists $x_1, ... , x_{j-1}$ that
+  solve the system represented by $\hat{B}$. This solution combined
+  with the values for $x_j , ..., x_n$ described above is a solution
+  to the entire original system.
 \end{proof}
 
 We now have a nice condition for when there exists at least one
@@ -841,6 +879,9 @@ so.
     $(x_1 + y_1, ..., x_n + y_n)  \in S$
   \end{itemize}
 \end{definition}
+An implication of (i) is that $0 \in$ any linear subspace (take $a =
+0$). Thus, linear subspaces are lines, planes, and hyperplanes passing
+through the origin. 
 \begin{definition}
   A set of vectors in $\mathbb{R}^n$, $\{\textbf{x}_j = (x^j_1,...,
   x^j_n)\}_{j=1}^J$, is \textbf{linearly independent} if the only
@@ -850,9 +891,9 @@ so.
   \end{align*}
   is $c_1 = c_2 = ... = c_J = 0$. 
 \end{definition}
-Observe that two points on a line are not linearly independent. Three
-points on a plane are also not linearly independent. This suggests the
-following definition.
+Observe that two points on a line passing through 0 are not linearly
+independent. Three points on a plane that contains $(0,0)$ are also not linearly
+independent. This suggests the following definition.
 \begin{definition}
   The dimension of a linear subspace $S \subseteq \mathbb{R}^n$ is the
   cardinality of the largest set of linearly independent elements in
@@ -869,7 +910,7 @@ systems.
   equal to its number of columns, the solution is unique. If a
   solution exists and $\rank A$ is less than its number of columns,
   there are infinite solutions. In this case the set of solutions
-  forms is of the form\footnote{A set of this form is called an affine
+  is of the form\footnote{A set of this form is called an affine
     subspace. It is a linear subspace that has been shifted so that it
     no longer necessarily contains the origin.}
   \[ 
@@ -877,7 +918,7 @@ systems.
   \]
   where $S$ is the linear subspace of dimension $n - \rank A$ defined
   by $S = \{s \in \mathbb{R}^n: As = 0 \}$ and $x^*$
-  is a solution to $A x = b$.
+  is any single solution to $A x = b$.
 \end{theorem}
 The first part of this theorem is just a restatement of things we have
 already proven. We will prove the last claim, that the set of solutions

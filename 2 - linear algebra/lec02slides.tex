@@ -180,6 +180,50 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Example: Markov model of employment}
+  \begin{itemize}
+  \item Let $s_t = \begin{cases} 1 \text{ if employed at time } t \\
+      0 \text{ if unemployed at time } t
+    \end{cases}$
+  \item Random process described by $P(s_t | s_{t-1}, s_{t-2}, ... )$
+  \item \textbf{Markovian}: $P(s_t | s_{t-1}, s_{t-2}, ... ) = P(s_t |
+    s_{t-1})$
+    \begin{itemize}
+    \item Probability of being employed tomorrow only depends on
+      whether you're employed today and not the more distant past
+    \end{itemize}
+  \item \textbf{Stationary distribution}: $q$ stationary if when $P(s_t = 1) = q(1)$ and $P(s_t
+    = 0) = q(0)$ today, then also have $P(s_{t+1} = 1) = q(1)$ and
+    $P(s_{t+1}=0) = q(0)$ tomorrow 
+    \[ q(s) = \sum_{s_0 \in \{0, 1\} } P(s | s_0) q(s_0) \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Markov model of employment}
+  \begin{itemize}
+  \item Stationary distribution satisfies:
+    \begin{align*}
+      q(1) = & P(1|1) q(1) + P(1|0) q(0) \\
+      q(0) = & P(0|1) q(1) + P(0|0) q(0) \\
+      1 = & q(1) + q(0) 
+    \end{align*}
+    system of linear equations for unknowns $q(1)$ and $q(2)$
+  \item Coefficient matrix and augmented coefficient matrix $=$ ?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Questions to be answered:}
+  Given a system of linear equations:
+  \begin{enumerate}
+  \item Does any solution exist?
+  \item How many solutions?
+  \item How can a solution be computed?
+  \end{enumerate}  
+\end{frame}
+
 \section{Gaussian elimination}
 
 \begin{frame}
