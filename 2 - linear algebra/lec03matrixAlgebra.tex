@@ -114,15 +114,14 @@ the start of section 2 of these notes.
 
 \section{Vector spaces and linear transformations}
 
-Matrices are often introduced as just arrays of numbers.  That is how
-matrices are typically defined. That sort of definition works out
-alright. However, it makes certain subsequent definitions somewhat
-mysterious. You might wonder why matrix multiplication is defined the
-way it is, or why transposing is important.  Well, there is another,
-more abstract, but also more fundamental way of describing
-matrices. This way of looking at matrices will reveal exactly why
-matrix multiplication is the way it is, and illuminate many other
-properties of matrices. 
+Matrices are often introduced as just arrays of numbers.  That sort of
+definition works out alright. However, it makes certain subsequent
+definitions somewhat mysterious. You might wonder why matrix
+multiplication is defined the way it is, or why transposing is
+important.  Well, there is another, more abstract, but also more
+fundamental way of describing matrices. This way of looking at
+matrices will reveal exactly why matrix multiplication is the way it
+is, and illuminate many other properties of matrices. 
 
 \subsection{Vector spaces}
 
@@ -134,6 +133,19 @@ produces quantities $y_1^A$ and $y_2^A$ of goods  $1$ and $2$, while
 firm $B$ produces $(y_1^B,y_2^B)$, then total production is
 $(y_1^A+y_1^B, y_2^A+y_2^B)$. If firm $A$ becomes 10\% more
 productive, then it will produce $(1.1 y_1^A, 1.1 y_2^A)$. 
+
+You are likely already familiar with $\R^n$, especially $\R^2$ and
+$\R^3$, which is the most common vector space. There are three ways of
+approaching vector spaces. The first is geometrically --- introduce
+vectors as directed arrows arrows. This works well in $\R^2$ and
+$\R^3$ but is difficult in higher dimensions.  The second is
+analytically --- by treating vectors as n-tuples of numbers $(x_1,
+..., x_n)$. The third approach is axiomatically --- vectors are
+elements of a set that has some special properties. You likely already
+have some familiarity with the first two approaches. Here, we are
+going to take the third approach. This approach is more abstract, but
+this abstraction will allow us to generalize what we might know about
+$\R^n$ to other more exotic vector spaces. 
 
 \begin{definition}
   A \textbf{vector space} is a set $V$ and a field $\mathbb{F}$ with
@@ -226,23 +238,74 @@ space to other contexts.
 \end{example}
 Except for the preceding two examples, all the vector spaces in this
 class will be real vector spaces with the field $\mathbb{F} =
-\mathbb{R}$. 
+\mathbb{R}$. Two more examples of vector spaces that we have already
+encountered include:
+\begin{example}
+  The set of all solutions to a system of linear equation with $b=0$,
+  i.e., $(x_1, ..., x_n) \in \R^n$ such that 
+  \begin{align*}
+    a_{11} x_1 + a_{12} x_2 + ... + a_{1n} x_n = & 0 \\
+    a_{21} x_1 + a_{22} x_2 + ... + a_{2n} x_n = & 0 \\
+    \vdots & \vdots \\
+    a_{m1} x_1 + a_{m2} x_2 + ... + a_{mn} x_n = & 0 ,
+  \end{align*}
+\end{example}  
+and 
+\begin{example}
+  Any linear subspace of a vector space.
+\end{example}
+Most of the time, the two operations on a vector space are the usual
+addition and multiplication. However, they can be different, as the
+following example illustrates.
+\begin{example}
+  Take $V = \R^+$. Define ``addition'' as $x \oplus y = xy$ and define
+  ``scalar multiplication'' as $\alpha \odot x = x^\alpha$. Then
+  $(\R^+,\R, \oplus, \odot)$ is a vector space with identity element
+  $1$.   
+\end{example}
 
-The following example might be a bit unfamiliar. It is a set of
-functions. In economic theory, we might want to work with a set of
-functions because we want to prove something for all functions in the
-set. That is, we prove something for all utility functions or for all
-production functions. In non-parametric econometrics, we try to
-estimate an unknown function instead of an unknown finite dimensional
+Spaces of functions are often vector spaces. In economic
+theory, we might want to work with a set of functions because we want
+to prove something for all functions in the set. That is, we prove
+something for all utility functions or for all production
+functions. In non-parametric econometrics, we try to estimate an
+unknown function instead of an unknown finite dimensional
 parameter. For example, instead of linear regression $y = x\beta +
 \epsilon$ where want to estimate the unknown vector $\beta$, we might
 say $y = f(x) + \epsilon$ and try to estimate the unknown function
-$f$. Unfortunately, in many cases the set of all functions is too
-large to prove what we want, so we must add some weak restriction to
-the set to make it smaller. In the following example, we require
-$\int_0^1 |f(x)|^p dx < \infty$. Other common restrictions include
-requiring the function to be continuous or $k$-times continuously
-differentiable.
+$f$. 
+
+Here are some examples of vector spaces of functions. It would be a
+exercise to verify that these examples have all the properties listed
+in the definition of a vector space. 
+\begin{example} \label{ex:funcSpace}
+  Let $V = $ all functions from $[0,1]$ to $\R$. For $f, g \in V$,
+  define $f + g$ by $(f+g)(x) = f(x) + g(x)$. Define scalar
+  multiplication as $(\alpha f)(x) = \alpha f(x)$. Then this is a
+  vector space. 
+\end{example}
+Sets of functions with certain properties also form vector spaces. 
+\begin{example}
+  The set of all continuous functions with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example}
+  The set of all $k$ times continuously differentiable functions with
+  addition and scalar multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example}
+  The set of all polynomials with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example} 
+  The set of all polynomials of degree at most $d$ with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example}
+  The set of all functions from $\R \to \R$ such that $f(29481763) =
+  0$ with addition and scalar multiplication defined as in
+  \ref{ex:funcSpace}.
+\end{example}
 \begin{example}\label{ex:LP}
   Let $1 \leq p < \infty$ and let $\mathcal{L}^p(0,1)$ be the set of
   functions from $(0,1)$ to $\R$ such that $\int_0^1 |f(x)|^p dx$ is

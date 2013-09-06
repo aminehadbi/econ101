@@ -40,13 +40,14 @@
 % \newtheorem{corollary}{Corollary}[section]
 % \newtheorem{lemma}{Lemma}[section]
 % \newtheorem{proposition}{Proposition}[section]
-% \theoremstyle{definition}
+\theoremstyle{definition}
 % \newtheorem{assumption}{}[section]
 % %\renewcommand{\theassumption}{C\arabic{assumption}}
 % \newtheorem{definition}{Definition}[section]
 % \newtheorem{step}{Step}[section]
 % \newtheorem{remark}{Comment}[section]
-% \newtheorem{example}{Example}[section]
+%\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}
 % \newtheorem*{example*}{Example}
 
 %\linespread{1.1}
@@ -82,14 +83,22 @@
 %  \end{itemize}
 %\end{frame}
 
-%\section{More countability}
+\section*{Cardinality review}
 \begin{frame}
-  \frametitle{More countability}
+  \frametitle{More cardinality}    
   \begin{itemize}
   \item Let $A$ and $B$ be sets, the \textbf{Cartesion product} of $A$
     and $B$ is
     \[ A \times B := \{(a, b) : a \in A, b \in B\} \]
   \end{itemize}
+  
+  \begin{question}
+    If $A$ and $B$ are countable is $A \times B$ countable?
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \frametitle{More cardinality}    
   \begin{theorem}
     If $A$ and $B$ are countable, then so is $A \times B$.
   \end{theorem}
@@ -112,7 +121,15 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{More countability}
+  \frametitle{More cardinality}    
+  \begin{question}
+    If $A_1, A_2, A_3, ...$ are each countable is $\cup_{n=1}^\infty
+    A_n$ countable?
+  \end{question}
+\end{frame}
+
+\begin{frame}
+  \frametitle{More cardinality}    
   \begin{theorem}
     If $\{A_n\}$ are countable, then so is $\cup_{n=1}^\infty A_n$.
   \end{theorem}
@@ -135,6 +152,10 @@
 \end{frame}
 
 %\section{Solving systems of linear equations}
+
+\begin{frame}
+  \tableofcontents  
+\end{frame}
 
 \section{Introduction and definitions}
 \begin{frame} 
@@ -351,13 +372,11 @@
     -8y - 2z = & -10.
   \end{align*}
   \begin{itemize}
-  \item \textbf{free} variable: indeterminate value
-  \item \textbf{basic} variable: value determined completely or by
-    values of free variables
-  \item Well defined?
   \item What if $b_3 \neq -10$?
   \end{itemize}  
 \end{frame}
+
+
 
 \begin{frame}\frametitle{Multiple solutions means infinite solutions}
   \begin{lemma}\label{lem:sinf}
