@@ -502,7 +502,15 @@
     equal to its number of columns, the solution is unique. If a
     solution exists and $\rank A$ is less than its number of columns,
     there are infinite solutions. In this case the set of solutions
-    forms a linear subspace of dimension $n - \rank A$.
+    is of the form\footnote{A set of this form is called an affine
+      subspace. It is a linear subspace that has been shifted so that it
+      no longer necessarily contains the origin.}
+    \[ 
+    \{s+x^* \in \mathbb{R}^n : s \in S \text{ and } Ax^* = b \} 
+    \]
+    where $S$ is the linear subspace of dimension $n - \rank A$ defined
+    by $S = \{s \in \mathbb{R}^n: As = 0 \}$ and $x^*$
+    is any single solution to $A x = b$.
   \end{theorem}
 \end{frame}
 

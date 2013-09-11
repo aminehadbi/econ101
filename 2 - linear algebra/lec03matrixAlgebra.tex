@@ -1,5 +1,4 @@
 \documentclass[12pt,reqno]{amsart}
-
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
@@ -135,7 +134,7 @@ $(y_1^A+y_1^B, y_2^A+y_2^B)$. If firm $A$ becomes 10\% more
 productive, then it will produce $(1.1 y_1^A, 1.1 y_2^A)$. 
 
 You are likely already familiar with $\R^n$, especially $\R^2$ and
-$\R^3$, which is the most common vector space. There are three ways of
+$\R^3$, which are the most common vector spaces. There are three ways of
 approaching vector spaces. The first is geometrically --- introduce
 vectors as directed arrows arrows. This works well in $\R^2$ and
 $\R^3$ but is difficult in higher dimensions.  The second is
@@ -191,6 +190,8 @@ $\R^n$ to other more exotic vector spaces.
     \end{enumerate}
   \end{enumerate}
 \end{definition}
+
+\subsubsection{Examples}
 We now give some examples of vector spaces. 
 \begin{example} \label{ex:Rn}
   $\R^n$ with the field $\R$ is a vector space. You are likely already
@@ -275,7 +276,7 @@ parameter. For example, instead of linear regression $y = x\beta +
 say $y = f(x) + \epsilon$ and try to estimate the unknown function
 $f$. 
 
-Here are some examples of vector spaces of functions. It would be a
+Here are some examples of vector spaces of functions. It would be a good
 exercise to verify that these examples have all the properties listed
 in the definition of a vector space. 
 \begin{example} \label{ex:funcSpace}
@@ -351,41 +352,99 @@ Sets of functions with certain properties also form vector spaces.
   of polynomials), exponential, and logarithm.
 \end{example}
 
+\subsubsection{Linear combinations}
+
+We briefly discusses linear independence and dimension last lecture
+when we introduced linear subspaces of $\R^n$. These concepts apply to
+any vector space. 
 \begin{definition}
   Let $V$ be a vector space and $v_1,..., v_k \in V$. A \textbf{linear
     combination} of $v_1,..., v_k$ is any vector 
   \[c_1 v_1 + ... + c_k v_k \]
   where $c_1, ..., c_k \in \F$. 
 \end{definition}
+Note that by the definition of a vector space (in particular the
+requirement that vector spaces are closed under addition and
+multiplication), it must be that $c_1 v_1 + ... + c_k v_k \in V$.
 
+Last lecture we argued that if a system of equations has two distinct
+solutions, then we can take certain linear combinations of them of the
+form $\lambda x_1 + (1-\lambda) x_2$ to trace out an affine set
+of solutions. Recall that $\lambda x_1 + (1-\lambda) x_2 : \lambda
+\in \R\}$ is an affine set and not necessarily a linear subspace because it may
+not contain $0$. If instead of using $\lambda$ and $1-\lambda$ as
+weights, we take all possible linear combinations, $\{c_1 x_1 + c_2
+x_2 : c_1 \in \R, c_2 \in R\}$, then the set will contain $0$, and it
+will be a linear subspace. This motivates the following definition.
 \begin{definition}
-  Let $V$ be a vector space and $v_1,..., v_k \in V$. The
-  \textbf{span} of $\{ v_1, ... , v_k \}$ is the set
-  of all linear combinations of $v_1, ... , v_k$.
+  Let $V$ be a vector space and $W \subseteq V$. The
+  \textbf{span} of $W$ is the set
+  of all finite linear combinations of elements of $W$
 \end{definition}
+When $W$ is finite, say $W = \{v_1, ..., v_k\}$, the span of $W$ is
+the set 
+\[ \{ c_1 v_1 + ... + c_k v_k : c_1, ..., c_k \in \F \}. \] When $W$
+is infinite, the span of $W$ is the set of all finite weighted sums of
+elements of $W$.
 \begin{lemma}
-  The \textbf{span} of any  $v_1,..., v_k \in V$ is a linear subspace.
+  The \textbf{span} of any  $W \subseteq V$ is a linear subspace.
 \end{lemma}
 \begin{proof}
   Left as an exercise.
 \end{proof}
 
 \begin{example}
-  For any $k\geq 0$, $x^k \in \mathcal{L}^p(0,1)$. The span of $\{1,
-  x, ..., x^n\}$ is the set of all polynomials of degree less than or
-  equal $n$. 
+  Let $V$ be the vector space of all functions from $[0,1]$ to $\R$ as
+  in example \ref{ex:funcSpace}. The span of $\{1, x, ..., x^n\}$ is
+  the set of all polynomials of degree less than or equal $n$.
 \end{example}
 
 You might remember the next two definitions from the previous lecture.
 \begin{definition}
-  A set of vectors $v_1, ..., v_k \in V$, is \textbf{linearly
+  A set of vectors $W \in V$, is \textbf{linearly
     independent} if the only solution to
   \begin{align*}
     \sum_{j=1}^k c_j v_j = 0 
   \end{align*}
-  is $c_1 = c_2 = ... = c_k = 0$. 
+  is $c_1 = c_2 = ... = c_k = 0$ for any $k$ and $v_1, ..., v_k \in W$.
 \end{definition}
 
+\paragraph{Checking linear independence}
+Given a set of vectors, $\mathbf{v}_1, ..., \mathbf{v}_n \in \R^m$ (or
+any $n$-dimensional vector space), how do check whether they are
+linearly independent? Well, by definition, they are linearly
+independent if $c_1 = c_2 = ... = c_n = 0$ is the only solution to
+\begin{align*}
+  \sum_{j=1}^n c_j \mathbf{v}_j = 0 
+\end{align*}
+If we write this condition as a system of linear equations we have
+\begin{align*}
+  v_{11} c_1 + v_{12} c_2 + ... + v_{1n} c_n & = 0 \\
+  \vdots & = \vdots \\
+  v_{m1} c_1 + v_{m2} c_2 + ... + v_{mn} c_n & = 0 
+\end{align*}
+or in matrix form,
+\begin{align*}
+  \gmatrix{v} \begin{pmatrix} c_1 \\ \vdots \\ c_n \end{pmatrix} = &
+  0 \\
+  V \mathbf{c} = & 0 
+\end{align*}
+We call any system with $0$ on the right hand side a
+\textbf{homogeneous} system. Any homogeneous system always has
+$\mathbf{c}=0$ as a solution. We know from lecture 2 that it will have
+other solutions if the rank of $V$ is less than $n$. This proves the
+following lemma.
+\begin{lemma}\label{lem:rankli}
+  Vectors $\mathbf{v}_1, ..., \mathbf{v}_n \in \R^m$ are linearly
+  independent if and only if
+  \[ \rank(\mathbf{v}_1, ..., \mathbf{v}_n) = n. \]
+\end{lemma}
+\begin{corollary}\label{cor:kmli}
+  Any set of $k>m$ vectors in a $\R^m$ space are linearly dependent.
+\end{corollary}
+
+\subsubsection{Dimension and basis}
+Recall the definition of dimension from last class. 
 \begin{definition}
   The \textbf{dimension} of a vector space, $V$, is the cardinality of
   the largest set of linearly independent elements in $V$.
@@ -393,8 +452,7 @@ You might remember the next two definitions from the previous lecture.
 
 \begin{definition}
   A \textbf{basis} of a vector space $V$ is any set of linearly
-  independent vectors $b_1, ..., b_k$ such that the span of $b_1, ...,
-  b_k$ is $V$.
+  independent vectors $B$ such that the span of $B$ is $V$.
 \end{definition}
 If $V$ has a basis with $k$ elements, then the dimension of $V$ must
 be at least $k$. In fact, we will soon see that dimension of $V$ must
@@ -403,29 +461,165 @@ be exactly $k$.
   A basis for $\R^n$ is $e_1 = (1, 0, ..., 0 )$, $e_2 = (0, 1, 0, ...,
   0)$, $...$, $e_n = (0, ... , 0 , 1)$. This basis is called the
   standard basis of $\R^n$. 
-\end{example}
 
-\begin{example} 
-  (Difficult) What is the dimension of $\mathcal{L}^p(0,1)$? Can you find a basis? 
+  The standard basis is not the only basis for $\R^n$. In fact, there
+  are infinite different bases. Can you give some examples?
 \end{example}
-
-\begin{lemma}
-  Let $b_1, ... , b_k$ be a basis for a vector space $V$. Then
-  $\forall v \in V$ there exists a unique $(v_1, ..., v_k)_ \in \F^k$
-  such that $ v = \sum v_i b_i$  
+The elements of a vector space can always be written in terms of a
+basis. 
+\begin{lemma} \label{lem:uniqueRep}
+  Let $B$ be a basis for a vector space $V$. Then
+  $\forall v \in V$ there exists a unique $v_1, ..., v_k \in \F$ and
+  $b_1, ..., b_k \in B$
+  such that $ v = \sum_{i=1}^k v_i b_i$  
 \end{lemma}
 \begin{proof}
-  By the definition of a basis, $b_1, ..., b_k$ spans $V$, so such
+  By the definition of a basis, $B$ spans $V$, so such
   $(v_1, ..., v_k)$ must exist. Now suppose there exists another such
-  $(v_1', ..., v_k')$. Then
+  $(v_1', ..., v_j')$ and associated $b_i'$. The $\{b_1, ..., b_k\}$ and
+  $\{b_1', ..., b_j'\}$ might not be the same collection of elements
+  of $B$. Let $\{\tilde{b}_1, ..., \tilde{b}_n \} =  \{b_1, ...,
+  b_k\} U \{b_1', ..., b_j'\}$. Define $\tilde{v}_i = v_j$ if
+  $\tilde{b}_i = b_j$, else $0$. Similarly define $\tilde{v}_i'$. With
+  this new notation we have
   \begin{align*}
-    v = \sum v_i b_i = & \sum v_i' b_i \\
-    \sum v_i b_i - \sum v_i'b_i = & 0 \\
-    \sum (v_i - v_i)' b_i = & 0.
+    v = \sum_{i=1}^n \tilde{v}_i \tilde{b}_i = & \sum_{i=1} \tilde{v}_i' \tilde{b}_i \\
+    \sum (\tilde{v}_i - \tilde{v}_i')\tilde{b}_i = & 0 \\
   \end{align*}
-  However, if $b_1,..., b_k$ is a basis, they must be linearly
-  independent so $v_i = v_i'$ for each $i$.
+  However, if $B$ is a basis, its elements must be linearly
+  independent so $\tilde{v}_i = \tilde{v}_i'$ for all $i$, so the
+  original $v_1, ..., v_k$ must be unique.
 \end{proof}
+
+
+Let us show that dimension and basis are sensible definitions by
+showing that any two bases have the same size. 
+\begin{lemma}
+  If $B$ is a basis for a vector space $V$ and $I \subseteq V$ is a
+  set of linearly independent elements then $|I| \leq |B|$. 
+\end{lemma}
+For vector spaces of finite dimension this lemma can be stated as
+follows. If $b_1,..., b_m$ is a basis for a vector space $V$ and $v_1,
+..., v_n\in V$ are linearly independent, then $n \leq m$. We will only
+prove this finite dimensional version, but it is true for infinite
+dimensional spaces as well.
+\begin{proof}
+  Write $v_i \in I$ in terms of the basis:
+  \[ v_i = \sum_{i=1}^m a_{ij} b_i \]
+  Let us check for linear independence as described above. 
+  \begin{align*}
+    0 = \underbrace{A}_{m \times n} \underbrace{c}_{n \times 1}    
+  \end{align*}
+  This is a system of $m$ equations with $n$ unknowns. If $n>m$, then
+  it must have multiple solutions, and $v_1,...,v_n$ cannot be
+  linearly independent.
+\end{proof}
+An immediate consequence of this lemma is that any two bases must have
+the same cardinality. 
+\begin{corollary}
+  Any two bases for a vector space have the same cardinality.
+\end{corollary}
+\begin{proof}
+  If not, one would have more elements than the other. That would
+  contradict the previous lemma.
+\end{proof}
+
+\begin{example} 
+  What is the dimension of each of the examples of vector spaces
+  above? Can you find a basis for them? 
+\end{example}
+
+We have now shown that any basis of a vector space has cardinality
+equal to the dimension of the space. A related useful fact is that if
+we have $n$ elements that span an $n$ dimensional space, then those
+elements must be linearly independent, and hence a basis. 
+\begin{lemma}
+  If $v_1, ..., v_n$ span an $n$ dimensional vector space, then $v_1,
+  ... , v_n$ are linearly independent.
+\end{lemma}
+\begin{proof}
+  If $v_1, ..., v_n$ span $\R^n$, then we can write each standard
+  basis vector as
+  \[ e_i = \sum_{j=1}^n a_{ij} v_j. \]
+  Suppose we have $c_j \neq 0$ such that
+  \begin{align*} 
+    0 = & \sum_{j=1}^n c_j v_j \\
+    v_n = & \sum_{j=1}^{n-1} -\frac{c_j}{c_n} v_j.
+  \end{align*}
+  Substituting,
+  \begin{align*}
+    e_i = \sum_{j=1}^{n-1} (a_{ij} - \frac{c_j}{c_n} a_{in} ) v_j.
+  \end{align*}
+  Writing these $n$ systems of linear equations in matrix form we have
+  \begin{align*}
+    I_n = \underbrace{A}_{n\times(n-1)} \underbrace{V}_{(n-1) \times n}.
+  \end{align*}
+  However, we know that $\rank I_n = n$ and $\rank (A V) \leq
+  \max\{\rank A, \rank V\} \leq n-1$, so this equation cannot be
+  true. The steps to get to this equation only relied on some $c_j
+  \neq 0$ so that we could divide by it. Therefore, it must be that
+  $c_j = 0$ for all $j$, and $v_1,...,v_n$ are linearly independent.
+\end{proof}
+
+Collecting the results above and specializing them to $\R^n$ we have
+four equivalent ways of describing a basis. 
+\begin{theorem}\label{thm:lind}
+  Let $v_1, ..., v_n \in \R^n$ and let $V = (v_1,...,v_n)$ be the $n$
+  by $n$ matrix with columns $v_i$. Then the following are equivalent:
+  \begin{enumerate}
+  \item $v_1,...,v_n$ are linearly independent,
+  \item $v_1,...,v_n$ span $\R^n$,
+  \item $v_1,...,v_n$ are a basis for $\R^n$,
+  \item $\rank V = n$
+  \end{enumerate}
+\end{theorem}
+
+Suppose $V$ is an $n$-dimension real\footnote{Meaning the field of
+  scalars is $\R$.} vector space. By the definition of dimension,
+there must be a set of $n$ linearly independent elements that span
+$V$. These elements form a basis. Call them $b_1, ..., b_n$. For each
+$v \in V$, there are unique $v_1, ..., v_n \in \R$ such that 
+\[ v = \sum_{i=1}^n v_i b_i. \]
+Thus we can construct a function, say $I: V \to \R^n$ defined by 
+\[ I(v) = (v_1, ..., v_n). \]
+By lemma \ref{lem:uniqueRep}, $I$ must be one-to-one. $I$ must also be
+onto since by definition of a vector space, for any $(v_1, ..., v_n)
+\in \R^n$, the linear combination, $\sum_{i=1}^n v_i b_i$ is in
+$V$. Moreover, $I$ preserves addition in that for
+any $v^1, v^2 \in V$,
+\begin{align*}
+  I(v^1 + v^2) = & (v_1^1 + v_1^2, ..., v_n^1 + v_n^2) \\
+  = & (v_1^1, ..., v_n^1) + (v_1^2 + ... + v_n^2) \\
+  = & I(v^1) + I(v^2).
+\end{align*}
+Similarly, $I$ preserves scalar multiplication in that for all $v \in
+V$, $\alpha \in \R$
+\[ I(\alpha v) = \alpha I(v). \]
+Thus, $V$ and $\R^n$ are essentially the same in that there is a
+one-to-one and onto mapping between them that preserves all the
+properties that make them vector spaces. 
+\begin{definition}
+  Let $V$ and $W$ be vector spaces over the field $\F$. $V$ and $W$ are
+  \textbf{isomorphic} if there exists a one-to-one and onto function,
+  $I:V \to W$ such that 
+  \[ I(v^1 + v^2) = I(v^1) + I(v^2) \]
+  for all $v^1, v^2 \in V$,
+  and 
+  \[ I(\alpha v) = \alpha I(v) \]
+  for all $v \in V$, $\alpha \in \F$.
+  Such an $I$ is called an \textbf{isomorphism}.
+\end{definition}
+The discussion preceeding this definition showed that all
+$n$-dimensional real vector spaces are isomorphic to $\R^n$. 
+\begin{theorem}
+  Let $V$ be an $n$-dimensional vector space over the field $\F$. Then
+  $V$ is isomorphic to $\F^n$. 
+\end{theorem}
+\begin{proof}
+  We proved this for $\F=\R$. The same argument works for any field.
+\end{proof}
+
+
 
 \subsection{Linear transformations}
 
@@ -440,7 +634,7 @@ be exactly $k$.
   \begin{align*}
     A (f v_1) = f A v_1
   \end{align*}
-  for all scalars $f$.   
+  for all scalars $f \in \F$.   
 
   A linear transformation from $V$ to $V$ is called a \textbf{linear
     operator} on $V$. A linear transformation from $V$ to $\R$ is
@@ -627,28 +821,27 @@ or $W$ is infinite dimensional). There are two ways to define the
 transpose of a linear function. They each require introducing a new
 concept. We will first define the transpose in terms of dual
 spaces. Dual spaces do occasionally appear in economics, but they will
-not be essential for the rest of this course (I did not cover them at
-all last year). Then we will define the transpose in terms of inner
-products. Inner products are very useful in their own right. However,
-it is not essential to understand either of these abstract definitions
-of the transpose. You will only really need to understand the
-transposing of matrices.
+not be essential for the rest of this course. Then we will define the
+transpose in terms of inner products. Inner products are very useful
+in their own right. However, it is not essential to understand either
+of these abstract definitions of the transpose. You will only really
+need to understand the transposing of matrices.
 
 \subsubsection{Transpose and dual spaces}
 
 One way of defining the transpose of a linear transformation is in
 terms of dual spaces.
 \begin{definition}
-  Let $V$ be a vector space. The \textbf{dual space} of $V$, denote $V^\ast$
-  is the set of all (continuous)\footnote{We have not yet defined
-    continuity, so do not worry about this requirement. All linear
-    functionals on finite dimensional spaces are continuous. Some
-    linear functionals on infinite dimensional spaces are not
-    continuous. The definition of dual space does not always require
-    continuity. Of the dual space is defined as the set of all linear
-    functionals, and the topological dual space is the set of all
-    continuous linear functionals. We will ignore this distinction.}
-  linear functionals, $v^\ast: V \to \R$.
+  Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
+  $V^\ast$ is the set of all (continuous)\footnote{We have not yet
+    defined continuity, so do not worry about this requirement. All
+    linear functionals on finite dimensional spaces are
+    continuous. Some linear functionals on infinite dimensional spaces
+    are not continuous. The definition of dual space does not always
+    require continuity. Often the dual space is defined as the set of
+    all linear functionals, and the topological dual space is the set
+    of all continuous linear functionals. We will ignore this
+    distinction.}  linear functionals, $v^\ast: V \to \R$.
 \end{definition}
 
 \begin{example}

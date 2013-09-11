@@ -46,7 +46,8 @@
 % \newtheorem{corollary}{Corollary}[section]
 % \newtheorem{lemma}{Lemma}[section]
 % \newtheorem{proposition}{Proposition}[section]
-% \theoremstyle{definition}
+\theoremstyle{definition}
+\newtheorem{question}{Question}
 % \newtheorem{assumption}{}[section]
 % %\renewcommand{\theassumption}{C\arabic{assumption}}
 % \newtheorem{definition}{Definition}[section]
@@ -167,29 +168,66 @@
 \end{frame}
 
 \begin{frame}
-  \begin{example}\label{ex:L2}
+  \begin{example}
+    Take $V = \R^+$. Define ``addition'' as $x \oplus y = xy$ and define
+    ``scalar multiplication'' as $\alpha \odot x = x^\alpha$. Then
+    $(\R^+,\R, \oplus, \odot)$ is a vector space with identity element
+    $1$.   
+  \end{example}
+\end{frame}
+
+\begin{frame}\frametitle{Vector spaces of functions}
+  \begin{example} \label{ex:funcSpace}
+    Let $V = $ all functions from $[0,1]$ to $\R$. For $f, g \in V$,
+    define $f + g$ by $(f+g)(x) = f(x) + g(x)$. Define scalar
+    multiplication as $(\alpha f)(x) = \alpha f(x)$. Then this is a
+    vector space. 
+  \end{example}
+  
+  \begin{example}
+    The set of all continuous functions with addition and scalar
+    multiplication defined as in \ref{ex:funcSpace}.
+  \end{example}
+  
+  \begin{example}
+    The set of all $k$ times continuously differentiable functions with
+    addition and scalar multiplication defined as in \ref{ex:funcSpace}.
+  \end{example}
+\end{frame}  
+
+\begin{frame}
+  \begin{example}
+    The set of all polynomials with addition and scalar
+    multiplication defined as in \ref{ex:funcSpace}.
+  \end{example}
+  
+  \begin{example} 
+    The set of all polynomials of degree at most $d$ with addition and scalar
+    multiplication defined as in \ref{ex:funcSpace}.
+  \end{example}  
+
+  \begin{example}
+    The set of all functions from $\R \to \R$ such that $f(29481763) =
+    0$ with addition and scalar multiplication defined as in
+    \ref{ex:funcSpace}.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}\label{ex:LP}
     Let $1 \leq p < \infty$ and let $\mathcal{L}^p(0,1)$ be the set of
     functions from $(0,1)$ to $\R$ such that $\int_0^1 |f(x)|^p dx$ is
-    finite.  Then $\mathcal{L}^p (0,1)$ with the field $\R$ and addition
-    and scalar multiplication defined as
+    finite.  Then $\mathcal{L}^p (0,1)$ with the field $\R$ and
+    addition and scalar multiplication defined as
     \begin{align*}
       (f + g)(x) = & f(x) + g(x) \\
       (\alpha f)(x) = & \alpha f(x)
     \end{align*} 
-    is a vector space.
+    is a vector space. 
   \end{example}
-  \begin{itemize}
-  \item Show $\mathcal{L}^p(0,1)$ is closed under addition.
-    \begin{itemize}
-    \item Jensen's inequality: if $h(x)$ is convex, then for any
-      $a_1>0$ and $a_2>0$, 
-      \[ h\left(\frac{a_1 x_1 + a_2 x_2}{a_1 + a_2} \right) \leq \frac{a_1
-        h(x_1) + a_2 h(x_2) }{a_1 + a_2}. \]
-    \end{itemize}
-  \end{itemize}
 \end{frame}
 
-\subsubsection{Basis and dimension}
+\subsubsection{Linear combinations}
 
 \begin{frame}
   \begin{definition}
@@ -198,11 +236,30 @@
     \[c_1 v_1 + ... + c_k v_k \]
     where $c_1, ..., c_k \in \F$. 
   \end{definition}
+  \begin{question} 
+    How can we be sure that $c_1 v_1 + ... + c_k v_k \in V$?
+  \end{question}
+\end{frame}
+
+\begin{frame}
   \begin{definition}
-    Let $V$ be a vector space and $v_1,..., v_k \in V$. The
-    \textbf{span} of $\{ v_1, ... , v_k \}$ is the set
-    of all linear combinations of $v_1, ... , v_k$.
+    Let $V$ be a vector space and $W \subseteq V$. The
+    \textbf{span} of $W$ is the set
+    of all finite linear combinations of elements of $W$.
   \end{definition}
+
+  \begin{lemma}
+    The \textbf{span} of any  $W \subseteq V$ is a linear subspace.
+  \end{lemma}
+\end{frame}
+
+
+\begin{frame}
+  \begin{example}
+    Let $V$ be the vector space of all functions from $[0,1]$ to $\R$ as
+    in example \ref{ex:funcSpace}. The span of $\{1, x, ..., x^n\}$ is
+    the set of all polynomials of degree less than or equal $n$.
+  \end{example}
 \end{frame}
 
 \begin{frame}
@@ -214,7 +271,11 @@
     \end{align*}
     is $c_1 = c_2 = ... = c_k = 0$. 
   \end{definition}
-  
+\end{frame}
+
+\subsubsection{Dimension and basis}
+
+\begin{frame}
   \begin{definition}
     The \textbf{dimension} of a vector space, $V$, is the cardinality of
     the largest set of linearly independent elements in $V$.
@@ -233,17 +294,22 @@
     0)$, $...$, $e_n = (0, ... , 0 , 1)$. This basis is called the
     standard basis of $\R^n$. 
   \end{example}
+
+  \begin{example} 
+    What is the dimension of each of the examples of vector spaces
+    above? Can you find a basis for them? 
+  \end{example}
 \end{frame}
 
-\begin{frame}
+\begin{frame}\frametitle{Basis gives coordinates}
   \begin{lemma}
-    Let $b_1, ... , b_k$ be a basis for a vector space $V$. Then
-    $\forall v \in V$ there exists a unique $(v_1, ..., v_k)_ \in \F^k$
-    such that $ v = \sum v_i b_i$  
+    Let $\{b_1, ..., b_k\}$ be a basis for a vector space $V$. Then
+    $\forall v \in V$ there exists a unique $v_1, ..., v_k \in \F$ and
+    such that $ v = \sum_{i=1}^k v_i b_i$  
   \end{lemma}
   \begin{proof}
     \begin{itemize}
-    \item $b_1, ..., b_k$ spans $V$, so such $(v_1, ..., v_k)$ exist. 
+    \item $B$ spans $V$, so such $(v_1, ..., v_k)$ exist. 
     \item Suppose there exists another such $(v_1', ..., v_k')$. Then
       \begin{align*}
         v = \sum v_i b_i = & \sum v_i' b_i \\
@@ -254,11 +320,44 @@
   \end{proof}
 \end{frame}
 
+\begin{frame}\frametitle{Dimension $ = |$Basis $|$}
+   \begin{lemma}
+    If $B$ is a basis for a vector space $V$ and $I \subseteq V$ is a
+    set of linearly independent elements then $|I| \leq |B|$. 
+  \end{lemma}
+
+  \begin{corollary}
+    Any two bases for a vector space have the same cardinality.
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $V$ and $W$ be vector spaces over the field $\F$. $V$ and $W$ are
+    \textbf{isomorphic} if there exists a one-to-one and onto function,
+    $I:V \to W$ such that 
+    \[ I(v^1 + v^2) = I(v^1) + I(v^2) \]
+    for all $v^1, v^2 \in V$,
+    and 
+    \[ I(\alpha v) = \alpha I(v) \]
+    for all $v \in V$, $\alpha \in \F$.
+    Such an $I$ is called an \textbf{isomorphism}.
+  \end{definition}
+\end{frame}
+
+\begin{frame}\frametitle{$\R^n$ is the ``unique'' $n$-dimensional
+    vector space}
+  \begin{theorem}
+    Let $V$ be an $n$-dimensional vector space over the field $\F$. Then
+    $V$ is isomorphic to $\F^n$. 
+  \end{theorem}
+\end{frame}
+
 \subsection{Linear transformations}
 
 \begin{frame}
   \begin{definition}
-    A \textbf{linear transformation} (aka linear operator) is a
+    A \textbf{linear transformation} (aka linear function) is a
     function, $A$, from a vector space $(V,\F,+,\cdot)$ to a vector
     space $(W,\F,+,\cdot)$ such that $\forall v_1, v_2 \in V$,
     \begin{align*}
