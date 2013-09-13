@@ -368,8 +368,34 @@
       A (f v_1) = f A v_1
     \end{align*}
     for all scalars $f$.   
+    \begin{itemize}
+    \item Linear transformation from $V \to V$ is called a \textbf{linear
+        operator}
+    \item Linear transformation from $V \to \R$ is called a
+      \textbf{linear functional}
+    \end{itemize}
   \end{definition}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Examples}
+  \begin{example}
+    Any isomorphism
+  \end{example}
+  
+  \begin{example}
+    The identity operator: $I:V \to V$ defined by $I(v) = v$
+  \end{example}
+
+  \begin{example}
+    The zero transformation: $0_T:V \to W$ defined by $0_T(v) = 0_w$
+  \end{example}
+
+  \begin{example}
+    $f:\R^2 \to \R$ defined by $f((x_1,x_2) = x_1$
+  \end{example}
+\end{frame}
+
 
 \begin{frame}
   \begin{theorem}
@@ -414,6 +440,35 @@
     \end{align*}
     Then $K$ is a linear transformation. 
   \end{example}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Other examples of linear transformations}
+  \begin{example}[Conditional expectation]
+    $X$ and $Y$ are real valued random variables with joint pdf $f_{xy}(x,y)$
+    and marginal pdfs $f_x(x) = \int_\R f(x,y) dy$ and $f_y(y) =
+    \int_\R f(x,y) dx$. Define the vector spaces 
+    \[ 
+    V = \mathcal{L}^2(\R,f_y) = \{g:
+    \R \to \R \text{ such that } \int_{\R} f_y(y) g(y)^2 dy <
+    \infty \} \]
+    and 
+    \[ 
+    W = \mathcal{L}^2(\R,f_x) = \{g:
+    \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+    \infty \} 
+    \]  
+    The conditional expectation function is $\mathcal{E}: V \to W$
+    defined by 
+    \begin{align*}
+      (\mathcal{E} g)(x) = E[g(Y) | X = x] = & \int_\R
+      \frac{f_{xy}(x,y)}{f_x(x) f_y(y)} g(y) f_y(y) dy.
+    \end{align*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Other examples of linear transformations}
   \begin{example}[Differential operator]
     Let $C^\infty(0,1)$ be the set of all infinitely differentiable
     functions from $(0,1)$ to $\R$. It can easily be shown that
@@ -425,8 +480,8 @@
 \end{frame}
 
 \section{Matrix operations and properties}
-\subsection{Operations}
-\subsubsection{Addition} 
+
+\subsection{Addition} 
 \begin{frame}
   \frametitle{Addition}
   \begin{itemize}
@@ -466,11 +521,26 @@
   \end{itemize}
 \end{frame}
 
-\subsubsection{Matrix multiplication}
+\begin{frame}\frametitle{The space of matrices is a vector space}
+  \begin{itemize}
+  \item $L(\R^n,\R^m) \equiv $ all $m$ by $n$ matrices $\equiv$ all
+    linear transformations from $\R^n$ to $\R^m$ with addition and
+    multiplication as above is a vector space
+    \begin{itemize}
+    \item \emph{Question}: $L(\R^n,\R^m)$ is isomorphic to what other
+      vector space that we have seen?
+    \end{itemize}
+  \item $L(V,W) \equiv$ all linear transformations from $V \to W$ is a
+    vector space
+  \end{itemize}
+\end{frame}
+
+\subsection{Matrix multiplication}
 
 \begin{frame}
   \frametitle{Matrix multiplication}
   \begin{itemize}
+  \item Multiplication $ \equiv$ composition of linear transformations
   \item $A: \R^n \rightarrow \R^m$, $B:\R^p \rightarrow \R^n$.
   \item Consider $A(B e_k)$
     \begin{align*}
@@ -494,14 +564,15 @@
   \item Associative: $A(BC) = (AB) C$
   \item Distributive: $A(B+C) = AB + AC$ and $(A+B)C = AC + BC$
   \item Identity: $AI_n = A$ where $A$ is $m$ by $n$ and $I_n$ is the
-    linear transformation from $\R^n$ to $\R^n$ such that $I_nx = x
+    identity linear transformation from $\R^n$ to $\R^n$ such that $I_nx = x
     \forall x \in \R^n$
   \item Not commutative
   \end{enumerate}
 \end{frame}
 
-\subsubsection{Transpose}
+\subsection{Transpose}
 
+\subsubsection{Transpose and inner products}
 \begin{frame}
   \begin{definition}
     A real \textbf{inner product space} is a vector space over the field
@@ -577,6 +648,69 @@
   \item $\rank A = \rank A^T$
   \end{enumerate}
 \end{frame}
+
+\subsubsection{Transpose and dual spaces}
+
+\begin{frame} \frametitle{Transpose and dual space}
+  \begin{definition}
+    Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
+    $V^\ast$ is the set of all (continuous) linear functionals,
+    $v^\ast: V \to \R$.
+  \end{definition}
+  
+  \begin{example}
+    The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
+    fact, for any finite dimensional vector space, the dual space is the
+    set of row vectors from that space.        
+  \end{example}
+  
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Let $1 \leq p \leq \infty$, define 
+    \[ \ell^p = \{ (x_1, x_2, ... ) : \sum_{i=1}^\infty |x_i|^p < \infty
+    \} \]
+    and 
+    \[ \ell^\infty = \{(x_1, x_2, ... ) : \max_{i \in \mathbb{N}} |x_i| < \infty
+    \} \]
+    What is the dual space of $\ell_\infty$?  
+  \end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}
+  Dual space of $V = \mathcal{L}^2(\R,f_x) = \{g:  \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+  \infty\}$? 
+  \begin{itemize}
+  \item Let $h \in \mathcal{L}^2(\R,f_x)$, define 
+    \[ h^\ast(g) = \int_\R f_x(x) g(x) h(x) dx. \] 
+    then if $h^\ast(g)$ is finite for all $g$, $h^\ast \in V^\ast$
+  \item Can show $h^\ast$ is finite for $g$, $h$ \& $V^\ast = \{
+    h^\ast : h \in V\}$
+  \item The mapping $h \to h^\ast$ is an isomorphism between $V$ and
+    $V^\ast$ 
+  \end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}\frametitle{Dual space definition of transpose}
+  \begin{definition}
+    If $A: V \to W$ is a linear transformation, then the
+    \textbf{transpose} (or dual) of $A$ is $A^T: W^\ast \to V^\ast$
+    defined by $(A^Tw^\ast)v = w^\ast(Av)$.
+  \end{definition}
+  \begin{itemize}
+  \item This definition is the same as the previous one when $V$ and
+    $W$ are inner product spaces
+    \begin{itemize}
+    \item Show that if $V, W$ are inner product spaces then $V^\ast$ is
+      isomorphic to $V$, $W^\ast$ is isomorphic to $W$
+    \item Show definitions are same
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
 
 \subsection{Types of matrices}
 
