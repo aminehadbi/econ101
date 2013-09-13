@@ -621,8 +621,23 @@ $n$-dimensional real vector spaces are isomorphic to $\R^n$.
 
 
 
-\subsection{Linear transformations}
+\section{Linear transformations}
 
+An isomorphism is a one-to-one and onto (bijective) functions that
+preserves addition and scalar multiplication. Can a function between
+vector spaces preserve addition and multiplication without being
+bijective?  Let's try to construct an example. We know from above that
+all finite dimensional vector spaces are isomorphic to $\R^n$, so we
+might as well work with $\R^n$. To keep everything as simple as
+possible, let's just work with $\R^1$. Consider $f:\R \to \R$ defined
+by $f(x) = 0$ for all $x \in \R$. Clearly, $f$ is not bijective. $f$
+preserves addition since
+\[ f(x) + f(y) = 0 + 0 = 0 = f(x+y). \]
+$f$ also preserves multiplication because 
+\[ \alpha f(x) = \alpha 0 = 0 = f(\alpha x). \]
+Thus, we know there are functions that preserve addition and scalar
+multiplication but are not necessarily isomorphisms. Let's give such
+functions a name. 
 \begin{definition}
   A \textbf{linear transformation} (aka linear function) is a
   function, $A$, from a vector space $(V,\F,+,\cdot)$ to a vector
@@ -640,7 +655,17 @@ $n$-dimensional real vector spaces are isomorphic to $\R^n$.
     operator} on $V$. A linear transformation from $V$ to $\R$ is
   called a \textbf{linear functional} on $V$.
 \end{definition}
-Let 
+Any isomorphism between vector spaces is a linear
+transformation. 
+\begin{example}
+  Define $f: \R^2 \to \R$ by $f( (x_1, x_2) ) = x_1$, that is $f(x)$ is
+  the first coordinate of $x$. Then,
+  \[ f(\alpha x + y) = \alpha x_1 + y_1 = \alpha f(x) + f(y) \]
+  so $f$ is a linear transformation.
+\end{example}
+
+In general we can construct linear transformations between finite
+dimensional vector spaces as follows. Let 
 \[ A = \gmatrix{a} \]
 be a matrix. As when we were working with systems of linear equations,
 let 
@@ -651,29 +676,36 @@ let
   \sum_{j=1}^n a_{mj} x_j 
 \end{pmatrix}, \] for $\mathbf{x} = (x_1, ..., x_n) \in \R^n$. Then
 $A$ is a linear transformation from $\R^n$ to $\R^m$. You may want to
-verify that $A(f_1 \mathbf{x}_1 + f_2 \mathbf{x}_2 ) = f_1 A
-\mathbf{x}_1 + f_2 \mathbf{x}_2$ for scalars $f_1, f_2 \in \R$ and
-vectors $\mathbf{x}_1, \mathbf{x}_2 \in \R^n$.
+verify that $A(f \mathbf{x}_1 + \mathbf{x}_2 ) = f A
+\mathbf{x}_1 + \mathbf{x}_2$ for scalars $f \in \R$ and
+vectors $\mathbf{x}_1, \mathbf{x}_2 \in \R^n$. 
 
 Conversely let $A$ be a linear transformation from $V$ to $W$ (if it
 is helpful, you can let $V=\R^n$ and $W=\R^m$), and let $b_1, b_2,
 ..., b_n$ be a basis for $V$. By the definition of a basis, any $v \in
-V$ can be written $v = \sum_{j=1}^n \alpha_j b_j$ for some $\alpha_j
+V$ can be written $v = \sum_{j=1}^n v_j b_j$ for some $v_j
 \in \F$. By the definition of a linear transformation, we have
 \begin{align*}
-  A v = \sum_{j=1}^n \alpha_j A b_j. 
+  A v = \sum_{j=1}^n v_j A b_j. 
 \end{align*}
 Thus, a linear transformation is completely determined by its action
 on a basis. Also, if $d_1, ..., d_m$ is a basis for $W$ then for each
-$A b_j$ we must be able to write
+$A b_j$ we must be able to write $A b_j$ as a sum of the basis
+elements $d_1, ..., d_m$, i.e.\
 \begin{align*}
   A b_j = \sum_{i=1}^m a_{ij} d_i.
 \end{align*}
+Substituting this equation into the previous one, we can write $Av$ as
+\begin{align*}
+  Av = & \sum_{j=1}^n v_j A b_j \\
+  = & \sum_{j=1}^n v_j \sum_{i=1}^m a_{ij} d_i \\
+  = & \sum_{i=1}^m d_i \left( \sum_{j=1}^n a_{ij} v_j \right) 
+\end{align*}
 Thus, associated with a linear transformation there is an array of
 $a_{ij} \in \F$ determined by the linear transformation (and choice of
-basis). In the previous paragraph, we saw that conversely, if we have
-an array of $a_{ij} \in \F$ we can construct a linear
-transformation. This leads us to the following result.
+basis for $V$ and $W$). In the previous paragraph, we saw that
+conversely, if we have an array of $a_{ij} \in \F$ we can construct a
+linear transformation. This leads us to the following result.
 \begin{theorem}
   For any linear transformation, $A$, from $\R^n$ to $\R^m$ there is an
   associated $m$ by $n$ matrix,
@@ -689,11 +721,10 @@ Thus, we see that matrices and linear transformations from $\R^m$ to
 $\R^n$ are the same thing. This fact will help us make sense of many
 of the properties of matrices that we will go through in the next
 section. Also, it will turn out that most of the properties of
-matrices are really properties of linear transformations. There are
-linear transformations that cannot be represented by matrices, yet
-many of the results and definitions that are typically stated for
-matrices will apply to these sorts of linear transformations as
-well. 
+matrices are properties of linear transformations. There are linear
+transformations that cannot be represented by matrices, yet many of
+the results and definitions that are typically stated for matrices
+will apply to these sorts of linear transformations as well.
 
 Two examples of linear transformations that cannot be represented by
 matrices are integral and differential operators,
@@ -704,23 +735,55 @@ matrices are integral and differential operators,
   \begin{align*}
     (K f) (x) = \int_0^1 k(x,y) f(y) dy
   \end{align*}
-  Then $K$ is a linear transformation. 
+  Then $K$ is a linear transformation because
+  \begin{align*}
+    (K ( \alpha f + g) ) (x) = & \int_0^1 k(x,y) (\alpha f(y) + g(y))dy
+    \\
+    = & \alpha \int_0^1 k(x,y) f(y) dy + \int_0^1 k(x,y) g(y)dy \\
+    = & \alpha (K f) (x) + (K g)(x) 
+  \end{align*}      
 \end{example}
+
+\begin{example}[Conditional expectation]
+  One special type of an integral operator that appears often in
+  economics is the conditional expectation operator. Suppose $X$ and
+  $Y$ are real valued random variables with joint pdf $f_{xy}(x,y)$
+  and marginal pdfs $f_x(x) = \int_\R f(x,y) dy$ and $f_y(y) = \int_\R
+  f(x,y) dx$. Consider the vector spaces 
+  \[ 
+  V = \mathcal{L}^2(\R,f_y) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_y(y) g(y)^2 dy <
+  \infty \} \]
+  and 
+  \[ 
+  W = \mathcal{L}^2(\R,f_x) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+  \infty \} 
+  \]  
+  The conditional expectation operator is $\mathcal{E}: V \to W$
+  defined by $(\mathcal{E} g )(x) = E[g(Y) | X = x]$. 
+  \begin{align*}
+    (\mathcal{E} g)(x) = E[g(Y) | X = x] = & \int_\R
+    \frac{f_{xy}(x,y)}{f_x(x) f_y(y)} g(y) f_y(y) dy.
+  \end{align*}
+  The conditional expectation operator is an integral operator, so it
+  is a linear transformation. 
+\end{example}
+
 \begin{example}[Differential operator]
   Let $C^\infty(0,1)$ be the set of all infinitely differentiable
-  functions from $(0,1)$ to $\R$. It can be shown that
-  $C^\infty(0,1)$ is a vector space. Let $D:C^\infty(0,1) \rightarrow
-  C^\infty(0,1)$ be defined by 
+  functions from $(0,1)$ to $\R$. $C^\infty(0,1)$ is a vector space.
+  Let $D:C^\infty(0,1) \rightarrow C^\infty(0,1)$ be defined by
   \[ (D f) (x) = \frac{d f}{dx}(x) \]
   Then $D$ is a linear transformation.
 \end{example}
-We will not be studying these sort of linear transformations on
-infinite dimensional spaces in much detail, but it may be useful to be
-aware of them. Integral operators are very important when studying
+Integral and differential operators are very important when studying
 differential equations.  They are also useful in many areas of
 econometrics and in dynamic programming. We will encounter some linear
 transformations on infinite dimensional spaces when we study optimal
-control. 
+control. However, for the rest of this lecture, our main focus will be
+an linear transformations between finite dimensional spaces,
+i.e.\ matrices. 
 
 \section{Matrix operations and properties}
 
@@ -767,18 +830,29 @@ consistent with this, for matrices we must define
     \alpha a_{1n} \\ \vdots & \ddots & \vdots \\ \alpha a_{m1} & \cdots &
     \alpha a_{mn} \end{pmatrix}
 \end{align*}
-
+We have now defined addition and scalar multiplication for
+matrices. It should be no surprise that the set of all $m$ by $n$
+matrices along with these two operations and the field $\R$ forms a
+vector space. 
+\begin{example}
+  The set of all $m$ by $n$ matrices is a vector space. 
+\end{example}
+In fact, the above is not only true of the set of all
+$m$ by $n$ matrices, but of any set of all linear transformations
+between two vector spaces.
 \begin{example}
   Let $L(V,W)$ be the set of all linear transformations from $V$ to
   $W$. Define addition and scalar multiplication as above. Then 
   $L(V,W)$ is a vector space.
 \end{example}
+$L(\R^n, \R^m)$ is the set of all linear transformations from $\R^n
+\to \R^m$, i.e.\ all $m$ by $n$ matrices. 
 
 \subsubsection{Matrix multiplication}
-Matrix multiplication is really the coposition of two linear
-transformations. Let $A$ be a linear transfrom from $\R^n$ to $\R^m$
-and $B$ be a linear tranformation from $\R^p$ to $\R^n$. Now, we
-defined matrices by looking at how a linear tranformation acts on a
+Matrix multiplication is really the composition of two linear
+transformations. Let $A$ be a linear transformation from $\R^n$ to
+$\R^m$ and $B$ be a linear transformation from $\R^p$ to $\R^n$. Now,
+we defined matrices by looking at how a linear tranformation acts on a
 basis vectors, so to define multiplication, we should look at $A(B
 e_k)$
 \begin{align*}
@@ -811,7 +885,7 @@ has the following properties:
 \end{enumerate}
 As we saw on the review, matrix multiplication is not commutative. 
 
-\subsubsection{Transpose}
+\subsection{Transpose}
 
 As you likely know, the transpose of an $m \times n$ matrix $A$ is an
 $n \times m$, $A^T$ whose rows are the columns of $A$. As a linear
@@ -819,81 +893,19 @@ transformation, if $A: V \to W$, then $A^T: W \to V$, but how can we
 define $A^T$ when $A$ cannot be represented as a matrix (i.e. when $V$
 or $W$ is infinite dimensional). There are two ways to define the
 transpose of a linear function. They each require introducing a new
-concept. We will first define the transpose in terms of dual
-spaces. Dual spaces do occasionally appear in economics, but they will
-not be essential for the rest of this course. Then we will define the
-transpose in terms of inner products. Inner products are very useful
-in their own right. However, it is not essential to understand either
-of these abstract definitions of the transpose. You will only really
-need to understand the transposing of matrices.
-
-\subsubsection{Transpose and dual spaces}
-
-One way of defining the transpose of a linear transformation is in
-terms of dual spaces.
-\begin{definition}
-  Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
-  $V^\ast$ is the set of all (continuous)\footnote{We have not yet
-    defined continuity, so do not worry about this requirement. All
-    linear functionals on finite dimensional spaces are
-    continuous. Some linear functionals on infinite dimensional spaces
-    are not continuous. The definition of dual space does not always
-    require continuity. Often the dual space is defined as the set of
-    all linear functionals, and the topological dual space is the set
-    of all continuous linear functionals. We will ignore this
-    distinction.}  linear functionals, $v^\ast: V \to \R$.
-\end{definition}
-
-\begin{example}
-  The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
-  fact, for any finite dimensional vector space, the dual space is the
-  set of row vectors from that space. 
-\end{example}
-
-\begin{example}
-  The space $\ell_p$ for $1 \leq p \leq \infty$ is the set of
-  sequences of real numbers $\mathbf{x}=(x_1, x_2, ...)$ such that
-  $\sum_{i=1}^\infty |x_i|^p < \infty$. (When $p = \infty$, $\ell_\infty = \{ 
-  (x_1, x_2, ...) : \max_{i \in \mathbb{N}} |x_i| < \infty \}$). Such
-  spaces appear in economics in discrete time, infinite horizon
-  optimization problems. 
-
-  Let's consider the dual space of $\ell_\infty$. In macro models, we
-  rule out everlasting bubbles and ponzi schemes by requiring
-  consumption divided by productivity to be in $\ell_\infty$. Every
-  sequence, $\mathbf{p} = (p_1, p_2, ...) \in \ell_1$ gives rise to a linear
-  functional on $\ell_\infty$ defined by
-  \begin{align*}
-    \mathbf{p}^\ast \mathbf{x} = \sum_{i=1}^\infty p_i x_i \leq
-    \left(\sum_{i=1}^\infty |p_i| \right) \left(\max_{i \in
-        \mathbb{N}} |x_i| < \infty\right). 
-  \end{align*}
-  We can conclude that $\ell_1 \subseteq \ell_\infty^\ast$. 
-
-  As a (difficult) exercise, you could try to show whether or not
-  $\ell_1 = \ell_\infty^\ast$. Exercise 3.46 of Carter is very
-  related. 
-\end{example}
-
-\begin{definition}
-  If $A: V \to W$ is a linear transformation, then the
-  \textbf{transpose} (or dual) of $A$ is $A^T: W^\ast \to V^\ast$
-  defined by $(A^Tw^\ast)v = w^\ast(Av)$.
-\end{definition}
-To parse this definition, note that $A^T w^\ast$ is an element of
-$V^\ast$, so it is a linear transformation from $V$ to $\R$. Thus,
-$(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
-\R$, so $w^\ast (A v) \in \R$. 
-
-As an exercise, you should try to show that this definition of the
-transpose is the same as the familiar flipping rows and columns
-definition for matrices.
+concept. We will first define the transpose in terms of the inner
+product. We will then define the transpose in terms of dual
+spaces. Both dual spaces and inner products will appear later in the
+course as well, so its worth introducing them now. However, it is not
+essential to completely understand either of these abstract
+definitions of the transpose. You will only really need to understand
+the transposing of matrices.
 
 \subsubsection{Transpose and inner products}
 
-Another way to define the transpose in terms of linear
+One way to define the transpose in terms of linear
 transformations, is to use another property of Euclidean
-space. 
+space ($\R^n$). 
 \begin{definition}
   A real \textbf{inner product space} is a vector space over the field
   $\R$ with an additional operation called the inner product that is
@@ -973,8 +985,10 @@ and
   = & \sum_{i=1}^m \sum_{j=1}^n a_{ji}^T w_i v_j
 \end{align*}
 If $\iprod{A v}{w} = \iprod{v}{A^T w} $, for any $v$ and $w$ we must
-have $a_{ji}^T = a_{ij}$. The transpose of a matrix simply swaps rows
-for columns. The transpose has the following properties:
+have $a_{ji}^T = a_{ij}$. 
+
+The transpose of a matrix simply swaps rows for columns. The transpose
+has the following properties:
 \begin{enumerate}
 \item $(A+B)^T = A^T + B^T$
 \item $(A^T)^T = A$
@@ -982,6 +996,125 @@ for columns. The transpose has the following properties:
 \item $(AB)^T = B^T A^T$.
 \item $\rank A = \rank A^T$
 \end{enumerate}
+
+\subsubsection{Transpose and dual spaces}
+
+Another way of defining the transpose of a linear transformation is in
+terms of dual spaces. Not all vector spaces are inner product spaces,
+but all vector spaces have a dual space, so defining the transpose
+using dual spaces will be more general. 
+Dual spaces are needed to define differentiation
+on vector spaces, which we will want to do later.
+\begin{definition}
+  Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
+  $V^\ast$ is the set of all (continuous)\footnote{We have not yet
+    defined continuity, so do not worry about this requirement. All
+    linear functionals on finite dimensional spaces are
+    continuous. Some linear functionals on infinite dimensional spaces
+    are not continuous. The definition of dual space does not always
+    require continuity. Often the dual space is defined as the set of
+    all linear functionals, and the topological dual space is the set
+    of all continuous linear functionals. We will ignore this
+    distinction.}  linear functionals, $v^\ast: V \to \R$.
+\end{definition}
+
+\begin{example}
+  The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
+  fact, for any finite dimensional vector space, the dual space is the
+  set of row vectors from that space. 
+\end{example}
+
+\begin{example}
+  The space $\ell_p$ for $1 \leq p \leq \infty$ is the set of
+  sequences of real numbers $\mathbf{x}=(x_1, x_2, ...)$ such that
+  $\sum_{i=1}^\infty |x_i|^p < \infty$. (When $p = \infty$, $\ell_\infty = \{ 
+  (x_1, x_2, ...) : \max_{i \in \mathbb{N}} |x_i| < \infty \}$). Such
+  spaces appear in economics in discrete time, infinite horizon
+  optimization problems. 
+
+  Let's consider the dual space of $\ell_\infty$. In macro models, we
+  rule out everlasting bubbles and ponzi schemes by requiring
+  consumption divided by productivity to be in $\ell_\infty$. Every
+  sequence, $\mathbf{p} = (p_1, p_2, ...) \in \ell_1$ gives rise to a linear
+  functional on $\ell_\infty$ defined by
+  \begin{align*}
+    \mathbf{p}^\ast \mathbf{x} = \sum_{i=1}^\infty p_i x_i \leq
+    \left(\sum_{i=1}^\infty |p_i| \right) \left(\max_{i \in
+        \mathbb{N}} |x_i| < \infty\right). 
+  \end{align*}
+  We can conclude that $\ell_1 \subseteq \ell_\infty^\ast$. 
+
+  As a (difficult) exercise, you could try to show whether or not
+  $\ell_1 = \ell_\infty^\ast$. Exercise 3.46 of Carter is very
+  related. 
+\end{example}
+
+\begin{example}
+  What is the dual space of $V = \mathcal{L}^2(\R,f_x) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+  \infty\}$? Let $h \in \mathcal{L}^2(\R,f_x)$. Define 
+  \[ h^\ast(g) = \int_\R f_x(x) g(x) h(x) dx. \] 
+  Assuming $h^\ast(g)$
+  exists, $h^\ast$ is an integral operator from $V$ to $\R$, so it is
+  linear. To show that $h^\ast \in V^\ast$ all we need to do is
+  establish that $h^\ast(g)$ exists (is finite) for all $g \in V$. 
+  H\:{o}lder's inequality\footnote{See
+    e.g.
+    \href{http://en.wikipedia.org/wiki/H\%C3\%B6lder\%27s_inequality}
+      {Wikipedia for more information and a proof and more
+        information.}} , which we have not studied but is good to be
+    aware of, says that
+  \[ \int_\R f_x(x) |g(x) h(x)| dx \leq \sqrt{\int f_x(x) g(x)^2 dx}
+  \sqrt{\int f_x(x) h(x)^2 dx}. \]
+  Since $h$ and $g \in V$, the right hand side must be finite, so
+  $h^\ast(g)$ is finite as well. Thus all such $h^\ast$ is a subset of
+  $V^\ast$.   In fact, all such $h^\ast$ is equal to
+  $V^\ast$.\footnote{This is a consequence of the Radon-Nikodym
+    theorem, which is beyond the scope of this course.}
+
+  We will have to work with $V^\ast$ and similar dual spaces when we
+  study optimal control. 
+\end{example}
+
+\begin{definition}
+  If $A: V \to W$ is a linear transformation, then the
+  \textbf{transpose} (or dual) of $A$ is $A^T: W^\ast \to V^\ast$
+  defined by $(A^Tw^\ast)v = w^\ast(Av)$.
+\end{definition}
+To parse this definition, note that $A^T w^\ast$ is an element of
+$V^\ast$, so it is a linear transformation from $V$ to $\R$. Thus,
+$(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
+\R$, so $w^\ast (A v) \in \R$. 
+
+Let us verify that this definition of the transpose coincides with the
+one using inner products.\footnote{The two definitions coincide for
+  $V=\R^n$ and $W = \R^m$. There are some situations when the
+  definitions are not the same, but we will not encounter any. When
+  you care about the difference the previous definition of transpose
+  using inner products is usually called the (Hermitian) adjoint, and
+  the definition using dual spaces is called the transpose.} Let $V$
+and $W$ be innerproduct spaces and $A: V \to W$ be linear, and suppose
+$A^T: W \to V$ satisfies the earlier definition of transpose, that is
+$\iprod{A v}{w} = \iprod{v}{A^T w}$. We want to show that $A^T$ also
+satisfies the later definition transpose. First, we must establish
+that for inner product spaces $W^\ast = W$ and $V^\ast = V$. For each
+$v \in V$ we can define a linear operator $v^\ast( y) =
+\iprod{v}{y}$. Thus, $V \subseteq V^\ast$. When $V = \R^n$, it is
+clear that the only linear operators on $V$ are of the form $a_1 x_1 +
+... + a_n x_n$, so in that case $V^\ast = V$. In an example we argued
+that ${\mathcal{L}^2}^\ast = \mathcal{L}^2$. We will take as given for
+the remainder of the course $V^\ast = V$ whenever $V$ is an inner
+product space\footnote{The requirement of continuity in our definition
+  of dual space is essential for this to be true of infinite
+  dimensional $V$.}. Given this, we can conclude that
+\begin{align*}
+  w^\ast (A v) = \iprod{A v}{w} =  \iprod{v}{A^T w} = (A^T w^\ast) (v).
+\end{align*}
+
+As an exercise, you should try to show that this definition of the
+transpose is the same as the familiar flipping rows and columns
+definition for matrices.
+
 
 \subsection{Types of matrices}
 
@@ -1035,13 +1168,18 @@ There are some special types of matrices that will be useful.
 
 \subsection{Invertibility}
 
+We will now define the inverse of a matrix and linear
+transformation. Since multiplication of linear transformations is not
+commutative, it could be that right and left inverses differ. To allow
+this possibility, we make the following definition. 
 \begin{definition}
   Let $A$ be a linear transformation from $V$ to $W$. Let $B$ be a
   linear transfromation from $W$ to $V$. $B$ is a \textbf{right
-    inverse} of $A$ if $AB = I_V$. Let $C$ be a linear tranfromation
+    inverse} of $A$ if $AB = I_V$. Let $C$ be a linear transformation
   from $V$ to $W$. $C$ is a \textbf{left inverse} of $A$ if $CA = I_W$. 
 \end{definition}  
-
+We will now show that right and left inverses do not differ for square
+matrices. 
 \begin{lemma}
   If $A$ is a linear transformation from $V$ to $V$ and $B$ is a right
   inverse, and $C$ a left inverse, then $B = C$. 
@@ -1054,23 +1192,22 @@ There are some special types of matrices that will be useful.
     B & = C.
   \end{align*}
 \end{proof}
-\begin{corollary}
-  If $A$ is a linear transformation from $V$ to $V$ and $B$ and $C$
-  are either left or right inverses of $A$, then $B=C$.
-\end{corollary}
-
+Now that we have established that right and left inverses are the
+same, it makes sense to define just the inverse.
 \begin{definition} 
   Let $A$ be a linear transformation from $V$ to $V$. The
   \textbf{inverse} of $A$ is written $A^{-1}$ and satisfies $A A^{-1}
   = I = A^{-1} A$.
 \end{definition}
-The previous corollary shows that if $A^{-1}$ exists, it is unique. 
+The previous lemma shows that if $A^{-1}$ exists, it is unique. 
 
 \begin{lemma}
   Let $A$ be a linear tranformation from $V$ to $V$, and suppose $A$
   is invertible. Then $A$ is nonsingular and the unique solution to
   $Ax = b$ is $x = A^{-1} b$. 
 \end{lemma}
+Recall that $A$ is nonsingular if  $Ax = b$ has a unique solution for
+all $b$.
 \begin{proof}
   Multiply both sides of the equation by $A^{-1}$ to get
   \begin{align*}
@@ -1086,7 +1223,7 @@ The previous corollary shows that if $A^{-1}$ exists, it is unique.
   \end{align*}
   and $A^{-1}$ is unique. 
 \end{proof}
-
+Conversely we can show that if $A$ is nonsingular, then $A$ must be invertible.
 \begin{lemma}
   If $A$ is nonsingular, then $A^{-1}$ exists.
 \end{lemma}
@@ -1124,6 +1261,11 @@ following properties:
 \end{enumerate}
 
 \section{Determinants}
+
+I am not a fan of determinants because they do not generalize well to
+infinite dimensions. Nonetheless, you must at least know that the
+determinant of a matrix is non-zero if and only if the matrix is
+invertible. 
 
 Given a $1$ by $1$ matrix, say, $A = (a)$, we known that $A^{-1}$
 exists if and only if $a \neq 0$. Also, viewed as a linear
