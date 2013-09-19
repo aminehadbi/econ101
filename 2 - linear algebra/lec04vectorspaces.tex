@@ -319,11 +319,25 @@ in mathematics is the Cauchy-Schwarz inequality.
   \[ \left\vert \iprod{u}{v} \right\vert \leq \norm{u}\norm{v}. \]
 \end{theorem}
 \begin{proof}
-  As in the proof of theorem \ref{thm:angle}, we can form a right
+  The idea of this proof can be illustrated in $\R^2$ by forming a right
   angle triangle with vertices at $0$, $u$, and $tv$ and sides of
-  lengths $\norm{tv}$, $\norm{u-tv}$, and $\norm{v}$. As before, we can
-  show that $t = \frac{\iprod{u}{v}}{\norm{v}^2}$. Now, let $z =
-  u-tv$. By the Pythagorean theorem,
+  lengths $\norm{tv}$, $\norm{u-tv}$, and $\norm{v}$, where $t$ is
+  chosen such that $v$ and $u-tv$ are orthogonal, as shown in the
+  following diagram.
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{cauchy-schwarz.png}
+  \end{center}
+  We are choosing $t$ so that $\iprod{v}{u-tv} = 0$, so solving for $t$,
+  \begin{align*}
+    \iprod{v}{u-tv} = & 0 \\
+    \iprod{v}{v} = & t \iprod{u}{v} \\
+    t = & \frac{\iprod{u}{v}}{\norm{v}^2}.
+  \end{align*}
+  We can choose such a $t$ in any inner product space, not just
+  $\R^2$.
+  
+  Now, let $z = u-tv$. By construction, $\iprod{z}{v} = 0$ and $u = tv
+  + z$. Hence, by the Pythagorean theorem,
   \begin{align*}
     \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
     = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
@@ -336,7 +350,7 @@ in mathematics is the Cauchy-Schwarz inequality.
 \end{proof}
 Notice that in the proof, we also saw that  $\norm{u}\norm{v} =
 |\iprod{u}{v}|$ if and only if $\norm{z} = 0$. $\norm{z}$ is zero
-whenever $x$ and $y$ are linearly dependent i.e. $x = \alpha y$ where
+whenever $u$ and $v$ are linearly dependent i.e. $u = \alpha v$ where
 $\alpha \in \R$. 
 
 \section{Projections}
@@ -462,102 +476,6 @@ the determinant.
   \[ \det(\mathbf{v}_1, ..., \mathbf{v}_n) \neq 0. \]
 \end{corollary}
 
-\subsection{Basis and dimension}
-Remember the definition of linear combinations and span from last
-lecture.
-\begin{definition}
-  Let $V$ be a vector space and $v_1,..., v_k \in V$. A \textbf{linear
-  combination} of $v_1,..., v_k$ is any vector 
-  \[c_1 v_1 + ... + c_k v_k \]
-  where $c_1, ..., c_k \in \F$. 
-\end{definition}
-\begin{definition}
-  Let $V$ be a vector space and $v_1,..., v_k \in V$. The
-  \textbf{span} of $\{ v_1, ... , v_k \}$, denoted\footnote{Blume and
-    Simon use $\mathcal{L}[v_1,...,v_k]$ to denote the span. I do not
-    think this is very common notation, and we will not use it.}
-  $\spn(v_1,...,v_k)$, is the set of all linear combinations of $v_1,
-  ... , v_k$.
-\end{definition}
-Recall the definitions of dimension and basis from last time.
-\begin{definition}
-  The \textbf{dimension} of a vector space, $V$, denoted $\dim V$, is
-  the cardinality of the largest set of linearly independent elements
-  in $V$.
-\end{definition} 
-It follows from corollary \ref{cor:kmli} that the dimension of $\R^n$
-is $n$, so this definition is sensible. 
-\begin{definition}
-  A \textbf{basis} of a vector space $V$ is any set of linearly
-  independent vectors $b_1, ..., b_k$ such that the span of $b_1, ...,
-  b_k$ is $V$.
-\end{definition}
-Let us show that dimension is well defined by showing that any two
-bases have the same size.
-\begin{lemma}
-  If $b_1,..., b_m$ is a basis for a vector space $V$ and $v_1, ...,
-  v_n\in V$ are linearly independent, then $n \leq m$
-\end{lemma}
-\begin{proof}
-  Write $v_i$ in terms of the basis:
-  \[ v_i = \sum_{i=1}^m a_{ij} b_i \]
-  Let us check for linear independence as described above. 
-  \begin{align*}
-    0 = \underbrace{A}_{m \times n} \underbrace{c}_{n \times 1}    
-  \end{align*}
-  This is a system of $m$ equations with $n$ unknowns. If $n>m$, then
-  it must have multiple solutions, and $v_1,...,v_n$ cannot be
-  linearly independent.
-\end{proof}
-\begin{corollary}
-  Any two bases for a vector space have the same cardinality.
-\end{corollary}
-\begin{proof}
-  If not, one would have more elements than the other. That would
-  contradict the previous lemma.
-\end{proof}
-
-\begin{lemma}
-  If $v_1, ..., v_n$ span $\R^n$, then $v_1, ... , v_n$ are linearly
-  independent. 
-\end{lemma}
-\begin{proof}
-  If $v_1, ..., v_n$ span $\R^n$, then we can write each standard
-  basis vector as
-  \[ e_i = \sum_{j=1}^n a_{ij} v_j. \]
-  Suppose we have $c_j \neq 0$ such that
-  \begin{align*} 
-    0 = & \sum_{j=1}^n c_j v_j \\
-    v_n = & \sum_{j=1}^{n-1} -\frac{c_j}{c_n} v_j.
-  \end{align*}
-  Substituting,
-  \begin{align*}
-    e_i = \sum_{j=1}^{n-1} (a_{ij} - \frac{c_j}{c_n} a_{in} ) v_j.
-  \end{align*}
-  Writing these $n$ systems of linear equations in matrix form we have
-  \begin{align*}
-    I_n = \underbrace{A}_{n\times(n-1)} \underbrace{V}_{(n-1) \times n}.
-  \end{align*}
-  However, we know that $\rank I_n = n$ and $\rank (A V) \leq
-  \max\{\rank A, \rank V\} \leq n-1$, so this equation cannot be
-  true. The steps to get to this equation only relied on some $c_j
-  \neq 0$ so that we could divide by it. Therefore, it must be that
-  $c_j = 0$ for all $j$, and $v_1,...,v_n$ are linearly independent.
-\end{proof}
-
-Collecting the results above we have
-\begin{theorem}\label{thm:lind}
-  Let $v_1, ..., v_n \in \R^n$ and let $V = (v_1,...,v_n)$ be the $n$
-  by $n$ matrix with columns $v_i$. Then the following are equivalent:
-  \begin{enumerate}
-  \item $v_1,...,v_n$ are linearly independent,
-  \item $v_1,...,v_n$ span $\R^n$,
-  \item $v_1,...,v_n$ are a basis for $\R^n$,
-  \item $\rank V = n$, and
-  \item $\det V \neq 0$.
-  \end{enumerate}
-\end{theorem}
-
 \section{Row, column, and null space}
 
 \subsection{Row space}
@@ -612,10 +530,10 @@ The row space of $A$ is a subspace of $\R^n$.
   denoted $\col(A)$, is the space spanned by the column vectors of
   $A$.
 \end{definition}
-We know from theorem \ref{thm:lind} that the column space of an $n$ by
-$n$ matrix is $\R^n$ if and only if the matrix is nonsingular. We will
-see that the column space plays an important role in describing the
-set of solutions to systems of linear equations. 
+We know that the column space of an $n$ by $n$ matrix is $\R^n$ if and
+only if the matrix is nonsingular. We will see that the column space
+plays an important role in describing the set of solutions to systems
+of linear equations.
 \begin{lemma}
   Let $A$ be an $m$ by $n$ matrix. Then $A x = b$ has a solution iff $b
   \in \col(A)$.
@@ -744,12 +662,12 @@ contain 0.
   can write $x = c_1 u_1 + ... + c_n a _n$, and
   \begin{align*}
     b = A x = & A \left( c_1 u_1 + ... + c_n a_n \right) \\
-    = & c_1 A \underbrace{u_1}_{\in \mathcal{N}(A)} + c_k A
+    = & c_1 A \underbrace{u_1}_{\in \mathcal{N}(A)} + ... + c_k A
     \underbrace{u_k}_{\in \mathcal{N}(A)} + 
     c_{k+1}Au_{k+1} + ... +c_n A u_n \\
     b = & 0  +     c_{k+1}Au_{k+1} + ... +c_n A u_n 
   \end{align*}
-  so $b \in \spn (u_{k+1}, ..., u_n )$. Thus, 
+  so $b \in \spn (A u_{k+1}, ..., A u_n )$. Thus, 
   \[ \dim \col(A) = n-k = n - \dim \mathcal{N}(A) = \rank A. \]
 \end{proof}
 
@@ -771,60 +689,27 @@ equations.
   \rank A$.
 \end{theorem}
 
-\section{Lines, planes, and hyperplanes }
+\subsection{Relationship among row, column, and null space}
 
-A line in $\R^2$ splits $\R^2$ into two pieces. A plane in $\R^3$
-splits it into two pieces. More generally, an $n-1$ dimensional
-affine space splits $\R^n$ into two pieces.
-\begin{definition}
-  A \textbf{hyperplane} in $\R^n$ is an $n-1$ dimensional affine
-  subspace. Equivalently, a hyperplane is the set of solutions to a
-  single equation with $n$ variables.
-\end{definition}
-Any hyperplane can be written in the form:
-\[ H_{\xi,c} = \{x: \iprod{\xi}{x} = c \} \] where $c \in \R$, $\xi \in
-\R^n$, and $\norm{\xi} = 1$.  Hyperplanes play an important role in
-optimization. There is one theorem, which we state here without proof,
-that is especially useful.  We will use this theorem to prove the
-second welfare theorem. First, a definition.
-\begin{definition}
-  A set $S \subseteq \R^n$ is \textbf{convex} if $\forall x_1, x_2 \in
-  S$ and $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda)
-  \in S$.
-\end{definition}
-If a set is convex, when we draw a line between any two points in the
-set, the line remains entirely within the set.  In $\R^2$, convex sets
-include things shaped like triangles, squares, pentagons, circles,
-ellipses, etc. Some non-convex shapes are stars, horseshoes, rings,
-etc.
-
-\begin{theorem}[Separating hyperplane theorem] \label{thm:sht}
-  If $S_1$ and $S_2 \subseteq \R^n$ are convex and $S_1 \cap S_2 =
-  \emptyset$ then there exists a hyperplane, $H_{\xi c} = \{ x: \xi'x
-  = c \}$ such that  
-  \[ \iprod{s_1}{\xi} \leq c \leq \iprod{s_2}{\xi} \]
-  for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
-  separates $S_1$ and $S_2$. 
-\end{theorem}
-Visually, this theorem says that we can draw a hyperplane, $D$,
-between $S_1$ and $S_2$. $H$ will then be another hyperplane
-orthogonal to $D$ and the projection of $S_1$ on $H$ is disjoint from
-the projection of $S_2$ on $H$. See figure \ref{fig:sht} for an
-illustration in $\R^2$.
-
-Recall that the projection of $S_1$ on $H$ is the set
-\[ P_H S_1 = \{ \iprod{s_1}{\xi}\xi : s_1 \in S_1. \] The projections
-are disjoint or almost disjoint)\footnote{Really this argument only
-  shows disjointness if $S_1$ and $S_2$ are topologically
-  closed, something that we will discuss later.} because if
-$\iprod{s_1}{\xi} < \iprod{s_2}{\xi}$ $\forall s_1 \in S_1, s_2 \in
-S_2$, we can never have $\iprod{s_1}{\xi}\xi = \iprod{s_2}{\xi}\xi $.
-\begin{figure}\caption{Separating hyperplane \label{fig:sht}}
-  \begin{centering}
-    \includegraphics[width=0.8\textwidth]{separatingHyperplane}
-  \end{centering}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+Let's examine how the row, column, and null spaces of a matrix are
+related. Suppose $A$ is $m$ by $n$, then $\col(A) \subseteq \R^m$,
+$\row(A) \subseteq \R^n$ and $\mathcal{N}(A) \subseteq \R^n$. Given
+that the row and null space are both subsets of $\R^n$, it is natural
+to wonder how they are related. Since
+the transpose just switches rows with columns, we know that $\row(A^T)
+= \col(A)$ and $\col(A^T) = \row(A)$. Suppose $x \in \mathcal{N}(A)$,
+then $A x = 0$. The definition of the transpose requires that for all
+$w \in \R^m$, 
+\begin{align*} 
+  \iprod{A^T w}{x} = & \iprod{w}{Ax} \\
+  \iprod{A^T w}{x} = & \iprod{w}{0} \\
+  \iprod{A^T w}{x} = & 0
+\end{align*}
+But, the set $\{A^T w: w \in \R^m \}$ is $\col(A^T) = \row(A)$. Thus,
+we can conclude that for any $x \in \mathcal{N}(A)$ and $y \in
+\row(A)$, $\iprod{y}{x} = 0$. In other words, the row and null spaces
+of a matrix are orthogonal. Similarly, $\mathcal{N}(A^T)$ and
+$\row(A^T) = \col(A)$ are orthogonal. 
 
 \section{Applications}
 
@@ -931,6 +816,62 @@ things to understand are the two theorems, the assumptions of the
 theorems (and how they relate to the real world), and the general role
 of the assumptions in the proofs, so you can make an informed
 conjecture about what happens when the assumptions are false.
+
+
+\subsubsection{Lines, planes, and hyperplanes }
+
+A line in $\R^2$ splits $\R^2$ into two pieces. A plane in $\R^3$
+splits it into two pieces. More generally, an $n-1$ dimensional
+affine space splits $\R^n$ into two pieces.
+\begin{definition}
+  A \textbf{hyperplane} in $\R^n$ is an $n-1$ dimensional affine
+  subspace. Equivalently, a hyperplane is the set of solutions to a
+  single equation with $n$ variables.
+\end{definition}
+Any hyperplane can be written in the form:
+\[ H_{\xi,c} = \{x: \iprod{\xi}{x} = c \} \] where $c \in \R$, $\xi \in
+\R^n$, and $\norm{\xi} = 1$.  Hyperplanes play an important role in
+optimization. There is one theorem, which we state here without proof,
+that is especially useful.  We will use this theorem to prove the
+second welfare theorem. First, a definition.
+\begin{definition}
+  A set $S \subseteq \R^n$ is \textbf{convex} if $\forall x_1, x_2 \in
+  S$ and $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda)
+  \in S$.
+\end{definition}
+If a set is convex, when we draw a line between any two points in the
+set, the line remains entirely within the set.  In $\R^2$, convex sets
+include things shaped like triangles, squares, pentagons, circles,
+ellipses, etc. Some non-convex shapes are stars, horseshoes, rings,
+etc.
+
+\begin{theorem}[Separating hyperplane theorem] \label{thm:sht}
+  If $S_1$ and $S_2 \subseteq \R^n$ are convex and $S_1 \cap S_2 =
+  \emptyset$ then there exists a hyperplane, $H_{\xi c} = \{ x: \xi'x
+  = c \}$ such that  
+  \[ \iprod{s_1}{\xi} \leq c \leq \iprod{s_2}{\xi} \]
+  for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
+  separates $S_1$ and $S_2$. 
+\end{theorem}
+Visually, this theorem says that we can draw a hyperplane, $D$,
+between $S_1$ and $S_2$. $H$ will then be another hyperplane
+orthogonal to $D$ and the projection of $S_1$ on $H$ is disjoint from
+the projection of $S_2$ on $H$. See figure \ref{fig:sht} for an
+illustration in $\R^2$.
+
+Recall that the projection of $S_1$ on $H$ is the set
+\[ P_H S_1 = \{ \iprod{s_1}{\xi}\xi : s_1 \in S_1. \] The projections
+are disjoint or almost disjoint)\footnote{Really this argument only
+  shows disjointness if $S_1$ and $S_2$ are topologically
+  closed, something that we will discuss later.} because if
+$\iprod{s_1}{\xi} < \iprod{s_2}{\xi}$ $\forall s_1 \in S_1, s_2 \in
+S_2$, we can never have $\iprod{s_1}{\xi}\xi = \iprod{s_2}{\xi}\xi $.
+\begin{figure}\caption{Separating hyperplane \label{fig:sht}}
+  \begin{centering}
+    \includegraphics[width=0.8\textwidth]{separatingHyperplane}
+  \end{centering}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \subsubsection{Setup}
 

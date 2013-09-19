@@ -313,134 +313,6 @@
   \end{proof}
 \end{frame}
 
-\section{Linear independence}
-
-\begin{frame}\frametitle{Linear independence}
-  \begin{definition}
-    A set of vectors $v_1, ..., v_k \in V$, is \textbf{linearly
-      independent} if the only solution to
-    \begin{align*}
-      \sum_{j=1}^k c_j v_j = 0 
-    \end{align*}
-    is $c_1 = c_2 = ... = c_k = 0$. 
-  \end{definition}  
-\end{frame}
-
-\subsection{Checking linear independence}
-\begin{frame}\frametitle{Checking linear independence}
-  \begin{itemize}
-  \item Solve:
-    \begin{align*}
-      \sum_{j=1}^n c_j \mathbf{v}_j = 0 
-    \end{align*}
-    or $V \mathbf{c} = 0 $
-  \item \textbf{Homogeneous} system
-    \begin{itemize} 
-    \item Always has $\mathbf{c}=0$ as a solution
-    \item Other solutions if $\rank V < n$ 
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \begin{lemma}\label{lem:rankli}
-    Vectors $\mathbf{v}_1, ..., \mathbf{v}_n \in \R^m$ are linearly
-    independent if and only if
-    \[ \rank(\mathbf{v}_1, ..., \mathbf{v}_n) = n. \]
-  \end{lemma}
-  \begin{corollary}\label{cor:kmli}
-    Any set of $k>m$ vectors in $\R^m$ are linearly dependent.
-  \end{corollary}
-  \begin{corollary}\label{cor:detli}
-    Vectors $\mathbf{v}_1, ..., \mathbf{v}_m \in \R^m$ are linearly
-    independent if and only if
-    \[ \det(\mathbf{v}_1, ..., \mathbf{v}_n) \neq 0. \]
-  \end{corollary}
-\end{frame}
-
-\subsection{Basis and dimension}
-\begin{frame}\frametitle{Basis and dimension}
-  \begin{definition}
-    Let $V$ be a vector space and $v_1,..., v_k \in V$. A \textbf{linear
-      combination} of $v_1,..., v_k$ is any vector 
-    \[c_1 v_1 + ... + c_k v_k \]
-    where $c_1, ..., c_k \in \F$. 
-  \end{definition}
-
-  \begin{definition}
-    Let $V$ be a vector space and $v_1,..., v_k \in V$. The
-    \textbf{span} of $\{ v_1, ... , v_k \}$, denoted
-    $\spn(v_1,...,v_k)$, is the set of all linear combinations of
-    $v_1, ... , v_k$.
-  \end{definition}
-
-  \begin{definition}
-    The \textbf{dimension} of a vector space, $V$, denoted $\dim V$, is
-    the cardinality of the largest set of linearly independent elements
-    in $V$.
-  \end{definition} 
-\end{frame}
-
-\begin{frame}\frametitle{Basis and dimension}
-  \begin{definition}
-    A \textbf{basis} of a vector space $V$ is any set of linearly
-    independent vectors $b_1, ..., b_k$ such that the span of $b_1, ...,
-    b_k$ is $V$.
-  \end{definition}
-
-  \begin{lemma}
-    If $b_1,..., b_m$ is a basis for a vector space $V$ and $v_1, ...,
-    v_n\in V$ are linearly independent, then $n \leq m$
-  \end{lemma}
-
-  \begin{proof}
-    \[ v_i = \sum_{i=1}^m a_{ij} b_i \]
-    Check for linear independence.
-    \begin{align*}
-      0 = \underbrace{A}_{m \times n} \underbrace{c}_{n \times 1}    
-    \end{align*}
-  \end{proof}
-
-  \begin{corollary}
-    Any two bases for a vector space have the same cardinality.
-  \end{corollary}
-\end{frame}
-
-\begin{frame}
-  \begin{lemma}
-    If $v_1, ..., v_n$ span $\R^n$, then $v_1, ... , v_n$ are linearly
-    independent. 
-  \end{lemma}
-  \begin{proof}
-    \begin{align*} 
-      0 = & \sum_{j=1}^n c_j v_j \\
-      v_n = & \sum_{j=1}^{n-1} -\frac{c_j}{c_n} v_j.
-    \end{align*}
-    Write $ e_i = \sum_{j=1}^n a_{ij} v_j. $
-    Substituting,
-    \begin{align*}
-      e_i = \sum_{j=1}^{n-1} (a_{ij} - \frac{c_j}{c_n} a_{in} ) v_j \\
-      I_n = \underbrace{A}_{n\times(n-1)} \underbrace{V}_{(n-1) \times n}.
-    \end{align*}
-  \end{proof}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Summing up}
-  
-  \begin{theorem}\label{thm:lind}
-    Let $v_1, ..., v_n \in \R^n$ and let $V = (v_1,...,v_n)$ be the $n$
-    by $n$ matrix with columns $v_i$. Then the following are equivalent:
-    \begin{enumerate}
-    \item $v_1,...,v_n$ are linearly independent,
-    \item $v_1,...,v_n$ span $\R^n$,
-    \item $v_1,...,v_n$ are a basis for $\R^n$,
-    \item $\rank V = n$, and
-    \item $\det V \neq 0$.
-    \end{enumerate}
-  \end{theorem}
-\end{frame}
-
 \section{Row, column, and null space}
 
 \subsection{Row space}
@@ -601,7 +473,54 @@
   \end{theorem}
 \end{frame}
 
-\section{Lines, planes, and hyperplanes }
+\section{Applications}
+
+\subsection{First and second welfare theorems}
+
+\begin{frame}
+  \frametitle{Welfare theorems}
+  \begin{itemize}
+  \item[1st:] Every competitive equilibrium is Pareto efficient (under
+    some conditions)
+  \item[2nd:] Every Pareto efficient allocation is a competitive
+    equilibrium (under some stronger conditions)
+  \item We will
+    \begin{itemize}
+    \item Carefully define competitive equilibrium and Pareto
+      efficiency
+    \item State and prove theorems
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Welfare theorems}
+  \begin{itemize}
+  \item Proofs will use:
+    \begin{itemize}
+    \item Vector spaces, linear transformations
+      \begin{itemize}
+      \item Should mostly understand
+      \end{itemize}
+    \item Convexity, separating hyperplane theorem
+    \item Continuity --- $\forall \epsilon > 0 \exists \delta > 0$
+      s.t. ...
+      \begin{itemize}
+      \item Maybe difficult to follow, but we will see a lot more of
+        this in calculus
+      \end{itemize}
+    \end{itemize}
+  \item Economic issues to think about:
+    \begin{itemize}
+    \item The result of the two theorems, their assumptions, and how
+      they relate to the real world
+    \item General role of assumptions in proofs, so can conjecture
+      what happens when assumptions are false 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\subsubsection{Lines, planes, and hyperplanes }
 
 \begin{frame}
   \frametitle{Lines, planes, and hyperplanes}
@@ -641,52 +560,6 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-\section{Applications}
-
-\subsection{First and second welfare theorems}
-
-\begin{frame}
-  \frametitle{Welfare theorems}
-  \begin{itemize}
-  \item[1st:] Every competitive equilibrium is Pareto efficient (under
-    some conditions)
-  \item[2nd:] Every Pareto efficient allocation is a competitive
-    equilibrium (under some stronger conditions)
-  \item We will
-    \begin{itemize}
-    \item Carefully define competitive equilibrium and Pareto
-      efficiency
-    \item State and prove theorems
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Welfare theorems}
-  \begin{itemize}
-  \item Proofs will use:
-    \begin{itemize}
-    \item Vector spaces, linear transformations, convexity, separating
-      hyperplane theorem
-      \begin{itemize}
-      \item Should mostly understand
-      \end{itemize}
-    \item Continuity --- $\forall \epsilon > 0 \exists \delta > 0$
-      s.t. ...
-      \begin{itemize}
-      \item Maybe difficult to follow, but we will see a lot more of
-        this in calculus
-      \end{itemize}
-    \end{itemize}
-  \item Economic issues to think about:
-    \begin{itemize}
-    \item The result of the two theorems, their assumptions, and how
-      they relate to the real world
-    \item General role of assumptions in proofs, so can conjecture
-      what happens when assumptions are false 
-    \end{itemize}
-  \end{itemize}
-\end{frame}
 
 %\subsubsection*{Setup}
 
