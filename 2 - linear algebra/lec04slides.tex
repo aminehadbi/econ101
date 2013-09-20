@@ -252,11 +252,9 @@
       \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
       = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
     \end{align*}
-    $\norm{z}^2\geq 0$, so
-    \begin{align*}
-      \norm{u}^2 \geq & \frac{\iprod{u}{v}^2}{\norm{v}^2} \\
-      \norm{u}\norm{v} \geq |\iprod{u}{v}|.
-    \end{align*}
+    $\norm{z}^2\geq 0$, so $
+    \norm{u}^2 \geq \frac{\iprod{u}{v}^2}{\norm{v}^2} 
+    \norm{u}\norm{v} \geq |\iprod{u}{v}|.$
   \end{proof}
 \end{frame}
 
@@ -316,12 +314,15 @@
 \section{Row, column, and null space}
 
 \subsection{Row space}
-\begin{frame}
+\begin{frame}[shrink]
   \frametitle{Row space}
   \begin{definition}
     Let $A$ be an $m$ by $n$ matrix. The \textbf{row space} of $A$,
     denoted $\row (A)$, is the space spanned by the row vectors of $A$.
   \end{definition}
+  \begin{itemize}
+  \item $\row(A) \subseteq \R^n$
+  \end{itemize}
   \begin{lemma}
     Performing Gaussian elimination does not change the row space of a
     matrix. 
@@ -346,6 +347,9 @@
     denoted $\col(A)$, is the space spanned by the column vectors of
     $A$.
   \end{definition}
+  \begin{itemize}
+  \item $\col{A} \subseteq \R^m$
+  \end{itemize}
   \begin{lemma}
     Let $A$ be an $m$ by $n$ matrix. Then $A x = b$ has a solution iff $b
     \in \col(A)$.
@@ -354,8 +358,8 @@
 
 \begin{frame}
   \begin{definition}
-    A column of a matrix, $A$, if the corresponding column of the row
-    echelon form, $A_r$, contains a pivot. 
+    A column of a matrix, $A$, is \textbf{basic} if the corresponding
+    column of the row echelon form, $A_r$, contains a pivot.
   \end{definition}
   \begin{theorem}
     The basic columns of $A$ form a basis for $\col(A)$. 
@@ -371,7 +375,7 @@
   \end{proof}    
 \end{frame}
 \begin{frame}
-  \begin{proof}[Continued]]
+  \begin{proof}[Continued]
     Now we show that $v_{i_1}, ..., v_{i_k}$ are a basis for
     $\col(A)$. Suppose
     \[ c_1 v_{i_1} + ... + c_k v_{i_k} = 0. \]
@@ -473,7 +477,130 @@
   \end{theorem}
 \end{frame}
 
+\begin{frame}\frametitle{Relationship among row, column, and null
+    spaces}
+  \begin{itemize}
+  \item $\col(A) = \row(A^T) \subseteq \R^m$
+  \item $\row(A) = \col(A^T) \subseteq \R^n$
+  \item $\mathcal{N}(A) \subseteq \R^n$ and $\mathcal{N}(A^T)
+    \subseteq \R^m$
+  \item Let $x \in \mathcal{N}(A)$, $y \in \row(A)$, what is
+    $\iprod{x}{y}$? 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Relationship among row, column, and null
+    spaces}
+  \begin{itemize}
+  \item If $x \in \mathcal{N}(A)$, $y \in \row(A) = \col(A^T)$, then
+    $\iprod{x}{y} = 0$. 
+  \item $\mathcal{N}(A)$ and $\row(A)$ are orthogonal subspaces of $\R^n$
+  \item If $x \in \mathcal{N}(A^T)$, $y \in \row(A^T) = \col(A)$, then
+    $\iprod{x}{y} = 0$. 
+  \item $\mathcal{N}(A^T)$ and $\col(A)$ are orthogonal subspaces of
+    $\R^m$
+  \item $\forall x \in \R^n$, 
+    \begin{align*}
+      A x = & A (P_{\row{A}}x + P_{\mathcal{N}(A)} x)  \\
+      = &  A (P_{\row{A}}x) + A (P_{\mathcal{N}(A)} x)  \\
+      = & A (P_{\row{A}})x \in \col(A) = \row(A^T)
+    \end{align*}
+  \item $\forall w \in \R^m$,
+    \begin{align*}
+      A^T w = & A^T (P_{\col{A}}w + P_{\mathcal{N}(A^T)} w)  \\
+      = &  A^T (P_{\col{A}}w) + A^T (P_{\mathcal{N}(A^T)} w) \\
+      = & A^T (P_{\col{A}})w \in \row(A) = \col(A^T)
+    \end{align*}    
+  \end{itemize}
+\end{frame}
+
+
 \section{Applications}
+
+\subsection{Portfolio analysis}
+
+\begin{frame}
+  \frametitle{Portfolio analysis}
+  \begin{itemize}
+  \item Model of portfolio analysis taken from Simon and Blume
+  \item Good way of reviewing results about matrices and systems of
+    linear equations 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item $A$ assets
+  \item $S$ states of nature
+  \item Initial value of $i = v_i$
+  \item After state revealed, value $y_{si}$
+  \item Realized return $R_{si} = \frac{y_{si}}{v_i}$
+  \item Matrix of returns $\underbrace{\mathcal{R}}_{S \times A}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Setup}
+  \begin{itemize}
+  \item Choosing budget shares $x_i$, $\sum_{i=1}^A x_i = 1$ (but
+    individual shares could be positive or negative), call $x =
+    (x_1,...,x_A)$ a portfolio
+  \end{itemize}
+\end{frame}
+
+\begin{frame} \frametitle{Riskless portfolios}
+  \begin{definition}
+    A portfolio is \textbf{riskless} if 
+    \begin{align*}
+      \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
+    \end{align*}
+  \end{definition}
+  \begin{itemize}
+  \item Solution to $\mathbf{c} = (c, ..., c)$
+    \begin{align*}
+      \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
+      \underbrace{\mathbf{c}}_{S \times 1}
+    \end{align*}
+  \item Exists if $\mathbf{c} \in \col(\mathcal{R})$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Insurable states}
+  \begin{definition}
+    A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
+    that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
+    0$ for all $s \neq s^*$. 
+  \end{definition}
+  \begin{itemize}
+  \item $s^*$ insurable iff $\exists$ solution to
+    \[ \mathcal{R}x = e_{s^*} \] 
+  \item So if $e_{s^*} \in \col(\mathcal{R})$
+  \item All states insurable iff $\col(\mathcal{R}) = \R^S$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Duplicable portfolios}
+  \begin{definition}
+    A portfolio $x$ is \textbf{duplicable} if there is
+    another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i
+    $ and 
+    \[ \mathcal{R} x = \mathcal{R} w. \]
+  \end{definition}
+  \begin{itemize}
+  \item i.e.\  multiple solutions to
+    \begin{align*}
+      \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} x 
+      = & \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} w
+      \\
+      \widetilde{\mathcal{R}} x = \widetilde{\mathcal{R}} w
+    \end{align*}
+    if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$ if and
+    only if $\rank \widetilde{\mathcal{R}} < A$
+  \end{itemize}
+\end{frame}
 
 \subsection{First and second welfare theorems}
 
@@ -864,90 +991,6 @@
       so $\lambda x_i + (1-\lambda) x_i' \in V_i$, but that
       contradicts what we have shown.
     \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\subsection{Portfolio analysis}
-
-\begin{frame}
-  \frametitle{Portfolio analysis}
-  \begin{itemize}
-  \item Model of portfolio analysis taken from Simon and Blume
-  \item Good way of reviewing results about matrices and systems of
-    linear equations 
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Setup}
-  \begin{itemize}
-  \item $A$ assets
-  \item $S$ states of nature
-  \item Initial value of $i = v_i$
-  \item After state revealed, value $y_{si}$
-  \item Realized return $R_{si} = \frac{y_{si}}{v_i}$
-  \item Matrix of returns $\underbrace{\mathcal{R}}_{S \times A}$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Setup}
-  \begin{itemize}
-  \item Choosing budget shares $x_i$, $\sum_{i=1}^A x_i = 1$ (but
-    individual shares could be positive or negative), call $x =
-    (x_1,...,x_A)$ a portfolio
-  \end{itemize}
-\end{frame}
-
-\begin{frame} \frametitle{Riskless portfolios}
-  \begin{definition}
-    A portfolio is \textbf{riskless} if 
-    \begin{align*}
-      \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
-    \end{align*}
-  \end{definition}
-  \begin{itemize}
-  \item Solution to $\mathbf{c} = (c, ..., c)$
-    \begin{align*}
-      \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
-      \underbrace{\mathbf{c}}_{S \times 1}
-    \end{align*}
-  \item Exists if $\mathbf{c} \in \col(\mathcal{R})$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Insurable states}
-  \begin{definition}
-    A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
-    that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
-    0$ for all $s \neq s^*$. 
-  \end{definition}
-  \begin{itemize}
-  \item $s^*$ insurable iff $\exists$ solution to
-    \[ \mathcal{R}x = e_{s^*} \] 
-  \item So if $e_{s^*} \in \col(\mathcal{R})$
-  \item All states insurable iff $\col(\mathcal{R}) = \R^S$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Duplicable portfolios}
-  \begin{definition}
-    A portfolio $x$ is \textbf{duplicable} if there is
-    another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i
-    $ and 
-    \[ \mathcal{R} x = \mathcal{R} w. \]
-  \end{definition}
-  \begin{itemize}
-  \item i.e.\  multiple solutions to
-    \begin{align*}
-      \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} x 
-      = & \begin{pmatrix} \mathcal{R} \\ 1 \cdots 1 \end{pmatrix} w
-      \\
-      \widetilde{\mathcal{R}} x = \widetilde{\mathcal{R}} w
-    \end{align*}
-    if and only if $\dim \mathcal{N}(\widetilde{\mathcal{R}})> 0$ if and
-    only if $\rank \widetilde{\mathcal{R}} < A$
   \end{itemize}
 \end{frame}
 
