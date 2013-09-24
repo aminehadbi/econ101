@@ -119,8 +119,8 @@ set
 \[ \{y  \in B:  f(x) = y \text{ for some } x \in A \} \]
 is called the \textbf{image} of $f$. 
 
-\subsection{Examples}
 
+\begin{example}
 \begin{enumerate}
 \item Production functions: $f:\R^2 \to \R$ 
   \begin{itemize}
@@ -146,6 +146,7 @@ is called the \textbf{image} of $f$.
 \end{enumerate}
 I do not expect you to remember the names of these functions, but it
 is very likely that you will repeatedly encounter them this year. 
+\end{example}
 
 \subsection{Visualizing functions}
 It is often useful to visualize a function. Simon and Blume have a
@@ -155,7 +156,7 @@ function, use a computer. \href{http://wolframalpha.com}{Wolfram
   alpha} is a pretty good website for creating a quick graph.  I'm
 sure you can find many other websites and cell phone apps with similar
 plotting capabilities. You can create nicer graphs using something
-like Matlab (or probably excel, or python, or whatever).  You are
+like R or Matlab (or probably excel, or python, or whatever).  You are
 probably familiar with indifference curves and isoquants from another
 economics course. Indifference curves and isoquants are examples of
 level sets.
@@ -273,9 +274,6 @@ following lemma.
   implies $d(f(x),f(x')) < \epsilon$.
 \end{lemma}
 \begin{proof}
-  This was going to be a question on problem set 3, but it has been
-  unassigned. 
-  
   Suppose $f$ is continuous and there is an $\epsilon>0$ such that
   such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
   $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
@@ -378,11 +376,11 @@ $f$ is \textbf{bijective}. A bijective function has an inverse.
   This counterexample is actually related to a fundamental fact in
   topology. You may remember from last lecture that topology is about
   studying spaces with open and closed sets that do not necessarily
-  have a metric. The main thing that people are interested when
-  studying such spaces is finding a continuous (in both directions)
-  bijections between them. Loosely speaking, two topological spaces
-  will have a continuous bijection between them if one can be bent and
-  stretched into the form of another. You cannot bend a circle into an
+  have a metric. One thing that people are interested when studying
+  such spaces is finding a continuous (in both directions) bijections
+  between them. Loosely speaking, two topological spaces will have a
+  continuous bijection between them if one can be bent and stretched
+  from one into the form of another. You cannot bend a circle into an
   interval without breaking the circle, so there is no continuous
   bijection between the circle and an interval. When there is a
   continuous bijection between two spaces, they have the same
