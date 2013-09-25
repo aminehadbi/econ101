@@ -118,13 +118,21 @@ assets as various stocks and the states of nature could be all
 possible combinations of prices of the stocks tomorrow. For this
 example, we will assume $A$ and $S$ are finite so that everything can
 be represented by matrices, but we could allow them to be infinite and
-use abstract linear transformations instead.  We will think about a
-single period model. At the start of the period, the value of asset $i
-\in \{1,..,A\}$ is $v_i$. Then some state of nature, $s \in \{1, ...,
-S\}$, is drawn and the value of the asset becomes $y_{si}$. The
-realized return of asset $i$ in state $s$ is $R_{si} =
-\frac{y_{si}}{v_i}$. Let $\mathcal{R}$ be the $S$ by $A$ matrix
-consisting of the $R_{si}$.
+use abstract linear transformations instead.  Considering an infinite
+number of assets is a bit of a stretch, but you could imagine bonds
+that mature at time $t$, $t+1$, $t+2$, and so on forever. Of course,
+in the real world we don't see bonds that mature arbitrarily far into
+the future. On the other hand, allowing for infinite states of nature
+$S$ is pretty reasonable. In the model a state of nature is anything
+that affects the value of the assets. Each potential combination of
+values of the assets is a single state of nature. 
+
+We will think about a single period model. At the start of the period,
+the value of asset $i \in \{1,..,A\}$ is $v_i$. Then some state of
+nature, $s \in \{1, ..., S\}$, is drawn and the value of the asset
+becomes $y_{si}$. The realized return of asset $i$ in state $s$ is
+$R_{si} = \frac{y_{si}}{v_i}$. Let $\mathcal{R}$ be the $S$ by $A$
+matrix consisting of the $R_{si}$.
 
 The investor has wealth $w_0$ is choosing to buy $n_{i}$ units or
 shares of asset $i$. The budget constraint is
@@ -138,7 +146,7 @@ The return to a portfolio $x = (x_1,...,x_A)$ in state $s$ is
   R_s = \sum_{i=1}^A \frac{y_{si}}{v_i} x_i = \sum_{i=1}^A R_{si} x_i 
 \end{align}
 \begin{definition}
-  A portfolio is \textbf{riskless} if 
+  A portfolio is \textbf{riskless} if $x \neq 0$ and
   \begin{align*}
     \sum_{i=1}^A R_{1i} x_i  =  \cdots   =\sum_{i=1}^A R_{Si} x_i 
   \end{align*}
@@ -147,18 +155,36 @@ The return to a portfolio $x = (x_1,...,x_A)$ in state $s$ is
     \underbrace{\mathcal{R}}_{S \times A} \underbrace{x}_{A \times 1} =
     \underbrace{c}_{S \times 1}
   \end{align*}
+  \footnote{This definition ignores the budget constraint,
+    $\sum_{i=1}^A x_i = 1$. This is okay because if $x$ is riskless,
+    so is $\alpha x$ for any scalar $\alpha$, and we can adjust
+    $\alpha$ to meet the budget constraint.}
 \end{definition}
-A riskless portfolio has the same return in all states of nature. When
-does a riskless portfolio exist? A riskless portfolio solves
+A riskless portfolio has the same return in all states of nature.
+
+When does a riskless portfolio exist? A riskless portfolio solves
 \[ \mathcal{R} x = c \] where $c$ is an $S$ by $1$ vector with all
 entries equal. We know that this equation has a solution if $ c \in
 \col(\mathcal{R})$. 
+
+If there is a riskless portfolio, then buying that portfolio ensures
+the same return in all states of nature. A person may not want an
+entirely riskless portfolio, but could be interested in insuring against
+risk associated with a particular state. For example, suppose $s^*$ is
+a state of the world where the demand for economists has collapsed. In
+this state, economists' labor income will be lower. A risk averse
+economist would like to insure against this outcome by buying a
+portfolio that has a large return in state $s^*$. 
 \begin{definition}
-  A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x$ such
-  that $\sum_{a=1}^A R_{s^*a} x_a > 0$ and $\sum_{a=1}^A R_{sa} x_a =
+  A state $s^*$ is \textbf{insurable} if $\exists$ portfolio $x^*$ such
+  that $\sum_{a=1}^A R_{s^*a} x_a^* > 0$ and $\sum_{a=1}^A R_{sa} x_a^* =
   0$ for all $s \neq s^*$. 
 \end{definition}
-If state $s^*$ is insurable, then there must be a solution to 
+If $s^*$ is insurable, then buying portfolio $x^*$ lets a person
+transfer income from other states to $s^*$. 
+
+When are state insurable? If state $s^*$ is insurable, then there must
+be a solution to
 \[ \mathcal{R}x = e_{s^*} \] As above, state $s^*$ is insurable if and
 only if $e_{s^*} \in \col(\mathcal{R})$. If all states are insurable,
 then $\col(\mathcal{R}) = \R^S$ and $\rank \mathcal{R} = S$. In
@@ -166,6 +192,15 @@ particular, if all states are insurable, then there are at least as
 many assets as states. Also, in that case, we must also have a
 riskless portfolio. This makes sense, if every state is insurable, we
 should be able to eliminate all risk. 
+
+From the above we saw that if $\rank \mathcal{R} = S$ then there are
+portfolios that eliminate all risk. For this to be the case there must
+be at least as many (linearly independent) assets as states. Is there
+anything to be gained by having more assets than states? Potential
+realized returns are in $\col(\mathcal{R})$. If $\col(\mathcal{R}) =
+\R^S$ already, adding extra assets (which are rows) will not change 
+$\col(\mathcal{R})$, so there is no change in the set of possible
+outcomes. 
 \begin{definition}
   A portfolio $x$ is \textbf{duplicable} if there is
   another portfolio $w$ such that $\sum_{i=1}^A x_i = \sum_{i=1}^A w_i

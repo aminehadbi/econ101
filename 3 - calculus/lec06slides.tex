@@ -191,6 +191,39 @@
   \end{proof}
 \end{frame}
 
+\subsection*{Series}
+\begin{frame}\frametitle{Series}
+  \begin{definition}
+    Let $\seq{x}$ be a sequence in a normed vector space. Let $s_n =
+    \sum_{i=1}^n x_i$ denote the sum of the first $n$ elements of the
+    sequence. We call $s_n$ the $n$th partial sum. We define the sum of
+    all the $x_i$s as
+    \[ \sum_{i=1}^\infty x_i \equiv \lim_{n \to \infty} s_n \]
+    This is called a(n infinite) \textbf{series}. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}[shrink]\frametitle{Series}
+  \begin{example}
+    Geometric series: $\sum_{i=0}^\infty \beta^i$ where $\beta \in \R$
+    has partial sums:    
+    \begin{align*}
+      s_n = & 1 + \beta + \beta^2 + \cdots + \beta^n \\
+      = & 1 + \beta ( 1 + \beta + \cdots + \beta^{n-1} ) \\
+      = & 1 + \beta ( 1 + \beta + \cdots + \beta^{n-1} + \beta^n) -
+      \beta^{n+1} \\
+      s_n(1 - \beta) = & 1 - \beta^{n+1} \\
+      s_n = & \frac{1 - \beta^{n+1}}{1-\beta} ,
+    \end{align*}
+    so, 
+    \begin{align*}
+      \sum_{i=0}^\infty \beta^i = & \lim s_n \\
+      = & \lim \frac{1 - \beta^{n+1}}{1-\beta} \\
+      = & \frac{1}{1-\beta} \text{ if } |\beta|<1.
+    \end{align*}
+  \end{example}  
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Cauchy sequences}
 
