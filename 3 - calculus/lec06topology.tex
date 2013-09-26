@@ -465,7 +465,7 @@ set.
   Any linear subspace of dimension $k < n$ in $\R^n$ is not open. 
 \end{example}
 
-\begin{theorem}
+\begin{theorem} $\,$
   \begin{enumerate} \label{thm:uio}
   \item Any union of open sets is open. (finite or infinite)
   \item The \emph{finite} intersection of open sets is open.
@@ -507,7 +507,7 @@ A closed set is the opposite of an open set.
 \begin{definition}
   A set $S \subseteq X$ is closed if its complement, $X^c$, is open. 
 \end{definition}
-\begin{theorem} \label{thm:uic}
+\begin{theorem} $\;$\label{thm:uic}
   \begin{enumerate}
   \item The intersection of any collection of closed sets is closed.
   \item\label{uic2} The union of any finite collection of closed sets is closed. 
@@ -532,8 +532,10 @@ A closed set is the opposite of an open set.
   \end{enumerate}
 \end{example}
 
-Simon and Blume define closed sets differently, but the next theorem
-shows that their definition is equivalent to ours. 
+Closed sets can also be defined as sets that contain the limit of any
+convergent sequence in the set. Simon and Blume use this
+definition. The next theorem shows that their definition is equivalent
+to ours.
 \begin{theorem}\label{thm:clim}
   Let $\{x_n\}$ be any convergent sequence with each element contained
   in a set $C$. Then $\lim x_n = x \in C$ for all such $\{x_n\}$ if
@@ -543,11 +545,11 @@ shows that their definition is equivalent to ours.
   First, we will show that any set that contains the limit points of
   all its sequences is closed. Let $x \in C^c$. Consider
   $N_{1/n}(x)$. If for any $n$, $N_{1/n}(x) \subset C^c$, then $C^c$
-  could be open. If for all $n$, $N_{1/n}(x) \not \subset C^c$, then $\exists y_n
-  \in N_{1/n}(x) \cap C$. The sequence $\{y_n\}$ is in $C$ and $y_n
-  \to x$. However, by assumption $C$ contains the limit of any
-  sequence within it. Therefore, there can be no such $x$, and $C^c$
-  must be open and $C$ is closed. 
+  is open, and $C$ is closed as desired. If for all $n$, $N_{1/n}(x)
+  \not \subset C^c$, then $\exists y_n \in N_{1/n}(x) \cap C$. The
+  sequence $\{y_n\}$ is in $C$ and $y_n \to x$. However, by assumption
+  $C$ contains the limit of any sequence within it. Therefore, there
+  can be no such $x$, and $C^c$ must be open and $C$ is closed.
 
   Suppose $C$ is closed. Then $C^c$ is open. Let $\{x_n\}$ be in $C$
   and $x_n \to x$. Then $d(x_n, x) \to 0$, and for any $\epsilon > 0$,
@@ -569,7 +571,7 @@ shows that their definition is equivalent to ours.
   If $S$ is closed, $\overline{S} = S$. 
 \end{example}
 \begin{example}
-  $overline{(0,1]} = [0,1]$
+  $\overline{(0,1]} = [0,1]$
 \end{example}
 \begin{lemma}\label{lem:closure}
   $\overline{S}$ is the set of limits of convergent sequences in $S$.
@@ -720,9 +722,8 @@ to other properties of sets, such as closed/open.
 \end{proof}
 
 The definition of compactness is somewhat abstract. We just saw that
-compact sets are always closed. In $\R^n$, compactness is equivalent
-to being closed and bounded, two properties that are easier to
-understand.
+compact sets are always closed. Another property of compact sets is
+that they are bounded. 
 \begin{definition}
   Let $X$ be a metric space and $S \subseteq X$. $S$ is
   \textbf{bounded} if $\exists x_0 \in S$ and $r \in \R$ such that 
@@ -738,7 +739,7 @@ $\norm{x} < M$ for all $x \in S$.
   Let $K \subseteq X$ be compact. Then $K$ is bounded. 
 \end{lemma}
 \begin{proof}
-  Pick $x_0 \in K$. $\{N_{r}(x_0) \}_{r \in R}$ is an open cover of
+  Pick $x_0 \in K$. $\{N_{r}(x_0) \}_{r \in \R}$ is an open cover of
   $K$, so there must be a finite subcover. The finite subcover has
   some maximum $r^*$. Then $K \subseteq N_{r^*}(x_0)$, so $K$ is bounded.
 \end{proof}
@@ -756,45 +757,49 @@ is also true.
   Now suppose $S$ is closed and bounded. Since $S$ is bounded, it is a
   subset of some $n$-dimensional cube, say $[-a,a]^n$ (i.e.\ the set
   of all vectors $x = (x_1,..,x_n)$ with $-a \leq x_i \leq a$).  We
-  will show (1) $[-a,a]^n$ is compact, and then (2) a closed subset of
-  a compact set is compact. 
+  will show $[-a,a]^n$ is compact, and then use the fact that a
+  closed subset of a compact set is compact.
 
-  Let's just show (1) for $n=1$. If $[-a,a]$ is not compact, then
-  there is an infinite open cover with no finite subcover. If we cut
-  the interval into two halves, $[-a,0]$ and $[0,a]$, at least one of
-  them must have an infinite open cover with no finite subcover. We
-  can repeat this argument many times to get nested closed intervals
-  of length $a/(2^k)$ for any $k$. Call the $k$th interval $I_k$. We
-  claim that $\cap_{k=1}^\infty I_k \neq \emptyset$. To show this take
-  the sequence of lower endpoints of the intervals, call it
+  Let's just show $[-a,a]^n$ is compact for $n=1$. The argument for
+  larger $n$ is similar, but the notation is more cumbersome. If
+  $[-a,a]$ is not compact, then there is an infinite open cover with
+  no finite subcover, say $\{G_\alpha\}_{\alpha \in \mathcal{A}}$. If
+  we cut the interval into two halves, $[-a,0]$ and $[0,a]$, at least
+  one of them must have no finite subcover. We can repeat this
+  argument many times to get nested closed intervals of length
+  $a/(2^k)$ for any $k$. Call the $k$th interval $I_k$. We claim that
+  $\cap_{k=1}^\infty I_k \neq \emptyset$. To show this take the
+  sequence of lower endpoints of the intervals, call it
   $\seq{x}$. This is a Cauchy sequence, so it converges to some limit,
   $x_0$. Also, for any $k$, $\{x_n\}_{n=k}^\infty$ is a sequence in
   $I_k$. $I_k$ is closed so $x_0 \in I_k$. Thus $x_0 \in
-  \cap_{k=1}^\infty I_k$. On the other hand, there is supposed to be an
-  infinite open cover of $I_k$ for each $k$. $x_0$ must be in some
-  open $G_\alpha$ as part of this cover. Then $\exists \epsilon>0$
-  such that $N_\epsilon(x_0) \subset G_\alpha$. However, for $k$ large
-  enough, $I_k \subset N_\epsilon(x_0) \subset G_\alpha$, and then we
-  would have a finite subcover. Therefore, $[-a,a]$ must be
-  compact. The argument for $n>1$ is very similar.
-
-  Now, let $G_\alpha$ be an open cover of $S$. Then $G_\alpha$ and
-  $S^c$ is an open cover for $[-a,a]^n$. $[-a,a]^n$ is compact so
-  there must be a finite subcover. This finite subcover is also
-  contains $S$, so $S$ is compact.
+  \cap_{k=1}^\infty I_k$. On the other hand, $I_k \subset \cup_{\alpha
+    \in \mathcal{A}} G_\alpha$ for all $k$. Therefore, $x_0$ must be
+  in some open $G_\alpha$ as part of this cover. Then $\exists
+  \epsilon>0$ such that $N_\epsilon(x_0) \subset G_\alpha$. However,
+  for $k>1/\epsilon$, $I_k \subset N_\epsilon(x_0) \subset G_\alpha$,
+  and then $I_k$ has a finite subcover. Therefore, $[-a,a]$ must be
+  compact. The argument for $n>1$ is very similar. For $n=2$, we would
+  divide the square $[-a,a]^2$ into four smaller squares. For $n=3$,
+  we would divide the cube into eight smaller cubes. In general we
+  would divide the hypercube $[-a,a]^n$ into $2^n$ hypercubes with
+  half the side length. 
 \end{proof}
 You may wonder whether closed and bounded sets are always compact. We
 know that all finite dimensional real vector spaces are isomorphic to
 $\R^n$. In any such space, sets are compact iff they are closed and
 bounded. However, in infinite dimensional spaces, there are closed and
-bounded sets that are not compact.
+bounded sets that are not compact. The argument in the previous proof
+does not apply to infinite-dimensional spaces because an infinite
+dimensional hypercube can only be divided into infinitely many
+hypercubes with half the side length. 
 \begin{example}
   $\ell^\infty = \{ (x_1, x_2, ...) : \sup_{i} |x_i| < \infty$ with
   norm $\norm{x} = \sup_{i} |x_i|$ is a normed vector space. Let $e_i$
   be the element of all $0$s except for the $i$th position, which is
   $1$. Then $E = \{e_i\}_{i=1}^\infty$ is closed and bounded. However,
   $E$ is not compact because $\{N_{1/2}(e_i)\}_{i=1}^\infty$ is an
-  open with no finite subcover. 
+  open cover with no finite subcover. 
 \end{example}
 
 We saw that closed sets contain the limit points of all their
@@ -806,30 +811,52 @@ and sequences.
   accumulation point in $K$.
 \end{definition}
 Sometimes this definition is written as: $K$ is sequentially compact
-if every sequence in $K$ has a subsequence that converges in $K$. In
-$\R^n$, a set is sequentially compact iff it is compact. 
+if every sequence in $K$ has a subsequence that converges in
+$K$. Compactness implies sequential compactness. 
+\begin{lemma}\label{lem:compactSeqCompact}
+    Let $X$ be a metric space and $K \subseteq X$ be compact. Then $K$
+    is sequentially compact. 
+\end{lemma}
+\begin{proof}
+  Let $\seq{x}$ be a sequence in
+  $K$. Pick any $\epsilon>0$, $N_\epsilon(x)$, $x \in K$ is an open
+  cover of $K$, so there is a finite subcover. Therefore, one of the
+  $\epsilon$ neighborhoods must contain an infinite number of the
+  elements from the sequence. Call this neighborhood
+  $N_\epsilon(x_1^\ast)$. Pick the smallest $n$ such that $x_n \in
+  N_\epsilon(x_1^\ast)$ and call it $n_1$. $\overline{N_{\epsilon}(x_1^\ast)}
+  \cap K$ is a closed subset of the compact set $K$, so is itself
+  compact. Repeat the above argument with $\epsilon/2$ in place of
+  $\epsilon$ and $\overline{N_{\epsilon}(x_1^\ast)} \cap K$ in place of $K$
+  to find an $n_2$, $n_3$, etc. Then the subsequence $x_{n_1},
+  x_{n_2}, ...$ is a Cauchy sequence, so it converges. Its limit is an
+  accumulation point. Its limit must be in $K$ because $K$ is compact,
+  and so, closed. Therefore, $K$ is sequentially compact.
+\end{proof}
+
+In $\R^n$, a set is sequentially compact iff it is compact iff it is
+closed and bounded.
 \begin{theorem}[Bolzano-Weierstrass] \label{thm:bw}
   A set $S \subseteq \R^n$ is closed and bounded if and only if it is
   sequentially compact. 
 \end{theorem}
 \begin{proof}
   Let $S$ be closed and bounded. By the Heine-Borel theorem
-  (\ref{thm:hb}), $S$ is compact. Let $\seq{x}$ be a sequence in
-  $S$. For any $\epsilon>0$, $N_\epsilon(x)$, $x \in S$ is an open
-  cover of $S$, so there is a finite subcover. Therefore, one of the
-  $\epsilon$ neighborhoods must contain an infinite number of the
-  elements from the sequence. This subsequence is a Cauchy sequence,
-  so it converges. Its limit is an accumulation point. Therefore, $S$
-  is sequentially compact.
+  (\ref{thm:hb}), $S$ is compact. By lemma
+  \ref{lem:compactSeqCompact}, $S$ is sequentially compact. 
 
   Let $S$ be sequentially compact. Let $\{x_n\}$ be a convergent
   sequence in $S$. Its limit is an accumulation point, so it must be
   in $S$. Therefore, $S$ is closed. To show $S$ is bounded, pick $x_0
   \in S$. Suppose $\exists x_1 \in S$ such that $d(x_1, x_0) \geq 1$,
-  and $x_2 \in S$ such that $d(x_2, x_0) \geq 2$, etc. This would form
-  a sequence in $S$ with no accumulation points. Therefore, it must
-  not always be possible to find such $x_n$. In other words, $S$ must
-  be bounded.
+  and $x_2 \in S$ such that $d(x_2, x_0) \geq 2$ etc. This sequence is
+  not Cauchy because of the reverse triangle inequality,  
+  \begin{align*}
+    d(x_i,x_j) \geq & \abs{d(x_i,x_0) - d(x_j,x_0) } = |i-j|
+  \end{align*}  
+  Therefore, this would be a sequence in $S$ with no accumulation
+  points. Therefore, it must not always be possible to find such
+  $x_n$. In other words, $S$ must be bounded.
 \end{proof}
 
 \begin{remark}
@@ -843,29 +870,23 @@ Bolzano-Weierstrass theorem is longer. Perhaps unsurprisingly, the
 details of their proof are somewhat similar to our proof of the
 Heine-Borel theorem.
 
-So in $\R^n$, compactness, sequential compactness, and closed and
-bounded are all the same. In general metric spaces, this need not be
-true. We saw above that in infinite dimensional normed vector spaces,
-there are closed and bounded sets which are not compact. 
-However it is always true that sequential compactness and
-compactness are the same for metric spaces. It is not very hard to
-show that compactness implies sequential compactness. This is done in
-the first paragraph of the proof below. The proof that sequential
-compactness implies compactness is a somewhat long and difficult, and
-you may want to skip it unless you are especially interested.
+In $\R^n$, compactness, sequential compactness, and closed and bounded
+are all the same. In general metric spaces, this need not be true. We
+saw above that in infinite dimensional normed vector spaces, there are
+closed and bounded sets which are not compact.  However it is always
+true that sequential compactness and compactness are the same for
+metric spaces. We already showed that compactness implies sequential
+compactness.  The proof that sequential compactness implies
+compactness is a somewhat long and difficult, and you may want to skip
+it unless you are especially interested.
 \begin{theorem}
   Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
   only if $K$ is sequentially compact. 
 \end{theorem}
 \begin{proof}
-  Let $K$ be compact. If $\{x_n\}$ is a sequence in $K$ with no
-  accumulation point in $K$, then each $x_n$ has some neighborhood
-  with $N_{\epsilon_n}(x_n) \cap K = \{x_n\}$. The collection
-  $N_{\epsilon_n}(x_n)$ along with the complement of the closure the
-  set of $\{x_n\}$ is an open cover for $K$, but there can be no
-  finite subcover. Therefore, $\{x_n\}$ must has an accumulation point
-  in $K$ when $K$ is compact.
-
+  Lemma \ref{lem:compactSeqCompact} shows that if $K$ is compact, then
+  $K$ is sequentially compact.
+  
   Suppose every sequence in $K$ has a convergent subsequence with a
   limit point in $K$. Let $G_{\alpha}$, $\alpha \in \mathcal{A}$ be an
   open cover of $K$. $\mathcal{A}$ could be uncountable, so we will
@@ -936,7 +957,7 @@ things hold:
 \item The set is closed and bounded.
 \end{enumerate}
 In infinite dimensional spaces, closed and bounded sets need not be
-compact. In any metric space, a set is compact iff it is sequentially
-compact. 
+compact, but compact sets are always closed and bounded. In any metric
+space, a set is compact iff it is sequentially compact.
 
 \end{document}
