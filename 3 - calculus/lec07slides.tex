@@ -54,7 +54,7 @@
 \newcommand{\pref}{\succ}
 \newcommand{\seq}[1]{\{{#1}_n \}_{n=1}^\infty }
 \renewcommand{\to}{{\rightarrow}}
-
+\newcommand{\corres}{\overrightarrow{\rightarrow}}
 
 \title{Functions}
 \author{Paul Schrimpf}
@@ -90,7 +90,7 @@
 \end{frame}
 \subsection{Examples}
 
-\begin{frame}
+\begin{frame}[shrink]
   \frametitle{Examples}
   \begin{enumerate}
   \item Production functions: $f:\R^2 \to \R$ 
@@ -228,7 +228,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[shrink]
   \frametitle{$\epsilon-\delta$ definition of continuity}
   \begin{lemma}\label{lem:ced}
     $f: X \to Y$ is continuous at $x$ if and only if for every
@@ -253,7 +253,7 @@
   \end{proof}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[shrink]
   \frametitle{Topological definition of continuity}
   \begin{definition}
     Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
@@ -265,9 +265,7 @@
     $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
     open $V \subseteq Y$. 
   \end{lemma}
-  \begin{proof}
-    On problem set.
-  \end{proof}
+
   \begin{corollary}
     $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is closed for all
     closed $V \subseteq Y$. 
@@ -361,6 +359,56 @@
       \end{itemize}
     \end{example}
   \end{itemize}
+\end{frame}
+
+\section{Correspondences}
+
+\begin{frame}\frametitle{Correspondence}
+  \begin{definition}
+    A \textbf{correspondence} from a set $X$ to a set $Y$, is a rule
+    that assigns to each a $x \in X$ a subset of $Y$. We denote a
+    correspondence by $\phi: X \corres Y$.
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Budget correspondence]
+    \begin{itemize}
+    \item $n$ goods with prices $p \in \R^n$. 
+    \item Income of $m$, a consumer can afford $\chi(p,m)=\{ x \in X \subseteq
+      \R^n: p'x \leq m\}$
+    \item Consumer's problem
+      \begin{align*}
+        \max_{x \in \chi(p,m)} u(x) 
+      \end{align*}
+    \item Indirect utility function
+      \[ v(p,m) = \max_{x \in \chi(p,m)} u(x). \]
+    \item The demand correspondence (usually function) is
+      \[ x^*(p,m) = \argmax_{x \in \chi(p,m)} u(x). \] 
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{Continuity}
+\begin{frame}\frametitle{Continuity}
+  INSERT PICTURE OF upper and lower hemicontinuous  
+\end{frame}
+
+\begin{frame}\frametitle{Continuity}
+  \begin{definition}
+    A correspondence, $\phi: X \corres Y$ is \textbf{upper hemicontinuous} at $x$
+    if for all sequences $x_n \to x$ and $y_n \in \phi(x_n)$ with $y_n
+    \to y$, then $y \in \phi(x)$. 
+  \end{definition}
+  \begin{definition}
+    A correspondence, $\phi: X \corres Y$ is \textbf{lower hemicontinuous} at $x$
+    if for all sequences $x_n \to x$ and $y \in \phi(x)$, there exists a
+    subsequence, $x_{nk}$ and $y_k \in \phi(x_{nk})$ with $y_k \to y$.  
+  \end{definition}
+  \begin{definition}
+    A correspondence is \textbf{continuous} at $x$ if it is both upper
+    and lower hemicontinuous at $x$
+  \end{definition}
 \end{frame}
 
 \end{document}

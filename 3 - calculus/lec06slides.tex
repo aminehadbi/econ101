@@ -488,13 +488,29 @@
 \section{Compact sets}
 
 \begin{frame}
-  \frametitle{Compact sets}
+  \frametitle{Open cover}
   \begin{definition}
     An \textbf{open cover} of a set $S$ is a collection of open sets,
     $\{G_\alpha\}$  $\alpha \in \mathcal{A}$ such that $S \subset
     \cup_{\alpha \in \mathcal{A}} G_\alpha$. 
   \end{definition}
-  
+  \begin{example}
+    Some open covers of $\R$ are:
+    \begin{itemize}
+    \item $\{\R\}$ 
+    \item $\{(-\infty, 1), (-1, \infty)$
+    \item $\{..., (-3, -1), (-2, 0),(-1,1), (0,2), (1,3), ... \}$
+    \item $\{(x,y) : x<y \}$
+    \end{itemize}
+  \end{example}
+  \begin{example}
+    Let $X$ be a metric space and $A \subseteq X$ and $\epsilon>0$. 
+    $\{N_\epsilon(x)\}_{x \in A}$ is an open cover of $A$
+  \end{example}  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compact sets}
   \begin{definition}
     A set $K$ is \textbf{compact} if every open cover of $K$ has a
     finite subcover. 
@@ -509,6 +525,46 @@
     \epsilon, i\epsilon/2 + \epsilon)$
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \begin{example}
+    $\R$ is not compact. $\{..., (-3, -1), (-2, 0),(-1,1), (0,2), (1,3),
+    ... \}$ is an infinite cover, but if we leave out any single
+    interval (the one beginning with $n$) we will fail to cover
+    some number ($n+1$).
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Let $K = \{x\}$, a set of a single point. Then $K$ is compact. Let
+    $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ be an open cover of
+    $K$. Then $\exists$ $\alpha$ such that $x \in G_\alpha$. This single
+    set is a finite subcover.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    Let $K = \{x_1, ..., x_n\}$ be a finite set. Then $K$ is
+    compact.  Let
+    $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ be an open cover of
+    $K$. Then for each $i$, $\exists$ $\alpha_i$ such that $x_i \in
+    G_{\alpha_i}$. 
+    The collection $\{G_{\alpha_1}, ... G_{\alpha_n} \}$ is a finite
+    subcover.
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    $(0,1) \subseteq \R$ is not compact. $\{(1/n,1)\}_{n=2}^\infty$ is
+    an open cover, but there can be no finite subcover. Any finite
+    subcover would have a largest $n$ and could not contain,
+    e.g. $1/(n+1)$. 
+  \end{example}
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Compact sets}
@@ -544,26 +600,26 @@
 \end{frame}
 
 \begin{frame}
+  \begin{lemma}
+    Let $K \subseteq X$ be compact. Then $K$ is bounded. 
+  \end{lemma}
+  \begin{proof}
+    Pick $x_0 \in K$. $\{N_{r}(x_0) \}_{r \in \R}$ is an open cover of
+    $K$, so there must be a finite subcover. The finite subcover has
+    some maximum $r^*$. Then $K \subseteq N_{r^*}(x_0)$, so $K$ is bounded.
+  \end{proof}
+\end{frame}
+
+\begin{frame}
   \begin{theorem}[Heine-Borel]\label{thm:hb}
     A set $S \subseteq \R^n$ is compact if and only if it is closed and
     bounded. 
   \end{theorem}
   \begin{proof}
     \begin{itemize}
-    \item[1] Compact $\Rightarrow$ closed and bounded
-      \begin{itemize}
-      \item Closed from lemma 1
-      \item Bounded: pick $\epsilon>0$.
-      \item Open cover $N_\epsilon(x)$ 
-      \item Finite subcover
-        $N_\epsilon(x_0), N_{\epsilon}(x_1), ... ,N_{\epsilon}(x_n)$
-      \item Triangle inequality, 
-        \begin{align}
-          d(x_0,x) \leq & d(x_0,x_j) + d(x_j,x) < d(x_0,x_j) +
-          \epsilon \\
-          d(x_0,x) < & \max_{j\in\{1, ..., n\}} d(x_0,x_j) + \epsilon 
-        \end{align}
-      \end{itemize}
+    \item[1] Compact $\Rightarrow$ closed and bounded shown by last
+      two lemmas (regardless of whether $S \subseteq \R^n$ or some
+      other space)
     \end{itemize}
   \end{proof}
 \end{frame}
@@ -582,12 +638,30 @@
         \item $\cap_{k=1}^\infty I_k \neq \emptyset$ because $I_k$
           closed and nested
         \item But eventually $I_k \subset N_\epsilon(x)$ for any
-          $\epsilon>0$  
+          $\epsilon>0$ and we have a finite subcover
         \end{itemize}
       \item[2.2] Closed subset of compact set is compact
       \end{itemize}
     \end{itemize}
   \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+  \item Always compact $\Rightarrow$ close and bounded
+  \item In $\R^n$ closed and bounded $\Rightarrow$ compact
+  \item In infinite dimensional spaces, a set can be closed and
+    bounded but not compact
+  \end{itemize}
+  \begin{example}
+    $\ell^\infty = \{ (x_1, x_2, ...) : \sup_{i} |x_i| < \infty$ with
+    norm $\norm{x} = \sup_{i} |x_i|$ 
+    \begin{itemize}
+    \item $e_i = $ all $0$s except for a $1$ in the  $i$th position
+    \item $E = \{e_i\}_{i=1}^\infty$ is closed and bounded
+    \item $E$ is not compact 
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 \begin{frame}
@@ -597,30 +671,63 @@
     \textbf{sequentially compact} if every sequence in $K$ has an
     accumulation point in $K$.
   \end{definition}
+  \begin{example}
+    \begin{itemize}
+    \item $[0,1] \subseteq \R$ is sequentially compact
+    \item $\mathbb{N} \subseteq \R$ is not sequentially compact
+    \item $(0,1) \subseteq \R$ is not sequentially compact
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}\frametitle{Compact $\Rightarrow$ sequentially compact}
+  \begin{lemma}\label{lem:compactSeqCompact}
+    Let $X$ be a metric space and $K \subseteq X$ be compact. Then $K$
+    is sequentially compact. 
+  \end{lemma}
+  \begin{proof}
+    \begin{itemize}
+    \item Given $\seq{x}$, construct Cauchy sub-sequence:
+      \begin{itemize}
+      \item  Pick any $\epsilon>0$, $N_\epsilon(x)$, $x \in K$ is an open
+        cover of $K$, so there is a finite subcover, so $\exists$
+        $x^\ast$ s.t. infinite $x_n \in N_\epsilon(x^\ast$)
+      \item Let $n_1$ be smallest $n$ s.t. $x_n \in N_\epsilon(x^\ast)$
+      \item Repeat with $\tilde{K} = \overline{N_\epsilon(x^\ast)} \cap
+        K$ instead of $K$ and $\epsilon/2$ instead of $\epsilon$
+      \end{itemize}
+    \item Conclude $K$ sequentially compact
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sequentially compact $\Rightarrow$ compact}
+  \begin{theorem}
+    Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
+    only if $K$ is sequentially compact. 
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item Already showed compact $\Rightarrow$ sequentially compact
+    \item See notes for proof that sequentially compact $\Rightarrow$
+      compact 
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
   \begin{theorem}[Bolzano-Weierstrass] \label{thm:bw}
     A set $S \subseteq \R^n$ is closed and bounded if and only if it is
     sequentially compact. 
   \end{theorem}
-\end{frame}
-
-\begin{frame}
-  \begin{proof}
-    \begin{itemize}
-    \item Closed and bounded $\Rightarrow$ sequentially compact
-      \begin{itemize}
-      \item Closed and bounded implies compact
-      \item Compact implies any sequence must have a Cauchy subsequence 
-      \item Cauchy sequences converge
-      \end{itemize}
-    \item Sequentially compact $\Rightarrow$ closed and bounded
-      \begin{itemize}
-      \item Closed: limits of convergent sequences are the sequence's
-        accumulation point
-      \item Bounded: otherwise can construct sequence with no
-        accumulation points
-      \end{itemize}
-    \end{itemize}
-  \end{proof}
+  \begin{itemize}
+  \item In $\R^n$, compact, sequentially compact, and closed and
+    bounded are all equivalent
+  \end{itemize}
+  \begin{corollary}
+    Every bounded sequence in $\R^n$ has a convergent subsequence.
+  \end{corollary}
 \end{frame}
 
 \begin{frame}
@@ -635,44 +742,11 @@
     \end{enumerate}
   \item In metric spaces that are not $\R^n$, \ref{cfsc} and \ref{csc}
     are still equivalent, but \ref{ccb} is not
-  \item In non-metrizable topological spaces, all three can be
-    different 
+  %\item In non-metrizable topological spaces, all three can be
+  %  different 
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \begin{theorem}
-    Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
-    only if $K$ is sequentially compact. 
-  \end{theorem}
-  \begin{proof}
-    \begin{itemize}
-    \item Compact $\Rightarrow$ sequentially compact
-      \begin{itemize}
-      \item  If $\{x_n\}$ is a sequence in $K$ with no
-        accumulation point in $K$, then each $x_n$ has some neighborhood
-        with $N_{\epsilon_n}(x_n) \cap K = \emptyset$
-      \item $N_{\epsilon_n}(x_n)$ along with the complement of the closure the
-        set of $\{x_n\}$ is an open cover for $K$, but there can be no
-        finite subcover.
-      \end{itemize}
-    \item Sequentially compact $\Rightarrow$ compact
-      \begin{itemize}
-      \item In notes, optional
-      \end{itemize}
-    \end{itemize}
-  \end{proof}
-\end{frame}
-
-\begin{frame}
-  To review, in $\R^n$ a set is compact if any of the following three
-  things hold:
-  \begin{enumerate}
-  \item For every open cover there exists a finite subcover,
-  \item Every sequence in the set has a convergent subsequence, or
-  \item The set is closed and bounded.
-  \end{enumerate}
-\end{frame}
 
 \end{document}
 
