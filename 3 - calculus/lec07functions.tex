@@ -108,7 +108,7 @@
 
 \section{Definition and examples}
 
- We have already used functions in this course, so perhaps we should
+We have already used functions in this course, so perhaps we should
 have defined them earlier. Anyway, a \textbf{function} from a set $A$
 to a set $B$ is a rule that assigns to each $a \in A$ one and only one
 $b \in B$. If we want to call this function $f$, we denote this by
@@ -120,7 +120,7 @@ set
 is called the \textbf{image} of $f$. 
 
 
-\begin{example}
+\begin{example}$\;$
 \begin{enumerate}
 \item Production functions: $f:\R^2 \to \R$ 
   \begin{itemize}
@@ -255,6 +255,76 @@ Next, we generalize polynomials to $\R^n$.
   degree of the polynomial.
 \end{definition}
 
+A useful property of linear functions is that for scalars $t$, $f(t x)
+= t f(x)$. Functions can have this sort of property even why they are
+not linear. For example, a Cobb-Douglas production function $f: \R^2
+\to \R$ defined by
+\[ f(x) = x_1^{\alpha} x_2^{1-\alpha} \]
+with $\alpha \in [0,1]$ satisfies 
+\[ f(t x) = (t x_1)^{\alpha}(t x_2)^{1-\alpha} = t x_1^{\alpha}
+x_2^{1-\alpha} = t f(x). \]
+\begin{definition}
+  A function $f: V \to W$ which $V$ and $W$ are real vector spaces is
+  \textbf{homogenous of degree k} if 
+  \[ f( t x) = t^k f(x) \]
+  for all $x \in V$, $t \in \R$.
+\end{definition}
+\begin{example}
+  Linear functions are homogenous of degree $1$.
+\end{example}
+\begin{example}
+  A production function that is homogenous of degree $1$ has constant
+  returns to scale because doubling each of the inputs doubles the
+  output. A production function that is homogenous of degree less than
+  $1$ has decreasing returns to scale. A production of that is
+  homogenous of degree greater than $1$ has increasing returns to
+  scale. 
+\end{example}
+Functions need not be homogenous at all. 
+\begin{example}
+  An affine transformation, $f(x) = Ax + b$, is not homogenous if $b
+  \neq 0$. 
+\end{example}
+
+
+In economics, especially when working with utility functions, we do
+not care about the exact value of a function, but rather how it ranks
+various bundles of goods. If $u: X \to \R$, where $X$ is a metric
+space, is a utility function, then $x_1$ is (weakly) preferred to
+$x_2$ if $u(x_1) \geq u(x_2)$. If we multiply $u$ by a positive
+constant the preferences over goods do not change. Similarly, if
+replace $u$ with $\exp( u(\cdot))$, the preferences over goods would
+not change. 
+\begin{definition}
+  Let $f: \R \to \R$. $f$ is \textbf{strictly increasing} if for all
+  $x_1 > x_2$, $f(x_1) > f(x_2)$.
+  
+  $f$ is  \textbf{strictly decreasing} if for all
+  $x_1 > x_2$, $f(x_1) < f(x_2)$.
+
+  $f$ is \textbf{strictly monontonic} if it is either strictly
+  increasing or decreasing. 
+
+  If the strict inequalities ($<$ and $>$) are replaced with weak
+  inequalities ($\leq$ and $\geq$), then we would say $f$ is
+  \textbf{weakly} increasing / decreasing / monotonic. 
+\end{definition}
+Multiplying by a positive constant and exponentiation are both
+examples of strictly increasing functions. Monotonic functions can
+transform a homogenous function into a non-homogenous function. For
+example the identity function, $I: \R \to \R$ defined by $I(x) = x$ is
+homogenous of degree one, but $\exp(x)$ is not homogenous, nor is $x +
+1$. When dealing with utility functions it is useful to recognize when
+a function is a monotonic transformation away from being homogenous.
+\begin{definition}
+  Let $f: V \to \R$ where $V$ is a vector space. $f$ is
+  \textbf{homothetic} if $\exists$ a homogenous $g: V \to \R$ and a
+  monotonic $h: \R \to \R$ asuch that $h \circ g: V \to R$ defined by
+  $(h \circ g) (x) = h(g(x))$ is equal to $f$.
+\end{definition}
+% FIXME: examples and how homothetic relates to level sets
+
+
 \section{Continuous functions}
 
 A continuous function is a function without any jumps or
@@ -274,43 +344,83 @@ following lemma.
   implies $d(f(x),f(x')) < \epsilon$.
 \end{lemma}
 \begin{proof}
-  Suppose $f$ is continuous and there is an $\epsilon>0$ such that
-  such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
-  $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
-  construct a convergent sequence by choosing $x_n$ such that
-  $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
-  but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
-  be impossible to construct such a sequence. This means that there
-  must be some $\delta>0$ such that $d(x,x') < \delta$ implies
-  $d(f(x),f(x')) < \epsilon$.
+  On problem set.
+  % Suppose $f$ is continuous and there is an $\epsilon>0$ such that
+  % such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
+  % $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
+  % construct a convergent sequence by choosing $x_n$ such that
+  % $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
+  % but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
+  % be impossible to construct such a sequence. This means that there
+  % must be some $\delta>0$ such that $d(x,x') < \delta$ implies
+  % $d(f(x),f(x')) < \epsilon$.
 
-  Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
-  $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
-  x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
-  this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
+  % Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
+  % $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
+  % x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
+  % this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
 \end{proof}
-
-Another useful way of defining continuity is in terms of open
-sets. First, another definition.
+A third way of defining continuity is in terms of open sets. First,
+another definition.
 \begin{definition}
   Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
   set in $X$, $f^{-1}(V)$ defined by
   \[ f^{-1} (V) = \{ x \in X: f(x) \in V \} \]
 \end{definition}
-
+A function is continuous if and only if the preimage of any open set
+is open. 
 \begin{lemma}\label{lem:copen}
   $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
   open $V \subseteq Y$. 
 \end{lemma}
 \begin{proof}
-  On problem set.
+  %On problem set.
+  Suppose for all open $V \subseteq Y$ that $f^{-1}(V)$ is also
+  open. We want to show that then $f$ is continuous. To do that, let
+  $x_n \to x$ and let $\epsilon>0$. $N_\epsilon(f(x))$ is open, so by
+  assumption, $f^{-1}(N_{\epsilon}(f(x)))$ is also open. By the
+  definition of open sets, $\exists$ $\delta > 0$ such that
+  $N_{\delta}(x) \subseteq f^{-1}(N_{\epsilon}(f(x)))$. By the
+  definition of $x_n \to x$, $\exists N$ such that if $n \geq N$, $x_n
+  \in N_{\delta}(x)$. Then $x_n \in f^{-1}(N_{\epsilon}(f(x)))$, so
+  $f(x_n) \in N_{\epsilon}(f(x))$, i.e.
+  \[ d\left(f(x_n),f(x) \right) < \epsilon. \]
+  Therefore, $f(x_n) \to f(x)$. 
+
+  Conversely, suppose $f$ is continuous. Let $V \subseteq Y$ be
+  open. We want to show that $f^{-1}(V)$ is also open. Suppose it is
+  not open. Then $\exists x \in f^{-1}(V)$ such that for any $\epsilon
+  > 0$, $\exists \tilde{x}_{\epsilon} \not\in f^{-1}(V)$ with 
+  \[ d(x,\tilde{x}_{\epsilon}) < \epsilon. \]
+  Pick a sequence of $\epsilon_n$ that converges to zero, such as
+  $\epsilon_n = 1/n$. Then the associated $\tilde{x}_n \to
+  x$. However, since each $\tilde{x}_n \not\in f^{-1}(V)$,
+  $f(\tilde{x}_n) \in V^c$. But then having $f(\tilde{x}_n) \to f(x)$
+  would mean that $V^c$ is not closed, which contradict $V$ being
+  open. Thus, $f^{-1}(V)$ must be open when $f$ is continuous.
 \end{proof}
+Since the a set is open if and only its complement is closed, we can
+also define continuity using closed sets.
 \begin{corollary}
   $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is closed for all
   closed $V \subseteq Y$. 
 \end{corollary}
+\begin{proof}
+  Let $V \subseteq Y$ be closed. Then $V^c$ is open. Also, note that
+  the complement of the preimage of $V$ is the preimage of $V^c$. In
+  symbols,
+  \begin{align*}
+    f^{-1}(V)^c = \{x \in X: f(x) \not\in V \} = \{x \in X: f(x) \in V^c
+    \} = f^{-1}(V^c).
+  \end{align*}
+  From lemma \ref{lem:copen}, $f$ is continuous iff $f^{-1}(V^c) =
+  f^{-1}(V)^c$ is open for all open sets $V^c$, which is true iff
+  $f^{-1}(V)$ is closed for all closed sets $V$.
+\end{proof}
 
-Continuity is preserved by arithmetic. 
+Earlier we saw that convergence of sequences is preserved by
+arithmetic. Since continuity can be defined using sequences, it should
+be no surprise that continuity is also preserved by arithmetic.
 \begin{theorem}
   Let $f:X \to Y$ and $g:X \to Y$ be continuous and $X$ and $Y$ be
   vector spaces. Then $(f+g)(x) = f(x) + g(x)$ is continuous.
@@ -322,7 +432,7 @@ Continuity is preserved by arithmetic.
   $f(x_n) + g(x_n) \to f(x) + g(x)$, and $f+g$ is continuous.
 \end{proof}
 Similar results can be shown for subtraction, multiplication, etc,
-whenever they are well defined.
+whenever they are well defined. 
 
 Continuity is also preserved by composition.
 \begin{theorem}
@@ -451,22 +561,25 @@ $x$. However, they are also somewhat discontinuous because the
 corresponding set changes suddenly at $0$. Motivated by this
 observation we define the following:
 \begin{definition}
-  A correspondence, $\phi: X \corres Y$ is \textbf{upper hemicontinuous} at $x$
-  if for all sequences $x_n \to x$ and $y_n \in \phi(x_n)$ with $y_n
-  \to y$, then $y \in \phi(x)$. 
+  A correspondence, $\phi: X \corres Y$ is \textbf{upper
+    hemicontinuous} at $x$ if for all sequences $x_n \to x$ and $y_n
+  \in \phi(x_n)$ with $y_n \to y$, then $y \in \phi(x)$.
 \end{definition}
-In the previous example, $\psi$ is upper hemicontinuous at  $0$, but $\xi$ is
-not. To see this consider $x_n = 1/n$ and $y_n = 1$. 
+In the previous example, $\psi$ is upper hemicontinuous at $0$, but
+$\xi$ is not. To see this consider $x_n = 1/n$ and $y_n = 1$.
 \begin{definition}
-  A correspondence, $\phi: X \corres Y$ is \textbf{lower hemicontinuous} at $x$
-  if for all sequences $x_n \to x$ and $y \in \phi(x)$, there exists a
-  subsequence, $x_{nk}$ and $y_k \in \phi(x_{nk})$ with $y_k \to y$.  
+  A correspondence, $\phi: X \corres Y$ is \textbf{lower
+    hemicontinuous} at $x$ if for all sequences $x_n \to x$ and $y \in
+  \phi(x)$, there exists a subsequence, $x_{nk}$ and $y_k \in
+  \phi(x_{nk})$ with $y_k \to y$.
 \end{definition}
 In the previous example, $\xi$ is lower hemicontinuous at $0$, but
 $\psi$ is not. To see this consider $x_n = -1/n$ and $y = 1$. 
+\begin{definition}
+  We say that a correspondence is \textbf{continuous} if it is both
+  upper and lower hemicontinuous.
+\end{definition}
+At all $x \neq 0$, $\xi$ and $\psi$ are continuous.
 
-We say that a correspondence is continuous if it is both upper and
-lower hemicontinuous. At all $x \neq 0$, $\xi$ and $\psi$ are
-continuous. 
 
 \end{document}

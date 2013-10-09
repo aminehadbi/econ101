@@ -214,6 +214,61 @@
   \end{definition}
 \end{frame}
 
+\begin{frame}
+  \begin{definition}
+    A function $f: V \to W$ which $V$ and $W$ are real vector spaces is
+    \textbf{homogenous of degree k} if 
+    \[ f( t x) = t^k f(x) \]
+    for all $x \in V$, $t \in \R$.
+  \end{definition}
+\end{frame}
+\begin{frame}[shrink]
+  \begin{example}
+    Linear functions are homogenous of degree $1$.
+  \end{example}
+  \begin{example}
+    A production function that is homogenous of degree $1$ has constant
+    returns to scale because doubling each of the inputs doubles the
+    output. A production function that is homogenous of degree less than
+    $1$ has decreasing returns to scale. A production of that is
+    homogenous of degree greater than $1$ has increasing returns to
+    scale. 
+  \end{example}
+  \begin{example}
+    An affine transformation, $f(x) = Ax + b$, is not homogenous if $b
+    \neq 0$. 
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $f: \R \to \R$. $f$ is \textbf{strictly increasing} if for all
+    $x_1 > x_2$, $f(x_1) > f(x_2)$.
+    
+    $f$ is  \textbf{strictly decreasing} if for all
+    $x_1 > x_2$, $f(x_1) < f(x_2)$.
+    
+    $f$ is \textbf{strictly monontonic} if it is either strictly
+    increasing or decreasing. 
+    
+    If the strict inequalities ($<$ and $>$) are replaced with weak
+    inequalities ($\leq$ and $\geq$), then we would say $f$ is
+    \textbf{weakly} increasing / decreasing / monotonic. 
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
+    Let $f: V \to \R$ where $V$ is a vector space. $f$ is
+    \textbf{homothetic} if $\exists$ a homogenous $g: V \to \R$ and a
+    monotonic $h: \R \to \R$ asuch that $h \circ g: V \to R$ defined by
+    $(h \circ g) (x) = h(g(x))$ is equal to $f$.
+  \end{definition}
+\end{frame}
+
+
+
+
 \section{Continuous functions}
 
 \begin{frame}
@@ -236,20 +291,7 @@
     implies $d(f(x),f(x')) < \epsilon$.
   \end{lemma}
   \begin{proof}
-    Suppose $f$ is continuous and there is an $\epsilon>0$ such that
-    such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
-    $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
-    construct a convergent sequence by choosing $x_n$ such that
-    $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
-    but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
-    be impossible to construct such a sequence. This means that there
-    must be some $\delta>0$ such that $d(x,x') < \delta$ implies
-    $d(f(x),f(x')) < \epsilon$.
-    
-    Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
-    $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
-    x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
-    this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
+    On problem set.
   \end{proof}
 \end{frame}
 
@@ -341,24 +383,6 @@
     and 
     \[ f^{-1} ( f(x) ) = x. \]
   \end{definition}
-\end{frame}
-
-\begin{frame}
-  \begin{itemize}
-  \item The inverse of a continuous function need not be continuous.
-    \begin{example}
-      \begin{itemize}
-      \item $X = [0,2\pi)$, $Y = \{(y_1,y_2) \in \R^2 : y_1^2 + y_2^2
-        = 1 \}$.  
-      \item $f:X \to Y$, $f(x) = (cos(x), sin(x))$
-      \item $f$ is bijective and continuous
-      \item $f^{-1}(y_1,y_2) = cos^{-1}(y_1) + \pi 1\{y_2<0\}$
-      \item $f^{-1}$ is not continuous at $(1,0)$ 
-      \item There does not exist any continuous function with a
-        continuous inverse from $[0,2\pi)$ to the unit circle
-      \end{itemize}
-    \end{example}
-  \end{itemize}
 \end{frame}
 
 \section{Correspondences}
