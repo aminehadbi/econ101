@@ -122,28 +122,33 @@
 \end{frame}
 
 \begin{frame}
-\begin{example}
-  The price elasticity of demand is the percentage change in demand
-  divided by the percentage change in its price. If $q_1:\R^3 \to \R$ is
-  a demand function with three arguments: own price $p_1$, the price
-  of another good, $p_2$, and consumer income, $y$.  The own price
-  elasticity is 
-  \[ \epsilon_{q_1,p_1} = \frac{\partial q_1}{\partial p_1}
-  \frac{p_1}{q_1(p_1,p_2,y)}. \]
-  The cross price elasticity is the percentage change in demand
-  divided by the percentage change in the other good's price, i.e.
-  \[ \epsilon_{q_1,p_2} = \frac{\partial q_1}{\partial p_2}
-  \frac{p_2}{q_1(p_1,p_2,y)}. \]
-  Similarly, the income elasticity of demand is
-  \[ \epsilon_{q_1,y} = \frac{\partial q_1}{\partial y}
-  \frac{y}{q_1(p_1,p_2,y)}. \]
-\end{example}
+  \begin{example}[Demand elasticities]
+    \begin{itemize}
+    \item  $q_1:\R^3 \to \R$ is 
+      a demand function with three arguments: own price $p_1$, the price
+      of another good, $p_2$, and consumer income, $y$
+    \item Own price
+      elasticity 
+      \[ \epsilon_{q_1,p_1} = \frac{\partial q_1}{\partial p_1}
+      \frac{p_1}{q_1(p_1,p_2,y)}. \]
+    \item Cross price elasticity 
+      \[ \epsilon_{q_1,p_2} = \frac{\partial q_1}{\partial p_2}
+      \frac{p_2}{q_1(p_1,p_2,y)}. \]
+    \item Income elasticity of demand 
+      \[ \epsilon_{q_1,y} = \frac{\partial q_1}{\partial y}
+      \frac{y}{q_1(p_1,p_2,y)}. \]
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 \subsection{Total derivatives}
 
 \begin{frame}
   \includegraphics[width=\linewidth]{nondiff}
+  \[ f(x,y) = \begin{cases} x^2+y^2 & \text{ if } xy < 0 \\
+    x + y \text{ if } xy \geq 0 
+  \end{cases}
+  \]
 \end{frame}
 
 \begin{frame}
@@ -163,13 +168,15 @@
   \begin{theorem}\label{thm:tdiff}
     Let $f: \R^n \to \R$ be differentiable at $x_0$, then
     $\frac{\partial f}{\partial x_i}(x_0)$ exists for each $i$ and 
-    \[ Df_{x_0} h = \begin{pmatrix} \frac{ \partial f}{\partial x_1}(x_0) &
+    \[ Df_{x_0} h = 
+    \begin{pmatrix} 
+      \frac{ \partial f}{\partial x_1}(x_0) &
       \cdots \frac{ \partial f}{\partial x_n }(x_0)
     \end{pmatrix} h. \]
   \end{theorem}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[shrink]
   \begin{proof}
     The definition of derivative says that
     \begin{align*}
@@ -198,48 +205,23 @@
     Let $f:\R^n \to \R$ and suppose its partial derivatives exist and
     are continuous in $N_\delta(x_0)$ for some $\delta>0$. Then $f$
     is differentiable at $x_0$ with 
-    \[ Df_{x_0}= \begin{pmatrix} \frac{ \partial f}{\partial x_1}(x_0) &
+    \[ 
+    Df_{x_0}= 
+    \begin{pmatrix} 
+      \frac{ \partial f}{\partial x_1}(x_0) &
       \cdots \frac{ \partial f}{\partial x_n }(x_0)
-    \end{pmatrix}. \]
+    \end{pmatrix}. 
+    \]
   \end{theorem}
-  A minor modification would show the stronger result that $f:\R^n \to
-  \R$ has a continuous derivative on an open set $U \subseteq \R^n$ if
-  and only if its partial derivatives are continuous on $U$. We call
-  such a function \textbf{continuously differentiably} on $U$ and
-  denote the set of all such function as $C^1(U)$.
+  
+  \begin{corollary}
+    $f:\R^n \to \R$ has a continuous derivative on an open set $U
+    \subseteq \R^n$ if and only if its partial derivatives are
+    continuous on $U$
+  \end{corollary}  
 \end{frame}
 
 \subsection{Mean value theorem}
-
-\begin{frame}
-  \begin{theorem}
-    Let $f:\R^n \to \R$ be continuous and $K \subset \R^n$ be
-    compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
-    \forall x \in K$. 
-  \end{theorem}
-  \begin{definition}
-    Let $f: \R^n \to \R$. we say that $f$ has a local maximum at $x$ if
-    $\exists \delta > 0$ such that $f(y) \leq f(x)$ for all $y \in
-    N_\delta(x)$. 
-  \end{definition}
-\end{frame}
-
-\begin{frame}
-  \begin{theorem}
-    Let $f: \R^n \to \R$ and suppose $f$ has a local maximum at $x$ and
-    is differentiable at $x$. Then $Df_x = 0$. 
-  \end{theorem}
-  \begin{proof}
-    \[ \frac{f(x+h) - f(x)}{\norm{h}} =\frac{ Df_x h +
-      r(x,h)}{\norm{h}} \] where $\lim_{h \to 0}
-    \frac{|r(x,h)|}{\norm{h}} = 0$. Let $h = t v$ for some $v \in \R^n$
-    with $\norm{v} =1$ and $t \in \R$. If $D f_x v > 0$, then for $t>0$
-    small enough, we would have $\frac{f(x+tv) - f(x)}{|t|} = D
-    f_x v + \frac{r(x,tv)}{|t|} > D
-    f_x v / 2 > 0$ and $f(x+tv)> f(x)$ in contradiction to $x$ being a
-    local maximum. 
-  \end{proof}
-\end{frame}
 
 \begin{frame}
   \frametitle{Mean value theorem}
@@ -250,6 +232,29 @@
     also in $U$. Then there is some $\bar{x} \in \ell(x,y)$ such that
     \[ f(x) - f(y) = Df_{\bar{x}} (x-y). \]
   \end{theorem}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Results needed to prove mean value theorem} 
+  \begin{theorem}
+    Let $f:\R^n \to \R$ be continuous and $K \subset \R^n$ be
+    compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
+    \forall x \in K$. 
+  \end{theorem}
+    
+  \begin{definition}
+    Let $f: \R^n \to \R$. we say that $f$ has a local maximum at $x$ if
+    $\exists \delta > 0$ such that $f(y) \leq f(x)$ for all $y \in
+    N_\delta(x)$. 
+  \end{definition}
+
+  \begin{theorem}
+    Let $f: \R^n \to \R$ and suppose $f$ has a local maximum at $x$ and
+    is differentiable at $x$. Then $Df_x = 0$. 
+  \end{theorem}
+\end{frame}
+
+\begin{frame}\frametitle{Proof of mean value theorem}
   \begin{proof}
     Let $g(z) = f(y) - f(z) + \frac{f(x) - f(y)}{x-y} (z - y)$. Note
     that $g(x) = g(y) = 0$. The set $ell(x,y)$ is closed and bounded,
@@ -264,7 +269,8 @@
 
 \subsection{Functions from $\R^n \to \R^m$}
 
-\begin{frame} \frametitle{Functions from $\R^n \to \R^m$}
+\begin{frame}[shrink]
+  \frametitle{Functions from $\R^n \to \R^m$}
   \begin{definition}
     Let $f: \R^n \to \R^m$. The \textbf{derivative} (or total derivative
     or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
@@ -317,7 +323,7 @@
   \end{theorem}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[shrink]
   \begin{proof}
     Let $x \in U$. Consider
     \begin{align*}
@@ -330,15 +336,15 @@
       \norm{ f(g(x) + D g_{\bar{x}(d)} d ) - f(g(x))} \\
       \leq & \norm{f(g(x) + D g_x d) - f(g(x))} + \epsilon
     \end{align*}
-  where the inequality follows from the the continuity of $D g_x$ and
-  $f$, and holds for any $\epsilon >0$. $f$ is differentiable, so
-  \[ \lim_{D g_x d \to 0} \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} = 0 \]
-  Using the Cauchy-Schwarz inequality, $\norm{D g_x d} \leq \norm{D
-    g_x} \norm{d}$, so
-  \[ \lim_{ d \to 0} \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{d}} = 0. \]   
-\end{proof}
+    where the inequality follows from the the continuity of $D g_x$ and
+    $f$, and holds for any $\epsilon >0$. $f$ is differentiable, so
+    \[ \lim_{D g_x d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+        f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} = 0 \]
+    Using the Cauchy-Schwarz inequality, $\norm{D g_x d} \leq \norm{D
+      g_x} \norm{d}$, so
+    \[ \lim_{ d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+        f(g(x)) - D f_{g(x)} D g_x d}} {\norm{d}} = 0. \]   
+  \end{proof}
 \end{frame}
 
 \subsection{Higher order derivatives}
@@ -352,6 +358,7 @@
     $\frac{\partial^2 f_k}{\partial x_i \partial x_j}$. 
   \end{itemize}
 \end{frame}
+
 \begin{frame}
   \begin{theorem}
     Let $f: \R^n \to \R^m$ be twice continuously differentiable on some
@@ -361,6 +368,9 @@
       x_i} (x) \]
     for all $i,j,k$ and $ x \in U$.
   \end{theorem}
+\end{frame}
+
+\begin{frame}
   \begin{corollary}
     Let $f: \R^n \to \R^m$ be $k$ times continuously differentiable on
     some open set $U$. Then 
@@ -384,6 +394,7 @@
     where $\bar{a}$ is between $a$ and $h$. 
   \end{theorem}
 \end{frame}
+
 \begin{frame}
   \begin{theorem}[Multivariate Taylor series]
     Let $f:\R^n \to \R^m$ be $k$ times continuously differentiable on
@@ -396,6 +407,7 @@
   and $\lim_{h \to 0} \norm{r_k(a,h)}{\norm{h}^k} = 0$
   \end{theorem}
 \end{frame}
+
 \begin{frame}
   \begin{proof}
     Follows from the mean value theorem. For $k=1$, the mean value
@@ -414,114 +426,89 @@
   \end{proof}
 \end{frame}
 
-\section{Implicit functions}
-
-\subsection{Inverse functions}
-\begin{frame}\frametitle{Inverse functions}
-  \begin{itemize}
-  \item $f: \R^n \to \R^m$. 
-  \item If $f(x) = y$, when can we solve
-    for $x$ in terms of $y$? i.e. when is $f$ invertible? 
-  \item Suppose $f(a) = b$, expand:
-    \begin{align*}
-      f(x) = f(a) + Df_a (x-a) + r_1(a,x-a)
-    \end{align*}
-    \begin{align*}
-      f(a) + Df_a (x-a) & = y\\
-      Df_a x = & y - f(a) + Df_a a
-    \end{align*}
-  \end{itemize}
-\end{frame}
-
-\begin{frame} 
-  \begin{theorem}[Inverse function]
-    Let $f: \R^n \to \R^n$ be continuously differentiable on an open set
-    $E$. Let $a \in E$, $f(a) = b$, and $Df_a$ be invertible . Then 
-    \begin{enumerate}
-    \item there exist open sets $U$ and $V$ such that $a \in U$, $b \in
-      V$, $f$ is one-to-one on $U$ and $f(U) = V$, and
-    \item the inverse of $f$ exists and is continuously differentiable
-      on $V$ with derivative $Df_{f^{-1}(x)}^{-1}$.
-    \end{enumerate}
-  \end{theorem}
-\end{frame}
+\section{Functions on vector spaces}
 
 \begin{frame}
-  \begin{proof}
-    Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}} = 1/2$. Since
-    $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
-    that $\norm{Df_x - Df_a} < \lambda$ for all $x \in U$. For any $y
-    \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
-    \right)$. Note that 
-    \begin{align}
-      D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
-      = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}} \lambda =
-      \frac{1}{2} \label{e50}
-    \end{align}
-    Then, by the mean value theorem for $x_1, x_2 \in U$, 
-    \[ \norm{\varphi^y(x_1) - \varphi^y(x_2)} = \norm{D\varphi^y_{\bar{x}}
-      (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
-    It follows that if $\varphi^y(x_1) = x_1$ and $\varphi^y(x_2) =
-    x_2$, then $x_1 = x_2$.
-    When $\varphi^y(x) = x$, it must be that $y = f(x)$. Thus for each
-    $y \in f(U)$, there is at most one $x$ such that $f(x) = y$. That
-    is, $f$ is one-to-one on $U$. This proves the first part of the
-    theorem and that $f^{-1}$ exists. 
-  \end{proof}
-\end{frame}
-
-\begin{frame}\begin{proof}
-    We now show that $f^{-1}$ is continuously differentiable with the
-    stated derivative. Let $y, y+k \in V = f(U)$. Then $\exists x, x+h
-    \in U$ such that $y = f(x)$ and $y+k = f(x+h)$. With $\varphi^y$ as
-    defined above, we have
-  \begin{align*}
-    \varphi^y(x+h) - \varphi^y(x) = & h + Df_a^{-1}(f(x) - f(x+h))  \\
-    = & h - Df_a^{-1} k
-  \end{align*}
-  By \ref{e50}, $\norm{h - Df_a^{-1} k} \leq \frac{1}{2} \norm{h}$. It
-  follows that $\norm{Df_a^{-1} k} \geq \frac{1}{2} \norm{h}$ and 
-  \[ \norm{h} \leq 2 \norm{Df_a^{-1}} \norm{k} = \lambda^{-1}
-  \norm{k}. \]
-  Importantly as $k \to 0$, we also have $h \to 0$. Now, 
-  \begin{align*}
-    \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k }}{\norm{k}}
-    = & \frac{\norm{-Df_x^{-1}(f(x+h) - f(x) - Df_x h)}}{\norm{k}}
-    \\
-    \leq & \norm{Df_x}^{-1}\lambda \frac{\norm{f(x+h) - f(x) - Df_x
-        h}}{\norm{h}} \\
-    \lim_{k \to 0} \frac{\norm{f^{-1} (y+k) - f^{-1}(y) - Df_x^{-1} k
-      }}{\norm{k}} \leq & \lim_{k \to 0} \norm{Df_x}^{-1}\lambda
-    \frac{\norm{f(x+h) - f(x) - Df_x h}}{\norm{h}} = 0
-  \end{align*}
-  Finally, since $Df_x$ is continuous, so is $(Df_{f^{-1}(y)})^{-1}$,
-  which is the derivative of $f^{-1}$.  
-\end{proof}
-\end{frame}
-
-\subsection{Implicit functions}
-
-\begin{frame}\frametitle{Implicit functions}
+  \begin{definition}
+    Let $f: V \to W$. The Fr\'{e}chet \textbf{derivative} of $f$ at
+    $x_0$ is a continuous\footnote{If $V$
+      and $W$ are finite dimensional, then all linear functions are
+      continuous. In infinite dimensions, there can be discontinuous
+      linear functions.} linear mapping, $Df_{x_0}: V \to W$ such that
+    \begin{align*}
+      \lim_{h \to 0} \frac{\left\Vert f(x_0 + h) - f(x_0) - Df_{x_0}
+          h\right\Vert} {\norm{h}} = 0. 
+    \end{align*}
+  \end{definition}
   \begin{itemize}
-  \item Sometimes can write $f(x) = y$ when want to solve for $x$ 
-    \begin{itemize}
-    \item Inverse function theorem
-    \end{itemize}
-  \item Other times, only have $f(x,y) = c$ and want to solve for $x$
-    \begin{itemize}
-    \item Implicit function theorem
-    \end{itemize}
-  \item Same idea: take first order expansion of $f$ and work with
-    linear system whose coefficients are the derivatives of $f$. 
+  \item Just another name for total derivative
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  TO BE CONTINUED
+  \begin{example}\label{ex:fre}
+    Let $V = \mathcal{L}^\infty(0,1)$ and $W = \R$. Suppose $f$ is given by
+    \[ f(x) = \int_0^1 g(x(\tau),(\tau)) d\tau \] 
+    for some continuously differentiable function $g:\R^2 \to
+    \R$. 
+    Then $Df_{x}$ is a linear transformation from $V$ to $\R$. How
+    can we calculate $Df_x$?  
+  \end{example}
 \end{frame}
 
-%30.4 and 30.5: optimization; cover later
+\begin{frame}
+  \begin{definition}
+    Let $f: V \to W$, $v \in V$ and $x \in U \subseteq V$ for some open
+    $U$. The \textbf{directional derivative} (or G\^{a}teaux derivative
+    when $V$ is infinite dimensional)  in direction $v$ at $x$ is
+    \begin{align*}
+      df(x;v) = \lim_{\alpha \to 0} \frac{f(x + \alpha v) - f(x)}{\alpha}.
+    \end{align*}  
+    where $\alpha \in \R$ is a scalar.
+  \end{definition}
+\end{frame}
 
+\begin{frame}\frametitle{Relationship between directional and total derivative}
+  \begin{lemma}\label{lem:fregat}
+    If $f: V \to W$ is Fr\'{e}chet differentiable at $x$, then the
+    G\^{a}teaux derivative, $df(x;v)$, exists for all $v \in V$, and
+    \[ df(x;v) = Df_x v. \]
+  \end{lemma}
 
+  \begin{lemma}\label{lem:gatfre}
+    If $f: V \to W$ has G\^{a}teaux derivatives that are linear in $v$
+    and ``continuous'' in $x$ in the sense that $\forall \epsilon>0$
+    $\exists \delta > 0$ such that if $\norm{x_1 - x} < \delta$, then
+    \begin{align*}
+      \sup_{v \in V} \frac{\norm{df(x_1;v) - df(x;v)}}{\norm{v}} < \epsilon
+    \end{align*}
+    then $f$ is Fr\'{e}chet differentiable with $Df_{x_0} v = df(x;v)$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}[shrink]
+  \frametitle{Calculating Fr\'{e}chet derivative}
+  \begin{example}
+    Let $V = \mathcal{L}^\infty(0,1)$ and $W = \R$. Suppose $f$ is
+    given by 
+    \[ f(x) = \int_0^1 g(x(\tau),(\tau)) d\tau \] 
+    \begin{itemize}
+    \item Directional (G\^{a}teaux) derivatives:
+      \begin{align*}
+        df(x;v) = & \lim_{\alpha \to 0} \frac{\int_0^1 g(x(\tau) + \alpha
+          v(\tau), \tau) d\tau}{\alpha} \\
+        = & \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau) v(\tau)
+        d\tau
+      \end{align*}    
+    \item Check that continuous and linear in $v$
+    \item Or guess and verify that
+      \[ Df_x(v) = \int_0^1 \frac{\partial g}{\partial x}(x(\tau),\tau)
+      v(\tau) d\tau \]
+      satisfies
+      \[ \lim_{h \to 0} \frac{\norm{f(x+h) - f(x) - Df_x(h)
+        }}{\norm{h}} =  0 \]
+    \end{itemize}      
+  \end{example}  
+\end{frame}
 
 \end{document}

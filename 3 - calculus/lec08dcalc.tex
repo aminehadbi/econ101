@@ -462,7 +462,152 @@ instead of $\begin{pmatrix} D{f_1}_{\bar{x}_1} & \cdots &
   D{f_m}_{\bar{x}_m} \end{pmatrix}^T$ with the understanding that we
 mean the later.  
 
-\subsection{Functions on vector spaces}
+\subsection{Chain rule}
+
+For univariate functions, the chain rule says that the derivative of
+$f(g(x))$ is $f'(g(x)) g'(x)$. The same is true for multivariate
+functions.
+\begin{theorem} \label{thm:chain}
+  Let $f:\R^n \to \R^m$ and $g: \R^k \to \R^n$. Let $g$ be
+  continuously differentiable on some open set $U$ and $f$ be
+  continuously differentiable on $g(U)$. Then $h:\R^k \to \R^m$, $h
+  (x) = f(g(x))$ 
+  is continuously differentiable on $U$ with 
+  \[ Dh_x = D f_{g(x)} D g_x \]
+\end{theorem}
+\begin{proof}
+  Let $x \in U$. Consider
+  \begin{align*}
+    \frac{\norm{ f(g(x+d)) - f(g(x))}} {\norm{d}}.
+  \end{align*}
+  Since $g$ is differentiable by the mean value theorem, $g(x+d) =
+  g(x) + Dg_{\bar{x}(d)} d$, so
+  \begin{align*}
+    \norm{ f(g(x+d)) - f(g(x))} = &  
+    \norm{ f(g(x) + D g_{\bar{x}(d)} d ) - f(g(x))} \\
+    \leq & \norm{f(g(x) + D g_x d) - f(g(x))} + \epsilon
+  \end{align*}
+  where the inequality follows from the the continuity of $D g_x$ and
+  $f$, and holds for any $\epsilon >0$. $f$ is differentiable, so
+  \[ \lim_{D g_x d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} = 0 \]
+  Using the Cauchy-Schwarz inequality, $\norm{D g_x d} \leq \norm{D
+    g_x} \norm{d}$, we get
+  \[ \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x} \norm{d}} \leq
+  \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} 
+  \]
+  so
+  \[ \lim_{ d \to 0} \frac{\norm{f(g(x) + D g_x d) -
+      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{d}} = 0. \]   
+\end{proof}
+
+\subsection{Higher order derivatives}
+We can take higher order derivatives of multivariate functions just
+like of univariate functions. If $f: \R^n \to \R^m$, then is has $nm$
+partial first derivatives. Each of these has $n$ partial derivatives,
+so $f$ has $n^2m$ partial second derivatives, written
+$\frac{\partial^2 f_k}{\partial x_i \partial x_j}$. 
+\begin{theorem}
+  Let $f: \R^n \to \R^m$ be twice continuously differentiable on some
+  open set $U$. Then
+  \[ \frac{\partial^2 f_k}{\partial x_i \partial
+    x_j}(x) =  \frac{\partial^2 f_k}{\partial x_j \partial
+    x_i} (x) \]
+  for all $i,j,k$ and $ x \in U$.
+\end{theorem}
+\begin{proof}
+  Using the definition of partial derivative, twice, we have
+  \begin{align*}
+    \frac{\partial^2 f}{\partial x_i \partial x_j} = & \lim_{t_j \to 0}
+    \frac{ \lim_{t_i \to 0} \frac{ f(x + t_i e_i + t_j e_j) - f(x +
+        t_j e_j)}{t_i} - \lim_{t_i \to 0} \frac{ f(x + t_i e_i) -
+        f(x)}{t_i} }{t_j} \\
+    = & \lim_{t_j \to 0} \lim_{t_i \to 0} \frac{f(x+t_je_j + t_i e_i)
+      - f(x + t_j e_j) - f(x + t_i e_i) + f(x)} {t_j t_i}
+  \end{align*}
+  from which it is apparent that we get the same expression for $
+  \frac{\partial^2 f}{\partial x_j \partial x_i} $.\footnote{This
+    proof is not completely correct. We should carefully show that we
+    can interchange the order of taking limits. Interchanging limits
+    is not always possible, but the assumed continuity makes it
+    possible here.}
+\end{proof}
+The same argument shows that in general the order of partial
+derivatives does not matter.
+\begin{corollary}
+  Let $f: \R^n \to \R^m$ be $k$ times continuously differentiable on
+  some open set $U$. Then 
+  \[ \frac{\partial^k f}{\partial x_1^{j_1} \cdots
+     \partial x_n^{j_n}} = 
+  \frac{\partial^k f}{\partial x_{p(1)}^{j_{p(1)}}  \cdots \partial
+    x_{p(n)}^{j_{p(n)}}} \]
+  where $\sum_{i=1}^n j_i = k$ and $p:\{1,..,n\} \to \{1,...,n\}$ is
+  any permutation (i.e. reordering).
+\end{corollary}
+
+\subsection{Taylor series}
+
+You have probably seen Taylor series for univariate functions
+before. A function can be approximated by a polynomial whose
+coefficients are the function's derivatives. 
+\begin{theorem}
+  Let $f: \R \to \R$ be $k+1$ times continuously differentiable on some
+  open set $U$, and let $a$, $a+h \in U$. Then 
+  \[ f(a+h) = f(a) + f'(a) h + \frac{f^2(a)}{2} h^2 + ... +
+  \frac{f^k(a)}{k!} h^k + \frac{f^{k+1}(\bar{a})}{(k+1)!} h^{k+1}
+  \]
+  where $\bar{a}$ is between $a$ and $h$. 
+\end{theorem}
+The same theorem is true for multivariate functions.
+\begin{theorem}
+  Let $f:\R^n \to \R^m$ be $k$ times continuously differentiable on
+  some open set $U$ and $a, a+h \in U$. Then there exists a $k$ times
+  continuously differentiable function $r_k(a,h)$ such that
+  \[ f(a+h) = f(a) + \sum_{\sum_{i=1}^n {j_i}=1}^k\frac{1}{k!}
+  \frac{\partial^{\sum j_i} f}{\partial x_{1}^{j_1} \cdots \partial
+    x_{n}^{j_n}}(a) h_1^{j_1}h_2^{j_2} \cdots h_n^{j_n} + r_k(a,h) \]
+  and $\lim_{h \to 0} \norm{r_k(a,h)}{\norm{h}^k} = 0$.
+\end{theorem}
+\begin{proof}
+  Follows from the mean value theorem. For $k=1$, the mean value
+  theorem says that
+  \begin{align*}
+    f(a+h) - f(a) = & Df_{\bar{a}} h \\
+    f(a+h) = & f(a) + Df_{\bar{a}} h \\
+    = & f(a) + Df_{a} h + \underbrace{(Df_{\bar{a}} -Df_a)h}_{r_1(a,h)}  
+  \end{align*}
+  $Df_a$ is continuous as a function of $a$, and as $h \to 0$,
+  $\bar{a} \to a$, so $\lim_{h \to 0} r_1(a,h) = 0$, and the theorem
+  is true for $k = 1$. For general $k$, suppose we have proven the
+  theorem up to $k-1$. Then repeating the same argument with the
+  $k-1$st derivative of $f$ in place of $f$ shows that theorem is true
+  for $k$. The only complication is the division by $k!$. To see where
+  it comes from, we will just focus on $f:\R \to \R$. The idea is the
+  same for $\R^n$, but the notation gets messy. Suppose we want a
+  second order approximation to $f$ at $a$, 
+  \[ \hat{f}(h) = f(a) + f'(a) h + c_2 f^2(a) h^2 \] and pretend that we
+  do not know $c_2$. Consider $f(a+h) = \hat{f}(h)$. Applying the mean value
+  theorem to the difference of these functions twice, we have
+  \begin{align*}
+    f(a+h) - \hat{f}(h) = & f(a)-\underbrace{\hat{f}(0)}_{=f(a)}
+    + \left[ f'(a + \bar{h}_1) -
+      \underbrace{\hat{f}'(\bar{h}_1)}_{=f'(a)}\right] h \\
+    = & f'(a) - \hat{f}'(0) + \left[f^{2}(a+\bar{h}_2) -
+      \underbrace{\hat{f}^2(\bar{h}_2)}_{=2c_2 f^2(a)}\right] \bar{h}_1 h \\
+    = & f^2(a) (1 - 2c_2) \bar{h}_1 h +
+    f^3(a + \bar{h}_3)\bar{h}_2\bar{h_1} h 
+  \end{align*}
+  if we set $c_2 = \frac{1}{2}$, we can eliminate one term and 
+  \[ |f(a+h) - \hat{f}(h) | \leq | \underbrace{f^3(a + \bar{h}_3)
+    h^3}_{=r_2(a,h)} |.\]  
+  Repeating this sort of argument, we will see that setting $c_k =
+  \frac{1}{k!}$ ensures that $\lim_{h \to 0}
+  \norm{r_k(a,h)}{\norm{h}^k}  = 0$.
+\end{proof}
+
+\section{Functions on vector spaces}
 To analyze infinite dimensional optimization problems, we will need to
 differentiate functions on infinite dimensional vector spaces. We will
 come back to this point when we study optimal control and dynamic
@@ -470,7 +615,7 @@ programming. Anyway, we can define the derivative of a function
 between any two vector spaces as follows. 
 \begin{definition}
   Let $f: V \to W$. The Fr\'{e}chet \textbf{derivative} of $f$ at
-  $x_0$ is a continuous\footnote{From the midterm, we know that if $V$
+  $x_0$ is a continuous\footnote{If $V$
     and $W$ are finite dimensional, then all linear functions are
     continuous. In infinite dimensions, there can be discontinuous
     linear functions.} linear mapping, $Df_{x_0}: V \to W$ such that
@@ -479,6 +624,8 @@ between any two vector spaces as follows.
         h\right\Vert} {\norm{h}} = 0. 
   \end{align*}
 \end{definition}
+Note that this definition is the same as the definition of total
+derivative. 
 \begin{example}\label{ex:fre}
   Let $V = \mathcal{L}^\infty(0,1)$ and $W = \R$. Suppose $f$ is given by
   \[ f(x) = \int_0^1 g(x(\tau),(\tau)) d\tau \] 
@@ -630,151 +777,6 @@ infinite dimensions, we cannot do that.
   so $f$ is Fr\'{e}chet differentiable at $x$ with derivative $Df_x$. 
 \end{example*}
 
-
-\subsection{Chain rule}
-
-For univariate functions, the chain rule says that the derivative of
-$f(g(x))$ is $f'(g(x)) g'(x)$. The same is true for multivariate
-functions.
-\begin{theorem} \label{thm:chain}
-  Let $f:\R^n \to \R^m$ and $g: \R^k \to \R^n$. Let $g$ be
-  continuously differentiable on some open set $U$ and $f$ be
-  continuously differentiable on $g(U)$. Then $h:\R^k \to \R^m$, $h
-  (x) = f(g(x))$ 
-  is continuously differentiable on $U$ with 
-  \[ Dh_x = D f_{g(x)} D g_x \]
-\end{theorem}
-\begin{proof}
-  Let $x \in U$. Consider
-  \begin{align*}
-    \frac{\norm{ f(g(x+d)) - f(g(x))}} {\norm{d}}.
-  \end{align*}
-  Since $g$ is differentiable by the mean value theorem, $g(x+d) =
-  g(x) + Dg_{\bar{x}(d)} d$, so
-  \begin{align*}
-    \norm{ f(g(x+d)) - f(g(x))} = &  
-    \norm{ f(g(x) + D g_{\bar{x}(d)} d ) - f(g(x))} \\
-    \leq & \norm{f(g(x) + D g_x d) - f(g(x))} + \epsilon
-  \end{align*}
-  where the inequality follows from the the continuity of $D g_x$ and
-  $f$, and holds for any $\epsilon >0$. $f$ is differentiable, so
-  \[ \lim_{D g_x d \to 0} \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} = 0 \]
-  Using the Cauchy-Schwarz inequality, $\norm{D g_x d} \leq \norm{D
-    g_x} \norm{d}$, we get
-  \[ \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x} \norm{d}} \leq
-  \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{D g_x d}} 
-  \]
-  so
-  \[ \lim_{ d \to 0} \frac{\norm{f(g(x) + D g_x d) -
-      f(g(x)) - D f_{g(x)} D g_x d}} {\norm{d}} = 0. \]   
-\end{proof}
-
-\subsection{Higher order derivatives}
-We can take higher order derivatives of multivariate functions just
-like of univariate functions. If $f: \R^n \to \R^m$, then is has $nm$
-partial first derivatives. Each of these has $n$ partial derivatives,
-so $f$ has $n^2m$ partial second derivatives, written
-$\frac{\partial^2 f_k}{\partial x_i \partial x_j}$. 
-\begin{theorem}
-  Let $f: \R^n \to \R^m$ be twice continuously differentiable on some
-  open set $U$. Then
-  \[ \frac{\partial^2 f_k}{\partial x_i \partial
-    x_j}(x) =  \frac{\partial^2 f_k}{\partial x_j \partial
-    x_i} (x) \]
-  for all $i,j,k$ and $ x \in U$.
-\end{theorem}
-\begin{proof}
-  Using the definition of partial derivative, twice, we have
-  \begin{align*}
-    \frac{\partial^2 f}{\partial x_i \partial x_j} = & \lim_{t_j \to 0}
-    \frac{ \lim_{t_i \to 0} \frac{ f(x + t_i e_i + t_j e_j) - f(x +
-        t_j e_j)}{t_i} - \lim_{t_i \to 0} \frac{ f(x + t_i e_i) -
-        f(x)}{t_i} }{t_j} \\
-    = & \lim_{t_j \to 0} \lim_{t_i \to 0} \frac{f(x+t_je_j + t_i e_i)
-      - f(x + t_j e_j) - f(x + t_i e_i) + f(x)} {t_j t_i}
-  \end{align*}
-  from which it is apparent that we get the same expression for $
-  \frac{\partial^2 f}{\partial x_j \partial x_i} $.\footnote{This
-    proof is not completely correct. We should carefully show that we
-    can interchange the order of taking limits. Interchanging limits
-    is not always possible, but the assumed continuity makes it
-    possible here.}
-\end{proof}
-The same argument shows that in general the order of partial
-derivatives does not matter.
-\begin{corollary}
-  Let $f: \R^n \to \R^m$ be $k$ times continuously differentiable on
-  some open set $U$. Then 
-  \[ \frac{\partial^k f}{\partial x_1^{j_1} \cdots
-     \partial x_n^{j_n}} = 
-  \frac{\partial^k f}{\partial x_{p(1)}^{j_{p(1)}}  \cdots \partial
-    x_{p(n)}^{j_{p(n)}}} \]
-  where $\sum_{i=1}^n j_i = k$ and $p:\{1,..,n\} \to \{1,...,n\}$ is
-  any permutation (i.e. reordering).
-\end{corollary}
-
-\subsection{Taylor series}
-
-You have probably seen Taylor series for univariate functions
-before. A function can be approximated by a polynomial whose
-coefficients are the function's derivatives. 
-\begin{theorem}
-  Let $f: \R \to \R$ be $k+1$ times continuously differentiable on some
-  open set $U$, and let $a$, $a+h \in U$. Then 
-  \[ f(a+h) = f(a) + f'(a) h + \frac{f^2(a)}{2} h^2 + ... +
-  \frac{f^k(a)}{k!} h^k + \frac{f^{k+1}(\bar{a})}{(k+1)!} h^{k+1}
-  \]
-  where $\bar{a}$ is between $a$ and $h$. 
-\end{theorem}
-The same theorem is true for multivariate functions.
-\begin{theorem}
-  Let $f:\R^n \to \R^m$ be $k$ times continuously differentiable on
-  some open set $U$ and $a, a+h \in U$. Then there exists a $k$ times
-  continuously differentiable function $r_k(a,h)$ such that
-  \[ f(a+h) = f(a) + \sum_{\sum_{i=1}^n {j_i}=1}^k\frac{1}{k!}
-  \frac{\partial^{\sum j_i} f}{\partial x_{1}^{j_1} \cdots \partial
-    x_{n}^{j_n}}(a) h_1^{j_1}h_2^{j_2} \cdots h_n^{j_n} + r_k(a,h) \]
-  and $\lim_{h \to 0} \norm{r_k(a,h)}{\norm{h}^k} = 0$.
-\end{theorem}
-\begin{proof}
-  Follows from the mean value theorem. For $k=1$, the mean value
-  theorem says that
-  \begin{align*}
-    f(a+h) - f(a) = & Df_{\bar{a}} h \\
-    f(a+h) = & f(a) + Df_{\bar{a}} h \\
-    = & f(a) + Df_{a} h + \underbrace{(Df_{\bar{a}} -Df_a)h}_{r_1(a,h)}  
-  \end{align*}
-  $Df_a$ is continuous as a function of $a$, and as $h \to 0$,
-  $\bar{a} \to a$, so $\lim_{h \to 0} r_1(a,h) = 0$, and the theorem
-  is true for $k = 1$. For general $k$, suppose we have proven the
-  theorem up to $k-1$. Then repeating the same argument with the
-  $k-1$st derivative of $f$ in place of $f$ shows that theorem is true
-  for $k$. The only complication is the division by $k!$. To see where
-  it comes from, we will just focus on $f:\R \to \R$. The idea is the
-  same for $\R^n$, but the notation gets messy. Suppose we want a
-  second order approximation to $f$ at $a$, 
-  \[ \hat{f}(h) = f(a) + f'(a) h + c_2 f^2(a) h^2 \] and pretend that we
-  do not know $c_2$. Consider $f(a+h) = \hat{f}(h)$. Applying the mean value
-  theorem to the difference of these functions twice, we have
-  \begin{align*}
-    f(a+h) - \hat{f}(h) = & f(a)-\underbrace{\hat{f}(0)}_{=f(a)}
-    + \left[ f'(a + \bar{h}_1) -
-      \underbrace{\hat{f}'(\bar{h}_1)}_{=f'(a)}\right] h \\
-    = & f'(a) - \hat{f}'(0) + \left[f^{2}(a+\bar{h}_2) -
-      \underbrace{\hat{f}^2(\bar{h}_2)}_{=2c_2 f^2(a)}\right] \bar{h}_1 h \\
-    = & f^2(a) (1 - 2c_2) \bar{h}_1 h +
-    f^3(a + \bar{h}_3)\bar{h}_2\bar{h_1} h 
-  \end{align*}
-  if we set $c_2 = \frac{1}{2}$, we can eliminate one term and 
-  \[ |f(a+h) - \hat{f}(h) | \leq | \underbrace{f^3(a + \bar{h}_3)
-    h^3}_{=r_2(a,h)} |.\]  
-  Repeating this sort of argument, we will see that setting $c_k =
-  \frac{1}{k!}$ ensures that $\lim_{h \to 0}
-  \norm{r_k(a,h)}{\norm{h}^k}  = 0$.
-\end{proof}
 
 
 \end{document}
