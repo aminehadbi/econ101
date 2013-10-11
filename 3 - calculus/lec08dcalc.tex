@@ -150,7 +150,7 @@ derivative as follows.
 \begin{definition}
   Let $f:\R^n \to R$. The $i$th \textbf{partial derivative} of $f$ is 
   \[ \frac{\partial f}{\partial x_i} (x_0) = \lim_{h \to 0}
-  \frac{f(x_{01},...,x_{0i}+h, ... x_{0n})}{h}. \]
+  \frac{f(x_{01},...,x_{0i}+h, ... x_{0n}) - f(x_0) }{h}. \]
 \end{definition}
 The $i$th partial derivative tells you how much the function changes
 as its $i$th argument changes.
@@ -416,7 +416,7 @@ Now we can prove the mean value theorem.
 \subsection{Functions from $\R^n \to \R^m$}
 
 So far we have only looked at functions from $\R^n$ to $\R$. Functions
-to $\R^m$ work essentially the +same way. 
+to $\R^m$ work essentially the same way. 
 \begin{definition}
   Let $f: \R^n \to \R^m$. The \textbf{derivative} (or total derivative
   or differential) of $f$ at $x_0$ is a linear mapping, $Df_{x_0}:
