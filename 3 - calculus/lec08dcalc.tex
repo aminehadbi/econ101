@@ -396,17 +396,17 @@ Now we can prove the mean value theorem.
 \end{theorem}
 \begin{proof}
   Let $z(t) = y + t(x-y)$ for $t \in [0,1]$ (i.e.
-  $t=-(1-\lambda)$). Define
+  $t=\lambda$). Define
   \[ g(t) = f(y) - f(z(t)) + \left(f(x) - f(y)\right) t \] Note that
   $g(0) = g(1) = 0$. The set $[0,1]$ is closed and bounded, so it is
   compact. It is easy to verify that $g(t)$ is continuously
   differentiable since $f$ is continuously differentiable . Hence, $g$
   must attain its maximum on $[0,1]$, say at $\bar{t}$. If $\bar{t} =
-  0$ or $1$, then either $g$ is constant, in which case $f$ is
-  constant and $Df = 0$, so the theorem is true, or $g$ must have an
-  interior minimum, and we can look at the maximum of $-g$
-  instead. When $\bar{t}$ is not $0$ or $1$, then the previous theorem
-  shows that $g'(\bar{t}) = 0$. Simple calculation shows that
+  0$ or $1$, then either $g$ is constant, in which case any $\bar{t}
+  \in (0,1)$ is also a maximum, or $g$ must have an interior minimum,
+  and we can look at the maximum of $-g$ instead. When $\bar{t}$ is
+  not $0$ or $1$, then the previous theorem shows that $g'(\bar{t}) =
+  0$. Simple calculation shows that
   \[ g'(\bar{t}) = -Df_{z(\bar{t})} (x-y) +  f(x) - f(y) = 0 \]
   so 
   \[ Df_{\bar{x}}(x-y) = f(x) - f(y) \]
@@ -822,6 +822,6 @@ infinite dimensions, we cannot do that.
   so $f$ is Fr\'{e}chet differentiable at $x$ with derivative $Df_x$. 
 \end{example*}
 
-
+% thanks: Dana Galizia
 
 \end{document}
