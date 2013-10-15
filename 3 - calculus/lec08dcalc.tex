@@ -366,7 +366,7 @@ Simon and Blume call this Weierstrass's theorem (30.1).
   N_\delta(x)$. 
 \end{definition}
 Next, we need a result that relates derivatives to maxima. 
-\begin{theorem}
+\begin{theorem}\label{thm:localmax}
   Let $f: \R^n \to \R$ and suppose $f$ has a local maximum at $x$ and
   is differentiable at $x$. Then $Df_x = 0$. 
 \end{theorem}
@@ -606,6 +606,51 @@ The same theorem is true for multivariate functions.
   \frac{1}{k!}$ ensures that $\lim_{h \to 0}
   \norm{r_k(a,h)}{\norm{h}^k}  = 0$.
 \end{proof}
+
+\begin{example}
+  The mean value theorem is used often in econometrics to show
+  asymptotic normality. Many estimators can be written as
+  \begin{align*}
+    \hat{\theta}_n \in \argmin_{\theta \in \Theta} Q^n(\theta) 
+  \end{align*}
+  where $Q^n(\theta)$ is some objective function that depends on the
+  sampled data. Examples include least squares, maximum likelihood and
+  the generalized method of moments.  Suppose there is also a
+  population version of the objective function, $Q^0(\theta)$ and
+  $Q^n(\theta) \inprob Q^0(\theta)$ as $n \to \infty$. There is a true
+  value of the parameter, $\theta_0$, that satisfies
+  \[ \theta_0 \in \argmin_{\theta \in \Theta} Q^0(\theta). \] 
+  For example for OLS, 
+  \[ Q^n(\theta) = \frac{1}{n} \sum_{i=1}^n (y_i - x_i \theta)^2 \]
+  and
+  \[ Q^0(\theta) = \mathrm{E}\left[ (Y - X \theta)^2 \right]. \] If
+  $Q^n$ is continuously differentiable\footnote{Essentially the same
+    argument works if you expand $Q^0$ instead of $Q^n$. This is
+    sometimes necessary because there are some models, like quantile
+    regression, where $Q^n$ is not differentiable, but $Q^0$ is
+    differentiable.} on $\Theta$ and $\hat{\theta}_n \in
+  \mathrm{int}(\Theta)$, then from theorem \ref{thm:localmax},
+  \[ DQ^n_{\hat{\theta}_n} = 0 \]
+  Applying the mean value theorem, 
+  \begin{align*}
+    0 = & DQ^n_{\hat{\theta}_n} = DQ^n_{\theta_0} + D^2
+    Q^n_{\bar{\theta}}(\hat{\theta}_n - \theta_0 ) \\
+    \hat{\theta}_n - \theta_0 = & -\left(D^2 Q^n_{\bar{\theta}}
+    \right)^{-1} DQ^n_{\theta_0}.
+  \end{align*}
+  Typically, some variant of the central limit theorem implies
+  $\sqrt{n} DQ^n_{\theta_0} \indist N(0,\Sigma)$. For example for
+  OLS,
+  \[\sqrt{n} DQ^n_\theta = \frac{1}{\sqrt{n}} \sum_i 2 (y_i - x_i
+  \theta ) \theta. \] Also, typically $D^2 Q^n_{\bar{\theta}} \inprob
+  D^2 Q^0_{\theta_0}$, so by Slutsky's theorem,\footnote{Part of
+    Slutsky's theorem says that if $X_n \indist X$ and $Y_n \inprob
+    c$, then $X_n/Y_n \indist X/c$.}
+  \[ \sqrt{n} (\hat{\theta}_n - \theta_0 ) = -\left(D^2
+    Q^n_{\bar{\theta}} \right)^{-1} \sqrt{n} DQ^n_{\theta_0} \indist
+  N\left( 0, \left(D^2 Q^0_{\theta_0} \right)^{-1} \Sigma \left(D^2
+      Q^0_{\theta_0} \right)^{-1} \right). \]
+\end{example}
 
 \section{Functions on vector spaces}
 To analyze infinite dimensional optimization problems, we will need to
