@@ -176,31 +176,51 @@ theorem.
   $\norm{\cdot}_{BL}$. 
 \end{remark}
 \begin{proof} 
-  Choose $\lambda$ such that $\lambda \norm{Df_a^{-1}}_{BL} = 1/2$. Since
-  $Df_a$ is continuous, there is an open neighborhood $U$ of $a$ such
-  that $\norm{Df_x - Df_a}_{BL} < \lambda$ for all $x \in U$. For any $y
+  For any $y
   \in \R^n$, consider $\varphi^y(x) = x + Df_a^{-1} \left(y - f(x)
-  \right)$. Note that 
+  \right)$. 
+  By the mean value theorem for $x_1, x_2 \in U$, where $a \in
+  U$ and $U$ is open, 
+  \begin{align*}
+    \varphi^y(x_1) - \varphi^y(x_2) = D\varphi^y_{\bar{x}}  (x_1 -
+    x_2)  
+  \end{align*}
+  Note that 
+  \begin{align*}
+    D \varphi^y_{\bar{x}} = & I - Df_a^{-1} Df_{\bar{x}} \\ 
+    = & Df_a^{-1} (Df_a - Df_{\bar{x}}).
+  \end{align*}
+  Since $Df_x$ is continuous (as a function of $x$) if we make $U$
+  small enough, then $Df_a - Df_{\bar{x}}$ will be near $0$. Let
+  $\lambda = \frac{1}{2 \norm{Df_a^{-1}}_{BL}}$. Choose $U$ small
+  enough that $\norm{Df_a - Df_{x}} < \lambda$ for all $x \in U$. From
+  above, we know that
   \begin{align}
-    D \varphi^y_x = & I - Df_a^{-1} Df_x \notag \\ 
-    = & Df_a^{-1} (Df_a - Df_x) \leq \norm{Df_a^{-1}}_{BL} \lambda =
-    \frac{1}{2} \label{e50}
+    \norm{\varphi^y(x_1) - \varphi^y(x_2)} = & \norm{Df_a^{-1} (Df_a -
+      Df_{\bar{x}})(x_1-x_2) } \notag \\
+    \leq & \norm{D \varphi^y_x}_{BL} \norm{Df_a -
+      Df_x}_{BL} \norm{x_1 - x_2} \notag \\
+    \leq & \frac{1}{2}\norm{x_1 - x_2} \label{e50}
   \end{align}
-  Then, by the mean value theorem for $x_1, x_2 \in U$, 
-  \[ \norm{\varphi^y(x_1) - \varphi^y(x_2)} = \norm{D\varphi^y_{\bar{x}}
-    (x_1 - x_2) } \leq \frac{1}{2} \norm{x_1 - x_2}. \].
-  It follows that if $\varphi^y(x_1) = x_1$ and $\varphi^y(x_2) =
-  x_2$, then $x_1 = x_2$.
+  For any $y \in f(U)$ we can start with an arbitrary $x_1 \in U$,
+  then create a sequence by setting 
+  \[ x_{i+1} = \varphi^y(x_i). \]
+  From (\ref{e50}), this sequence satisfies 
+  \[ \norm{x_{i+1} - x_i} \leq \frac{1}{2} \norm{x_i - x_{i-1} }. \]
+  Using this it is easy to verify that $x_i$ form a Cauchy sequence,
+  so it converges. The limit satisfy $\varphi^y(x) = x$, i.e. $f(x) =
+  y$. Moreover, this $x$ is unique because if $\varphi^y(x_1) = x_1$
+  and $\varphi^y(x_2) = x_2$, then we have $\norm{x_1 - x_2} \leq
+  \frac{1}{2}\norm{x_1-x_2}$, which is only possible if $x_1 = x_2$.
   \footnote{Functions like $\varphi^y$ that have $d(\phi(x),\phi(y))
     \leq c d(x,y)$ for $c<1$ are called contraction mappings. The $x$
     with $x=\phi(x)$ is called a fixed point of the contraction
     mapping. The argument in the proof shows that contraction mappings
     have at most one fixed point. It is not hard to show that
-    contraction mappings always have exactly one fixed point.}
-  When $\varphi^y(x) = x$, it must be that $y = f(x)$. Thus for each
-  $y \in f(U)$, there is at most one $x$ such that $f(x) = y$. That
-  is, $f$ is one-to-one on $U$. This proves the first part of the
-  theorem and that $f^{-1}$ exists. 
+    contraction mappings always have exactly one fixed point.}  Thus
+  for each $y \in f(U)$, there is exactly one $x$ such that $f(x) =
+  y$. That is, $f$ is one-to-one on $U$. This proves the first part of
+  the theorem and that $f^{-1}$ exists.
 
   We now show that $f^{-1}$ is continuously differentiable with the
   stated derivative. Let $y, y+k \in V = f(U)$. Then $\exists x, x+h
