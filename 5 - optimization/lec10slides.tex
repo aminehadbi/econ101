@@ -519,71 +519,71 @@
   \end{theorem}
 \end{frame}
 
-\section{Applications}
+% \section{Applications}
 
-\subsection{Profit maximization}
+% \subsection{Profit maximization}
 
-\begin{frame}
-  \frametitle{Application: profit maximization}
+% \begin{frame}
+%   \frametitle{Application: profit maximization}
   
-\end{frame}
+% \end{frame}
 
-\subsubsection{Competitive multi-product firm}
-Suppose a firm has produces $k$ goods using $n$ inputs with production
-function $f: \R^n \to \R^k$. The prices of the goods are $p$, and the
-prices of the inputs are $w$, so that the firm's profits are 
-\[ \Pi(x) =  p^T f(x) -  w^Tx. \]
-The firm chooses $x$ to maximize profits.
-\[ \max_x p^T f(x) - w^T x \]
-The first order condition is
-\[ p^T Df_{x^*} - w = 0. \]
-or without using matrices,
-\[ \sum_{j=1}^k p_j \frac{\partial f_j}{\partial x_i}(x^*) = w_i \]
-for $i=1,..., n$. The second order condition is that 
-\[ D[p^T Df]_{x^*} = \begin{pmatrix} \sum_{j=1}^k p_j \frac{\partial^2
-    f_j}{\partial x_1^2}(x^*) & \cdots & \sum_{j=1}^k p_j \frac{\partial^2
-    f_j}{\partial x_1\partial x_n}(x^*)  \\ \vdots & & \vdots \\
-  \sum_{j=1}^k p_j \frac{\partial^2
-    f_j}{\partial x_1\partial x_n}(x^*) & \cdots & \sum_{j=1}^k p_j
-  \frac{\partial^2 f_j}{\partial x_n^2}(x^*) \end{pmatrix} 
-\]
-must be negative semidefinite. 
+% \subsubsection{Competitive multi-product firm}
+% Suppose a firm has produces $k$ goods using $n$ inputs with production
+% function $f: \R^n \to \R^k$. The prices of the goods are $p$, and the
+% prices of the inputs are $w$, so that the firm's profits are 
+% \[ \Pi(x) =  p^T f(x) -  w^Tx. \]
+% The firm chooses $x$ to maximize profits.
+% \[ \max_x p^T f(x) - w^T x \]
+% The first order condition is
+% \[ p^T Df_{x^*} - w = 0. \]
+% or without using matrices,
+% \[ \sum_{j=1}^k p_j \frac{\partial f_j}{\partial x_i}(x^*) = w_i \]
+% for $i=1,..., n$. The second order condition is that 
+% \[ D[p^T Df]_{x^*} = \begin{pmatrix} \sum_{j=1}^k p_j \frac{\partial^2
+%     f_j}{\partial x_1^2}(x^*) & \cdots & \sum_{j=1}^k p_j \frac{\partial^2
+%     f_j}{\partial x_1\partial x_n}(x^*)  \\ \vdots & & \vdots \\
+%   \sum_{j=1}^k p_j \frac{\partial^2
+%     f_j}{\partial x_1\partial x_n}(x^*) & \cdots & \sum_{j=1}^k p_j
+%   \frac{\partial^2 f_j}{\partial x_n^2}(x^*) \end{pmatrix} 
+% \]
+% must be negative semidefinite. 
 
-\subsubsection{Multi-product monopolist}
-Consider the same setup as before, but now with a monopolist who
-recognizes that prices depend on output. Let the inverse demand
-function be $P(q)$ where $P:\R^k \to \R^k$. Now the firm's problem
-is 
-\[ \max_x P(f(x))^T f(x) - w^T x \]
-The first order condition is
-\[ Df_{x^*}^T DP_{f(x^*)}^T f(x^*) + P(f(x^*)) Df_{x^*} - w = 0 \]
-or without matrices,
-\[ \sum_{j=1}^k \left( \sum_{l=1}^k \frac{\partial P_j}{\partial q_l}(f(x^*))
-  \frac{\partial f_l}{\partial x_i}(x^*) f_l(x^*) + 
-  P_j(f(x^*)) \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
-= w_i \]
-We can get something a bit more interpretable by writing this in terms
-of elasticities. Recall that the elasticity of demand for good $l$
-with respect to the price of good $j$ is $(\epsilon^l_j)^{-1}=
-\frac{\partial P_j}{\partial q_l} \frac{q_l}{P_l}$. Then,
-\begin{align*}
-  \sum_{j=1}^k P_j(f(x^*)) \left(\sum_{l=1}^k (\epsilon^l_j)^{-1} \frac{\partial
-      f_l}{\partial x_i}(x^*) +  \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
-  = & w_i \\
-  \sum_{j=1}^k P_j(f(x^*)) \left[\frac{\partial f_j}{\partial x_i}(x^*)
-    \left(1 + (\epsilon_j^j)^{-1} \right) + \sum_{l \neq j}
-  (\epsilon_j^l)^{-1} \frac{\partial f_l}{\partial x_i}(x^*) \right] = & w_i 
-\end{align*}
-There is a way to compare the price and quantity produced by the
-monopolist to the competitive firm. There are also things that can be
-said about the comparison between a single product monopolist ($k=1$)
-vs a multi-product monopolist. It might be interesting to derive some
-of these results. To begin with let $k = 1$ and compare the monopolist
-to the competitive firm. Under some reasonable assumptions on $f$ and
-$P$, you can show that $x^m < x^c$ where $x^m$ is $x^*$ for the
-monopolist and $x^c$ is $x^*$ for the competitive firm. You can also
-show that $p^m>p^c$ and that $|\epsilon^1_1| < 1$ for the
-monopolist. (Although I left it out of the notation above, $\epsilon$
-depends on $x$). 
+% \subsubsection{Multi-product monopolist}
+% Consider the same setup as before, but now with a monopolist who
+% recognizes that prices depend on output. Let the inverse demand
+% function be $P(q)$ where $P:\R^k \to \R^k$. Now the firm's problem
+% is 
+% \[ \max_x P(f(x))^T f(x) - w^T x \]
+% The first order condition is
+% \[ Df_{x^*}^T DP_{f(x^*)}^T f(x^*) + P(f(x^*)) Df_{x^*} - w = 0 \]
+% or without matrices,
+% \[ \sum_{j=1}^k \left( \sum_{l=1}^k \frac{\partial P_j}{\partial q_l}(f(x^*))
+%   \frac{\partial f_l}{\partial x_i}(x^*) f_l(x^*) + 
+%   P_j(f(x^*)) \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
+% = w_i \]
+% We can get something a bit more interpretable by writing this in terms
+% of elasticities. Recall that the elasticity of demand for good $l$
+% with respect to the price of good $j$ is $(\epsilon^l_j)^{-1}=
+% \frac{\partial P_j}{\partial q_l} \frac{q_l}{P_l}$. Then,
+% \begin{align*}
+%   \sum_{j=1}^k P_j(f(x^*)) \left(\sum_{l=1}^k (\epsilon^l_j)^{-1} \frac{\partial
+%       f_l}{\partial x_i}(x^*) +  \frac{\partial f_j}{\partial x_i}(x^*) f_j(x^*) \right)
+%   = & w_i \\
+%   \sum_{j=1}^k P_j(f(x^*)) \left[\frac{\partial f_j}{\partial x_i}(x^*)
+%     \left(1 + (\epsilon_j^j)^{-1} \right) + \sum_{l \neq j}
+%   (\epsilon_j^l)^{-1} \frac{\partial f_l}{\partial x_i}(x^*) \right] = & w_i 
+% \end{align*}
+% There is a way to compare the price and quantity produced by the
+% monopolist to the competitive firm. There are also things that can be
+% said about the comparison between a single product monopolist ($k=1$)
+% vs a multi-product monopolist. It might be interesting to derive some
+% of these results. To begin with let $k = 1$ and compare the monopolist
+% to the competitive firm. Under some reasonable assumptions on $f$ and
+% $P$, you can show that $x^m < x^c$ where $x^m$ is $x^*$ for the
+% monopolist and $x^c$ is $x^*$ for the competitive firm. You can also
+% show that $p^m>p^c$ and that $|\epsilon^1_1| < 1$ for the
+% monopolist. (Although I left it out of the notation above, $\epsilon$
+% depends on $x$). 
 
 \end{document}
