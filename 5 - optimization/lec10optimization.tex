@@ -133,9 +133,9 @@ some $x^* \in U$.
   $F(x) \leq F^*$ for all $x \in U$ and $F(x^*) = F^*$ for some $x^*
   \in U$
 \end{definition}
-There may be more than one such $x^*$. We denote
-the set of all $x^*$ such that $F(x^*) = F^*$ by $\argmax_{x \in U} F(x)$ and
-might write $x^* \in \argmax_{x \in U} F(x)$, or, if we know there is only one
+There may be more than one such $x^*$. We denote the set of all $x^*$
+such that $F(x^*) = F^*$ by $\argmax_{x \in U} F(x)$ and might write
+$x^* \in \argmax_{x \in U} F(x)$, or, if we know there is only one
 such, $x^*$, we sometimes write $x^* = \argmax_{x \in U} F(x)$.
 \begin{definition} \label{d:maxer}
   $x^* \in U$ is a \textbf{maximizer} of $F$ on $U$ if $F(x*)
@@ -281,8 +281,12 @@ discussion.
 \begin{proof}
   We will only prove the first case. The second and third cases can be
   proven similarly. We will go over some examples of the fourth
-  case. As in the discussion preceding the theorem, $x^*$ is a local
-  minimizer if
+  case. 
+  
+  The main idea of the proof is contained in the discussion at the
+  start of this section. The only tricky part is carefully showing
+  that $r(x,h)$ is small enough to ignore.  As in the discussion
+  preceding the theorem, $x^*$ is a local minimizer if
   \[ F(x^*+h) - F(x^*) = h^T D^2 F_{x^*} h + r(x^*,h) \leq 0. \]
   We can rewrite this as
   \begin{align*}
@@ -429,7 +433,7 @@ continues. We can determine whether $A$ is negative definite by
 looking at the determinants of certain submatrices of $A$.
 \begin{definition}
   Let $A$ by an $n$ by $n$ matrix. The $k$ by $k$ submatrix 
-  \[ A_k = \begin{pmatrix} a_{11} & \cdots a_{1k} \\
+  \[ A_k = \begin{pmatrix} a_{11} & \cdots & a_{1k} \\
     \vdots & & \vdots \\
     a_{k1} & \cdots & a_{kk} \end{pmatrix} \]
   is the \textbf{$k$th leading principal submatrix} of $A$. The
@@ -518,66 +522,108 @@ The function $\chi_A:\R\to\R$ defined by $\chi_A(x) = \det(A - x I)$
 is called the \textbf{characteristic polynomial} of $A$. It will be a
 polynomial of order $n$. You may know from some other math course that
 polynomials of degree $n$ have $n$ roots, some of which might be
-not be real and some of which might not be distinct. We use the fact
-that symmetric nonsingular matrices have $n$ distinct real
-eigenvalues without proving it.
+not be real and some of which might not be distinct. 
 
-Suppose that $A$ has $n$ distinct real eigenvalues, $\lambda_1, ...,
-\lambda_n$ with corresponding eigenvectors $v_1, ..., v_n$. Then the
-eigenvectors a linearly independent.
+Suppose that $A$ has $m\leq n$ distinct real eigenvalues, $\lambda_1,
+..., \lambda_m$.  Associated with each eigenvalue is a linear subspace
+of eigenvalues, $\{v \in \R^n: Av = \lambda_i v\} = \mathcal{N}(A -
+\lambda_i I)$. By definition of eigenvalues each of these subspaces has
+dimension at least 1. Some of them may be of larger dimension, but
+they can be of dimension at most $n$. For each $\mathcal{N}(A -
+\lambda_i I)$ there $\exists$ an orthonormal basis of eigenvectors, i.e.\
+$v_i^1, ... , v_i^{k_i}$ such that $A v_i^j = \lambda_i v_i^j$,
+$\norm{v_i^j} = 1$ and $(v_i^j)^T v_i^l = 0$ for $j \neq l$. 
 \begin{lemma}
-  Let $A$ be an $n$ by $n$ matrix with $n$ distinct real eigenvalues
-  then the eigenvectors of $A$ are linearly independent.
+  Let $A$ be an $n$ by $n$ matrix with $m$ distinct real eigenvalues,
+  and let $v_i^1, ..., v_i^k$ be an orthonormal basis for $\mathcal{N}(A -
+  \lambda_i I)$. Then $\{v_1^1, ..., v_1^{k_1}, ..., v_m^1, ...,
+  v_m^{k_m}\}$ are linearly independent. 
 \end{lemma}
 \begin{proof}
   Suppose the eigenvectors are not linearly independent. Then we could
   write\footnote{Possibly we cannot do this for $v_1$, but we can for
     some $v_i$. Without loss of generality, assume that we can for
     $v_1$.}
-  \[ v_1 = c_2 v_2 + ... + c_n v_n. \]
-  with at least one $c_k \neq 0$.
+  \[ v_1^1 = c_1^2 v_1^2 + ... + c^k_m v^k_m. \]
+  with at least one $c_i^j \neq 0$.
   By the definition of eigenvalues and eigenvectors, we have
   \begin{align*} A v_1 = & \lambda_1 v_1 \\
-    A(c_2 v_2 + ... + c_n v_n) = & \lambda_1 \left(c_2 v_2 + ... + c_n
-      v_n\right) \\
-    c_2 \lambda_2 v_2 + ... + c_n \lambda_n v_n = & \lambda_1
-    \left(c_2 v_2 + ... + c_n v_n\right) \\
-    c_2 (\lambda_2 - \lambda_1) v_2 + ... + c_n (\lambda_n -
-    \lambda_1) v_n = & 0
+    A (c_1^2 v_1^2 + ... + c^k_m v^k_m)= & \lambda_1 \left(c_1^2 v_1^2 + ... + c^k_m v^k_m)\right) \\
+    c_1^2 \lambda_1 v^2_1 + ... + c^k_m \lambda_m v^k_m = & \lambda_1
+    \left(c_1^2 v_2 + ... + c_m^k v_m^k\right) \\
+    c_2^1 (\lambda_2 - \lambda_1) v_2^1 + ... + c_m^k (\lambda_m -
+    \lambda_1) v_m = & 0
   \end{align*}
-  Since the $\lambda_i$ are distinct, $\lambda_k - \lambda_1 \neq 0$
-  for any $k$, so this says that $v_2, ..., v_n$ are linearly
-  dependent as well. We can repeat this argument to show that $v_3,
-  ..., v_n$ are linearly dependent, and then repeat it again and again
-  and eventually show that $v_{n-1}$ and $v_n$ are linearly
-  dependent. Then $v_{n-1} = bv_n$ for some $b \neq 0$, and 
-  \[ A v_{n-1} = \lambda_{n-1} v_{n-1} = \lambda_{n-1} (b v_n) \]
+  If $c_2^1 = \cdots = c_m^k$, then the original equation becomes 
+  \[ v_1^1 = c_1^2 v_1^2 + \cdots + c_1^{k_1}v_1^{k_1} \] with one of
+  these $c$'s non-zero. That would contradict the way $v_1^1 ,
+  ... v_1^{k_1}$ were constructed to be linearly independent. Hence,
+  $c_i^j \neq 0$ for at least one $i > 1$.  Since the $\lambda_i$ are
+  distinct, $\lambda_k - \lambda_1 \neq 0$ for any $k$, so this says
+  that $v_2^1, ..., v_m^{k_m}$ are linearly dependent as well. We can
+  repeat this argument to show that $v_3^1, ..., v_m^{k_m}$ are
+  linearly dependent, and then repeat it again and again and
+  eventually show that $v_{m-1}$ and $v_m$ are linearly
+  dependent. Then $v_{m-1} = bv_m$ for some $b \neq 0$, and
+  \[ A v_{m-1} = \lambda_{m-1} v_{m-1} = \lambda_{m-1} (b v_m) \]
   and 
-  \[ A v_{n-1} = A b v_n = b \lambda_n v_n. \]
-  This implies that $\lambda_n = \lambda_{n-1}$, contrary to the
-  eigenvalues being distinct. Therefore, if the eigenvalues are
-  distinct, the eigenvectors must be linearly independent.   
+  \[ A v_{m-1} = A b v_m = b \lambda_m v_m. \] This implies that
+  $\lambda_m = \lambda_{m-1}$, contrary to the eigenvalues being
+  distinct. Therefore, the collection of eigenvectors must be linearly
+  independent.
 \end{proof}
-So if $A$ has $n$ distinct eigenvalues, it has $n$ linearly
-independent eigenvectors. If we make $\Lambda$ a diagonal matrix
-consisting of the eigenvalues of $A$ and $V$ a matrix whose columns are
-the eigenvectors of $A$, then 
-\[ A V = V \Lambda. \]
-Moreover, the columns of $V$ are linearly independent, so $V$ is
-invertible and $A = V \Lambda V^{-1}$. Furthermore, the eigenvectors
-can be made to be orthogonal to one another. If $v_1$ and $v_2$ are
-not orthogonal set, $\tilde{v}_2 = \frac{v_2 - v_1^T v_2
-  v_1}{\norm{v_2 - v_1^T v_2 v_1}}$, etc. Then $V$ will be an
-orthogonal matrix, so $V^{-1} = V^T$. This relationship is called the
-eigendecomposition of $A$.
+Since the eigenvectors are linearly independent, in $\R^n$ there
+can be at most $n$ of them. However, there are some matrices that have
+strictly fewer eigenvectors. 
+
+To say much more about eigenvalues we must impose the extra condition
+that $A$ is symmetric. Fortunately, Hessian matrices are symmetric, so
+for the current purposes, imposing symmetry is not a problem. Since
+$A$ is symmetric, $A = A^T$. Also, by the definition of transpose,
+$\iprod{ A x}{ y } = \iprod{x}{A^T y}$, or specializing to $\R^n$, $
+(Ax)^T y = x A^T y = x A y$, where the last equality comes from
+symmetry of $A$.  By the fundamental theorem of algebra (which says
+that polynomials have (possibly complex) roots ), $\exists$ at least
+one $\lambda_1$ and $v_1$ such that
+\[ A v_1 = \lambda_1 v_1. \] 
+A short argument using complex numbers (which we have not covered) and
+the symmetry of $A$ shows that $\lambda_1$ must be real. If we then
+consider $A$ as a symmetric linear operator on the $n-1$ dimensional
+space $\spn\{v_1\}^{\perp}$, we can repeat this argument to show that
+there is a second (not necessarily distinct) eigenvalue $\lambda_2$
+and associated eigenvector $v_2$ with $v_2 \perp v_1$. If we repeat
+this $n$ times, we will construct $n$ eigenvalues (some of which may
+be the same) and $n$ orthogonal eigenvectors. Moreover, we can rescale
+the eigenvectors so that $\norm{v_i} = 1$ for each $i$. These $n$
+eigenvectors form an orthonormal basis for $\R^n$. You can imagine
+them as some rotation of the usual axes. 
+
+Next, we can write $A$ in terms of its eigenvectors and
+eigenvalues. If we make $\Lambda$ a diagonal matrix consisting of the
+eigenvalues of $A$ and $V$ a matrix whose columns are the eigenvectors
+of $A$, then
+\[ A V = V \Lambda. \] 
+Moreover, $V$ is an orthogonal matrix, so
+$V^{-1} = V^T$. This relationship is called the eigendecomposition of
+$A$.
 \begin{theorem}[Eigendecomposition]\label{thm:eigen}
-  Let $A$ be an $n$ by $n$ non-singular symmetric matrix, then $A$ has
-  $n$ distinct real eigenvalues
-  \[ A = V \Lambda V^T \]
-  where $\Lambda$ is the diagonal matrix consisting of the eigenvalues
-  of $A$ and the columns of $V$ are the eigenvectors of $A$, and $V$
-  is an orthogonal matrix.  
+  Let $A$ be an $n$ by $n$ symmetric matrix, then $A$ has $n$ (not
+  necessarily distinct) eigenvalues and 
+  \[ A = V \Lambda V^T \] 
+  where $\Lambda$ is the diagonal matrix
+  consisting of the eigenvalues of $A$ and the columns of $V$ are the
+  associated eigenvectors of $A$, and $V$ is an orthonormal matrix. 
 \end{theorem}
+\begin{remark}
+  There are non-symmetric matrices that can not be decomposed into
+  eigenvalues and eigenvectors, for example $\begin{pmatrix} 1 & 1 \\
+    0 & 1 \end{pmatrix}$. 
+  
+  There are other non-symmetric matrices that can be eigendecomposed,
+  for example $\begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1
+  \end{pmatrix}$ can be eigendecomposed. Any square matrix with $A^T A
+  = A A^T$ can be eigendecomposed.
+\end{remark}
 
 Using the eigendecomposition, we can relate eigenvalues to the
 definiteness of a matrix.
@@ -605,6 +651,40 @@ definiteness of a matrix.
   for each $i$. The other parts of the theorem follow similarly. 
 \end{proof}
 
+\subsection{Other facts about eigendecomposition}
+
+The results in this subsection are not essential for the rest of this
+lecture, but they are occasionally useful.
+
+If a matrix is singular, then $\exists$ $x \neq 0$ such that $Ax =
+0$. By definition, then $x/\norm{x}$ is an eigenvector and $0$ is an 
+eigenvalue of $A$. Conversely, if $0$ is an eigenvalue of $A$, then
+$\exists x$ with $\norm{x} = 1$ such that $Ax = 0$. Then $A$ is
+singular. 
+\begin{lemma}[Eigenvalues and invertibility] 
+  $A$ is singular iff $0$ is an eigenvalue of $A$.
+\end{lemma}
+
+Recall that we defined the norm of a linear transformation as 
+\[ \norm{A}_{BL} = \sup_{x : \norm{x} = 1} \norm{Ax}. \]
+When $A$ is symmetric (so that its eigenvalues exist), this norm is
+equal to the largest eigenvalue of $A$.
+\begin{lemma}[Eigenvalues and operator norm]
+  Suppose the $n \times n$ matrix $A$ has $n$ eigenvalues, $\lambda_1,
+  ..., \lambda_n$, then $\norm{A}_{BL} = \max_{1\leq i \leq n}
+  \lambda_i$.
+\end{lemma}
+
+We saw that definiteness is related to both determinant and
+eigenvalues. It should come as no suprise that determinants and
+eigenvalues are directly related. The determinant of a matrix is equal
+to the product of its eigenvalues. 
+\begin{lemma}[Eigenvalues and determinants]
+  If $A$ has eigenvalues $\lambda_1, ..., \lambda_n$, such that 
+  \[ \det(A - t I) = \prod_{i=1}^n (t-\lambda_i) \]
+  then $\det(A) = \prod_{i=1}^n \lambda_i$.
+\end{lemma}
+
 \section{Global maximum and minimum}
 
 The second order condition (\ref{thm:soc}) along with the first order
@@ -627,8 +707,8 @@ sufficient condition that is sometimes useful.
 \end{definition}
 Equivalently, $F$ is convex if the set $\{(y,x): x \in U, y \geq
 f(x)\} \subseteq U \times \R$ is convex. This set is called the
-epigraph of $f$. If you draw the graph of the function, this is the
-set of points above the function.
+epigraph of $f$. If you draw the graph of the function, the epigraph
+is the set of points above the function.
 \begin{definition}
   Let $f:U \to \R$. $f$ is \textbf{concave} if for all $x,y \in U$ with
   $\ell(x,y) \subseteq U$ we have $f(tx + (1-t)y) \geq tf(x) + (1-t)
@@ -669,8 +749,8 @@ f(x)\}$ is convex.
 This theorem is often summarized by saying that convex minimization
 problems (i.e. the set $U$ and function $F$ are both convex) have
 unique solutions.  We will not prove this theorem until after covering
-convexity in more detail, which we may or may not have time for. An
-important fact about convex optimization problems is that their
+convexity in more detail, which we may or may not have time for.  
+An important fact about convex optimization problems is that their
 solutions can be efficiently computed. A general optimization problem
 is what is known as NP-hard, which in practice means that you can
 write down what looks like a reasonable not too large optimization
