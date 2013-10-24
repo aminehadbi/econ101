@@ -162,8 +162,56 @@ This function is called the \textbf{Lagrangian}. $\mu$ is called a
 \textbf{Lagrange multiplier}. 
 
 The relationship that we just saw for two dimensional functions is
-always true. Any local maximizer of a constrained optimization problem is a
-critical point of the problem's Lagrangian. 
+always true. Any local maximizer of a constrained optimization problem
+is a critical point of the problem's Lagrangian. One way of seeing
+this is to take a first order expansion of the objective (just like we
+did in the unconstrained case) and the constraints. Suppose $x^*$ is a
+constrained local maximizer. Then for $\Delta$ small enough, $f(x^* +
+\Delta) \leq f(x^*)$ for all $x^*+ \Delta$ that satisfy the
+constraints. If we expand $f(x^*+\Delta)$ around $x^*$ we have
+\begin{align*}
+  f(x^*+\Delta) \approx f(x^*) + Df_{x^*} \Delta \leq & f(x^*) \\
+  Df_{x^*} \Delta \leq & 0 
+\end{align*}
+for all $\Delta$ where $x^* + \Delta$ satisfy the constraints. To describe these
+$\Delta$, let's also take an expansion of the constraints around $x^*$.
+\begin{align*}
+  h(x^* + \Delta) \approx & h(x^*) + Dh_{x^*} \Delta
+\end{align*}
+We know that $h(x^*) = c$, so $h(x^* + \Delta) = c$ if and only if
+$Dh_{x^*} \Delta = 0$. Combining the above two observations, if $x^*$
+is a constrained local maximizer, then for all $\Delta$ with $Dh_{x^*}
+\Delta = 0$ we also have $Df_{x^*} \Delta  = 0$. Another way of
+stating this condition is that the null space of $Dh_{x*}$ is
+contained in the null space of $Df_{x*}$, i.e.
+\[ \mathcal{N}(Dh_{x^*}) \subseteq \mathcal{N}(Df_{x^*}). \] Since the
+row space is the orthogonal complement of the null space\footnote{That
+  is, if $x$ is in the row space and $v$ is the null space then
+  $\iprod{x}{v} = 0$ and the dimension of the row space plus the
+  dimension of the null space is $n$}, this is equivalent to saying
+that the row space of the Jacobian of the constraints contains the row
+space of the derivative of $f$, i.e.\footnote{In case you have
+  forgotten the way that we can show that the row and column spaces of
+  a matrix are orthogonal complements is the following. Let $A$ be an
+  $m \times n$ matrix. First, remember that the dimension of the row
+  space is equal to the rank of $A$, and the dimension of the null
+  space is equal to $n$ minus the rank of $A$. Next, suppose $x \in
+  \mathrm{row}(A)$. Then $x \in \mathrm{col}(A^T)$, so there is some
+  $y$ such that $A^T y = x$. Let $v \in \mathcal{N}(A)$. We want to
+  show that $\iprod{x}{v} = 0$. Using the representation of $x$ as
+  $A^T y$, the definition of the transpose, and the definition of the
+  null space, we have
+  \[ \iprod{x}{v} = \iprod{A^T y}{v} = \iprod{y}{A v} = \iprod{y}{0} =
+  0. \]
+}
+\[ \mathrm{row}(Df_{x^*}) \subseteq \mathrm{row}(Dh_{x^*}). \]
+Since $Df_{x^*}$ is $1 \times n$,  this condition is the same as
+saying $Df_{x^*}$ is in the span of the rows of $Dh_{x^*}$. In other
+words, $Df_{x^*}$ is equal to a linear combination of the rows of
+$Dh_{x^*}$, i.e. 
+\[ Df_{x^*} = \mu^T Dh_{x^*}. \]
+
+The following theorem formally states this result.
 \begin{theorem}[First order condition for maximization with equality constraints] \label{thm:econ}
   Let $f:U \to \R$ and $h: U \to \R^m$ be continuously
   differentiable on $U \subseteq \R^n$. Suppose $x^* \in
@@ -182,6 +230,10 @@ critical point of the problem's Lagrangian.
   \end{align*}
   for $i = 1, ..., n$ and $j=1,...,m$.
 \end{theorem}
+The following proof of the theorem gives a third way of arriving at
+the Lagrangian --- this time by using the implicit function
+theorem. You could also prove the theorem by following similar steps
+as in the discussion preceding it.
 \begin{proof} 
   Consider the $(m+1)$ system of nonlinear equations
   \begin{align*}
@@ -209,34 +261,35 @@ critical point of the problem's Lagrangian.
     \alpha_0 Df_{x^*} + \alpha_1 D{h_1}_{x^*}  + \cdots + \alpha_m
     D{h_n}_{x^*} = 0      
   \end{align*}
-  Moreover it must be that $\alpha0 \neq 0$ because otherwise
+  Moreover it must be that $\alpha_0 \neq 0$ because otherwise
   $Dh_{x^*}$ would be singular. Setting $\mu_j = \alpha_j/\alpha_0$
   gives the conclusion of the theorem.
 \end{proof}
 The assumption that $Dh_{x*}$ is non-singular is needed to make sure
 that we don't divide by zero when defining the Lagrange
 multipliers. This assumption is called the \textbf{non-degenerate
-  constraint qualification}. 
+  constraint qualification}. Imposing it makes stating the theorem
+easier, but similar results can be shown in without this condition. 
 
 \subsection{Inequality constraints}
 
 Now let's consider an inequality instead of equality constraint. 
-\[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \]
-When the constraint binds, i.e.\ $g(x^*) = b$, the situation is
-exactly the same as with an equality constraint. However, the
-constraint does not necessarily bind at a local maximum, so we must allow
-for that possibility.  Let $\lambda$ be the Lagrange multiplier for
-the above problem. If the constraint binds, then
-\[ Df_{x^*} - \lambda D g_{x^*} = 0. \]
-Also, since $Df_{x^*}$ is the direction in which $f$ increases most
-rapidly, it must be that going in that direction would violate the
-constraint. That is, for any $\delta > 0$
+\[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \] When the
+constraint binds, i.e.\ $g(x^*) = b$, the situation is exactly the
+same as with an equality constraint. However, the constraint does not
+necessarily bind at a local maximum, so we must allow for that
+possibility.  Let $\lambda$ be the Lagrange multiplier for the above
+problem. If the constraint binds, then
+\[ Df_{x^*} - \lambda D g_{x^*} = 0. \] Also, since $Df_{x^*}$ is the
+direction in which $f$ increases most rapidly, it must be that going
+in that direction would violate the constraint. That is, for any
+$\delta > 0$
 \begin{align*} 
-  g(x^* + \delta Df_{x^*}^T) > & b \\ 
+  g(x^* + \delta Df_{x^*}^T) > & b \\
   g(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b \\
   Dg_{x^*} Df_{x^*}^T > & 0
 \end{align*}
-The first order condition says that 
+The first order condition says that
 \[ Df_{x^*} Df_{x^*}^T =  \lambda D g_{x^*} D f_{x^*}^T \]
 $Df_{x^*} Df_{x^*}^T$ is always positive, so it must that when the
 constraint binds, $\lambda > 0$. If the constraint does not bind, we
@@ -370,6 +423,15 @@ equality constraints.
   \end{align*}
   for $i = 1, ..., n$, $\ell = 1,..., l$, and $j=1,...,m$.
 \end{theorem}
+The condition that there are $k$ binding inequality constraints and
+their Jacobian has rank $k$ is another constraint qualification
+condition. This condition occasionally fails to hold, but the
+conclusion of the theorem remains true. There are a number of
+alternative more general constraint qualification conditions. Slater's
+condition is perhaps the most common. Abadie's constraint
+qualification is more general but difficult to check. Chapter 5 of
+Carter has a detailed discussion of other constraint qualification
+conditions.
 
 \section{Second order conditions}
 
