@@ -64,7 +64,8 @@
   \begin{center}%
     \rule{\linewidth}{1pt} 
     {\Large \textbf{\textsc{\@title}}} \par
-    {\normalsize \textsc{Paul Schrimpf}} \par
+    {\normalsize \textsc{Paul Schrimpf}\footnote{Thanks to Dana Galizia
+      for corrections.}} \par
     {\normalsize \textsc{\@date}} \par
     {\small \textsc{University of British Columbia}} \par
     {\small \textsc{Economics 526}} \par
@@ -445,8 +446,8 @@ will be a fixed point.
     x_{n}} = 0$, and $\{x_n\}$ is a Cauchy sequence. Let $x = \lim_{n
     \to \infty} x_n$. Then 
   \begin{align*}
-    \norm{x - f(x)} \leq & \norm{x - x_n} + \norm{f(x) - f(x_n)} \\
-    \leq & \norm{x - x_n} + c\norm{x - x_n}
+    \norm{x - f(x)} \leq & \norm{x - x_n} + \norm{f(x) - f(x_{n-1})} \\
+    \leq & \norm{x - x_n} + c\norm{x - x_{n-1}}
   \end{align*}
   $x_n \to x$, so for any $\epsilon > 0$ $\exists N$, such that if $n
   \geq N$, then $\norm{x - x_n} < \frac{\epsilon}{1+c}$. Then,
