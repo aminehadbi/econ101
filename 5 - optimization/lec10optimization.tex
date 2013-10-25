@@ -226,7 +226,7 @@ point. Then $DF_{x^*} = 0$. To see if $x^*$ is a local maximum, we
 need to look at $F(x^* + h)$ for small $h$. If $F$ is twice
 continuously differentiable, we can take a second order Taylor
 expansion of $F$ around $x^*$.
-\[ F(x^*+h) = F(x^*) + DF_{x^*} h + h^T D^2 F_{x*} h + r(x^*,h) \]
+\[ F(x^*+h) = F(x^*) + DF_{x^*} h + \frac{1}{2} h^T D^2 F_{x*} h + r(x^*,h) \]
 where $D^2 F_{x^*}$ is the matrix of $F$'s second derivatives. It is
 called the \textbf{Hessian} of $F$. 
 \[ D^2 F_{x^*} = \begin{pmatrix} \frac{\partial ^2 F}{\partial x_1^2}
@@ -236,9 +236,9 @@ called the \textbf{Hessian} of $F$.
   \frac{\partial ^2 F}{\partial x_n}^2 \end{pmatrix}.
 \]
 Since $x^*$ is a critical, point $DF_{x^*} = 0$, so
-\[ F(x^*+h) - F(x^*) = h^T D^2 F_{x*} h + r(x^*,h). \]
+\[ F(x^*+h) - F(x^*) = \frac{1}{2} h^T D^2 F_{x*} h + r(x^*,h). \]
 We can see that $x^*$ is a local maximum if 
-\[ h^T D^2 F_{x*} h + r(x^*,h) \leq 0 \]
+\[ \frac{1}{2} h^T D^2 F_{x*} h + r(x^*,h) \leq 0 \]
 for all $h \neq 0$, $\norm{h} < \delta$ for some $\delta > 0$. We know
 that $r(x^*,h)$ is small so, we expect that the above inequality will
 be true if $h^T D^2 F_{x*} h \leq 0$ for all $h \neq 0$. The Hessian,
@@ -287,7 +287,7 @@ discussion.
   start of this section. The only tricky part is carefully showing
   that $r(x,h)$ is small enough to ignore.  As in the discussion
   preceding the theorem, $x^*$ is a local minimizer if
-  \[ F(x^*+h) - F(x^*) = h^T D^2 F_{x^*} h + r(x^*,h) \leq 0. \]
+  \[ F(x^*+h) - F(x^*) =\frac{1}{2} h^T D^2 F_{x^*} h + r(x^*,h) \leq 0. \]
   We can rewrite this as
   \begin{align*}
     h^T D^2 F_{x^*} h + r(x^*,h) = & h^T D^2 F_{x^*} h + h^T h
@@ -380,15 +380,15 @@ local maximizer, then $D^2 F_{x^*}$ must be negative semi-definite.
   Using the same notation and setup as in the proof of theorem
   \ref{thm:soc}, 
   \begin{align*}
-    0 > F(x^* + tq ) - F(x^*) = & t^2 q^T D^2 F_{x^*} q + r(x,tq)  \\
-    0 >  & t^2\left(q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) 
+    0 > F(x^* + tq ) - F(x^*) = & t^2 \frac{1}{2} q^T D^2 F_{x^*} q + r(x,tq)  \\
+    0 >  & t^2\left(\frac{1}{2} q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) 
   \end{align*}
   Because $\lim_{t \to 0} \frac{r(x,tq)}{t^2} = 0$, for any $\epsilon
   >0$ $\exists \delta > 0$ such that if $|t|< \delta$, then
   \begin{align*}
-    0 > & t^2\left(q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) \geq  t^2
-    \left(q^T D^2 F_{x^*} q - \epsilon \right) \\
-    t^2 \epsilon >& t^2 q^T D^2 F_{x^*} q 
+    0 > & t^2\left(\frac{1}{2} q^T D^2 F_{x^*} q + \frac{r(x,tq)}{t^2} \right) \geq  t^2
+    \left(\frac{1}{2} q^T D^2 F_{x^*} q - \epsilon \right) \\
+    t^2 \epsilon >& \frac{1}{2} t^2 q^T D^2 F_{x^*} q 
   \end{align*}
   This is only possible for all $\epsilon >0$ if $q^T D^2 F_{x^*}
   q\leq 0$. 
