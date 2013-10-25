@@ -162,13 +162,14 @@ This function is called the \textbf{Lagrangian}. $\mu$ is called a
 \textbf{Lagrange multiplier}. 
 
 The relationship that we just saw for two dimensional functions is
-always true. Any local maximizer of a constrained optimization problem
-is a critical point of the problem's Lagrangian. One way of seeing
-this is to take a first order expansion of the objective (just like we
-did in the unconstrained case) and the constraints. Suppose $x^*$ is a
-constrained local maximizer. Then for $\Delta$ small enough, $f(x^* +
-\Delta) \leq f(x^*)$ for all $x^*+ \Delta$ that satisfy the
-constraints. If we expand $f(x^*+\Delta)$ around $x^*$ we have
+always true (under some assumptions). Any local maximizer of
+a constrained optimization problem is a critical point of the
+problem's Lagrangian. One way of seeing this is to take a first order
+expansion of the objective (just like we did in the unconstrained
+case) and the constraints. Suppose $x^*$ is a constrained local
+maximizer. Then for $\Delta$ small enough, $f(x^* + \Delta) \leq
+f(x^*)$ for all $x^*+ \Delta$ that satisfy the constraints. If we
+expand $f(x^*+\Delta)$ around $x^*$ we have
 \begin{align*}
   f(x^*+\Delta) \approx f(x^*) + Df_{x^*} \Delta \leq & f(x^*) \\
   Df_{x^*} \Delta \leq & 0 
@@ -269,35 +270,39 @@ The assumption that $Dh_{x*}$ is non-singular is needed to make sure
 that we don't divide by zero when defining the Lagrange
 multipliers. This assumption is called the \textbf{non-degenerate
   constraint qualification}. Imposing it makes stating the theorem
-easier, but similar results can be shown in without this condition. 
+easier, but similar results can be shown without this condition. 
 
 \subsection{Inequality constraints}
 
 Now let's consider an inequality instead of equality constraint. 
-\[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \] When the
-constraint binds, i.e.\ $g(x^*) = b$, the situation is exactly the
+\[ \max_{x \in U} f(x) \text{ s.t. } g(x) \leq b. \] 
+When the constraints binds, i.e.\ $g(x^*) = b$, the situation is exactly the
 same as with an equality constraint. However, the constraint does not
 necessarily bind at a local maximum, so we must allow for that
 possibility.  Let $\lambda$ be the Lagrange multiplier for the above
 problem. If the constraint binds, then
-\[ Df_{x^*} - \lambda D g_{x^*} = 0. \] Also, since $Df_{x^*}$ is the
+\[ Df_{x^*} - \lambda^T D g_{x^*} = 0. \] 
+Since $Df_{x^*}^T$ is the
 direction in which $f$ increases most rapidly, it must be that going
 in that direction would violate the constraint. That is, for any
 $\delta > 0$
 \begin{align*} 
-  g(x^* + \delta Df_{x^*}^T) > & b \\
-  g(x^*) + \delta Dg_{x^*} Df_{x^*}^T + o(\delta^2) > & b \\
-  Dg_{x^*} Df_{x^*}^T > & 0
+  g_j(x^* + \delta Df_{x^*}^T) > & b_j \\
+  g_j(x^*) + \delta Dg_{j,x^*} Df_{x^*}^T + o(\delta^2) > & b \\
+  Dg_{j,x^*} Df_{x^*}^T > & 0
 \end{align*}
-The first order condition says that
-\[ Df_{x^*} Df_{x^*}^T =  \lambda D g_{x^*} D f_{x^*}^T \]
-$Df_{x^*} Df_{x^*}^T$ is always positive, so it must that when the
-constraint binds, $\lambda > 0$. If the constraint does not bind, we
-can use the same first order condition with $\lambda=0$. Thus, we have
-$\lambda \geq 0$ and equals zero iff $g(x^*) < b$. This situation
-where one of two inequalities binds is called a \textbf{complementary
-  slackness condition}. 
-\begin{theorem}[First order condition for maximization with inequality constraints] \label{thm:icon}
+Multiplying the first order condition by $Df_{x^*}^T$ gives
+\[ Df_{x^*} Df_{x^*}^T = \lambda^T D g_{x^*} D f_{x^*}^T. \] 
+Assuming $Df_{x*} \neq 0$, $Df_{x^*} Df_{x^*}^T$ is positive, and, from the previous set of
+inequalities, each element of $D g_{x^*} D f_{x^*}^T$ is also
+positive. Therefore, it must be that when the constraint binds, each
+$\lambda_j > 0$. If the constraint does not bind, we can use the same
+first order condition with $\lambda=0$. Thus, we have $\lambda \geq 0$
+and equals zero iff $g(x^*) < b$. This situation where one of two
+inequalities binds is called a \textbf{complementary slackness
+  condition}.
+\begin{theorem}[First order condition for maximization with inequality
+  constraints] \label{thm:icon} 
   Let $f:U \to \R$ and $g: U \to \R^m$ be continuously
   differentiable on $U \subseteq \R^n$. Suppose $x^* \in
   \mathrm{interior}(U)$ is a local maximizer of $f$ on $U$ subject to 
