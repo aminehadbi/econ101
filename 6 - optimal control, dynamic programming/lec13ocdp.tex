@@ -139,7 +139,7 @@ dimensional vector.
 
 \begin{example}\label{ex:contract}[Contracting with a continuum of
   types]
-  On problem set 5, we studied a problem where a price discriminating
+  On problem set 6, we studied a problem where a price discriminating
   monopolist was selling a good to two types of consumers. We could
   also imagine a similar situation where there is a continuous
   distribution of types. A consumer of type $\theta$ gets $0$ utility
@@ -225,6 +225,9 @@ chapters on optimal control and dynamic programming.
 
 
 \section{Differentiation in vector spaces}
+
+We covered differentiation in vector spaces already. We briefly review
+the main ideas here.
 
 Recall from earlier that there are many sets of functions that are
 vector spaces. We talked a little bit about $\mathcal{L}^p$ spaces of
@@ -324,7 +327,7 @@ similar, but stating them gets to be slightly cumbersome.
   \[ L(x,\mu) = f(x) - \mu h(x). \]
   we have
   \begin{align*}
-     D_xL(x^*,\mu^*) = & Df_{x*} - \mu^* Dh_{x^*} = 0_{BL(V,\R)} \\
+     D_xL(x^*,\mu^*) = & Df_{x*} - \mu Dh_{x^*} = 0_{BL(V,\R)} \\
      D_\mu L(x^*,\mu^*) = & h(x^*) = 0_{W}
   \end{align*}
 \end{theorem}
@@ -346,7 +349,7 @@ transposes, is called the dual space of $W$ and is denoted $W^\ast$.
 Finally, we have subscripted the zeroes in the first order condition
 with $BL(V,\R)$ and $W$ to emphasize that the first equation is for
 linear transformations from $V$ to $\R$, and the second equation is in
-$W$. $Df_{x*}$ has been defined as a linear transformation from $V$ to
+$W$. $Df_{x*}$ is a linear transformation from $V$ to
 $\R$. $Dh_{x*}$ goes from $V$ to $W$. $\mu$ goes from $W$ to $\R$, so
 $\mu$ composed with $Dh_{x*}$, which we just denoted by $\mu Dh_{x*}$
 is a linear transformation from $V$ to $\R$.
@@ -401,7 +404,11 @@ appropriately defining $V$ and $W$.\footnote{One sufficient condition
   \iprod{w}{\lambda}$. However, we only briefly mentioned Hilbert
   spaces, and we haven't talked at all about Sobolev spaces,
   generalized functions, or the Riesz representation theorem, so this
-  footnote is likely very confusing and should be ignored.}
+  footnote is likely very confusing and should be ignored.} It may
+help to compare this to the finite dimensional case where if have
+constraints $h: \R^n \to \R^m$ we write $\mu^T h(x) = \sum_{j=1}^m
+\mu_j h_j(x)$. In this problem we have infinite constraints, so
+instead of a sum, we use an integral. 
 
 The first order conditions are
 \begin{align}
@@ -649,7 +656,7 @@ $\lambda(\theta) = 0$, we see that
    \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
    \right)\nu'(q(\theta)) = & c 
  \end{align*}
-You may recall from problem set 5 that with symmetric information,
+You may recall from problem set 6 that with symmetric information,
 $\theta \nu'(q(\theta)) = c$. Since $\nu'$ is decreasing in $q$, this
 implies that $q(\theta)$ is less than what it would be in the first
 best symmetric information case for all $\theta < \theta_h$. The
@@ -801,13 +808,11 @@ defined by this equation,
 s'=g(c,s), \]
 we can construct a sequence with $v_{i+1} = T(v_i)$. Recall from
 lecture 9 that $T$ is a contraction mapping if 
-\[ \norm{T(v) - T(v')} \leq c \norm{v-v'} \]
-for some $c<1$ and all $v,v'$. We proved that contraction mappings
-have unique fixed points.\footnote{We did this for contractions on
-  $\R^n$, but our proof works for any complete vector space.} Thus, if
-we can show that $T$ is a contraction mapping, then $v_i \to V$, where
-$V$ is the value function that satisfies the Bellman equation, like we
-want. 
+\[ \norm{T(v) - T(v')} \leq c \norm{v-v'} \] for some $c<1$ and all
+$v,v'$. We proved that contraction mappings have unique fixed
+points. Thus, if we can show that $T$ is a contraction mapping, then
+$v_i \to V$, where $V$ is the value function that satisfies the
+Bellman equation, like we want.
 
 Suppose $u$ is bounded, $u(c,s) \leq M$ for all $c$ and $s$. Then 
 \[ \sum_{t=0}^\infty \beta^t u(c_t,s_t)  \leq \frac{M}{1-\beta}. \]
@@ -841,6 +846,10 @@ It follows that
   \norm{v_0 - v_1}.
 \end{align*}
 Hence, $T$ is a contraction and has a unique fixed point $V$. 
+
+%\begin{example}
+  
+%\end{example}
 
 \subsection{Application: Diamond-Mortensen-Pissarides search model}
 
