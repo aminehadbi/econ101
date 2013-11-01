@@ -740,10 +740,17 @@ The basic idea of dynamic programming can be illustrated in a familiar
 finite dimensional optimization problem. Consider a finite horizon
 discrete time consumption savings choice. 
 \[ \max_{c_t,s_t} \sum_{t=0}^T \beta^t u(c_t) \text{ s.t. } s_{t+1} =
-(1+r_t) (s_t - c_t) \]
-with $s_0$ given, and the constraint that $s_{T+1} = 0$. We could just write down the first order conditions
-and try to solve them for $c_t$. However, if $T$ is large, this might
-be very difficult. We can divide this $T$ dimensional problem to a
+(1+r_t) (s_t - c_t) \] with $s_0$ given, and the constraint that
+$s_{T+1} = 0$. We could just write down the first order conditions and
+try to solve them for $c_t$. However, if $T$ is large, this might be
+very difficult. It can be especially difficult to calculate a solution
+numerically. The easiest maximization problems to solve numerically
+are ones where the objective function is linear or quadratic. In
+either of these cases, the amount work needed is proportional to the
+number of variables cubed. If $T$ is large, $T^3$ can be so large that
+computing a solution takes prohibitively large. 
+
+We can divide this $T$ dimensional problem to a
 series of smaller ones by first thinking about what happens at time
 $T$. At time $T$ we have some savings $s_T$ and want to choose $c_T$
 to solve
@@ -847,9 +854,69 @@ It follows that
 \end{align*}
 Hence, $T$ is a contraction and has a unique fixed point $V$. 
 
-%\begin{example}
-  
-%\end{example}
+\paragraph{Advantages of dynamic program} 
+Dynamic programming and optimal control can both be used to solve the
+same sort of problems. Optimal control has the advantage that it uses
+very directly what we know about optimization in $\R^n$ and applies it
+to infinite dimensional spaces. Dynamic programming has the advantage
+that it lets us focus on one period at a time, which can often be
+easier to think about than the whole sequence. Because it only
+requires maximizing over a few variables at a time, dynamic
+programming can be a much more efficient way to calculate
+solutions. The computational advantage of dynamic programming is
+especially pronounced when some of the variables being maximized over
+are discrete. We will see some examples of this below. 
+
+
+
+\subsection{Solving dynamic programs} 
+
+There are three ways to solve a dynamic program. They are:
+\begin{enumerate}
+\item Guess and verify the form of the value function
+\item Iterate the Bellman equation analytically
+\item Iterate the Bellman equation numerically
+\end{enumerate}
+If you guess correctly, the first method is fairly
+straightforward. However, guessing correctly is difficult and often is
+not possible at all. The second method will always work, but may not
+lead to a closed form expression. The third method is the main way
+dynamic programs are solved in practice, but we will not go into the
+details. 
+
+\begin{example}[Optimal growth]
+  Consider an economy with a single infinitely lived representative
+  consumer with per-period log utility from consumption and a discount
+  factor of $\delta$. The economy's production function is
+  Cobb-Douglas with capital as the only input. Anything not consumed
+  at time $t$ becomes capital at time $t+1$. The optimal growth
+  problem is
+  \begin{align*}
+    \max_{\{c_t\}_{t=0}^\infty} & \sum_{t=0}^\infty \delta^t
+    \log(c_t) \\
+    \text{s.t. } & c_t + k_{t+1} = k_t^\alpha.
+  \end{align*}
+  If we use the constraint to solve for $c_t$ and substitute into the
+  objective, then we have
+  \begin{align*}
+    \max_{\{k_t\}_{t=1}^\infty} & \sum_{t=0}^\infty \delta^t
+    \log(k_t^\alpha - k_{t+1}) \\
+    \text{s.t.} & 0 \leq k_{t+1} \leq k_t^\alpha 
+  \end{align*}
+ The Bellman equation for this problem is
+ \begin{align*}
+   v(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta
+   v(k')
+ \end{align*}
+ Now, we guess the functional form of $v$. Since the per-period
+ utility function is logarithmic and production is Cobb-Douglas, it is
+ sensible to guess that $v(k) = c_0 + c_1 \log(k^a)$ where $c_0$,
+ $c_1$, and $a$ are each constant for which we solve. Now, since $c_1
+ \log(k^a) = c_1 a \log(k)$, $a$ and $c_1$ are redundant, so we can
+ get rid of $a$, and just guess that $v(k) = c_0 + c_1 \log(k)$. 
+ 
+ TO BE CONTINUED.
+\end{example}
 
 \subsection{Application: Diamond-Mortensen-Pissarides search model}
 
