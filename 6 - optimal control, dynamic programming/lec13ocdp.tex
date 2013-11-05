@@ -809,7 +809,7 @@ some guess at the value function $v_0:\R\to \R$. Then we refine that guess by
 setting 
 \[ v_1(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
 s'=g(c,s) \]
-We could do this repeatedly. That is, if we let $T$ be the functional
+We could do this repeatedly. That is, if we let $T$ be the operator
 defined by this equation,
 \[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
 s'=g(c,s), \]
@@ -868,7 +868,6 @@ especially pronounced when some of the variables being maximized over
 are discrete. We will see some examples of this below. 
 
 
-
 \subsection{Solving dynamic programs} 
 
 There are three ways to solve a dynamic program. They are:
@@ -880,11 +879,11 @@ There are three ways to solve a dynamic program. They are:
 If you guess correctly, the first method is fairly
 straightforward. However, guessing correctly is difficult and often is
 not possible at all. The second method will always work, but may not
-lead to a closed form expression. The third method is the main way
-dynamic programs are solved in practice, but we will not go into the
-details. 
+lead to a closed form expression, and can be tedious. The third method
+is the main way dynamic programs are solved in practice, but we will
+not go into the details.
 
-\begin{example}[Optimal growth]
+\begin{example}[Optimal growth by guessing and verifying]
   Consider an economy with a single infinitely lived representative
   consumer with per-period log utility from consumption and a discount
   factor of $\delta$. The economy's production function is
@@ -915,8 +914,151 @@ details.
  \log(k^a) = c_1 a \log(k)$, $a$ and $c_1$ are redundant, so we can
  get rid of $a$, and just guess that $v(k) = c_0 + c_1 \log(k)$. 
  
- TO BE CONTINUED.
+ We now use the Bellman equation to solve for $c_0$ and $c_1$. First
+ we solve for the optimal $k'$ for a given $c_0$ and $c_1$. The
+ Bellman equation is:
+ \begin{align*}
+   c_0 + c_1 \log k = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha-k') +
+   \delta\left(c_0 + c_1 \log k' \right).
+ \end{align*}   
+ We could write the Lagrangean with the constraints that $k'\geq 0$
+ and $k'\leq k^\alpha$. If we were not sure whether these constraints
+ would bind we would include them in the Lagrangean and check the
+ complementary slackness conditions. However, it is slightly easier to
+ just notice that these constraints cannot bind because utility
+ approaches $-\infty$ as $k$ approaches $k^\alpha$ and the next
+ period's value approaches $-\infty$ as $k'$ approaches $0$, so
+ neither constraint will bind.  Without the constraints, the first
+ order condition is:
+ \begin{align*}
+   -\frac{1}{k^\alpha - k'}  + \delta c_1 \frac{1}{k'} = & 0 \\
+   -k' + \delta c_1 (k^\alpha - k') & = 0 \\
+   k' = & \frac{\delta c_1}{1+\delta c_1} k^\alpha
+ \end{align*}
+ Now, we plug this back into the Bellman equation and solve for $c_0$
+ and $c_1$ by varying $k$. 
+ \begin{align*}
+   c_0 + c_1 \log k = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha-k') +
+   \delta\left(c_0 + c_1 \log k' \right) \\
+   = & \log\left(k^\alpha - \frac{\delta c_1}{1+\delta c_1}
+     k^\alpha\right) + \delta \left(c_0 + c_1 \log \left(\frac{\delta
+         c_1}{1+\delta c_1} k^\alpha\right) \right) \\
+   = & \log\left(\frac{1}{1+\delta c_1}\right) + \alpha \log k +
+   \delta\left(c_0 + c_1 \log\left(\frac{\delta
+         c_1}{1+\delta c_1} \right) + \alpha \log k \right) \\
+   = & \underbrace{\log\left(\frac{1}{1+\delta c_1}\right) + \delta
+     c_1 \log\left(\frac{\delta c_1}{1+\delta c_1} \right)}_{=c_0} +
+   \underbrace{(\alpha + \delta c_1 \alpha )}_{= c_1} \log k
+ \end{align*}
+ Both the left and right sides of this equation are affince function
+ of $\log k$. They can only be equal for all $k$ if the coefficients
+ are equal. Thus,
+ \begin{align*} 
+   c_1 = & \alpha + \delta c_1 \alpha \\
+   c_1 = & \frac{\alpha}{1-\delta \alpha}
+ \end{align*}
+ and 
+ \begin{align*}
+   c_0 = & \log\left(\frac{1}{1+\delta c_1}\right) + \delta c_1
+   \log\left(\frac{\delta c_1}{1+\delta c_1} \right) \\
+   = & -\left(1 + \delta \frac{\alpha}{1-\delta \alpha}\right) 
+   \log\left(1+\delta  \frac{\alpha}{1-\delta \alpha}\right) + 
+   \delta \frac{\alpha}{1-\delta \alpha} 
+   \log\left(\delta \frac{\alpha}{1-\delta \alpha} \right) \\
+   = & \log(1-\delta \alpha) + \frac{\delta \alpha}{1-\delta \alpha}
+   \log(\delta \alpha).
+ \end{align*}
+ Finally, we should make sure that this solution doesn't violate the
+ constraint. We have
+ \[ k' = \frac{\delta c_1}{1+\delta c_1} k^\alpha = \delta \alpha
+ k^\alpha, \]
+ so the constraints are satisfied as long  as $\delta \alpha \in
+ (0,1)$.  
 \end{example}
+
+If we cannot guess the form of the value function, we can try to find
+it by repeatedly applying the Bellman operator. The Bellman operator
+is the $T$ operator we defined above,
+\[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. } s'=g(c,s). \]
+We already showed that $T$ is a contraction (provided $u$ is bounded
+and $\abs{\beta} < 1$). Among other things, this means that if we
+start with an arbitrary guess of the value function, $v_0$, and then
+construct a sequence by repeatedly applying $T$, i.e., 
+\[ v_i = T(v_{i-1} \],
+then the sequence $v_i$ will converge to a unique fixed point, $v$,
+that satisfies the Bellman equation. 
+\begin{example}[Optimal growth by iterating]
+  The same optimal growth problem as in the previous example can also
+  be solved by iterating the Bellman operator. We start with
+  \emph{any} guess of the value function for $v_0$. A common choice is
+  the zero function, $v_0(k) = 0$ for all $k$. Then we find $v_1$ by
+  solving 
+  \begin{align*}
+    v_1(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta v_0(k)
+    \\
+    = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') \\
+    = & \alpha \log k.
+  \end{align*}
+  Then, we repeat to find $v_2$.
+  \begin{align*}
+    v_2(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta v_1(k)
+    \\
+    = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta
+    \alpha \log(k')  \\
+    = & c_2 + (\alpha + \delta \alpha^2) \log k,
+  \end{align*}
+  where $c_2$ is some constant that involves $\delta$, $\alpha$, and
+  their logs. The third equality comes from writing the first order
+  condition, solving for $k'$, and subsituting back into the
+  objective.  We can explicitly solve for $c_2$, but it doesn't matter
+  for the first order condition for $v_3$, so we don't need to know it
+  exactly. We repeat again to get $v_3$
+  \begin{align*}
+    v_3(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta v_1(k)
+    \\
+    = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta
+    \alpha \log(k')  \\
+    = & c_3 + (\alpha + \delta \alpha^2 + \delta^2 \alpha^3) \log k.
+  \end{align*}    
+  We could repeat again to get 
+  \begin{align*}
+    v_4(k) = & c_4 + (\alpha + \delta \alpha^2 + \delta^2 \alpha^3 +
+    \delta^3 \alpha^4) \log k \\
+    v_5(k) = & c_5 + (\alpha + \delta \alpha^2 + \delta^2 \alpha^3 +
+    \delta^3 \alpha^4 + \delta^4 \alpha^5) \log k \\
+    \vdots
+  \end{align*}
+  etc. Eventually, we hopefully notice a pattern. The more obvious
+  pattern is that each $v_i$ and will always be of the form $v_i(k) =
+  c_i + m_i \log(k)$. Thus, we know that $v(k)$ will have that same
+  form and we can go back to the guess and verify method. Better yet,
+  we could notice that
+  \[ v_i(k) = c_i + \alpha \sum_{j = 0}^i (\alpha \delta)^j \log(k),\]
+  so 
+  \begin{align*}
+    v(k) = C + \frac{\alpha}{1-\alpha \delta} \log k.
+  \end{align*}
+  If we care about $C$, we could find it by either explicitly writing
+  $c_i$ in terms of $\delta$ and $\alpha$ and taking the limit; or
+  using the guess verify method just for $C$. 
+\end{example}
+
+Solving for the value function, whether by guessing and verifying or
+iterating can be a bit tedious. Even worse, for most specifications of
+the per-period payoff $u$ and constraints $g$, there will be no closed
+form solution for $v$. That makes it impossible to guess the form, and
+iterating the Bellman equation will not lead to a discernible pattern
+(although it will still give a convergent series). Using a computer to
+solve for the value function avoids both these problems. A computer
+does not care that Bellman operator iteration is tedious, and it can
+numerically compute $v(k)$ even if it has no closed form. 
+
+Another situation where dynamic programs can be solved analytically is
+when the control variable is discrete. For example, a person could be
+choosing to work or not each period, or a firm could be choosing to
+enter or exit a market. The section below and the last problem on
+problem set 6 are examples of dynamic programming with discrete
+control variables. 
 
 \subsection{Application: Diamond-Mortensen-Pissarides search model}
 
