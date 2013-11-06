@@ -417,9 +417,13 @@
     \[ V_T(s_T) \equiv \max_{c_T} u(c_T) \text{ s.t. } s_{T+1} = (1+r_T)(s_T
     -c_T) = 0 \] 
   \item $T-1$
-    \[ V_{T-1}(s_{T-1}) \equiv \max_{c_{T-1},s'} u(c_{T-1}) + \beta V_T(s') \text{ s.t.} s' =
-    (1+r_{T-1})(c_{T-1}-s_{T-1}) \]
-  \item In general, Bellman equation
+    \begin{align*}
+      V_{T-1}(s_{T-1}) \equiv & \max_{c_{T-1},s'} u(c_{T-1}) + \beta
+      V_T(s') \\
+      \text{ s.t.} & s' =
+    (1+r_{T-1})(c_{T-1}-s_{T-1}) 
+  \end{align*}
+\item In general, Bellman equation
     \begin{align} 
       V_t(s) = \max_{c_t,s'} u(c_{t}) + \beta V_{t+1}(s') \text{ s.t.} s' =
       (1+r_{t})(c_{t}-s)
@@ -499,7 +503,7 @@
       \[ v_1(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
       s'=g(c,s) \]
     \item Repeat: $v_j(s) = T(v_{j-1})(s)$ with 
-      \[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
+      \[ T(v)(s) = \max_{c,s'} u(c,s) + \beta v(s') \text{ s.t. }
       s'=g(c,s) \]
     \item Recall: contraction mappings  have unique fixed points 
     \item If $T$ is a contraction, then $V$ exists and $v_j \to V$
@@ -530,13 +534,14 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}  \frametitle{Existence of value function}
+\begin{frame}[shrink]  \frametitle{Existence of value function}
   \begin{itemize}
   \item Show $T$ contraction: 
     \begin{itemize}
     \item Note:
       \begin{align*}
-        T(v_0)(s)-T(v_1)(s) =  \left(u(c_0,s) + \beta v_0(s_0')  \right) -
+        T(v_0)(s)-T(v_1)(s) =  & \left(u(c_0,s) + \beta v_0(s_0')
+        \right) - \\ & - 
         \left(u(c_1,s) + \beta v_1(s_1')  \right)
       \end{align*} 
       where $c_i,s_i'$ are maximizer to Bellman equation with $v_i$
@@ -581,6 +586,63 @@
     solve for $v_0, v_1, v_2$ (will not be possible if guess incorrect)
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Example: optimal growth}
+  \begin{itemize}
+  \item $\log$ preferences, Cobb-Douglas production
+    \begin{align*}
+      \max_{\{c_t\}_{t=0}^\infty} & \sum_{t=0}^\infty \delta^t
+      \log(c_t) \\
+      \text{s.t. } & c_t + k_{t+1} = k_t^\alpha.
+    \end{align*}
+  \item Bellman equation:
+    \begin{align*}
+      v(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta
+      v(k')
+    \end{align*}
+  \item Could guess and verify $v(k) = c_0 + c_1 \log(k)$
+  \item If cannot guess, can try iterating the Bellman operator
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Example: optimal growth}
+  \begin{itemize}
+  \item Set $v_0(k) = 0$ (or anything)
+  \item Make sequence $ v_i = T(v_{i-1})$
+  \item $v_1$:
+    \begin{align*}
+      v_1(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta v_0(k)
+      \\
+      = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') \\
+      = & \alpha \log k.
+    \end{align*}
+  \item $v_2$: 
+    \begin{align*}
+      v_2(k) = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta v_1(k)
+      \\
+      = & \max_{k' \in [0,k^\alpha]} \log(k^\alpha - k') + \delta
+      \alpha \log(k')  \\
+      = & c_2 + (\alpha + \delta \alpha^2) \log k,
+    \end{align*}
+  \item Etc.
+    \begin{align*}
+      v_3(k) = & c_3 + (\alpha + \delta \alpha^2 + \delta^2 \alpha^3)
+      \log k \\
+      v_4(k) = & c_4 + (\alpha + \delta \alpha^2 + \delta^2 \alpha^3 +
+      \delta^3 \alpha^4) \log k \\
+      \vdots &  \\
+      v_i(k) = & c_i + \alpha \sum_{j = 0}^i (\alpha \delta)^j \log(k)
+    \end{align*}
+  \item Take, limit $i \to \infty$, 
+    \[
+      v(k) = 
+      C + \frac{\alpha}{1-\alpha \delta} \log k 
+      \]      
+  \end{itemize}  
+\end{frame}
+
 
 
 \end{document}
