@@ -450,13 +450,18 @@ partial derivatives of the constraint is non-zero. This assumption is
 called the non-degenerate constraint qualification. It is rarely an
 issue for equality constraints.
 
-\begin{example}
+\begin{exercise}
   Solve the problem:
   \begin{align*}
     \max_{x} \alpha_1 \log x_1 + \alpha_2 \log x_2 \text{ s.t. } (p_1
     x_1 + p_2 x_2 - y)^3 = 0
   \end{align*}
-\end{example}
+  What goes wrong? How does it differ from the following problem:
+  \begin{align*}
+    \max_{x} \alpha_1 \log x_1 + \alpha_2 \log x_2 \text{ s.t. } (p_1
+    x_1 + p_2 x_2 - y) = 0
+  \end{align*}  
+\end{exercise}
 
 \subsection{Lagrange multipliers as shadow prices}
 
@@ -613,15 +618,12 @@ that you guessed not binding, then that $x$ is a possible local
 maximum. To find all possible local maxima, you would have to repeat
 this for all possible combinations of constraints binding or
 not. There $2^m$ such possibilities, so this process can be
-tedious. Fortunately, the economics of a problem often suggest which
-constraints will bind, and you rarely actually need to investigate all
-$2^m$ possibilities.
-
+tedious. 
 \begin{example}
   Let's solve
   \begin{align*}
-    \max_x x_1 x_2 \text{ s.t. } & x_1^2 + 2x_2^2 \leq & 3 \\
-    & 2 x_1^2 + x_2^2 \leq & 3
+    \max_x x_1 x_2 \text{ s.t. } & x_1^2 + 2x_2^2 \leq 3 \\
+    & 2 x_1^2 + x_2^2 \leq  3
   \end{align*}
   The Lagrangian is
   \begin{align*}
@@ -636,13 +638,15 @@ $2^m$ possibilities.
     0 = & \lambda_2(2 x_1^2 + x_2^2 - 3) 
   \end{align*}
   Now, we must guess which constraints bind. Since the problem is
-  symmetric in $x_1$ and $x_2$, it is reasonable to start by guessing that either
-  both constraints or neither constraint will bind. If neither
-  constraint binds, then $\lambda_1 = \lambda_2 = 0$, and the first
-  order conditions imply $x_1 = x_2 = 0$. This results in a function
-  value of $0$. This is feasible, but it is not the maximum since for
-  example, small positive $x_1$ and $x_2$ would also be feasible and
-  give a higher function value. 
+  symmetric in $x_1$ and $x_2$, we only need to check three
+  possibilities instead of all four. The three possibilities are
+  neither constraint binds, both bind, or one binds and one does not. 
+
+  If neither constraint binds, then $\lambda_1 = \lambda_2 = 0$, and
+  the first order conditions imply $x_1 = x_2 = 0$. This results in a
+  function value of $0$. This is feasible, but it is not the maximum
+  since for example, small positive $x_1$ and $x_2$ would also be
+  feasible and give a higher function value.
 
   Instead, suppose both constraints bind. Then the solutions to 
   $x_1^2 + 2x_2^2 = 3$ and $2 x_1^2 + x_2^2 = 3$ are $x_1 = \pm 1$ and
@@ -667,20 +671,273 @@ $2^m$ possibilities.
   $x_2 = \sqrt{3/4}$. However, then $2x_1^2 + x_1^2 = 3 + 3/4 >
   3$. The second constraint is violated, so this cannot be the solution.   
 \end{example}
+Fortunately, the economics of a problem often suggest which
+constraints will bind, and you rarely actually need to investigate all
+$2^m$ possibilities.
+\begin{example}[Quasi-linear preferences]
+  A consumer's choice of some good(s) of interest $x$ and spending on
+  all other goods $z$ is often modeled using quasi-linear
+  preferences. $U(x,z) = u(x) + z$. The consumer's problem is
+  \begin{align*} 
+    \max_{x,z} u(x) + z \text{ s.t. } & px + z \leq y \\
+    & x \geq 0 \\
+    & z \geq 0
+  \end{align*}
+  Let $\lambda$, $\mu_x$, and $\mu_z$ be the multipliers on the
+  constraints. The first order conditions are
+  \begin{align*}
+    u'(x) - \lambda p + \mu_x = & 0 \\
+    1 - \lambda + \mu_z = & 0
+  \end{align*}
+  along with the complementary slackness conditions
+  \begin{align*}
+    \lambda \geq & 0 & px + z \leq & y \\
+    \mu_x \geq & 0 & x \geq 0 \\
+    \mu_z \geq & 0 & z \geq 0
+  \end{align*}
+  There are $2^3 = 8$ possible combinations of constraints binding or
+  not. However, we can eliminate half of these possibilities by
+  observing that if the budget constraint is slack, $px + z < y$, then
+  increasing $z$ is feasible and increases the objective
+  function. Therefore, the budget constraint must bind, $px + z = y$
+  and $\lambda > 0$. There are four remaining possibilities. Having $0
+  = x = z$ is not possible because then the budget constraint would
+  not bind. This leaves three possibilities
+  \begin{enumerate}
+  \item $0 < x$ and $0<z$. That implies $\mu_x = \mu_z =
+    0$. Rearranging the first order conditions gives that $u'(x) =
+    p$ and from the budget constraint $z = y - p x$. Depending on $u$,
+    $p$, and $y$, this could be the solution.
+  \item $0 = x$ and $0<z$. That implies that $\mu_z = 0$ and $\mu_x >
+    0$. From the budget constraint, $z = y$. From the first order
+    conditions we have $u'(0) = p + \mu_x$. Since $\mu_x$ must be
+    positive, this equation requires that $u'(0) < p$. This also could
+    be the solution depending on $u$, $p$, and $y$
+  \item $0 < x$ and $0 = z$. That implies that $\mu_x = 0$. From the
+    budget constraint, $x = y/p$. Combining the first order conditions
+    to eliminate $\lambda$ gives $1 + \mu_z =
+    \frac{u'(y/p)}{p}$. Since $\mu_z>0$, this equation requires that
+    $u'(y/p) > p$. This also could be the solution depending on $u$,
+    $p$, and $y$.
+  \end{enumerate} 
+\end{example}
 
-\begin{example}
+\begin{exercise}
   Show that replacing the problem 
   \[ \max_x f(x) \text{ s..t } g(x) \leq b. \]
   with an equality constrained problem with slack variables $s$, 
   \[ \max_{x,s} f(x) \text{ s..t } g(x) - s = b, \]
   leads to the same conclusions are theorem \ref{thm:icon}
+\end{exercise}
+
+
+\subsection{Second order conditions} 
+
+As with unconstrained optimization, the first order conditions from
+the previous section only give a necessary condition for $x^*$ to be a
+local maximum of $f(x)$ subject to some constraints. To verify that a
+given $x^*$ that solves the first order condition is a local maximum,
+we must look at the second order condition. As in the unconstrained
+case, we can take a second order expansion of $f(x)$ around $x^*$.
+\begin{align*}
+  f(x^*+v) - f(x^*) \approx & Df_{x^*} v + \frac{1}{2} v^T D^2 f_{x^*}
+  v \\
+  \approx &  \frac{1}{2} v^T D^2 f_{x^*} v \\
+\end{align*}
+This is constrained problem, so any $x^* + v$ must satisfy the
+constraints as well. As before, what will really
+matter are the equality constraints and binding inequality
+constraints. To simplify notation, let's just work with equality
+constraints, say $h(x)=c$. We can take a first order expansion of $h$
+around $x^*$ to get
+\[ h(x^* + v) \approx h(x^*) + Dh_{x*} v  = c. \]
+Then $v$ satisfies the constraints if
+\begin{align*}
+  h(x^*) + Dh_{x^*} v = & c \\
+  Dh_{x^*} v = & 0
+\end{align*}
+Thus, $x^*$ is a local maximizer of $f$ subject to $h(x) = c$ if
+\[ v^T D^2 f_{x^*} v \leq 0 \] for all $v$ such that that $Dh_{x^*} v
+= 0$. The following theorem precisely states the result of this
+discussion.
+\begin{theorem}[Second order condition for constrained maximization]
+  Let $f:U \to \R$ be twice continuously
+  differentiable on $U$, and $h:U \to \R^l$ and $g: U \to \R^m$ be
+  continuously differentiable on $U \subseteq \R^n$. Suppose $x^* \in    
+  \mathrm{interior}(U)$ and there exists
+  $\mu^* \in \R^l$ and $\lambda^* \in \R^m$ such that for 
+  \[ L(x,\lambda,\mu) = f(x) - \lambda^T (g(x) - b) - \mu^T(h(x) - c). \]
+  we have
+  \begin{align*}
+    \frac{\partial L}{\partial x_i}(x^*,\lambda^*) = & \frac{\partial
+      f}{\partial x_i} - {\lambda^*}^T \frac{\partial g}{\partial
+      x_i}(x^*) - {\mu^*}^T \frac{\partial h}{\partial x_i}(x^*)= 0 \\
+    \frac{\partial L}{\partial \mu_\ell}(x^*,\lambda^*) = & h_\ell(x^*) - c = 0 \\
+    \lambda_j^* \frac{\partial L}{\partial \lambda_j}(x^*,\lambda^*) =
+    & \lambda_j^* \left(g(x^*) - c \right)= 0 \\
+    \lambda_j^* & \geq 0 \\
+    g(x^*) & \leq b
+  \end{align*}
+  Let $B$ be the matrix of the derivatives of the binding constraints
+  evaluated at $x^*$,
+  \[ B = \begin{pmatrix} 
+    \frac{\partial h_1}{\partial x_1} &  \cdots &\frac{\partial
+      h_1}{\partial x_n}  \\
+    \vdots & & \vdots \\
+    \frac{\partial h_l}{\partial x_1} &  \cdots &\frac{\partial
+      h_l}{\partial x_n}  \\    
+    \frac{\partial g_1}{\partial x_1} &  \cdots &\frac{\partial
+      g_1}{\partial x_n}  \\ 
+    \vdots & & \vdots \\
+    \frac{\partial g_k}{\partial x_1} &  \cdots &\frac{\partial
+      g_k}{\partial x_n}  
+  \end{pmatrix}
+  \]
+  and assume that $B$ has rank $l+k$. 
+  If 
+  \[ v^T D^2 f_{x*} v < 0 \]
+  for all $v \neq 0$ such that $B v = 0$, then $x^*$ is a strict
+  local constrained maximizer for $f$ subject to $h(x) = c$ and $g(x)
+  \leq b$. 
+\end{theorem}
+Recall from above that an $n$ by $n$ matrix, $A$, is negative definite
+if $x^T A x < 0$ for all $x \neq 0$. Similarly, we say that $A$ is
+negative definite on the null space\footnote{The null space of an $m
+  \times n$ matrix $B$ is the set of all $x \in \R^n$ such that $Bx =
+  0$. We will discuss null spaces in more detail later in the course.}
+of $B$ if $x^T A x < 0$ for all $x \in \mathcal{N}(B)
+\setminus\{0\}$. Thus, the second order condition for constrained
+optimization could be stated as saying that the Hessian of the
+objective function must be negative definite on the null space of the
+Jacobian of the binding constraints. The proof is similar to the proof
+of the second order condition for unconstrained optimization, so we
+will omit it. 
+
+
+
+\section{Comparative statics}
+
+Often, a maximization problem will involve some parameters. For
+example, a consumer with Cobb-Douglas utility solves:
+\[ \max_{x_1,x_2} x_1^{\alpha_1} x_2^{\alpha_2} \text{ s.t. } p_1 x_1
++ p_2 x_2 = y. \]
+The solution to this problem depends $\alpha_1$, $\alpha_2$, $p_1$,
+$p_2$, and $y$. We are often interested in how the solution depends on
+these parameters. In particular, we might be interested in the
+maximized value function (which in this example is the indirect
+utility function)
+\[ v(p_1,p_2,y,\alpha_1,\alpha_2) = \max_{x_1,x_2} x_1^{\alpha_1}
+x_2^{\alpha_2} \text{ s.t. } p_1 x_1 + p_2 x_2 = y. \]
+We might also be interested in the maximizers
+$x_1^*(p_1,p_2,y,\alpha_1,\alpha_2)$ and
+$x_2^*(p_1,p_2,y,\alpha_1,\alpha_2)$ (which in this example are the
+demand functions).  
+
+\subsection{Envelope theorem}
+
+The envelope theorem tells us about the derivatives of the maximum
+value function. Suppose we have an objective function that depends on
+some parameters $\theta$. Define the maximum value function as
+\[ v(\theta) = \max_x f(x,\theta) \text{ s.t. } h(x) = c. \]
+Let $x^*(\theta)$ denote the maximizer as function of $\theta$, i.e. 
+\[ x^*(\theta) = \argmax_x f(x,\theta) \text{ s.t. } h(x) = c. \]
+By definition $v(\theta) = f(x^*(\theta), \theta)$. Applying the chain
+rule we can calculate the derivative of $v$. For simplicity, we will
+treat $x$ and $\theta$ as scalars, but the same calculations work when
+they are vectors.
+\begin{align*} 
+  \frac{dv}{d\theta} = & \frac{\partial f}{\partial \theta}(x^*(\theta),\theta) +
+  \frac{\partial f}{\partial x}(x^*(\theta),\theta) \frac{d x^*}{d\theta}(\theta)
+\end{align*}
+From the first order condition, we know that 
+\[ 
+\frac{\partial f}{\partial x}(x^*(\theta),\theta) \frac{dx^*}{d\theta}
+= 
+\mu
+\frac{\partial h}{\partial x}(x^*(\theta),\theta)
+\frac{dx^*}{d\theta}. 
+\]
+However, since $x^*(\theta)$ is a constrained maximum for each
+$\theta$, it must be that $h(x^*(\theta)) = c$ for each
+$\theta$. Therefore, 
+\[ 0 = \frac{d}{d\theta} h(x^*(\theta)) = \frac{\partial h}{\partial
+  x}(x^*(\theta),\theta) \frac{dx^*}{d\theta} = 0. \]
+Thus, we can conclude that
+\begin{align*} 
+  \frac{dv}{d\theta} = & \frac{\partial f}{\partial
+    \theta}(x^*(\theta),\theta).
+\end{align*}
+
+More generally, you might also have parameters in the constraint, 
+\[ v(\theta) = \max_x f(x,\theta) \text{ s.t. } h(x,\theta) = c. \]
+Following the same steps as above, you can show that
+\[ \frac{dv}{d\theta} = \frac{\partial f}{\partial
+  \theta} -  \mu \frac{\partial h}{\partial
+  \theta} = \frac{\partial L}{\partial \theta}. \]
+Note that this result also covers the previous case where the
+constraint did not depend on $\theta$. In that case, $\frac{\partial
+  h}{\partial \theta} = 0$ and we are left with just
+$\frac{dv}{d\theta} = \frac{\partial f}{\partial \theta}$.
+  
+The following theorem summarizes the above discussion.
+\begin{theorem}[Envelope]
+  Let $f:\R^{n+k} \to \R$ and $h: \R^{n+k} \to
+  \R^m$ be continuously differentiable. Define
+  \[ v(\theta) = \max_x f(x,\theta) \text{ s.t. } h(x,\theta) = c \]
+  where $x \in \R^n$ and $\theta \in \R^k$. Then
+  \[ D_\theta v_\theta = D_\theta f_{x^*,\theta} + \mu^T D_\theta
+  h_{x^*,\theta} \] 
+  where $\mu$ are the Lagrange multipliers from theorem
+  \ref{thm:econ}, $D_\theta f_{x^*,\theta}$ denotes the $1 \times
+  k$ matrix of partial derivatives of $f$ with respect to $\theta$
+  evaluated at $(x^*,\theta)$ , and $D_\theta h_{x^*,\theta}$ denotes
+  the $m \times k$ matrix of partial derivatives of $f$ with respect
+  to $\theta$ evaluated at $(x^*,\theta)$. 
+\end{theorem}
+
+\begin{example}[Consumer demand]
+  Some of the core results of consumer theory can be shown as simple
+  consequences of the envelope theorem. Consider a consumer choosing
+  goods $x \in \R^n$ with prices $p$ and income $y$. Define 
+  \[ v(p,y) = \max_x u(x) \text{ s.t. } p^T x - y \leq 0. \]
+  In this context, $v$ is called the indirect utility function. From
+  the envelope theorem,
+  \begin{align*}
+    \frac{\partial v}{\partial p_i} = & \mu x_i^*(p,y) \\
+    \frac{\partial v}{\partial y} = & \mu
+  \end{align*}
+  Taking the ratio we have a relationship between the (Marshallian)
+  demand function, $x^*$, and the indirect utility function,
+  \begin{align*}
+    x_i^*(p,y) = \frac{ \frac{\partial v}{\partial p_i}}
+    {\frac{\partial v}{\partial y}}.
+  \end{align*}
+  This is known as Roy's identity.
+
+  Now consider the mirror problem of minimizing expenditure given a
+  target utility level,
+  \[ e(p,\bar{u}) = \min_x p^T x \text{ s.t. } u(x) \geq \bar{u} \]
+  In general, $e$ is a maximum value function, but in this particular
+  context, it is the consumer's expenditure function. Using the
+  envelope theorem again,
+  \begin{align*}
+    \frac{\partial e}{\partial p_i}(p,\bar{u}) = & x_i^h(p,\bar{u})
+  \end{align*}
+  where $x_i^h(p,\bar{u})$ is the constrained minimizer. It is the Hicksian
+  (or compensated) demand function. 
+
+  Finally, using the fact that $x_i^h(p,\bar{u}) =
+  x_i^*(p,e(p,\bar{u})$ and differentiating with respect to $p_k$
+  gives Slutsky's equation.
+  \begin{align*}
+    \frac{\partial x_i^h}{\partial p_k} = & \frac{\partial
+      x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
+    \frac{\partial e}{\partial p_k} \\
+    = & \frac{\partial
+      x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
+    x_k^*
+  \end{align*} 
 \end{example}
-
-
-\subsection{Second order conditions}
-
-
-\section{Envelope theorem}
 
 
 \appendix
