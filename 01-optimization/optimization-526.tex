@@ -793,7 +793,6 @@ discussion.
       g_k}{\partial x_n}  
   \end{pmatrix}
   \]
-  and assume that $B$ has rank $l+k$. 
   If 
   \[ v^T D^2 f_{x*} v < 0 \]
   for all $v \neq 0$ such that $B v = 0$, then $x^*$ is a strict
@@ -885,7 +884,7 @@ The following theorem summarizes the above discussion.
   \R^m$ be continuously differentiable. Define
   \[ v(\theta) = \max_x f(x,\theta) \text{ s.t. } h(x,\theta) = c \]
   where $x \in \R^n$ and $\theta \in \R^k$. Then
-  \[ D_\theta v_\theta = D_\theta f_{x^*,\theta} + \mu^T D_\theta
+  \[ D_\theta v_\theta = D_\theta f_{x^*,\theta} - \mu^T D_\theta
   h_{x^*,\theta} \] 
   where $\mu$ are the Lagrange multipliers from theorem
   \ref{thm:econ}, $D_\theta f_{x^*,\theta}$ denotes the $1 \times
@@ -936,9 +935,97 @@ The following theorem summarizes the above discussion.
     = & \frac{\partial
       x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
     x_k^*
-  \end{align*} 
+  \end{align*}   
 \end{example}
 
+We can also analyze how the maximizer varies with the parameters. We
+do this by total differentiating the first order condition. Consider
+an equality constrained problem,
+\[ \max_x f(x,\theta) \text{ s.t. } h(x,\theta) = c. \] 
+where $x \in \R^n$, $\theta \in \R^s$, and $c \in R^m$.
+The optimal $x$ much satisfy the first order condition and the
+constraint.
+\begin{align*}
+  \frac{\partial f}{\partial x_j} - \sum_{k=1}^m \mu_k \frac{\partial
+    h_k}{\partial x_j} = & 0 \\
+  h_k(x,\theta) - c = & 0 
+\end{align*}
+for $j = 1,..., n$, and $k=1,...,m$. Suppose $\theta$ changes by
+$d\theta$, let $dx$ and $d\mu$ be the amounts that $x$ and $\mu$
+have to change by to make the first order conditions still hold. These
+must satisfy,
+\begin{align*}
+  \sum_{\ell=1}^n \frac{\partial^2 f}{\partial x_j \partial x_\ell}
+  dx_\ell + \sum_{r=1}^s \frac{\partial f}{\partial x_j \partial
+    \theta_r} d\theta_r - \sum_{k=1}^m \mu_k \left( \sum_{\ell=1}^n
+    \frac{\partial h_k}{\partial x_j \partial x_\ell} dx_\ell +
+    \sum_{r=1}^s \frac{\partial h_k}{\partial x_j \partial \theta_r}
+    d\theta_r \right) - \sum_{k=1}^m d\mu_k \frac{\partial
+    h_k}{\partial x_j} = & 0  \\
+  \sum_{\ell = 1}^n \frac{\partial h_k}{\partial x_\ell} dx_\ell +
+  \sum_{r=1}^s \frac{\partial h_k}{\partial \theta_r} d\theta_r = & 0
+\end{align*}
+where the first equation is for $j = 1,..., n$ and the second is for
+$k = 1, ..., m$. We have $n+m$ equations to solve for the $n + m$
+unknown $dx$ and $d\mu$. We can express this system of equations more
+compactly using matrices.
+\begin{align*}
+  \begin{pmatrix} D^2_{xx} f - D^2_{xx} \mu^T h  & -(D_x h)^T \\
+    -D_x h & 0 
+  \end{pmatrix} 
+  \begin{pmatrix}
+    dx \\ d\mu
+  \end{pmatrix} 
+  =  -\begin{pmatrix} D^2_{x\theta} f - D^2_{x\theta} \mu^T h \\
+    -D_\theta h \end{pmatrix} d\theta
+\end{align*}
+where $D^2_{xx} f$ is the $n \times n$ matrix of second partial
+derivatives of $f$ with respect to $x$, $D^2_{x\theta} \mu^T h$ is the
+$n \times s$ matrix of second partial derivatives of $\mu^Th$ with
+respect to combinations of $x$ and $\theta$, etc. 
+
+Whether expressed using matrices or not, this system of equations is a
+bit unwieldy. Fortunately in most applications, there will be some
+simplification. For example, if the constraints do not depend on
+$\theta$, we simply get 
+\[ \underbrace{\frac{dx}{d\theta}}_{\equiv D_\theta x} = (D^2_{xx}
+f)^{-1} D^2_{x\theta} f. \]
+In other situations, the constraints might depend on $\theta$, but
+$s$, $m$, and/or $n$ might just be one or two. 
+
+A similar result holds with inequality constraints, except at $\theta$
+where changing $\theta$ changes which constraints bind or do not. Such
+situations are rare, so we will not worry about them.
+
+\begin{example}[Production theory]
+  Consider a competitive firm facing output prices $p$ and input
+  prices $w$. The firm's profits as function of prices is
+  \[ \pi(p,w) = \max_{y,x} p^T y - w^T x \text{ s.t. } y - f(x) \leq
+  0. \]
+  The first order conditions are
+  \begin{align*}
+    p^T - \lambda^T = & 0 \\
+    w^T + \lambda^T D_xf = & 0 \\
+    y - f(x) = & 0 
+  \end{align*}
+  Total differentiating with respect to $p$, holding $w$ constant gives
+  \begin{align*}
+    dp^T - d\lambda^T = & 0 \\
+    d\lambda^T D_x f  +  dx^T D^2_{xx}\lambda^T f  = & 0 \\
+    dy - D_xf dx = & 0
+  \end{align*}
+  Combining we can get
+  \[ dp^T dy = -dx^T D^2_{xx} \lambda^T f dx. \]
+  Notice that if we assume the constraint binds and substitute it into
+  the objective function, then the second order condition for this
+  problem is that $v^T D^2_{xx} p^T f v < 0$ for all $v$. If the
+  second order condition holds, then we must have 
+  \[ -dx^T D^2_{xx} \lambda^T f dx > 0. \]
+  Therefor $dp^T dy > 0$. Increasing output prices increases output. 
+  
+  As an exercise, you could use similar reasoning to show that $dw^T
+  dx < 0$. Increasing input prices decreases input demand.
+\end{example} 
 
 \appendix
 
