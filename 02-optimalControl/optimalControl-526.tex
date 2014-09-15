@@ -1,0 +1,433 @@
+\input{../noteHeader} 
+
+\title{Optimal Control}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{References}
+
+These notes are about optimal control.  References from our text books
+are chapter 10 of \cite{dixit1990} and chapter 20 \cite{cw2005}.
+\cite{dorfman1969} derives the maximum principle in a model of capital
+accumulation. \cite{intriligator1975} has some economic
+examples. There are two textbooks about optimal control in economics
+available online through UBC libraries. \cite{sethi2000} focuses on
+examples. \cite{caputo2005} also has many examples, but goes into a
+bit more mathematical detail.
+
+Although more advanced than what these notes cover,
+\cite{luenberger1969} is the classic mathematics text on optimal
+control and is excellent. \cite{clarke2013} is available online
+through UBC libraries and covers similar material as
+\cite{luenberger1969}, but at an even more advanced level. 
+
+
+\section{Introduction}
+
+In the past few lectures we have focused on optimization problems of the form 
+\[ \max_{x} f(x) \text{ s.t. } h(x) = c \]
+where $x \in\R^n$. The variable that we are optimizing over,
+$x$, is a finite dimensional vector. There are interesting
+optimization problems in economics that involve an infinite
+dimensional choice variable. The most common example are models where
+something is chosen at every instant of time.
+\begin{example}\label{ex:grow}[Optimal growth]
+  
+\end{example}
+\begin{example}\label{ex:inv}[Investment costs]
+  
+\end{example}
+The previous two examples involved making a decision at every instant
+in time. Problems that involve making a decision for each of a
+continuum of types also lead to infinite choice variables.
+\begin{example}\label{ex:contract}[Contracting with a continuum of
+  types]
+  On problem set 1, we studied a problem where a price discriminating
+  monopolist was selling a good to two types of consumers. We could
+  also imagine a similar situation where there is a continuous
+  distribution of types. A consumer of type $\theta$ gets $0$ utility
+  from not buying the good, and $\theta \nu(q) - T$ from buying $q$
+  units of the good at cost $T$. Let the types be indexed by $\theta \in
+  [\theta_l,\theta_h]$ and suppose the density of $\theta$ is $f_\theta$. The
+  seller does not observe consumers' types. However, the seller can
+  offer a menu of contracts $(q(\theta),T(\theta))$ such that type
+  $\theta$ will choose contract $(q(\theta),T(\theta))$. The seller
+  chooses the contracts to maximize profits subject to the requirement
+  that each type chooses its contract.
+  \begin{align}
+    \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+    \left[T(\theta) - cq(\theta)\right]
+    f_\theta(\theta) d\theta \notag \\
+    & \text{s.t.} \notag \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+    \theta \label{pc} \\
+    &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+    \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+    T(\tilde{\theta}) \forall \theta \label{ic} 
+  \end{align}
+  The first constraint (\ref{pc}) is referred to as the participation
+  (or individual rationality)
+  constraint. It says that each type $\theta$ must prefer buying the
+  good to not. The second constraint  (\ref{ic}) is referred to as the
+  incentive compatibility constraint. It says that type $\theta$ must
+  prefer buying the $\theta$ contract instead of pretending to be
+  some other type $\tilde{\theta}$. This approach to contracting with
+  asymmetric information---that you can setup contracts such that each
+  type chooses a contract designed for it---is called the revelation
+  principle because the choice of contract makes the consumers reveal
+  their types. 
+  
+  Note that this setup does not just apply to price discriminating
+  monopolists. There are many other applications. For example, if you
+  consider a government that needs to raise a certain amount of
+  revenue by taxing workers with heterogeneous productivity, then you
+  end up with essentially the same problem. $\theta$ would be worker
+  productivity. $q(\theta)$ is the labor supplied by type $\theta$,
+  $\theta \nu(q(\theta))$ is the output of type $\theta$, and
+  $T(\theta)$ is the tax. The government maximizes total output
+  subject to a revenue constraint and the constraints above.  
+\end{example}
+\begin{example}[Optimal income taxation \citet{mirrlees1971}]
+  There are a continuum of workers with productivity $w \in [w_l,w_h]$
+  with density $f$. Workers' wages equal their productivity. If a
+  worker supplies $\ell$ units of labor, she produces $w \ell$ units
+  of consumption. Workers' utility from consumption, $c$, and labor
+  $\ell$ is given by $u(c,\ell)$ with $\frac{\partial u}{\partial c} >
+  0$ and $\frac{\partial u}{\partial \ell} < 0$. The government
+  chooses taxes $t(w\ell)$ to maximize social welfare, which is given
+  by $\int G(u(c(w),\ell(w))) f(w) dw$ subject to some required
+  spending of $g$. The government does
+  not observe $w$. Using the revelation principle as in the previous
+  example, we can write the government's problem as
+  \begin{align*}
+    \max_{ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w),\ell(w))
+    \right) f(w) dw \\
+    & \text{ s.t. } \\
+    & \int_{w_l}^{w_h} t(w) f(w) dw \geq g
+    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\ell - t(w\ell), \ell )
+  \end{align*}  
+  Under standard conditions on $u$, we can replace the last constraint
+  with a first order condition,
+  \[ \frac{\partial u}{\partial c} w\left(1 - t'(w\ell)\right) +
+  \frac{\partial u}{\partial \ell} = 0. \]
+  As in the first two examples, this last constraint now involves the
+  derivative of one the variables we are maximizing over, $t'$.
+\end{example}
+
+All of these examples have a common structure. They each have the
+following form:
+\begin{align*}
+  \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
+  & \text{ s.t.} \\
+  & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+  & y(0) = y_0
+\end{align*}
+This is a generic continuous time optimal control problem. 
+$x$ is called a control variable, and $y$ is called a state
+variable. The choice of $x$ controls the evolution of $y$ through the
+first constraint. We will now derive some necessary conditions for a
+maximum. 
+
+\section{The maximum principle}
+
+Let's approximate our continuous time problem with a discrete time
+problem. This will be useful because we already know how to solve
+optimization problems with a finite dimensional choice variable. 
+
+The integral can be approximated by a sum. If divide $[0,T]$ into $J$
+intervals of length $\Delta$, we have
+\begin{align*}
+  \int_0^T F(x(t),y(t),t) dt \approx \sum_{j=1}^T \Delta f(x(\Delta
+  j), y(\Delta j) , \Delta j).
+\end{align*}
+Similarly, we can approximate $\frac{dy}{dt} \approx \frac{y(\Delta j)
+  - y(\Delta(j-1))}{\Delta}$. 
+Thus, we can approximate the whole problem by:
+\begin{align*}
+  \max_{x_1, ..., x_J, y_1, ..., y_J} & \sum_{j=1}^J \Delta F(x_j,
+  y_j,\Delta j) 
+  & \text{ s.t.} \\
+  & y_j - y_{j-1} = \Delta g(x_j,y_j,\Delta j) \text{ for} j = 1,...,J
+\end{align*}
+where we are letting $x_j = x(\Delta j)$, $y_j = y(\Delta j)$. This is
+just a usual optimization problem. The first order conditions are
+\begin{align*}
+  [x_j]: &&  \Delta \frac{\partial F}{\partial x} + \lambda_j \Delta
+  \frac{\partial g}{\partial x} = & 0 \\
+  [y_j]: &&  \frac{\partial F}{\partial y} - \lambda_j + \lambda_{j+1}
+  + \lambda_j \Delta
+  \frac{\partial g}{\partial y} = & 0 \\
+  [\lambda_j]: && y_j - y_{j-1} - \Delta g(x_j,y_j,\Delta j) = & 0 .
+\end{align*}
+Each of these equations hold for $j = 1,..., J$. Also, since there is
+no $J+1$ constraint, we set $\lambda_{J+1}=0$. Rearranging these
+slightly gives
+\begin{align*}
+  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda_j \frac{\partial
+    g}{\partial x} = & 0 \\ 
+  [y_j]: &&  \frac{\partial F}{\partial y} + \lambda_j 
+  \frac{\partial g}{\partial y} = & -\frac{\lambda_{j+1} -
+    \lambda_j}{\Delta} \\
+  [\lambda_j]: && g(x_j,y_j,\Delta j) = & \frac{y_j - y_{j-1}}{\Delta}.
+\end{align*}
+Using our approximation to go back to continuous time, these become,
+\begin{align*}
+  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) frac{\partial
+    g}{\partial x} = & 0 \\ 
+  [y_j]: &&  \frac{\partial F}{\partial y} + \lambda(t)
+  \frac{\partial g}{\partial y} = & -\frac{d\lambda}{dt} \\ 
+  [\lambda_j]: && g(x_j,y_j,\Delta j) = & \frac{dy}{dt}. 
+\end{align*}
+Any optimal $x(t)$, $y(t)$, and $\lambda(t)$ must satisfy these
+equations. This result is known as Pontryagin's maximum principle. It
+is often stated by defining the Hamiltonian, 
+\[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t). \]
+Using the Hamiltonian, the three equations can be written as
+\begin{align*}
+  [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+  \\
+  [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+  [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+    \lambda}(x^*,y^*,\lambda^*,t).
+\end{align*}
+The $[y]$ equation is called the co-state equation, and $\lambda$ are
+called co-state variables ($\lambda$ is still also called the Lagrange
+multiplier).
+
+Pontryagin's maximum principle can also be derived by starting with a
+continuous time Lagrangian. Recall that our problem is:
+\begin{align*}
+  \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
+  & \text{ s.t.} \\
+  & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+  & y(0) = y_0.
+\end{align*}
+The Lagrangian is the objective function minus the sum of the
+multiplies times the constraints. Here, we have a continuum of
+constraints on $dy/dt$, so instead of a sum we must use an
+integral. The Lagrangian is then 
+\begin{align*}
+  L(x,y,\lambda,\mu_0) = \int_0^T F(x(t),y(t),t) dt - \int_0^T
+  \lambda(t)\left( \frac{dy}{dt} - g(x(t),y(t),t) \right) dt - \mu_0
+  (y(0) - y_0) 
+\end{align*}
+It is somewhat difficult to think about the derivative of $L$ with
+respect to $y$ because $L$ involves both $y$ and $dy/dt$. We can get
+around this by eliminating $dy/dt$ through integration by
+parts.\footnote{Integration by parts says that $\int_a^b u(x) v'(x) dx
+  = u(b)v(b) - u(a)v(a) - \int_a^b v(x) u'(x) dx$.} Integrating by
+parts gives
+\begin{align*}
+  L(x,y,\lambda,\mu_0) = \int_0^T F(x(t),y(t),t) dt +\int_0^T  \left(  
+    \lambda(t) g(x(t),y(t),t) + y(t) \frac{d\lambda}{dt}\right)dt -
+  \lambda(T) y(T) + \lambda(0) y(0) - \mu_0
+  (y(0) - y_0).
+\end{align*} 
+We can then differentiate with respect to $x(t)$ and $y(t)$ to get the
+first order conditions
+\begin{align*}
+  [x]: && \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
+    g}{\partial x} = &  0 \\
+  [y]: && \frac{\partial F}{\partial y} + \lambda(t) \frac{\partial
+    g}{\partial y} = &  -\frac{d\lambda}{dt}  
+\end{align*}
+These, along with the constraint, are once again the Maximum
+principle. 
+
+\subsection{Transversality conditions}
+
+The three equations of the maximum principle are not necessarily
+enough to determine $x$, $y$, and $\lambda$. The reason is that they
+tell us about $dy/dt$ and $d\lambda/dt$ instead of $y$ and
+$\lambda$. For any constant, $c$, $d(y+c)/dt = dy/dt$, so the three
+equations only determine $y$ and $\lambda$ up to a constant. To pin
+down the constant for $y$, the problem tells us what $y(0)$ must
+be. To pin down the constant for $\lambda$, there is an extra
+condition on $\lambda(T)$. This condition is called a transversality
+condition. Unfortunately, the heuristic derivations we did above
+obscure the transversality condition somewhat. In the discrete time
+approach, we set $\lambda_{J+1} =0$, so we also should impose
+$\lambda(T) = 0$. 
+
+The same condition appears in the Lagrangian approach, if we more
+careful about taking derivatives. Taking the derivative of $\int_0^T
+F(x(t),y(t),t) dt$ with respect to $x(\tau)$ holding $x(\cdot)$
+constant for all other periods does not really make sense because
+changing $x$ at a single point will not change the integral at
+all. Instead, we need to consider directional derivatives. Let $v$ be
+another function of $t$. Then the derivative of $L$ with respect to
+$x$ in direction $v$ is
+\[ d_xL(x,y,\lambda,\mu_0;v) = \lim_{\alpha \to 0} \frac{L(x + \alpha
+  v, y, \lambda, \mu_0) - L(x,y,\lambda,\mu_0)}{\alpha} =
+\frac{d}{d\alpha} L(x+\alpha v, y, \lambda, \mu_0). \]
+This is exactly the same as our previous definition of a directional
+derivative, except now the direction is a function. The first order
+conditions are that the directional derivatives are zero for all
+directions (functions) $v$. Assuming that $F$ is well-behaved so that
+we can interchange integration and differentiation,\footnote{i.e. the
+  dominated convergence theorem applies}, the first order conditions
+are then [FIXME: show more details]
+\begin{align*}
+  [x]: && \int_0^T \frac{\partial F}{\partial x}v(t) + \lambda(t) \frac{\partial
+    g}{\partial x}v(t) dt = &  0 \\
+  [y]: && \int_0^T \left(\frac{\partial F}{\partial y}v(t) + \lambda(t) \frac{\partial
+      g}{\partial y}-\frac{d\lambda}{dt} \right)v(t) dt - \lambda(T) 
+  v(T) + \lambda(0) v(0) - \mu_0 v(0)= & 0
+\end{align*}
+for all functions $v$. If we take $v(t) = \begin{cases} 0 \text{ if
+  }t<T\\
+1 & \text{ if } t=T \end{cases}$, then the second equation requires
+$\lambda(T)=0$. 
+
+We can also deduce the transversality condition by thinking about the
+interpretation of the multiplier as the shadow price of the relaxing
+the constraint. Relaxing the constraint affects the objective function
+by changing future $y$. At time $T$, there is no future $y$, so the
+value of relaxing the constraint must be $0=\lambda(T)$. 
+
+It is important to understand where the transversality condition comes
+from, because the transversality condition can change depending on
+whether $T$ is finite or infinite and whether or not there are
+constraint on $y(T)$ or $x(T)$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Applications}
+
+\subsection{Optimal contracting with a continuum of types} 
+Let's solve example \ref{ex:contract}. 
+\begin{align}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta \notag \\
+  & \text{s.t.} \notag \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+  \theta \label{pc2} \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+  \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+  T(\tilde{\theta}) \forall \theta \label{ic2} 
+\end{align}
+First, notice that if the participation constraint (\ref{pc2}) holds for type
+$\theta_l$, and (\ref{ic2}) holds for $\theta$, then the participation
+constraint must also hold for $\theta$. 
+
+We can show that the incentive compatibility constraint (\ref{ic2}) is
+equivalent to the following local incentive 
+compatibility constraint and monotonicity constraint.
+\begin{align}
+  \theta \nu'(q(\theta))q'(\theta) - T'(\theta) = & 0 \label{lic} \\
+  \frac{dq(\theta)}{d\theta} \geq & 0 \label{mon}
+\end{align}
+Consider the incentive compatibility constraint
+(\ref{ic2}). The first order condition for the maximization is
+\[ \theta \nu'(q(\tilde{\theta})) q'(\tilde{\theta}) =
+T'(\tilde{\theta}). \]
+This is the same as the local incentive compatibility constraint with
+$\theta = \tilde{\theta}$.
+
+The second order condition for (\ref{ic2}) is 
+\[ \theta \nu''(q(\tilde{\theta}))q'(\tilde{\theta})^2 +
+\tilde{\theta} \nu'(q(\tilde{\theta})) q''(\tilde{\theta}) -
+T''(\tilde{\theta}) \leq 0 \]   
+On the other hand if we differentiate the local incentive
+compatibility constraint we get 
+\begin{align*}
+  \nu'(q(\theta))q'(\theta) + \theta \nu''(q(\theta)) q'(\theta)^2 + \theta
+  \nu'(q(\theta)) q''(\theta) - T''(\theta) = & 0 \\
+  \theta \nu''(q(\theta)) q'(\theta)^2 + \theta
+  \nu'(q(\theta)) q''(\theta) - T''(\theta) = & -\nu'(q(\theta))q'(\theta)  
+\end{align*}
+We assume that $\nu'>0$, and the monotonicity constraint says that
+$q'\geq 0$. Hence, this equation implies the second order
+condition. Therefore, we have shown that the local incentive
+compatibility constraint and monotonicity constraint are equivalent
+incentive compatibility constraint.
+
+Now, we can write the seller's problem as
+\begin{align}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta \notag \\
+  & \text{s.t.} \notag \\
+  &\theta_l \nu\left(q(\theta_l)\right) - T(\theta_l) \geq 0
+  \label{pcl} \\
+  & \theta \nu'(q(\theta))q'(\theta) - T'(\theta) =  0 \label{lic2} \\
+  & \frac{dq(\theta)}{d\theta} \geq  0 \label{mon2}
+\end{align}
+The first order condition for $T$ is for any $x:[\theta_l,\theta_h] \to \R$, 
+\begin{align*}
+  0 = &\int_{\theta_l}^{\theta_h} x(\theta) f_\theta(\theta)
+  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
+  \frac{dx}{d\theta}(\theta) d\theta + \mu_0 x(\theta_l)  \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( f_\theta(\theta) +
+    \frac{d\mu}{d \theta}(\theta)\right) - \mu(\theta_h)x(\theta_h) +
+  \mu(\theta_l)x(\theta_l) + \mu_0 x(\theta_l).
+\end{align*}
+From this we see that $\mu'(\theta) = -f_\theta(\theta)$,
+$\mu(\theta_l) = -\mu_0$, and $\mu(\theta_h) = 0$. Given $\mu'$ and
+$\mu(\theta_h)$, it must be that
+\begin{align*}
+  \mu(\theta) = & \int_{\theta_h}^\theta -f_\theta(\hat{\theta}) d\hat{\theta} \\
+  = & 1 - \int_{\theta_l}^\theta f_{\theta}(\hat{\theta})d\hat{\theta}
+  \\
+  = & 1 - F_\theta(\theta) 
+\end{align*}
+where $F_\theta$ is the cdf of $f_\theta$. 
+The first order condition for $q$ is
+\begin{align*}
+  0 = & \int_{\theta_l}^{\theta_h} c x(\theta) f_\theta(\theta)
+  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
+  \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) + \theta
+    \nu'(q(\theta)) x'(\theta) \right)d\theta - \\
+  & - \mu_0 \theta_l
+  \nu'(q(\theta_l))x'(\theta_l) - \int_{\theta_l}^{\theta_h}
+  \lambda(\theta) x'(\theta) d\theta \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+    - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) -
+      \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right)
+  d\theta + \\
+  & + \int_{\theta_l}^{\theta_h} 
+  \mu'(\theta) \theta \nu'(\theta) d\theta 
+  - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+  \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+  & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
+  - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta \\
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+    + \mu(\theta) \nu'(q(\theta)) + 
+    \mu'(\theta) \theta \nu'(\theta)\right) d\theta  - \\
+    & - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+    \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+    & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
+    - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta 
+\end{align*}
+If we assume that the monotonicy constraint does not bind, so
+$\lambda(\theta) = 0$, we see that
+\begin{align*}
+  0 = &c f_\theta(\theta) + \mu(\theta) \nu'(q(\theta)) + \mu'(\theta)
+   \theta \nu'(q(\theta))  \\
+   0 = & cf_\theta(\theta) + (1-F_\theta(\theta)) \nu'(q(\theta)) -
+   f_{\theta}(\theta) \theta \nu'(q(\theta)) \\
+   \theta \nu'(q(\theta)) = & c +
+   \frac{1-F_\theta(\theta)}{f_\theta(\theta)} \nu'(q(\theta)) \\
+   \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
+   \right)\nu'(q(\theta)) = & c 
+ \end{align*}
+You may recall from problem set 1 that with symmetric information,
+$\theta \nu'(q(\theta)) = c$. Since $\nu'$ is decreasing in $q$, this
+implies that $q(\theta)$ is less than what it would be in the first
+best symmetric information case for all $\theta < \theta_h$. The
+highest type, $\theta_h$ gets the optimal level of consumption since
+$F_\theta(\theta_h) = 1$. 
+ 
+
+
+
+
+\clearpage
+\bibliographystyle{jpe}
+\bibliography{../526}
+
+\end{document}
