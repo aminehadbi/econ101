@@ -35,11 +35,42 @@ optimization problems in economics that involve an infinite
 dimensional choice variable. The most common example are models where
 something is chosen at every instant of time.
 \begin{example}\label{ex:grow}[Optimal growth]
-  
+  Consider an simple one sector economy. The only input to
+  production is capital. Output can be used for consumption or
+  investment. The optimal paths of consumption and capital solve
+  \begin{align*}
+    \max_{c(t),k(t)} & \int_0^\infty e^{-\delta t} u(c(t)) dt \\
+    \text{ s.t. } & \frac{dk}{dt} = f(k) - \lambda k - c \\
+    & k(0) = k_0 \\
+    & 0 \leq c \leq f(k)
+  \end{align*}
+  Here, $\delta$ is the discount rate, $\lambda$ is the depreciation
+  rate, and we will assume that both $f$ and $u$ are increasing, twice
+  differentiable, and concave (have negative second derivatives).   
 \end{example}
+
 \begin{example}\label{ex:inv}[Investment costs]
-  
+  A firm that produces output from capital and labor. The price of
+  output is $p$ and the wage is $w$. The rate of change of capital is
+  equal to investment minus current capital times the depreciation
+  rate, $\delta$. The price of capital goods is $q$. It is costly for
+  the firm to adjust its capital stock (because, e.g. the firm might
+  have to temporarily shut down to install new equipment). The
+  adjustment cost is given by $c(i(t),k(t))$. It is such that $c(0,k)
+  = 0$, and $i \frac{\partial c}{\partial i} \geq 0$. The firm's
+  problem is
+  \begin{align*}
+    \max_{k(t),i(t),l(t)} & \int_0^T e^{-r t} \left[p f(k(t),l(t)) - qi(t) -
+    wl(t) -
+    c(i(t),k(t)) \right] dt \\
+  \text{ s.t. } 
+    & \frac{dk}{dt} = i(t) - \delta k(t) \\
+    & k(0) = k_0 \\
+    & k(t) \geq 0 \\
+    & l(t) \geq 0.
+  \end{align*}  
 \end{example}
+
 The previous two examples involved making a decision at every instant
 in time. Problems that involve making a decision for each of a
 continuum of types also lead to infinite choice variables.
@@ -90,6 +121,7 @@ continuum of types also lead to infinite choice variables.
   $T(\theta)$ is the tax. The government maximizes total output
   subject to a revenue constraint and the constraints above.  
 \end{example}
+
 \begin{example}[Optimal income taxation \citet{mirrlees1971}]
   There are a continuum of workers with productivity $w \in [w_l,w_h]$
   with density $f$. Workers' wages equal their productivity. If a
@@ -103,10 +135,10 @@ continuum of types also lead to infinite choice variables.
   not observe $w$. Using the revelation principle as in the previous
   example, we can write the government's problem as
   \begin{align*}
-    \max_{ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w),\ell(w))
+    \max_{\ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w),\ell(w))
     \right) f(w) dw \\
     & \text{ s.t. } \\
-    & \int_{w_l}^{w_h} t(w) f(w) dw \geq g
+    & \int_{w_l}^{w_h} t(w) f(w) dw \geq g \\
     & \ell(w) \in \argmax_{\tilde{\ell}} u(w\ell - t(w\ell), \ell )
   \end{align*}  
   Under standard conditions on $u$, we can replace the last constraint
@@ -221,9 +253,9 @@ parts.\footnote{Integration by parts says that $\int_a^b u(x) v'(x) dx
   = u(b)v(b) - u(a)v(a) - \int_a^b v(x) u'(x) dx$.} Integrating by
 parts gives
 \begin{align*}
-  L(x,y,\lambda,\mu_0) = \int_0^T F(x(t),y(t),t) dt +\int_0^T  \left(  
-    \lambda(t) g(x(t),y(t),t) + y(t) \frac{d\lambda}{dt}\right)dt -
-  \lambda(T) y(T) + \lambda(0) y(0) - \mu_0
+  L(x,y,\lambda,\mu_0) = & \int_0^T F(x(t),y(t),t) dt +\int_0^T  \left(  
+    \lambda(t) g(x(t),y(t),t) + y(t) \frac{d\lambda}{dt}\right)dt +
+  \\ & -\lambda(T) y(T) + \lambda(0) y(0) - \mu_0
   (y(0) - y_0).
 \end{align*} 
 We can then differentiate with respect to $x(t)$ and $y(t)$ to get the
@@ -277,7 +309,7 @@ are then [FIXME: show more details]
       g}{\partial y}-\frac{d\lambda}{dt} \right)v(t) dt - \lambda(T) 
   v(T) + \lambda(0) v(0) - \mu_0 v(0)= & 0
 \end{align*}
-for all functions $v$. If we take $v(t) = \begin{cases} 0 \text{ if
+for all functions $v$. If we take $v(t) = \begin{cases} 0 & \text{ if
   }t<T\\
 1 & \text{ if } t=T \end{cases}$, then the second equation requires
 $\lambda(T)=0$. 
@@ -296,6 +328,52 @@ constraint on $y(T)$ or $x(T)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Applications}
+
+We will begin with some examples where we can explicitly solve for the
+optimal control and state variables. We will then analyze examples
+that cannot be explicitly solved, but we can characterize the
+solution and do some comparative statics. 
+
+\begin{example}[Linear production and savings]
+  Consider an economy that has a linear production function, $y =
+  k$. The model begins at time $0$ and lasts until time $T$. Each
+  instant, output can be either saved to produce capital or
+  consumed. There is no depreciation or discounting. The objective is
+  to maximize consumption. Let $s(t)$ be the portion of output saved
+  at time $t$. Then the problem can be written as
+  \begin{align*}
+    \max_{s,k} & \int_0^T (1-s(t)) k(t) dt \\
+    \text{ s.t. } & \frac{dk}{dt} = s(t)k(t) \\
+    & k(0) = k_0 \\
+    & k(t) \geq 0 \\
+    & 0 \leq s(t) \leq 1
+  \end{align*}
+  Show that $s^*(t) = \begin{cases} 1 & \text{ if } t
+    < T - 1 \\ 
+    0 & \text{ if } t \geq T-1 \end{cases}$. 
+\end{example}
+
+\begin{example}[Inventory]
+  A dairy has an order for $y_T$ units of cheese to be delivered at
+  time $T$ at price $p$. Currently, the firm has $y_0 = 0$ units
+  available. Producing at a rate of $x(t)$ costs the firm $c
+  x(t)^2$. Storing cheese requires refrigeration, so it is
+  costly. Storing $y(t)$ units costs $sy(t)$. The dairy chooses its
+  production schedule to maximize profits. 
+  \begin{align*}
+    \max_{x,y} & p y(T) - \int_0^T \left( c x(t)^2  + s y(t) \right)
+    dt \\
+    & \text{ s.t. } \\
+    & \frac{dy}{dt} = x(t) \\
+    & y(T) = y_T \\
+    & y(0) = y_0 \\
+    & x(t) \geq 0 
+  \end{align*}
+\end{example}
+
+\begin{example}[Epidemic]
+  
+\end{example}
 
 \subsection{Optimal contracting with a continuum of types} 
 Let's solve example \ref{ex:contract}. 
