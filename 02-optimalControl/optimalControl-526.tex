@@ -294,25 +294,39 @@ another function of $t$. Then the derivative of $L$ with respect to
 $x$ in direction $v$ is
 \[ d_xL(x,y,\lambda,\mu_0;v) = \lim_{\alpha \to 0} \frac{L(x + \alpha
   v, y, \lambda, \mu_0) - L(x,y,\lambda,\mu_0)}{\alpha} =
-\frac{d}{d\alpha} L(x+\alpha v, y, \lambda, \mu_0). \]
-This is exactly the same as our previous definition of a directional
-derivative, except now the direction is a function. The first order
-conditions are that the directional derivatives are zero for all
-directions (functions) $v$. Assuming that $F$ is well-behaved so that
-we can interchange integration and differentiation,\footnote{i.e. the
-  dominated convergence theorem applies}, the first order conditions
-are then [FIXME: show more details]
+\frac{d}{d\alpha} L(x+\alpha v, y, \lambda, \mu_0). \] This is exactly
+the same as our previous definition of a directional derivative,
+except now the direction is a function. The first order conditions are
+that the directional derivatives are zero for all directions
+(functions) $v$. Assuming that $F$ is well-behaved so that we can
+interchange integration and differentiation,\footnote{By Leibniz's
+  rule, $F$ and its partial derivatives being continuous is
+  sufficient.}, the first order conditions are then 
 \begin{align*}
-  [x]: && \int_0^T \frac{\partial F}{\partial x}v(t) + \lambda(t) \frac{\partial
-    g}{\partial x}v(t) dt = &  0 \\
-  [y]: && \int_0^T \left(\frac{\partial F}{\partial y}v(t) + \lambda(t) \frac{\partial
-      g}{\partial y}-\frac{d\lambda}{dt} \right)v(t) dt - \lambda(T) 
-  v(T) + \lambda(0) v(0) - \mu_0 v(0)= & 0
+  [x]:&& 0 = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t) v(t) dt -
+  \int_0^T -\frac{\partial g}{\partial x}(x(t),y(t),t) v(t) \lambda(t)
+  dt \\ 
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial x}(x(t),y(t),t) +
+    \frac{\partial g}{\partial x}(x(t),y(t),t) \lambda(t)\right) dt \\
+  [y]:&& 0 = & \int_0^T \frac{\partial F}{\partial
+    y}(x(t),y(t),t) v(t) dt - 
+  \int_0^T \left(\frac{\partial v}{\partial t}(t) -\frac{\partial
+      g}{\partial y}(x(t),y(t),t) v(t)\right) \lambda(t)  dt  - \mu_0v(0)\\
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+    \lambda(t)  \right)dt - \int_0^T \frac{dv}{dt}(t)\lambda(t)
+h  dt  - \mu_0v(0)\\
+  && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
+    \lambda(t)  \right)dt + \int_0^T \frac{d\lambda}{dt}(t)v(t)dt -
+  \\ 
+  &&  & - \lambda(T)v(T) + \lambda(0)v(0)  - \mu_0v(0).
 \end{align*}
-for all functions $v$. If we take $v(t) = \begin{cases} 0 & \text{ if
-  }t<T\\
-1 & \text{ if } t=T \end{cases}$, then the second equation requires
-$\lambda(T)=0$. 
+The last line comes from integration by parts.  These conditions must
+hold for for all functions $v$. If we take $v(t) = \begin{cases} 0 &
+  \text{ if  }t<T\\
+  1 & \text{ if } t=T \end{cases}$, then the second equation requires
+$\lambda(T)=0$.
 
 We can also deduce the transversality condition by thinking about the
 interpretation of the multiplier as the shadow price of the relaxing
@@ -324,6 +338,75 @@ It is important to understand where the transversality condition comes
 from, because the transversality condition can change depending on
 whether $T$ is finite or infinite and whether or not there are
 constraint on $y(T)$ or $x(T)$. 
+
+\subsection{Additional constraints \label{sec:constraints}}
+
+Many optimal control problems include some additional constraints. In
+the four examples above, there were often bounds constraints on the
+control and/or state variables. In general, we might have some
+constraints of the form $h(x(t),y(t), t) \leq 0$ for all $t$. It also
+common for there to be constraints on the initial and/or final values
+of $y$. Having additional constraints can change the first order
+conditions of the maximum principle. You can always figure out the
+correct first order conditions by starting with the Lagrangian. Either
+the discrete approach that we took to first arrive at the maximum
+principle, or the directional derivative approach of the previous
+section will work. 
+
+Let us consider the following problem:
+\begin{align*}
+  \max_{x,y} & \int_0^T F(x(t),y(t)) dt \\
+  \text{s.t.} & \frac{dy}{dt} = g(x(t),y(t)) \\
+  & h(x(t),y(t)) \leq 0 
+  & y(0) = y_0 \\
+  & y(T) = y_T 
+\end{align*}
+The Lagrangian is  
+\begin{align*}
+  L(x,y,\lambda, \mu, \psi_0,\psi_T) = & \int_0^T F(x(t),y(t)) -
+\lambda(t) (\frac{dy}{dt} - g(x(t),y(t)) ) - \mu(t) h(x(t),y(t)) dt +
+\\
+& - \psi_0(y(0) - y_0) - \psi_T(y(T) - y_T). 
+\end{align*}
+The first order conditions for $x$ and $y$ are that for any function
+$v$, 
+\begin{align*}
+  [x]: 0 = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      x}(x(t),y(t)) + \lambda(t) \frac{\partial g}{\partial
+      x}(x(t),y(t)) - \mu(t) \frac{\partial h}{\partial x}(x(t),y(t))
+  \right) dt \\
+  [y]: 0 = & \int_0^T v(t) \left(\frac{\partial F}{\partial
+      y}(x(t),y(t)) + \lambda(t) \frac{\partial g}{\partial y}(x(t),y(t))
+    - \mu(t) \frac{\partial h}{\partial y}(x(t),y(t)) +
+  \frac{d\lambda}{dt} \right)dt + 
+  \\ 
+   & - \lambda(T)v(T) + \lambda(0)v(0)  - \psi_0v(0) - \psi_T v(T).
+\end{align*}
+Also, the constraints must be met, and $\mu(t) \geq 0$ with
+complementary slackness to $h(x(t),y(t)) \leq 0$. The first order
+condition for $x$ implies that
+\[ \frac{\partial F}{\partial
+  x}(x(t),y(t)) + \lambda(t) \frac{\partial g}{\partial
+  x}(x(t),y(t)) - \mu(t) \frac{\partial h}{\partial x}(x(t),y(t))
+= 0. \]
+The first order condition for $y$ implies that 
+\[ \frac{\partial F}{\partial
+  y}(x(t),y(t)) + \lambda(t) \frac{\partial g}{\partial y}(x(t),y(t))
+- \mu(t) \frac{\partial h}{\partial y}(x(t),y(t)) =
+-\frac{d\lambda}{dt}. \]
+The first order condition for $y$ also implies that $\lambda(T) =
+-\psi_T$, and $\lambda(0) = \psi_0$. Each of the $\psi$ could be
+anything, so there is no restriction on either $\lambda(T)$ or
+$\lambda(0)$. This is okay because the constraints on both the initial
+and final value of $y$ will be enough to fully determine the
+solution. 
+
+We still have not covered all possible forms of constraint. For
+example, the optimal taxation problem includes a constraint of the
+form $\int_0^T h(x(t),y(t)) dt \leq 0$. Rather than trying to come up
+with a form of the Hamiltonian and maximum principle that encompasses
+all possible types of constraints, I find it easier to work from the
+Lagrangian. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -348,9 +431,63 @@ solution and do some comparative statics.
     & k(t) \geq 0 \\
     & 0 \leq s(t) \leq 1
   \end{align*}
-  Show that $s^*(t) = \begin{cases} 1 & \text{ if } t
+  Notice that this problem has the sorts of constraints considered in
+  section \ref{sec:constraints}. 
+  The Lagrangian for this problem is
+  \begin{align*}
+    L = \int_0^T \left((1-s)k -\lambda (\frac{dk}{dt} - sk) + \mu_kk
+      +\mu_{s0}s - \mu_{s1}(s-1) \right) dt - \psi_0(k(0) - k_0)
+  \end{align*}
+  where $s$ $k$, $\lambda$, $\mu_{k}$, $\mu_{s0}$, and $\mu_{s1}$ are
+  all functions of $t$. 
+  
+  The first order condition for the control variable, $s$, is that
+  \[ -k + \lambda k + \mu_{s0} - \mu_{s1} = 0. \]
+  The first order condition for $k$ is
+  \[ (1-s) + \lambda s + \mu_k = -\frac{d\lambda}{dt}. \] The
+  transversality condition, which also comes from the first order
+  condition for $k$, is $\lambda(T) = 0$.  
+
+  To solve, first notice that if $k(t) \geq 0$ for all $t$, we must
+  have $k_0 \geq 0$. If $k_0 = 0$, then $dk/dt = 0$ regardless of $s$,
+  and any choice of $s(t) \in [0,1]$ is a maximizer. Therefore, for
+  the remainder of the solution, we can assume $k_0 > 0$. 
+  
+  Notice that the constraints imply $dk/dt \geq 0$. Therefore if
+  $k_0>0$, then for all $t$, $k(t) \geq k_0 > 0$.   
+  At time $T$, the first order condition for $s$ says that
+  \[ -k(T) + \mu_{s0}(T) - \mu_{s1}(T) = 0. \]
+  By complementary slackness, if $\mu_{s0}(t) > 0$, then
+  $s(t) = 0$ and $\mu_{s1}(t) = 0$. Conversely, if $\mu_{s1}(t) > 0$,
+  then $s(t) = 1$ and $\mu_{s0}(t) = 0$.  Therefore, since $k(T) > 0$, it
+  must be that $\mu_{s0}(T) > 0$ and $s(T) = 0$.  
+
+  Now, consider other $t$. The first order condition for $s$ is that
+  \[ k(t)(\lambda(t) - 1) + \mu_{s0}(t) - \mu_{s1}(t) = 0. \]
+  For the same reason that $s(T) = 0$, we must have $s(t) = 0$
+  whenever $\lambda(t) < 1$. In that case the first order condition
+  for $y$ is that 
+  \[ 1 = -\frac{d\lambda}{dt}. \]
+  Therefore, for $t$ near $T$, we know that
+  \[ \lambda(t) = \int_T^t -1 d\tau = T - t. \]
+  This $\lambda(t) < 1$ for $t > T-1$. At $T-1$, $\lambda(T-1) = 1$
+  and 
+  \[ (1-s) + s = 1 = -d\lambda/dt \]
+  regardless of $t$. Therefore for $t$ just below $T-1$, we must have
+  $\lambda(t)>1$. In that case the first order condition requires
+  $s(t) = 1$. Then, $\frac{d\lambda}{dt} = -\lambda(t) < 0$, so for
+  even smaller $t$, $\lambda(t)$ will be even bigger and $s(t)$ must
+  still be $1$. 
+  
+  We can conclude that 
+  $s^*(t) = \begin{cases} 1 & \text{ if } t 
     < T - 1 \\ 
-    0 & \text{ if } t \geq T-1 \end{cases}$. 
+    0 & \text{ if } t \geq T-1 \end{cases}$. For $t<T-1$, we have
+  $dk/dt = k$ and $k(0) = k_0$. This implies that $k(t) = k_0
+  e^t$. For $t>T-1$, $dk/dt = 0$. Therefore,
+  $k(t) = \begin{cases} k_0 e^t & \text{ if } t<T-1 \\
+   k_0 e^{T-1} & \text{ if } t \geq T-1 \end{cases}$. The maximum is then
+  $k_0 e^{T-1}$ if $T>1$ and $k_0 T$ if $T<1$.   
 \end{example}
 
 \begin{example}[Inventory]
