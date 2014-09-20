@@ -40,11 +40,11 @@ something is chosen at every instant of time.
   investment. The optimal paths of consumption and capital solve
   \begin{align*}
     \max_{c(t),k(t)} & \int_0^\infty e^{-\delta t} u(c(t)) dt \\
-    \text{ s.t. } & \frac{dk}{dt} = f(k) - \lambda k - c \\
+    \text{ s.t. } & \frac{dk}{dt} = f(k) - \phi k - c \\
     & k(0) = k_0 \\
     & 0 \leq c \leq f(k)
   \end{align*}
-  Here, $\delta$ is the discount rate, $\lambda$ is the depreciation
+  Here, $\delta$ is the discount rate, $\phi$ is the depreciation
   rate, and we will assume that both $f$ and $u$ are increasing, twice
   differentiable, and concave (have negative second derivatives).   
 \end{example}
@@ -163,7 +163,7 @@ variable. The choice of $x$ controls the evolution of $y$ through the
 first constraint. We will now derive some necessary conditions for a
 maximum. 
 
-\section{The maximum principle}
+\section{The maximum principle \label{sec:maxprin}}
 
 Let's approximate our continuous time problem with a discrete time
 problem. This will be useful because we already know how to solve
@@ -207,7 +207,7 @@ slightly gives
 \end{align*}
 Using our approximation to go back to continuous time, these become,
 \begin{align*}
-  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) frac{\partial
+  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
     g}{\partial x} = & 0 \\ 
   [y_j]: &&  \frac{\partial F}{\partial y} + \lambda(t)
   \frac{\partial g}{\partial y} = & -\frac{d\lambda}{dt} \\ 
@@ -228,6 +228,33 @@ Using the Hamiltonian, the three equations can be written as
 The $[y]$ equation is called the co-state equation, and $\lambda$ are
 called co-state variables ($\lambda$ is still also called the Lagrange
 multiplier).
+\begin{theorem}[Pontryagin's maximum principle]\label{thm:optcon}
+  Consider 
+  \begin{align}
+    \max_{x,y} & \int_0^T F(x(t),y(t),t) dt \notag \\
+    & \text{ s.t.} \\
+    &  \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in
+    [0,T] \label{e:maxp} \\ 
+    & y(0) = y_0. \notag
+  \end{align}
+  where $x$ and $y$ are functions from $[0,T]$ to $\R$, and $F,g:\R^2
+  \times [0,T] \to \R$ are continuously differentiable. Define the
+  Hamiltonian as
+  \[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t). \]
+  If $x^*$ and $y^*$ are a local constrained maximum of
+  (\ref{e:maxp}), then there exists
+  $\lambda^*(t)$ such that 
+  \begin{align*}
+    [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+    \\
+    [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+    [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+      \lambda}(x^*,y^*,\lambda^*,t)
+  \end{align*}\footnote{The condition for $x$ is often stated somewhat
+    more generally as
+    \[ H(x^*,y^*,\lambda^*,t) = \max_x H(x,y^*,\lambda^*,t). \]
+  }
+\end{theorem}
 
 Pontryagin's maximum principle can also be derived by starting with a
 continuous time Lagrangian. Recall that our problem is:
@@ -403,10 +430,15 @@ solution.
 
 We still have not covered all possible forms of constraint. For
 example, the optimal taxation problem includes a constraint of the
-form $\int_0^T h(x(t),y(t)) dt \leq 0$. Rather than trying to come up
-with a form of the Hamiltonian and maximum principle that encompasses
-all possible types of constraints, I find it easier to work from the
-Lagrangian. 
+form $\int_0^T h(x(t),y(t)) dt \leq 0$, the contracting problem has a
+constraint involving both the derivative of $y$ and $x$ instead of
+just $y$, and the taxation problem has a constraint on $y'(x(t)t)$
+instead of just $y'(t)$.  Rather than trying to a form of the
+Hamiltonian and maximum principle that encompasses all possible types
+of constraints, I find it easier to work from the
+Lagrangian. Nonetheless, theorem \ref{thm:gen} in the appendix covers
+all the examples that we have covered. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -415,7 +447,16 @@ Lagrangian.
 We will begin with some examples where we can explicitly solve for the
 optimal control and state variables. We will then analyze examples
 that cannot be explicitly solved, but we can characterize the
-solution and do some comparative statics. 
+solution and do some comparative statics. We have three different ways
+to arrive at the first order conditions for an optimal control
+problem. (1) We can discretize the problem as in section
+\ref{sec:maxprin}. (2) We can write down the continuous time Lagrangian
+and take directional (functional) derivatives. (3) Perhaps most
+simply, we can write down the Hamiltonian and use the maximum
+principle. If the problem does not have the same form as that
+considered in theorem (\ref{thm:optcon}), then the usual Hamiltonian
+will not give the correct answer. In that case we can either take
+approach (1) or (2), or perhaps use theorem (\ref{thm:gen}). 
 
 \begin{example}[Linear production and savings]
   Consider an economy that has a linear production function, $y =
@@ -498,19 +539,111 @@ solution and do some comparative statics.
   costly. Storing $y(t)$ units costs $sy(t)$. The dairy chooses its
   production schedule to maximize profits. 
   \begin{align*}
-    \max_{x,y} & p y(T) - \int_0^T \left( c x(t)^2  + s y(t) \right)
+    \max_{x,y} & p y_T - \int_0^T \left( c x(t)^2  + s y(t) \right)
     dt \\
-    & \text{ s.t. } \\
+    \text{ s.t. } 
     & \frac{dy}{dt} = x(t) \\
     & y(T) = y_T \\
-    & y(0) = y_0 \\
+    & y(0) = 0 \\
     & x(t) \geq 0 
   \end{align*}
+  Let's solve this problem using the maximum principle. This problem
+  includes inequality constraints for all $t$, so we should use the
+  form of the maximum derived in section \ref{sec:constraints}. 
+  \begin{align*}
+    [x]: && -2cx + \lambda + \mu = & 0 \\
+    [y]: && -s = & -\frac{d\lambda}{dt} 
+  \end{align*}
+  Since $d\lambda/dt = s$ is constant, $\lambda(t)$ must be linear
+  with slope $s$, i.e. 
+  \[ \lambda(t) = st + \lambda(0). \]
+  Substituting that into the first order condition we have
+  \begin{align*}
+    -2cx(t) + st + \lambda(0) + \mu(t) = & 0 \\
+    x(t) = & \frac{st + \mu(t) + \lambda(0)}{2c}.
+  \end{align*}
+  There is also a complementary slackness condition on $\mu$ and
+  $x$. First, suppose
+  that $x$ is always positive, then $\mu(t) = 0$, and we can solve for
+  $\lambda(0)$ using the initial and final $y$.
+  \begin{align*}
+    y(T) - y(0) = & \int_0^T \frac{dy}{dt} dt \\
+    y_T - 0 = & \int_0^T x(t) dt \\
+    = & \int_0^T \frac{st + \lambda(0)}{2c} \\
+    = & \frac{sT^2 + \lambda(0) T}{2c} \\
+    \lambda(0) = & \frac{1}{T} 2c y_T  - sT
+  \end{align*}
+  Substituting,
+  \[ x(t) = \frac{s}{2c}(t-T) + \frac{y_T}{T}. \] This $x(t)
+  \geq 0$ for all $t$ if $y_T \geq s/2c T^2$.  
+
+  If this inequality does not hold, then since storage is costly, we
+  should expect that if production, $x$, is ever $0$, it would be
+  for early $t$. Let $\bar{t}$ be the time at which $x$ is first
+  non-zero. Then,
+  \begin{align*}
+    y_T = & \int_{\bar{t}}^T \frac{st + \lambda(0)}{2c} \\
+    y_T = & \frac{s(T^2 - \bar{t}^2) + \lambda(0) (T-\bar{t})}{2c} \\
+    \lambda(0) = & y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t}).
+  \end{align*}
+  Finally, we can use $x(\bar{t}) = 0$ to solve for $\bar{t}$.
+  \begin{align*}
+    0 = & s\bar{t} + y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t})
+    \\
+    0 = & s\bar{t}(T-\bar{t}) + y_T 2c - s (T^2 - \bar{t}^2) \\
+    0 = & s \bar{t} T + y_T 2c - s T^2 \\
+    \bar{t} = & T - \frac{y_T 2c}{T s}.
+  \end{align*}
+  Thus,
+  \begin{align*}
+    x(t) = \begin{cases} 
+      \frac{s}{2c} (t - T) + \frac{y_T}{T} & \text{ if } t > T -
+      \frac{y_T 2c}{T s} \\
+      0 & \text{ otherwise }
+    \end{cases}
+  \end{align*}      
 \end{example}
 
-\begin{example}[Epidemic]
-  
-\end{example}
+% \begin{example}[Epidemic]
+% \end{example}
+
+\subsection{Optimal growth}
+Let's characterize the solution to our optimal growth model in example
+\ref{ex:grow}. The optimal growth problem is
+\begin{align*}
+  \max_{c(t),k(t)} & \int_0^\infty e^{-\delta t} u(c(t)) dt \\
+  \text{ s.t. } & \frac{dk}{dt} = f(k(t)) - \phi k(t) - c(t) \\
+  & k(0) = k_0 \\
+  & 0 \leq c(t) \leq f(k(t))
+\end{align*}
+The Lagrangian is
+\begin{align*}
+  L = & \int_0^\infty \left(e^{-\delta t} u(c) - \lambda(dk/dt - f(k) -
+  \phi k - c ) + \mu_0 c - \mu_1 (c - f(k)) \right)dt - \psi(k(0) -
+  k_0)
+\end{align*}
+The first order conditions are:
+\begin{align*}
+  [c]: && e^{-\delta t} u'(c(t)) + \lambda(t) + \mu_0(t) - \mu_1(t) = & 0
+  \\
+  [k]: && \lambda (t) \left( f'(k(t))  - \phi \right) + \mu_1(t)
+  f'(k(t)) = & -\frac{d\lambda}{dt}. 
+\end{align*}
+The multipliers on the inequality constraints are somewhat annoying to
+deal with. Fortunately, under standard conditions, the constraints
+will not bind and their multipliers are $0$. For example, if $\lim_{c
+  \to 0} u'(c) = \infty$, as is the case for many specifications of
+$u$, then the optimal $c(t) > 0$ for all $t$ and $\mu_0(t) =
+0$. Setting $\mu_0=\mu_1=0$ and differentiating $[c]$ with respect to time
+gives
+\[ \delta e^{-\delta t} u'(c) + e^{-\delta t} u''(c) \frac{dc}{dt}  = - \frac{d\lambda}{dt}. \]
+Substituting into $[k]$ and rearranging gives
+\[ \frac{dc}{dt} =  -\frac{u'(c)}{u''(c)} \left(f'(k(t) - \phi - \delta)
+\right) \]
+
+Steady-state: $dc/dt = dk/dt = 0$; $u'(c)/(u''(c) c)=$ intertemporal
+elasticity of substitution; phase diagram around steady state. 
+
 
 \subsection{Optimal contracting with a continuum of types} 
 Let's solve example \ref{ex:contract}. 
@@ -601,11 +734,11 @@ The first order condition for $q$ is
   \nu'(q(\theta_l))x'(\theta_l) - \int_{\theta_l}^{\theta_h}
   \lambda(\theta) x'(\theta) d\theta \\
   0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
-    - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) -
+    - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) -
       \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right)
   d\theta + \\
   & + \int_{\theta_l}^{\theta_h} 
-  \mu'(\theta) \theta \nu'(\theta) d\theta 
+  \mu'(\theta) \theta \nu'(\theta) x(\theta) d\theta 
   - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
   \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
   & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
@@ -630,6 +763,10 @@ $\lambda(\theta) = 0$, we see that
    \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
    \right)\nu'(q(\theta)) = & c 
  \end{align*}
+This equation completely determines $q(\theta)$. We can then use the
+local incentive compatibility constraint (\ref{lic2}) to solve for
+$T'$. Finally, (\ref{pcl}) pins down $T(\theta_l)$.
+
 You may recall from problem set 1 that with symmetric information,
 $\theta \nu'(q(\theta)) = c$. Since $\nu'$ is decreasing in $q$, this
 implies that $q(\theta)$ is less than what it would be in the first
@@ -637,9 +774,66 @@ best symmetric information case for all $\theta < \theta_h$. The
 highest type, $\theta_h$ gets the optimal level of consumption since
 $F_\theta(\theta_h) = 1$. 
  
+\appendix
 
+\section{Generalized maximum principle}
 
-
+The theorem below is a generalized version the maximum principle. I
+find it easier to work from the Lagrangian than to try to remember or
+apply this theorem. We will suppose we are choosing $n$ instead of
+just $2$ functions of $t$. We will denote the $n$ functions by $z(t)$
+collectively, and $z_j(t)$ individually. We will denote
+their derivatives by $\frac{dz_j}{dt} = \dot{z}_j$ individually, and
+simply $\dot{z}(t)$ for the vector of $n$ derivatives. There will some
+constraints on the derivatives, which we will express as 
+\[ G_m(z(t),\dot{z},t) = 0 \]
+where $G_m : \R^{2n} \times [0,T] \to \R$ is continuously
+differentiable. For example, the canonical optimal control problem has
+$n=2$, $z(t) = (x(t),y(t))$, and 
+\[ G_m(z(t),\dot{z}(t),t) = \dot{y}(t)
+- g(x(t),y(t),t). \]
+\begin{theorem}[Generalized maximum principle]\label{thm:gen}
+  Let $z: [0,T] \to \R^n$. Let $\dot{z}: [0,T] \to \R^n$ denote the
+  derivatives $z$.  Consider
+  \begin{align}
+    \max_{z} & \int_0^T F(z(t),t) dt \notag \\
+    & \text{ s.t.} \notag \\
+    &  0 = G_m(z(t), \dot{z}(t),t) \forall t \in
+    [0,T], m \in 1, ..., M  \label{con:dt} \\ 
+    & \int_0^T h_k(z(t),t) dt = 0 \text{ for } k =1, ...,
+    K \label{con:int} \\ 
+    & z(0) = Z_0 \;\;,\;\; z(T) = Z_T \label{con:ini}
+  \end{align}
+  Assume that $F,G,h$ are continuously differentiable.  If $z^*$ is a
+  local constrained maximizer, then there exists functions
+  $\lambda_m(t)$ and constants $\mu_k, \psi_{j,l}$ such that
+  \begin{align*}
+    [z_j]: && 0 = & \frac{\partial F}{\partial z_j}(t) - \sum_{m=1}^M
+    \lambda_m(t) \left(\frac{\partial G_m}{\partial z_j}(t) -
+      \sum_{i=1}^n \frac{\partial^2 G_m}{\partial \dot{z}_j \partial
+        z_i}(t) \dot{z}_{i}(t) \right) + \sum_{m=1}^M
+    \frac{d\lambda_m}{dt}(t) \frac{\partial G_m}{\partial
+      \dot{z}_j}(t)
+    - \sum_{k=1}^K \psi_k \frac{\partial h_k}{\partial z_j}(t)
+  \end{align*}
+  and 
+  \begin{align*}
+    -\psi_{j,0} = & \sum_{m=1}^M \lambda_m(0) \frac{\partial
+      G}{\partial \dot{z}_j}(0) \\
+    \psi_{j,T} = & \sum_{m=1}^M \lambda_m(T) \frac{\partial
+      G}{\partial \dot{z}_j}(T).
+  \end{align*}
+\end{theorem}
+\begin{exercise}
+  Verify that theorem is the same as the previous maximum principle
+  (\ref{thm:optcon}), if we set $n=2$, $z(t) = (x(t),y(t))$, $M=1$,
+  $K=0$, and
+  \[ G_1(z(t),\dot{z}(t),t) = \frac{dy}{dt} - g(x(t),y(t),t). \] 
+\end{exercise}
+\begin{exercise}
+  [Difficult] Prove this theorem from the continuous time Lagrangian
+  or by discretizing.
+\end{exercise}
 
 \clearpage
 \bibliographystyle{jpe}
