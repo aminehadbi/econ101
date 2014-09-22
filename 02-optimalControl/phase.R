@@ -1,7 +1,7 @@
 rm(list=ls())
 library(ggplot2)
 # utility function
-rra <- 1.1
+rra <- 2.5
 u.fmla <- expression(c^(1-rra)/(1-rra))
 discount <- 0.03
 # production fuction
@@ -9,8 +9,7 @@ alpha <- 0.5
 f.fmla <- expression(k^alpha)
 depreciation <- 0.1
 
-
-
+## derivatives of utility and production
 d2u.fmla <- deriv3(u.fmla,"c","c")
 u <- function(c) { eval(u.fmla) }
 du <- function(c) { as.vector(attr(d2u.fmla(c),"gradient")) }
@@ -20,6 +19,7 @@ df.fmla <- deriv(f.fmla,"k",function(k) {})
 f <- function(k) { eval(f.fmla) }
 df <- function(k) { as.vector(attr(df.fmla(k),"gradient")) }
 
+# differential equations for k and c
 dkdt <- function(k,c) {
   f(k) - depreciation*k-c
 }
@@ -27,6 +27,7 @@ dcdt <- function(k,c) {
   -du(c)/d2u(c)*(df(k)-depreciation-discount)
 }
 
+# steady state
 kss <- ((discount+depreciation)/alpha)^(1/(alpha-1))
 css <- f(kss) - depreciation*kss
 
@@ -86,7 +87,7 @@ while (k<(max(k.grid)-1) && c<(max(c.grid)-1)) {
 }
 
 
-
+## plot phase diagram with stable path
 d <- data.frame(c=as.vector(outer(0*k.grid,c.grid,FUN="+")),
                  k=as.vector(outer(k.grid,0*c.grid,FUN="+")))
 d$dc <- dcdt(d$k,d$c)
@@ -94,6 +95,7 @@ d$dk <- dkdt(d$k,d$c)
 d$zerodk <- f(d$k)-depreciation*d$k
 
 stable <- data.frame(k=k.stable,c=c.stable)
+
 
 library(grid)
 phase <- ggplot(data=d) +
