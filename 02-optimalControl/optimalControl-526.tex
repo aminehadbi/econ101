@@ -657,11 +657,12 @@ fixed. The optimal $c(0)$ will be such that the subsequent path
 converges to the steady-state. The steady-state is where both capital
 and consumption are constant. In the phase diagram, the steady-state
 is the intersection of the blue and red lines. For each possible
-$k_0$, there is a unique $c(0)$ that leads to the stead state. If
-$k_0<k^*$, then any $c(0)$ above the red cannot be optimal because
-then capital just decreases further. If $c(0)$ is too low, then
-capital increases, but consumption initially increases then decreases
-and fails to reach the steady-state. 
+$k_0$, there is a unique $c(0)$ that leads to the stead state. This
+stable path is shown in black in the figure. If $k_0<k^*$, then any
+$c(0)$ above the red cannot be optimal because then capital just
+decreases further. If $c(0)$ is too low, then capital increases, but
+consumption initially increases then decreases and fails to reach the
+steady-state.
 
 \begin{figure}\caption{Phase diagram \label{fig:phase}}
   \begin{minipage}{\linewidth}
@@ -671,6 +672,17 @@ and fails to reach the steady-state.
     \footnotetext{Code for figure: \url{https://bitbucket.org/paulschrimpf/econ526/src/master/02-optimalControl/phase.R?at=master} }
   \end{minipage}
 \end{figure}
+
+The phase diagram is also useful to describing what will happen if
+some part of the model changes unexpectedly. For example if
+productivity increases, so that the production function changes from
+$f(k)$ to $Af(k)$ with $A>1$, then the blue $dc/dt=0$ curve will shift to
+the right and the red $dk/dt=0$ curve will rotate upward. There will be a
+new stable path to go with the shifted curves. Suppose we start from
+the old steady-steady. If $f(k)$ shifts at time $T$, then $k(T)$ will
+remain at the old stead-state capital and $c(T)$ will jump immediately
+to the new stable path. As time progresses $k$ and $c$ will adjust
+toward the new steady-state.
 
 
 \subsection{Optimal contracting with a continuum of types} 
@@ -801,7 +813,17 @@ implies that $q(\theta)$ is less than what it would be in the first
 best symmetric information case for all $\theta < \theta_h$. The
 highest type, $\theta_h$ gets the optimal level of consumption since
 $F_\theta(\theta_h) = 1$. 
- 
+
+\begin{exercise}[difficult]
+  Solve the optimal taxation example. The steps and solution are
+  similar to the optimal contracting problem, but the expression you
+  end up with is a bit messier. See \cite{mirrlees1971}, or
+  \cite{diamond1998} for guidance. \cite{saez2001} expresses the
+  optimal tax schedule in terms of elasticities and the distribution
+  of income, which allows the optimal tax schedule t
+o be estimated. 
+\end{exercise}
+
 \appendix
 
 \section{Generalized maximum principle}
