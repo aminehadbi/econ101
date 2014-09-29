@@ -26,7 +26,7 @@ requires maximizing over a few variables at a time, dynamic
 programming can be a much more efficient way to calculate
 solutions. The computational advantage of dynamic programming is
 especially pronounced when some of the variables being maximized over
-are discrete.
+are discrete. 
 
 \section{References}
 
@@ -482,16 +482,94 @@ solve for the value function avoids both these problems. A computer
 does not care that Bellman operator iteration is tedious, and it can
 numerically compute $v(k)$ even if it has no closed form. 
 
+\begin{example}[Optimal growth numerically] 
+  We can also solve for the value function numerically. The simplest
+  (although usually not the fastest) method is to iterate the Bellman
+  operator. This can be done as follows:
+  \begin{itemize}
+  \item Choose a grid of capital values $k_g$ for $g=1,..., G$
+  \item Set $\hat{v}_0(k) = 0$ for all $k$ (or anything else)
+  \item Repeatedly:
+    \begin{enumerate}
+    \item Maximize the Bellman equation for each $k_g$
+      \[ v_{g,i} = \max_{c,k'} u(c) + \delta \hat{v}_{i-1}(k') \text{ s.t. } k' = f(k_g)
+      - c \]
+    \item Set $\hat{v}_{i} (k) = $ linear interpolation of $\{k_g,
+      v_{g,i} \}$
+    \end{enumerate}
+    Stop when the value function stops changing, e.g. when 
+    \[ \max_{g} \abs{v_{g,i} - v_{g,i-1} } < \epsilon \]
+  \end{itemize}
+  
+  Figure \ref{fig:value} shows the resulting value function
+  approximations for various $i$.  Figure \ref{fig:policy} shows the
+  optimal policies for $c$ and $k'$ given $k$. 
+  
+  These figures were created using
+  \href{https://bitbucket.org/paulschrimpf/econ526/src/master/03-dynamicProgramming/dp.R?at=master}
+  {this R code.}
+  \cite{sargent2013} has a similar example in python.   
+\end{example}
+
+  \begin{figure}\caption{Value function iterations \label{fig:value}}
+    \begin{centering}
+      \includegraphics{value}
+    \end{centering}
+  \end{figure}
+
+  \begin{figure}\caption{Policy function \label{fig:policy}}
+    \begin{centering}
+      \includegraphics{policy}
+    \end{centering}
+  \end{figure}
+ 
+
+
 Another situation where dynamic programs can be solved analytically is
 when the control variable is discrete. For example, a person could be
 choosing to work or not each period, or a firm could be choosing to
 enter or exit a market. 
 
-\begin{example}[Job search]
-  
+\begin{example}[Investment option]
+  Each period an investor has an opportunity to invest in a
+  project. Once the investment is made, the model ends. The investment
+  costs $I$. At time $t$ the project pays $z_t$. $z_t$ is drawn
+  independently from some distribution with pdf $f$, cdf $F$, and
+  support $[0, B]$.
+  The investor is risk neutral with discount rate $\beta$. At
+  time $t$, the investor can choose to invest now or wait. Investing
+  now pays $z_t - I$. Let $V(z)$ denote the value of waiting given the
+  current $z$. The Bellman equation is 
+  \[ V(z) = \max\{ z- I , \beta \int V(z') f(z') dz' \}. \]
+  The value of waiting, $\beta \int V(z') f(z') dz'$, does not depend
+  on $z$, so the optimal decision is to invest if $z \geq z^*$ for
+  some threshold $z^*$. At $z^*$, the investor is indifferent between
+  waiting and investing, so
+  \begin{align*}
+    z^* - I = & \beta \int_0^B V(z') f(z') dz' \\
+    = & \beta \int_0^{z^*} \underbrace{\left[\beta \int_0^B V(z')
+        f(z') dz'\right]}_{=z^* - I}
+    f(\tilde{z}) d\tilde{z} + \beta \int_{z^*}^B (z' - I) f(z') dz' \\
+    = & \beta \int_0^{z^*} (z^* - I) f(\tilde{z}) d\tilde{z} + \beta
+    \int_{z^*}^B (z' - I) f(z') dz' \\
+    & \text{(add and subtract $\int_{z^*}^B z^* f(z')dz'$ )} \\
+    = & \beta \int_0^{B} (z^* - I) f(\tilde{z}) d\tilde{z} + \beta
+    \int_{z^*}^B (z' - z^*) f(z') dz' \\
+    z^* - I = & \frac{\beta}{1-\beta} \int_{z^*}^B (z' - z^*) f(z') dz'
+  \end{align*}
+  From this, we can see that $z^* > I$. The investor waits for a
+  project with a strictly positive return. Also, we can see that as
+  $\beta$ increases, $z^*$ increases, i.e.\ the investor will wait for
+  a higher return. The probability of waiting $t$ periods if
+  $F(z^*)^{t-1} (1-F(z^*))$. The expected waiting time is then
+  $\frac{1}{1-F(z^*)}$. This too increases with $z^*$. 
+
+  We can also think about what happens as the riskiness of the
+  investment changes. We could show that expected waiting times and
+  the investor's value increase with risk.
 \end{example}
 
-\section{Uncertainty}
+%\section{Uncertainty}
 
 
 \clearpage
