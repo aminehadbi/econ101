@@ -511,20 +511,21 @@ numerically compute $v(k)$ even if it has no closed form.
   \cite{sargent2013} has a similar example in python.   
 \end{example}
 
-  \begin{figure}\caption{Value function iterations \label{fig:value}}
-    \begin{centering}
-      \includegraphics{value}
-    \end{centering}
-  \end{figure}
+\begin{figure}\caption{Value function iterations \label{fig:value}}
+  \begin{centering}
+    \includegraphics{value}
+  \end{centering}
+\end{figure}
 
-  \begin{figure}\caption{Policy function \label{fig:policy}}
-    \begin{centering}
-      \includegraphics{policy}
-    \end{centering}
-  \end{figure}
- 
+\begin{figure}\caption{Policy function \label{fig:policy}}
+  \begin{centering}
+    \includegraphics{policy}
+  \end{centering}
+\end{figure}
 
-
+\clearpage
+\subsection{Discrete control}
+  
 Another situation where dynamic programs can be solved analytically is
 when the control variable is discrete. For example, a person could be
 choosing to work or not each period, or a firm could be choosing to
@@ -565,8 +566,34 @@ enter or exit a market.
   $\frac{1}{1-F(z^*)}$. This too increases with $z^*$. 
 
   We can also think about what happens as the riskiness of the
-  investment changes. We could show that expected waiting times and
-  the investor's value increase with risk.
+  investment changes. Changing the riskiness of investment is some
+  change to the distribution of $z$.   
+  Not all changes in $f$ are increases in riskiness. One way to
+  consider a change in $f$ that is an increase in risk, is to look at
+  change that holds $E[z]$ constant but increases the variance of
+  $z$. Such a change is called a mean-preserving spread. We can always
+  create a mean-preserving spread by replacing $z$ with $\tilde{z} = z
+  + \epsilon$ where $\Er[\epsilon|z] = 0$ and $V(\epsilon) \geq 0$. A
+  function $g$ is concave if for all $z$ there exists $d(z)$ such that
+  $g(z + \epsilon) \geq g(z) + d(z) \epsilon$ for all $\epsilon$. If
+  $g$ is differentiable, then $d$ is just the derivative of $g$. For
+  any concave function if $\tilde{z}$ is a mean preserving spread of
+  $z$, then 
+  \begin{align*}
+    \Er[g(\tilde{z})] = \Er[g(z+\epsilon)] \geq & \Er[g(z) + d(z) \epsilon] \\
+    \geq & \Er[g(z) + d(z) \Er[\epsilon|z]] \\
+    \Er[g(\tilde{z})] \geq & \Er[g(z)].
+  \end{align*}\footnote{More generally, we say that the distribution
+    of $\tilde{z}$ second-order stochastic dominates the distribution
+    of $z$ if this inequality holds for all concave functions $g$.}
+  Now, let 
+  \[ g_{z^*}(z) = \max\{0, z - z^* \}. \] This function is concave and
+  decreasing in $z^*$. Also, from the above,
+  \begin{align*}
+    z^* - I = & \frac{\beta}{1-\beta} \Er[g_{z^*}(z)] 
+  \end{align*}
+  Thus, if we add a mean-preserving spread to $z$, then $\Er[g_{z^*}(z)]$
+  will increase, and $z^*$ must increase to compensate. 
 \end{example}
 
 %\section{Uncertainty}
