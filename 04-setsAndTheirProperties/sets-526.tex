@@ -1,0 +1,616 @@
+\input{../noteHeader} 
+
+\title{Sets and their properties}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Much (perhaps all) of mathematics is about studying sets of objects
+with particular properties. 
+
+Section \ref{s:sets} introduces sets and some related concepts.
+Section \ref{s:card} briefly discusses cardinality and introduces
+countable and uncountable sets. Section \ref{s:numbers} is about
+familiar sets of numbers, including the integers, rationals, and real
+numbers. The properties of these sets of numbers that make them
+distinct are discussed in detail.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Sets \label{s:sets}} 
+
+A \textbf{set} is any well-specified collection of
+elements.\footnote{``Well-specified'' is somewhat ambiguous, and this
+  ambiguity can lead to trouble such as Russell's paradox or Cantor's
+  paradox. We'll ignore these paradoxes, but rest assured that they
+  can be avoided by more carefully defining ``well-specified.''
+} Sets are conventionally denoted by capital letters, and
+elements of a set are usually denoted by lower case letters. The
+notation, $a \in A$, means that $a$ is a member of the set $A$. A set
+can be defined by listing its elements inside braces. For example,
+\[ A = \{ 4, 5, 6 \} \]
+means that $A$ is a set of three elements with members $4$, $5$, and
+$6$. The members of a set need not be explicitly listed. Instead, they
+can be defined by some logical relation. For example, the same set $A$
+could be written
+\begin{equation}
+  A = \{ n \in \mathbb{N} : 3 < n < 7 \}  \label{e:s1}
+\end{equation}
+where $\mathbb{N} = \{1, 2, 3, ... \}$ is the natural numbers. The
+expression in (\ref{e:s1}) could be read as, ``the set of natural
+numbers, $n$, such that 3 is less than $n$ is less than 7.''
+Sometimes $|$ will be used to mean ``such that'' instead of $:$. The
+elements of sets need not be simple things like numbers. For example,
+if $A_k = \{ n \in \mathbb{N}: n > k \}$ is the set of natural numbers
+greater than $k$, then you could have a set of sets, $B = \{ A_1,
+A_{10}, A_{6} \}$.  Sets are unordered, so the previous definition of
+$B$ is the same as $B = \{ A_1, A_6, A_{10} \}$. Also, sets do not
+contain duplicates, so for example, $\{ 1, 1, 2 \} \equiv \{1, 2
+\}$. Sets can be empty. The empty set, also called the null set, is
+denoted by $\emptyset$ or, less commonly, $\{ \}$.
+
+\subsection{Economic examples}
+
+
+Sets appear all over economics.\footnote{These examples come
+from chapter 1 of Carter.} 
+\begin{example}\label{ex:sampleSpace}[Sample space]
+  In a random experiment, the set of all possible outcomes is called
+  the \textbf{sample space}. E.g. for the roll of a dice, the sample
+  space if $\{1,2 ,3 , 4, 5, 6\}$. An \textbf{event} is any subset of
+  the sample space.
+\end{example}
+
+\begin{example}\label{ex:games}[Games]
+  A game is a model of strategic decision making. A game consists of a
+  finite set of $n$ players, say $N = \{1,2,..., n\}$. Each player $i
+  \in N$ chooses an action $a_i$ from a set of actions $A_i$. The
+  outcome of the game depends on the actions chosen by all players. 
+\end{example}
+
+\begin{example}\label{ex:conset}[Consumption set]
+  The \textbf{consumption set} is the set of all feasible consumption
+  bundles. Suppose there are $n$ commodities. A consumer chooses a
+  consumption bundle $\mathbf{x} = (x_1, x_2, ..., x_n)$. Consumption
+  cannot be negative, so the consumption set is a subset of $\Re^n_+ =
+  \{(x_1, ..., x_n) : x_1 \geq 0, x_2 \geq 0, ... x_n \geq 0 \}$.
+\end{example}
+
+\subsection{Set operations}
+
+Given two sets $A$ and $B$, a new set can be formed with the following
+operations:
+\begin{enumerate}
+\item \textbf{Union:} $A \cup B = \{x: x\in A \text{ or } x \in B\}$.
+\item \textbf{Intersect:} $A \cap B = \{x: x \in A \text{ and } x \in
+  B\}$. 
+\item \textbf{Minus:} $A \setminus B = \{ x: x\in A \text{ and }
+  \not\in B \}$
+\item \textbf{Product:} $A \times B = \{(x,y): x \in A, y \in B \}$
+\item \textbf{Power set:} $\mathcal{P}(A) =$ set of all subsets of $A$ 
+\end{enumerate}
+Often, we will discuss sets that are all subsets of some universal
+set, $U$. In this case, the \textbf{complement} of $A$ in $U$ is $A^c
+= U \setminus A$. If we have an indexed collection of sets, $\{A_k
+\}_{k \in \mathcal{K}}$, we may take the union or intersection of all
+these sets and denote it as $\cup_{k \in \mathcal{K}} A_k $ or
+$\cap_{k \in \mathcal{K}} A_k$.
+
+\subsection{Set relations}
+If every element of $A$ is also in $B$, then we say that
+$B$ contains $A$ and write $B \supseteq A$, or $A$ is a subset of $B$
+and write $A \subseteq B$. If, additionally, there exists $b \in B$
+such that $b \not\in A$, then we say that $A$ is a proper subset of $B$,
+which is denoted by $A \subset B$ or $B \supset A$. 
+
+\begin{example}[\ref{ex:games} Games continued] 
+  In a game subsets of players are called \textbf{coalitions}. The set
+  of all coalitions is the power set of the set of players,
+  $\mathcal{P}(N)$. 
+
+  The \textbf{action space} of a game is the set of all possible
+  outcomes or combinations of actions, $A = A_1 \times A_2 \times
+  ... \times A_n$. An element of $A$, $a = (a_1, a_2, ..., a_n)$ is
+  called an \textbf{action profile}. 
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cardinality \label{s:card}}
+
+\footnote{This section based on Chapter 2 \citet{rudin1976}.} 
+Sometimes, we want to compare the size of two
+sets. This is easy when sets are finite; we simply count how many
+elements each has. It is not so easy to compare the size of infinite
+sets. Consider, for example, the natural numbers, $\mathbb{N}$, the
+integers $\mathbb{Z}$, rationals, $\mathbb{Q}$, and real numbers,
+$\mathbb{R}$. Let $|A|$ denote the ``size'' of $A$ (we will define it
+precisely later). We know that
+\[ \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset
+\mathbb{R}, \]
+so it seems sensible to say that 
+\[ |\mathbb{N}| < |\mathbb{Z}| < |\mathbb{Q}| < |\mathbb{R}|. \] 
+On the other hand, the even integers are a subset of $\mathbb{Z}$, but
+since we can write the set of even integers as $\{2x: x \in \mathbb{Z}
+\}$, it doesn't seem like there are any more integers than even
+integers. It was questions like these that led Georg Cantor to pioneer
+set theory in the 1870's. 
+
+A function (aka mapping), $f:A \rightarrow B$ is called
+\textbf{one-to-one} (aka injective) if for every $b \in B$ the set
+$\{a: f(a) = b \}$ is either a singleton or empty. $f$ is called
+\textbf{onto} (aka surjective) if $\forall b \in B$ $\exists a \in A:
+f(a) = b$.  If there exists a one-to-one mapping of $A$ onto $B$ (aka
+bijection or one-to-one correspondence), then we say that $A$ and $B$
+have the same \textbf{cardinal number} (or cardinality) and write $|A|
+= |B|$.  Let $J_n = \{1, ..., n \}$. $A$ is \textbf{finite} if $|A| =
+|J_n|$.  $A$ is \textbf{countable} if $|A| = |\mathbb{N}|$. $A$ is
+\textbf{uncountable} if $A$ is neither finite nor countable.  You
+should verify that the relation $|A| = |B|$ is reflexive ($|A| =
+|A|$), symmetric ($|A| = |B|$ implies $|B| = |A|$), and transitive (if
+$|A| = |B|$ and $|B| = |C|$ then $|A| = |C|$). 
+
+\begin{lemma}
+  $\mathbb{Z}$ is countable. 
+\end{lemma}
+\begin{proof}
+  We can construct a bijection between $\mathbb{Z}$ and $\mathbb{N}$
+  as follows:
+  \begin{align*}
+    \begin{matrix}
+      \mathbb{Z}: & 0, & -1, & 1, & 2, & -2, & 3, & -3, ... \\
+      \mathbb{N}: & 1, & 2, & 3, & 4, & 5, & 6, & 7,  ...
+    \end{matrix}
+  \end{align*}
+  Or as a formula, $f:\mathbb{N} \rightarrow \mathbb{Z}$ with 
+  \[ f(n) = \begin{cases} (n-1)/2 \text{ if } n \text{ odd} \\
+    -n/2 \text{ if } n \text{ even}. \end{cases} \]  
+\end{proof}
+
+\begin{theorem} \label{thm:countsubset}
+  Every infinite subset of a countable set $A$ is countable.
+\end{theorem}
+\begin{proof}
+  $A$ is countable, so there exists a bijection from $A$ to
+  $\mathbb{N}$. We can use this mapping to arrange the elements of $A$
+  in a sequence, $\{a_{n}\}^\infty_{n=1}$\footnote{By this notation,
+    we mean an infinite ordered list of elements of $A$, i.e. $a_1,
+    a_2, a_3, ...$.}. Let $B$ be an infinite subset of $A$. Let $n_1$
+  be the smallest number such that $a_{n_1} \in B$. Given $n_{k-1}$,
+  let $n_k$ be the smallest number greater than $n_{k-1}$ such that
+  $a_{n_k} \in B$. Such an $n_k$ always exists since $B$ is
+  infinite. Also, $B = \{a_{n_k} \}_{k=1}^\infty$ since otherwise
+  there would be a $b \in B$, but $b\not\in A$. Thus, $f(k) = a_{n_k}$
+  is a one-to-one correspondence between $B$ and $\mathbb{N}$.
+\end{proof}
+
+\begin{theorem}
+  The rational numbers are countable.
+\end{theorem}
+\begin{proof}
+  Consider the following arrangement of positive rational numbers:
+  \begin{align*}
+    \begin{array}{ccccc} 
+      1/1 & 2/1 & 3/1 & 4/1 & \cdots \\
+      1/2 & 2/2 & 3/2 & 4/2 & \cdots \\
+      1/3 & 2/3 & 3/3 & 4/3 & \cdots \\
+      \vdots &  &  & \ddots 
+    \end{array}
+  \end{align*}
+  Starting in the top left and going back and forth diagonally, we get
+  the following sequence:
+  \begin{align*}
+    1/1, 1/2, 2/1, 1/3, 2/2, 3/1, ...
+  \end{align*}
+  Adding zero and the negative rationals, we can write e.g.\
+  \begin{align*}
+    & 0,1/1, -1/1, 1/2, -1/2, 2/1, -2/1, 1/3, -1/3, 2/2, -2/2, 3/1,
+    ... \\
+    = & q_1, q_2, q_3 , q_4, ... \\
+  \end{align*}
+  Continuing on in this way, we could list all rational numbers. Some
+  of these fractions represent the same number and can be
+  removed. Thus, we obtain a correspondence between the rationals and
+  an infinite subset of $\mathbb{N}$. However, by theorem
+  \ref{thm:countsubset}, this subset is countable, so the rationals
+  are also countable.
+\end{proof}
+
+\begin{theorem}
+  The real numbers are uncountable.
+\end{theorem}
+\begin{proof} (Cantor's diagonal argument)
+  We have not rigorously defined the real numbers, so we will take for
+  granted the following: every infinite decimal expansion,
+  (e.g. $0.135436080...$) represents a unique real number in $[0,1)$,
+  except for expansions that end in all zeros or nines, which are
+  equivalent\footnote{E.g. $0.199... = 0.200...$}. 
+  
+  We will use proof by contradiction to prove the theorem. Proof by
+  contradiction is a common technique that works by showing that if
+  the theorem were false, then we could prove something that
+  contradicts what we know is true. 
+
+  Suppose the theorem is false. Then we can construct a surjective
+  mapping from $\mathbb{N}$ to $(0,1)$. That is we can list all real
+  numbers in $(0,1)$ as
+  \begin{align*}
+    \begin{array}{c c ccc c}
+      r_1 & =  0. & d_{11}& d_{12}& d_{13}& ... \\
+      r_2 & =  0. &d_{21}& d_{22}& d_{23}& ... \\
+      r_3 & =  0. &d_{31}& d_{32}& d_{33}& ... \\
+      \vdots & & \vdots 
+    \end{array}
+  \end{align*}
+  where each $d_{ij} \in \{0,1,...,9\}$, and no expansion ends in all
+  nines. We will now show that there is a real number in $(0,1)$ that
+  is not in the list. Let $x^* = 0.d^*_1 d^*_2 d^*_3 ...$. where
+  $d^*_n$ is chosen such that $d^*_n \neq d_{nn}$ and $x^*$ is sure
+  not to end in all nines. There are many possibilities, but to be
+  concrete, let's set
+  \[ 
+  d^*_n
+  = \begin{cases} d_{nn} + 1 \text{ if } d_{nn} < 8 \\
+    0 \text{ if } d_{nn} \geq 8 
+  \end{cases} .
+  \]      
+  $x^*$ is in $(0,1)$, but $x^* \neq r_n$ for any $n$ because $d^*_n
+  \neq d_{nn}$. Thus, we have a contradiction, and there cannot be a
+  onto mapping from $\mathbb{N}$ to $(0,1)$.  If there is no
+  surjective mapping from $\mathbb{N}$ to $(0,1)$, there can be no
+  surjective mapping from $\mathbb{N}$ to $\mathbb{R}$ since $(0,1)
+  \subset \mathbb{R}$. 
+\end{proof}
+Countable sets are said to have cardinality $\aleph_0$ (``aleph
+null''). Note that an implication of theorem \ref{thm:countsubset} is
+that $\aleph_0$ is the smallest infinite cardinal number. The real
+numbers have cardinality of the continuum, sometimes written
+$2^{\aleph_0}$ or $\mathbf{c}$. You might be wondering whether there
+are larger cardinal numbers. The answer is yes. The set of all subsets
+of a set, $A$, called the \textbf{power set} of $A$, always has larger
+cardinality $2^{|A|}$ (the proof of this is similar to the proof that
+the real numbers are uncountable). 
+
+A final question to ask yourself is whether there are sets with
+cardinality between $\aleph_0$ and $2^{\aleph_0}$. The answer to that
+question is whatever you want it to be. The conjecture that there are
+no cardinal numbers between $\aleph_0$ and $2^{\aleph_0}$ is known as
+the continuum hypothesis. It was proposed by Cantor in the 1870s. In
+1900, Hilbert made a famous list of 23 important unsolved problems in
+mathematics. The continuum hypothesis was the first. In 1940,
+G\"{o}del showed that the continuum hypothesis cannot be disproved
+from the standard axioms that lie at the foundation of mathematics.
+In 1963, Cohen showed that the continuum hypothesis cannot be proved
+from the standard axioms. This is an example of G\"{o}del's
+incompleteness theorem, a very interesting result that we won't be
+able to cover in this course. Loosely speaking, G\"{o}del's
+incompleteness theorem says that for any non-trivial set of
+assumptions and system of logic, you can make statements consistent
+with the system of logic that cannot be proven or disproven from the
+assumptions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Relations}
+
+There is not much more we can say about generic sets. Fortunately,
+sets used in economics and mathematics typically have some additional
+properties that we can utilize. Basic mathematics studies real
+numbers. Numbers have many properties: they are ordered, they can be
+added and multiplied, etc. Most of the abstract sets that we will
+study will have some, but not all, of the properties of real
+numbers. We will begin by studying ordered sets. 
+
+Orderings, or, more generally, relations, are important in economics
+because they can be used to represent preferences. Relations are
+things like $=$, $<$, $\leq$, and $\subset$. Formally,
+\begin{definition}[Relation]
+  A \textbf{relation} on two sets $A$ and $B$ is any subset of $A
+  \times B$, $R \subseteq A \times B$. We usually denote relations by
+  $a \rel b$ if $(a,b) \in R$ (where $\rel$ could be some other symbol).
+\end{definition}
+Although we define relations in terms of a subset of the product set,
+it's usually easier to just think about relations as a rule expressing
+the relationship between elements of $A$ and $B$. 
+For most relations, $A=B$, and then we say $\rel$ is a relation on $A$. 
+\begin{example}
+  Let $A=B=\Re$. Then $<$ is associated with $R_{<} = \{(a,b) \in \Re^2
+  : a<b \}$. 
+\end{example}
+Relations usually have some of following properties.
+\begin{definition}[Properties of relations]  
+  A relation $\rel$ on $A$ is 
+  \begin{itemize}
+  \item \textbf{reflexive} if $a \rel a$ $\forall a \in A$,
+  \item \textbf{transitive} if $a \rel b$ and $b \rel c$ implies
+    $a \rel c$,
+  \item \textbf{symmetric} if $a \rel b$ implies $b \rel a$,
+  \item \textbf{antisymmetric} if $a \rel b$ and $b \rel a$
+    implies $a=b$,
+  % \item \textbf{asymmetric} if $a \rel b$ implies $b$ is not
+  %   $\rel a$, and
+  \item \textbf{complete} if either $a \rel b$ or $b \rel a$ or
+    both $\forall a, b \in A$. 
+  \end{itemize}
+\end{definition}
+\begin{exercise}
+  As an exercise, you may want to work out which of the above
+  properties $=$, $<$, and $\leq$ on $\Re$ have.
+\end{exercise}
+Slightly confusingly, symmetric and antisymmetric are not
+opposites. The usual equality in $\Re$, $=$ is both symmetric and
+antisymmetric.
+\begin{example}[Preference relation] 
+  A consumer's preference relation, $\pref$, is a relation on her
+  consumption set, $X$. $x \pref y$ means that the consumer likes the
+  bundle of goods $x$ at least as much of the bundle of goods $y$. We
+  will assume that preference relations are complete,
+  transitive.  
+\end{example}
+\begin{exercise}
+  Show that any complete and transitive order is also reflexive.
+\end{exercise}
+
+\subsection{Equivalence relations}
+An \textbf{equivalence relation} is a relation that is complete,
+transitive, and symmetric. If $\sim$ is an equivalence relation on
+$X$, then the \textbf{equivalence class} of $x$ is $\sim(x) = \{ a
+\in X: a \sim x \}$. Since equivalence relations are complete all $x
+\in X$ must be in some equivalence class. Also, since equivalence
+relations are symmetric, each $x \in X$ is in only one equivalence
+class. 
+\begin{example}[Indifference]
+  Let $\pref$ be a preference relation on $X$. Then we can define an
+  equivalence relation by $x \sim y$ if $x \pref y$ and $y \pref
+  x$. This relation is called the indifference relation. The
+  equivalence classes of $\sim$ are called indifference classes. You
+  are probably familiar with graphs of indifference
+  curves. Indifference curves are indifference classes. 
+\end{example}
+\begin{example}[Isoquants]
+  Consider a production function $f: \Re^n \to \Re$. We can define an
+  equivalence relation on $\Re^n$ by $x \sim z$ iff $f(x) = f(z)$. The
+  equivalence classes of this preference relation are the isoquants of
+  the production function. 
+\end{example}
+
+\subsection{Order relations}
+A relation that is transitive and reflective but not symmetric is
+called an \textbf{order}. Preference relations are orders. Any order
+$\preceq$ induces another relation $\prec$ defined by $x \prec y$ if
+$x \preceq y$ and $y \npreceq x$. The reflexive order $\preceq$ is
+often called a weak order, and the non-reflexive $\prec$ is called a
+strict or strong order.  
+
+The usual order on $\Re$, $\leq$ has two additional properties that a
+generic order need not have. First, any set in $\Re$ with an upper
+bound has a least upper bound. $y$ is an upper bound of $ A \subseteq
+\Re$, if $y \geq x$ for all $x \in A$. $y$ is the least upper bound of
+$A$ if there is no $z < y$ that is also an upper bound of $A$. Least
+upper bounds in $\Re$ are unique. Among other things, uniqueness of
+least upper bounds is important for ensuring that optimization
+problems are well-defined. A \textbf{partial order} is a relation that
+is transitive, reflexive, and antisymmetric. Not all elements of a
+partially ordered set need to be comparable.  
+\begin{example}
+  Let $S$ be set. The power set of $S$ (set of all subsets) is
+  partially ordered by $\subseteq$.
+\end{example}
+\begin{example}
+  A partial order on $\Re^n$ can be defined by $x \leq y$ if $x_i \leq
+  y_i$ for all $i$.
+\end{example}
+A preference relation is not a partial order because it allows
+indifference between goods that are not the same. 
+
+Another aspect of the usual $\leq$ order on $\Re$ is that all elements
+are comparable, i.e. it is complete. A relation that is complete,
+transitive, and not symmetric is called a \textbf{weak order} (or
+sometimes just an ordering). Preference relations are weak orders. 
+
+\subsection{Pareto order}
+
+\footnote{Based on example 1.4.3 of \cite{carter2001}.}In this
+subsection we will derive an interesting economic result --- Arrow's
+impossibility theorem --- purely by thinking about orders.  Suppose we
+have $n$ individuals each with some preference, $\pref_i$ on set
+$X$. Think of $X$ as some set of outcomes for society. For example,
+each element of $X$ could specify how much consumption to give each
+individual. The (weak) Pareto order on $X$ is defined as
+\[ x \pref^p y \text{ if } x \pref_i y \text{ for all } i=1,...,n \]
+We say that $x$ Pareto dominates $y$ if $x \succ^P y$. $x$ is Pareto
+optimal (or Pareto efficient) if there is no $y$ such that $y \succ^P
+x$. 
+
+The Pareto order will usually not be complete. For example take
+$n=2$.  Let elements of $X$ consumption bundles for person $1$ and
+$2$, $(x_1,x_2)$, such that $x_1 + x_2 = c$, for some constant
+$c$. Then we would expect that $(c,0) \pref_1 (0,c)$ and $(0,c)
+\pref_2 (c,0)$, so $(c,0)$ and $(0,c)$ are not Pareto comparable. 
+
+
+Social choice theory is about how best to combine individual
+preferences to make social decisions.  It would be great if we could
+somehow complete the Pareto order, because then we could just choose
+the maximal outcome under the completed Pareto order.
+\cite{arrow1950} showed that this is impossible to do an appealing
+manner. To precisely state Arrow's result, we first need one more
+definition. Suppose we have a way to construct a social order $\succ$ from
+the individual preferences $\pref_i$. This construction satisfies the
+\textbf{independence of irrelevant alternatives} if for every $A
+\subseteq X$, if $\pref_i$ and $\pref_i'$ are two sets of individuals
+preferences that agree on $A$, 
+\[ x \pref_i y \iff x \pref_i' y \; \forall x,y \in A \] 
+then $\succ$ and $\succ'$ also agree on $A$. Independence of irrelevant
+alternatives says that the question of whether society likes apples
+better than bananas should not depend on what anyone thinks about the
+comparison between apples and oranges (or oranges and kiwis, etc). It
+is an intuitively desirable feature of a social ordering.
+
+One social ordering that completes the Pareto order is the dictatorial
+ordering. That is, we let any one person's preference be society's
+preference. 
+\begin{theorem}[Arrow's impossibility theorem]
+  It is impossible to complete the weak Pareto ordering in a way that
+  is not dictatorial and is independent of irrelevant alternatives.
+\end{theorem}
+\begin{proof}
+  
+\end{proof}
+
+
+
+\appendix
+\section{Numbers \label{s:numbers}}
+
+We have been assuming familiarity with the natural numbers, integers,
+rationals, and real numbers. This section explores some properties of
+these sets of numbers and heuristically describes how these sets of
+numbers are constructed. It may appear silly and slightly confusing to
+try to be ``rigorous'' about something like real numbers that we
+already feel like we understand.  Much of mathematics is about finding
+and describing patterns that apply to abstract objects. Many of the
+abstract objects that we will study are similar to the real numbers in
+some ways, but different in others. Examples of things that are
+similar to the real numbers include complex numbers, vector spaces,
+matrices, and sets of functions. Some of these things we will be able
+to add and multiple just like real numbers, but not all of them. A
+natural sort of question is: this class of objects shares properties
+X, Y, and Z with the real numbers; what theorems that we know about
+the real numbers will also be true of this class of objects? Before
+answering this sort of question we have to be precise about what
+properties the real numbers have.
+
+We will take for granted that we understand what the natural numbers
+are. Note, however, that it is possible to rigorously construct the
+natural numbers from a simple list of assumptions using logic or set
+theory. We will also take for given that we know how to add and
+multiply natural numbers. Addition has the following nice properties.
+\begin{itemize}
+\item[1] \emph{Closure} if $a, b \in \mathbb{N}$, so is $a + b$ 
+\item[2] \emph{Associative} $a + (b + c) = (a + b) + c$. 
+\end{itemize}
+If we demand that addition also has 
+\begin{itemize}
+\item[3] \emph{Identity} $\exists 0$ s.t. $a + 0 = a$,
+\item[4] \emph{Inverse} $\forall a$, $\exists b$ s.t. $a + b = 0$
+\end{itemize}
+then we must expand the natural numbers to include the integers,
+$\mathbb{Z}$. Multiplication also satisfies these four analogous
+properties:
+\begin{itemize}
+\item[1'] \emph{Closure} if $a, b \in A$, so is $ab$ 
+\item[2'] \emph{Associative} $a (b c) = (a b)  c$. 
+\item[3'] \emph{Identity} $\exists 1$ s.t. $a 1= a$,
+\item[4'] \emph{Inverse} $\forall a \neq 0$, $\exists b$ s.t. $ab = 1$
+\end{itemize}
+However, if we want multiplicative inverses to exist for all $z\in
+\mathbb{Z}$, then we must further expand our set of numbers to the
+rationals, $\mathbb{Q}$. Addition and multiplication are also
+\begin{itemize}
+\item[5] \emph{Commutative} $ a + b = b + a$
+\item[6] \emph{Distributive} $a (b + c) = ab + ac$
+\end{itemize}
+To summarize: if we start with the natural numbers, and then demand
+that multiplication and addition have these six properties, we end up
+with the rational numbers. 
+
+More generally, we could study a set $A$ combined with one or two
+operations that satisfy certain properties. The branch of mathematics
+that studies these sort of objects is abstract algebra. We will not be
+studying algebra in detail, but it may be useful to be familiar with
+some basic terms. A \textbf{group} is a set and operation,
+$(A,\oplus)$ such that $A$ is closed under $\oplus$, $\oplus$ is
+associative, there exists an identity, and inverses exist under
+$\oplus$ (i.e.\ properties 1-4). If $\oplus$ is also commutative, we
+call $(A,\oplus)$ an abelian (or commutative) group. Examples of
+groups include $(\mathbb{Z},+)$ and $(\mathbb{Q},\cdot)$. A
+\textbf{ring} is a set with two operations, $(A,\oplus,\odot)$ such
+that $(A,\oplus)$ is a group, and $\odot$ has properties 1-3 and
+6. $(\mathbb{Z},+,\cdot)$ is a ring.  One ring that will come up
+repeatedly in this course is the set of all $n$ by $n$ matrices with
+the usual matrix addition and multiplication. A \textbf{field} is a set
+with two operations such that 1-6 hold for both
+operations. $(\mathbb{Q},+,\cdot)$ is a field. Another field that you
+may have encountered is the complex numbers with the usual addition
+and multiplication. If you're interested you may want to verify that
+the integers modulo any number is a ring, and the integers modulo any
+prime number if a field.
+
+\subsection{Real numbers}
+
+The rational numbers are pretty nice; they're a field with the six
+properties listed above. However, $\mathbb{Q}$ does not contain all
+the numbers that we think it should. For example,
+\begin{theorem}
+  $\sqrt{2} \not\in \mathbb{Q}$
+\end{theorem}
+\begin{proof}
+  Suppose $\sqrt{2} \in \mathbb{Q}$. Then $\sqrt{2} = p / q$ where $p$
+  and $q$ are not both even. If we square both sides, we get
+  \begin{align*}
+    2 = & p^2 / q^2 \\
+    2 q^2 = & p^2.
+  \end{align*}
+  Hence, $p^2$ must be even. From the review, then $p$ must also be
+  even, say $p = 2m$. Then we have
+  \begin{align*}
+    2 q^2 = & 2(2 m^2) \\
+    q^2 = & 2 m^2,
+  \end{align*}
+  which means $q$ must also be even, contrary to our starting
+  assumption. 
+\end{proof}
+Apparently, the rationals have some holes in them that we should fill
+in. To do so in a unique way, we need to define another property of
+the rational numbers. A \textbf{totally ordered set} is a set, $A$,
+and a relation, $<$, such that (i) (total) $\forall a,b \in A$ either
+$a < b$ or $a = b$ or $a > b$; and (ii) (transitive) if $a < b$ and $b
+< c$ then $a < c$. An \textbf{ordered field} is a field that is a
+totally ordered set and addition and multiplication preserve the
+ordering in that (i) if $b<c$ then $a + b < a + c$ (ii) if $a>0$ and
+$b>0$ then $ab>0$.
+
+We need one more definition. Simon and Blume state that one property
+of real numbers that will be used throughout the book is the least
+upper bound property. It turns out that this property is not only
+useful; it lies at the foundation of the real numbers. Let $S$ be an
+ordered set and $A \subset S$. $s \in S$ is an \textbf{upper bound} of
+$A$ if $s \geq a \forall a \in A$. $s$ is a \textbf{least upper bound}
+(aka supremum) of $A$ if $s$ is an upper bound of $A$ and if $r < s$,
+then $r$ is not an upper bound of $A$. $S$ has the
+\textbf{least-upper-bound property} (aka complete or Dedekind
+complete) if whenever $A \subset S$ has an upper bound, $A$ has a
+least upper bound. Given that $\sqrt{2} \not\in \mathbb{Q}$, it should
+not be surprising that the rational numbers are not complete. You will
+prove this fact on the first problem set. 
+
+\begin{theorem}[Real numbers]
+  There exists an ordered field, $\mathbb{R}$, that has the least
+  upper bound property. $\mathbb{R}$ contains $\mathbb{Q}$. Moreoever,
+  $\mathbb{R}$ is ``unique''.
+\end{theorem}
+
+The proof of this is surprisingly long, so we will not go over it in
+detail. Existence can be proven by construction. One method involves
+constructing real numbers as Dedekind cuts. A Dedekind cut is a
+nonempty subset of the rationals, $A \subset \mathbb{Q}$, such that
+(i) if $p \in A$, $q \in \mathbb{Q}$, and $q < p$, then $q \in A$ and
+(ii) if $p \in A$ then $p<r$ for some $r \in A$ (i.e. $A$ has no
+greatest element. For example, the Dedekind cut associated with
+$\sqrt{2}$ would be $\{p \in \mathbb{Q}: p^2 < 2\}$). We would then
+define addition, multiplication, and ordering of these cuts in the
+natural way and verify that all the properties above are
+satisfied. See Rudin for details if you are interested.
+
+The ``uniqueness'' is harder to prove. $\mathbb{R}$ is unique in the
+sense that any two ordered fields with the least-upper-bound property
+are isomorphic (there exists a bijection between them that preserves
+multiplication, addition, and ordering). The proof proceeds by
+supposing that $\mathbb{R}$ and $\mathbb{F}$ are two ordered fields
+with the least-upper-bound property and then shows that there is an
+isomorphism between them.
+
+
+\end{document}
