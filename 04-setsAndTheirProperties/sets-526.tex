@@ -444,16 +444,18 @@ the maximal outcome under the completed Pareto order.
 manner. To precisely state Arrow's result, we first need a couple more
 definitions. 
 
-A \textbf{social ordering} is a rule for combining individual
+A \textbf{social choice rule} is a rule for combining individual
 preferences $\pref_i$ into a single weak order $\succeq$. In other
-words, a social ordering is a function from the set of $n$ individual
+words, a social choice rule is a function from the set of $n$ individual
 preferences to the set of weak orders. We will denote the social
-ordering by $F(\pref_1, ..., \pref_n) = \succeq$. A social ordering
+ordering by $F(\pref_1, ..., \pref_n) = \succeq$. A social choice rule
 $F$ completes the Pareto order if $\succeq$ is complete and for
 all $x,y$ such that $x \pref^P y$, the social order agrees $x \succeq
-y$.
+y$. Although not made explicit by this notation, it is important to
+keep in mind that both the Pareto order, $\pref^P$, and the social
+order, $\succeq$, are functions of individual preferences. 
 
-A social ordering satisfies the \textbf{independence of irrelevant
+A social choice rule satisfies the \textbf{independence of irrelevant
   alternatives} (IIA) if for every $A \subseteq X$, if $\pref_i$ and
 $\pref_i'$ are two sets of individuals preferences that agree on $A$,
 \[ x \pref_i y \iff x \pref_i' y \; \forall x,y \in A \text{ for each
@@ -464,19 +466,24 @@ of irrelevant alternatives says that the question of whether society
 likes apples better than bananas should not depend on what anyone
 thinks about the comparison between apples and oranges (or oranges and
 kiwis, etc). It is an intuitively desirable feature of a social
-ordering.
+choice rule.
 
-One social ordering that completes the Pareto order is the dictatorial
-ordering. That is, we let any one person's preference be society's
-preference. Of course, this is not a very desirable social ordering. 
+One social choice rule that completes the Pareto order is the
+dictatorial ordering. That is, we let any one person's preference be
+society's preference. Of course, this is not a very desirable social
+ordering.
 
 \begin{theorem}[Arrow's impossibility theorem]
   It is impossible to complete the weak Pareto ordering in a way that
   is not dictatorial and is independent of irrelevant alternatives
   when $|X| \geq 4$. 
 \end{theorem}
+\cite{feldman1974} contains a very concrete proof for when $n=2$ and
+$|X|=3$. We will prove the general theorem, but if you find the
+general argument confusing (and it is a bit confusing), then reading
+\cite{feldman1974} might be helpful.
 \begin{proof}
-  Suppose we have a social order, $F$ that is consistent with
+  Suppose we have a social choice rule, $F$ that is consistent with
   the Pareto order and obeys the irrelevance of independent
   alternatives. We will prove the theorem in three steps.
   \begin{enumerate}
@@ -484,32 +491,103 @@ preference. Of course, this is not a very desirable social ordering.
     \subseteq \{1,\cdots,n\}$ is \textbf{decisive} over $x, y \in X$
     if for any individual preference relations if $x \succ_i y$ for
     all $i \in S$ implies $x \succ y$, where $\succ=F(\succ_1,...,
-    \succ_n)$. Suppose $|X|\geq 3$ and that there is one pair of
+    \succ_n)$. Being decisive is a property of the subgroup $S$ and
+    the decision rule $F$. It is something that holds for all
+    preferences. Suppose $|X|\geq 3$ and that there is one pair of
     alternatives, $x$ and $y$ such that some group $S$ is decisive
     over $x$, $y$.  We will show that $S$ must also be decisive over
     all other pairs of alternatives.  Let $z, w\in X$ and suppose that
     for all $i \in S$, $w \succ_i z$. By the irrelevance of
     independent alternatives for any individuals preferences
-    $\succ_i'$ such that $w \succ_i' z$ it must be that $w \succ z$ if
+    $\succ_i'$ such that $w \succ_i' z$ for $i \in S$, it must be that $w \succ z$ if
     and only if $w \succ' z$, where $\succ'=F(\succ_1',...,\succ_n')$
     and $\succ=F(\succ_1,...,\succ_n)$.  This means that we can freely
     change preferences among alternatives as long as we hold the
     preference between $w$ and $z$ fixed. Consider preferences such
-    that $w \succ_j x$ and $y \succ_j z$ for all $j$, and $x \succ_i
-    y$ for all $i \in S$. Then $y \succ^P z$ and $w \succ^P x$. Since
+    that $w \succ_j' x$ and $y \succ_j' z$ for all $j$, and $x \succ_i'
+    y$ for all $i \in S$. Then $y \succ^{'P} z$ and $w \succ^{'P} x$. Since
     the social order must agree with the Pareto order, we also have $y
-    \succ z$ and $w \succ x$. By assumption $S$ is decisive, so $x
-    \succ y$. By transitivity $w \succ z$.
+    \succ' z$ and $w \succ' x$. By assumption $S$ is decisive over
+    $x$ and $y$, so $x \succ' y$. By transitivity $w \succ' z$. Like we argued earlier,
+    by the independence of irrelevant alternatives, it must also be
+    that $w \succ z$, i.e.\ $S$ is also decisive over $w$ and $z$
   \item \emph{Group contraction lemma}: We will show that if $S$ is
     decisive and $|S| \geq 2$, then there exists $S' \subset S$ such
-    that $S'$ is decisive. $\cdots$
+    that $S'$ is decisive. 
+    
+    Let $z \in X$, $z \neq x,y$. Partition $S$ into two groups. That is, let $S_1
+    \cup S_2 = S$ where $S_1 \cap S_2 = \emptyset$, and $S_1$ and $S_2$
+    are not empty. Consider preferences $\succ_i$ such that $x \succ_i
+    y$ for all $i \in S$. $S$ is decisive, so then, $x \succ y$ as
+    well.
+
+    If $S_1$ is not decisive, then from the previous part, $S_1$ is
+    not decisive over any pair. In particular, $S_1$ is not decisive
+    over $z$ and $x$. This means that we can find preferences $x
+    \succ_i z$ for all $i \in S_1$ such that the social
+    order $\succ=F(\succ_1,
+    ..., \succ_2)$ prefers $z$ to $x$, $z \succeq x$. Moreover, by the
+    independence of irrelevant alternatives, we can make these
+    preferences by such that $x \succ_i y \succ_i z$ for all $i \in
+    S_1$. 
+
+    If $S_2$ is also not decisive, then $S_2$ is not decisive over any
+    pair, including $z$ and $y$. Thus, far we have placed assumptions
+    about preferences between $z$ and $x$ and $x$ and $y$. We have not
+    said anything about preferences between $z$ and $y$. By the
+    independence of irrelevant alternatives, we are free to specify
+    preferences between $z$ and $y$ which will still satisfy all the
+    conditions about $z$ and $x$ above.  This means that we can find
+    preferences such that $z \succ_i y$ for all $i \in S_2$ but the
+    social order (weakly) prefers $y$ to $z$, $y \succeq z$.  To
+    summarize, assuming neither $S_1$ nor $S_2$ is decisive, we have
+    constructed preferences such that
+    \begin{itemize}
+    \item for all $i \in S_1$, $x \succ_i y \succ_i z$, but $z \succeq
+      x$, and
+    \item for all $i \in S_2$, $z  \succ_i y$ and $x \succ_i y$, but $y \succeq z$
+    \end{itemize}
+    However, $S$ being decisive implies $x \succ y$, which contradicts $y
+    \succeq z \succeq x$. Therefore, either $S_1$ or $S_2$ must be decisive.    
   \item To conclude the proof, notice that the set $S$ of everyone is
-    always decisive. By the group contraction lemma, there is a
-    decisive proper subset $S'$. We can apply the group contraction
-    lemma again and again until we get to a decisive set with one
-    element, i.e. a dictator.
+    decisive for any social ordering that agrees with the Pareto
+    ordering. By the group contraction lemma, there is a decisive
+    proper subset $S'$. We can apply the group contraction lemma again
+    and again until we get to a decisive set with one element, i.e. a
+    dictator.
   \end{enumerate}    
 \end{proof}
+So what does this theorem mean? One implication is that any
+non-dictatorial social choice rule that agrees with the Pareto order
+must either (i) not actually be a weak order (i.e. not be transitive)
+or (ii) violate the independence of irrelevant alternatives.
+\begin{example}[Binary voting]
+  Suppose $n$ is odd (to avoid ties) and the social choice rule is
+  determined by majority vote. That is, 
+  \[ x \succeq y \iff x \succeq_i y \text{ for at least $(n+1)/2$
+    individuals }. \]
+  Voting is complete, agrees with the Pareto order, and is
+  non-dictatorial. Voting also obeys the independence or irrelevant
+  alternatives. Whether $x \succeq y$ only depends on individual
+  preferences between $x$ and $y$. So, how can this be possible? Well,
+  voting does not always lead to a transitive order, so it does not
+  qualify as a social choice rule.  One of the
+  requirements of a social choice rule is that it is a weak order
+  (given any individual preferences), so it
+  must be transitive. Transitivity was essential at the end of step 2
+  of our proof of the impossibility theorem.  
+\end{example}
+We could also try to construct social choice rules through other
+voting arrangements. 
+\begin{example}[Majority voting]
+  Suppose the social choice rule is to let each person vote on their
+  most preferred outcome. Then outcomes are ranked by the number of
+  votes received. This social choice rule is transitive and complete
+  (so it is a weak order), but it does not obey the independence of
+  irrelevant alternatives. We see this often in elections with 3
+  candidates, where the presence of a third fringe candidate can
+  influence which of two mainstream candidates wins.
+\end{example}
 
 
 
@@ -664,7 +742,6 @@ supposing that $\mathbb{R}$ and $\mathbb{F}$ are two ordered fields
 with the least-upper-bound property and then shows that there is an
 isomorphism between them.
 
-\clearpage
 \bibliographystyle{jpe}
 \bibliography{../526}
 
