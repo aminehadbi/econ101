@@ -6,7 +6,7 @@
 
 \usepackage{graphicx}
 %\usepackage{epstopdf}
-\usepackage{hyperref}
+\usepackage[colorlinks=true]{hyperref}
 \usepackage[left=1in,right=1in,top=0.9in,bottom=0.9in]{geometry}
 \usepackage{multirow}
 \usepackage{verbatim}
@@ -28,7 +28,7 @@
 %\usepackage{cmbright}
 %\usepackage{ccfonts} \usepackage[T1]{fontenc}
 %\usepackage[garamond]{mathdesign}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage[normalem]{ulem}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -90,6 +90,16 @@
 }
 \makeatother
 
+\definecolor{ubcblue}{cmyk}{1.00,.62,.0,.52}
+\definecolor{ubcgrey}{cmyk}{.42,.08,.0,.40}
+
+\hypersetup{
+  linkcolor  = ubcblue,
+  citecolor  = ubcgrey,
+  urlcolor   = ubcblue,
+  colorlinks = true
+}
+
 \newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
 \newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
 \def\inprobLOW{\rightarrow_p}
@@ -121,3 +131,4 @@
 
 \def\pref{\succeq}
 \def\rel{\,{\buildrel R \over \sim}\,}
+

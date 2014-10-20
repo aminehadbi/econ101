@@ -111,7 +111,7 @@ the start of section 2 of these notes.
 %  http://joshua.smcvt.edu/linearalgebra/
 %  http://linear.ups.edu/
 
-\section{Vector spaces and linear transformations}
+%\section{Vector spaces and linear transformations}
 
 Matrices are often introduced as just arrays of numbers.  That sort of
 definition works out alright. However, it makes certain subsequent
@@ -122,7 +122,7 @@ fundamental way of describing matrices. This way of looking at
 matrices will reveal exactly why matrix multiplication is the way it
 is, and illuminate many other properties of matrices. 
 
-\subsection{Vector spaces}
+\section{Vector spaces}
 
 To fully understand matrices, we must first under vector
 spaces. Loosely, a vector space is a set whose elements can be added
@@ -352,28 +352,19 @@ Sets of functions with certain properties also form vector spaces.
   of polynomials), exponential, and logarithm.
 \end{example}
 
-\subsubsection{Linear combinations}
+\subsection{Linear combinations}
 
-We briefly discusses linear independence and dimension last lecture
-when we introduced linear subspaces of $\R^n$. These concepts apply to
-any vector space. 
 \begin{definition}
   Let $V$ be a vector space and $v_1,..., v_k \in V$. A \textbf{linear
     combination} of $v_1,..., v_k$ is any vector 
   \[c_1 v_1 + ... + c_k v_k \]
-  where $c_1, ..., c_k \in \F$. 
+  where $c_1, ..., c_k \in \R$. 
 \end{definition}
 Note that by the definition of a vector space (in particular the
 requirement that vector spaces are closed under addition and
-multiplication), it must be that $c_1 v_1 + ... + c_k v_k \in V$.
+multiplication), it must be that $c_1 v_1 + ... + c_k v_k \in V$. 
 
-Last lecture we argued that if a system of equations has two distinct
-solutions, then we can take certain linear combinations of them of the
-form $\lambda x_1 + (1-\lambda) x_2$ to trace out an affine set
-of solutions. Recall that $\lambda x_1 + (1-\lambda) x_2 : \lambda
-\in \R\}$ is an affine set and not necessarily a linear subspace because it may
-not contain $0$. If instead of using $\lambda$ and $1-\lambda$ as
-weights, we take all possible linear combinations, $\{c_1 x_1 + c_2
+If we take all possible linear combinations of, $\{c_1 x_1 + c_2
 x_2 : c_1 \in \R, c_2 \in R\}$, then the set will contain $0$, and it
 will be a linear subspace. This motivates the following definition.
 \begin{definition}

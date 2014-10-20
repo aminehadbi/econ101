@@ -1,0 +1,1127 @@
+\input{../noteHeader} 
+
+\title{Linearity}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+These notes are about linear algebra. References from the primary
+texts are chapters 10, 11, and 27 of \cite{sb1994} and section 1.4 and
+portions of chapter 3 of \cite{carter2001}. There are many mathematics
+texts on linear algebra.  \cite{axler1997} is excellent. Many people
+like
+\href{http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/}
+{Gilbert Strang's video lectures} (and his textbook). These notes were
+originally based on the material in \cite{sb1994}, but they are now
+closer to the approach of \cite{axler1997}. 
+
+We will study linear algebra with two goals in mind. First, we will
+finally carefully prove that the Lagrangian works. Recall that for a
+constrained optimization problem, 
+\[ \max_x f(x) \text{ s.t.  } h(x) = c, \]
+we argued that $x^*$ is a local max if for all $v$, 
+\[ Dh_{x^*} v = 0 \implies Df_{x^*} v = 0. \] 
+We then made a heuristic argument that this is equivalent to the
+existence of Lagrange multipliers such that 
+\[ Df_{x^*} + \lambda^T Dh_{x^*} = 0. \]
+This result will be a consequence of the fundamental theorem of linear
+algebra, which relates the null spaces of matrices to their ranges. 
+
+The second main result that we will build toward are the first and
+second welfare theorems. The first welfare theorem states that a
+competitive equilibrium is Pareto efficient. The second welfare
+theorems states that every Pareto efficient allocation can be achieved
+by some competitive equilibrium. The welfare theorems involve
+preferences (the subject of the previous set of notes), vector spaces
+(the topic of these notes), and some continuity (the next topic). 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Vector spaces}
+
+A vector space is a set whose elements can be added and scaled. Vector
+spaces appear quite often in economics because many economic
+quantities can be added and scaled. For example, if firm $A$ produces
+quantities $y_1^A$ and $y_2^A$ of goods $1$ and $2$, while firm $B$
+produces $(y_1^B,y_2^B)$, then total production is $(y_1^A+y_1^B,
+y_2^A+y_2^B)$. If firm $A$ becomes 10\% more productive, then it will
+produce $(1.1 y_1^A, 1.1 y_2^A)$.
+
+We have been working with $\R^n$, which is the most common vector
+space. There are three ways of approaching vector spaces. The first is
+geometrically --- introduce vectors as directed arrows arrows. This
+works well in $\R^2$ and $\R^3$ but is difficult in higher dimensions.
+The second is analytically --- by treating vectors as n-tuples of
+numbers $(x_1, ..., x_n)$. The third approach is axiomatically ---
+vectors are elements of a set that has some special properties. You
+likely already have some familiarity with the first two
+approaches. Here, we are going to take the third approach. This
+approach is more abstract, but this abstraction will allow us to
+generalize what we might know about $\R^n$ to other more exotic vector
+spaces. Also, many theorems and proofs become shorter and more elegant.
+
+\begin{definition}
+  A \textbf{vector space} is a set $V$  with
+  two operations, addition $+$, which takes two elements of $V$ and
+  produces another element in $V$, and scalar multiplication $\cdot$,
+  which takes an element in $V$ and an element in $\R$ and
+  produces an element in $V$, such that
+  \begin{enumerate}
+  \item $(V, +)$ is a commutative group, i.e.
+    \begin{enumerate}
+    \item Closure: $\forall v_1 \in V$ and $v_2 \in V$ we have $v_1
+      + v_2 \in V$. 
+    \item Associativity: $\forall v_1, v_2, v_3 \in V$ we have $v_1
+      + (v_2 + v_3 ) = (v_1 + v_2) + v_3 $. 
+    \item Identity exists: $\exists 0 \in V$ such that $\forall v \in
+      V$, we have $v + 0 = v$
+    \item Invertibility: $\forall v \in V$ $\exists -v \in V$ such
+      that $v + (-v) = 0$
+    \item Commutativity: $\forall v_1, v_2 \in V$ we have $v_1+v_2 =
+      v_2 + v_1$
+    \end{enumerate}
+  \item Scalar multiplication has the following properties:
+    \begin{enumerate}
+    \item Closure: $\forall v \in V$ and $\alpha \in \R$ we have
+      $\alpha v \in V$
+    \item Distributivity: $\forall v_1 , v_2 \in V$ and $\alpha_1, \alpha_2 \in
+      \R$
+      \begin{align*}
+        \alpha_1 (v_1 + v_2) = \alpha_1 v_1 + \alpha_1 v_2 
+      \end{align*}
+      and 
+      \begin{align*}
+        (\alpha_1 + \alpha_2)v_1 = \alpha_1 v_1 + \alpha_2 v_1
+      \end{align*}
+    \item Consistent with field multiplication: $\forall v \in V$ and
+      $\alpha_1, \alpha_2 \in V$ we have
+      \begin{align*}
+        1 v = v
+      \end{align*}
+      and 
+      \begin{align*}
+        (\alpha_1 \alpha_2) v =\alpha_1 (\alpha_2 v)
+      \end{align*}
+    \end{enumerate}
+  \end{enumerate}
+\end{definition}
+A vector space is also called a linear space. Like \citet{carter2001}
+says, ``This long list of requirements does not mean that a linear
+space is complicated. On the contrary, linear spaces are beautifully
+simple and possess one of the most complete and satisfying theories in
+mathematics.  Linear spaces are also immensely useful providing one of
+the principal foundations of mathematical economics. The most
+important examples of linear spaces are $\R$ and $\R^n$. Indeed, the
+abstract notion of linear space generalizes the algebraic behavior of
+$\R$ and $\R^n$.''
+
+\subsubsection{Examples}
+We now give some examples of vector spaces. 
+\begin{example} \label{ex:Rn}
+  $\R^n$ is a vector space. You are likely already
+  familiar with this space. Vector addition and multiplication are
+  defined in the usual way. If $\mathbf{x}_1 = (x_{11}, ..., x_{n1})$
+  and $\mathbf{x}_2 = (x_{12}, ..., x_{n2})$, then vector addition is
+  defined as
+  \[ \mathbf{x}_1 + \mathbf{x}_2 = (x_{11}+x_{12}, ... , x_{n1} +
+  x_{n2}). \]
+  The fact that $(\R^n,+)$ is a commutative group follows from the
+  fact that $(\R,+)$ is a commutative group. Scalar multiplication is
+  defined as
+  \[ a \mathbf{x} = (a x_1, ..., ax_n) \] for $a \in \R$ and
+  $\mathbf{x} \in R^n$. You should verify that the three properties in
+  the definition of vector space hold.  The vector space $(\R^n, \R,
+  +, \cdot)$ is so common that it is called \textbf{Euclidean
+    space}\footnote{To be more accurate, Euclidean space refers to
+    $\R^n$ as an inner product space, which is a special kind of
+    vector space that will be defined below.} We will often just refer
+  to this space as $\R^n$, and it will be clear from context that we
+  mean the vector space $(\R^n, \R, + , \cdot)$. In fact, we will
+  often just write $V$ instead of $(V,\R,+,\cdot)$ when referring to a
+  vector space.
+\end{example}
+One way of looking at vector spaces is that they are a way of trying
+to generalize the things that we know about two and three dimensional
+space to other contexts. 
+%\begin{example}
+%  Any linear subspace of $\R^n$ along with the field
+%  $\R$ and the usual vector addition and scalar multiplication is a
+%  vector space. Linear subspaces are closed under $+$ and $\cdot$ by
+%  definition. Linear subspaces inherit all the other properties
+%  required by the definition of a vector space from $\R^n$.
+%\end{example}
+\begin{example}
+  The set of all solutions to a homogenous system of linear equation
+  with the right hand size equal to $0$,
+  i.e., $(x_1, ..., x_n) \in \R^n$ such that 
+  \begin{align*}
+    a_{11} x_1 + a_{12} x_2 + ... + a_{1n} x_n = & 0 \\
+    a_{21} x_1 + a_{22} x_2 + ... + a_{2n} x_n = & 0 \\
+    \vdots & \vdots \\
+    a_{m1} x_1 + a_{m2} x_2 + ... + a_{mn} x_n = & 0 ,
+  \end{align*}
+\end{example}  
+Most of the time, the two operations on a vector space are the usual
+addition and multiplication. However, they can appear different, as the
+following example illustrates.
+\begin{example}
+  Take $V = \R^+$. Define ``addition'' as $x \oplus y = xy$ and define
+  ``scalar multiplication'' as $\alpha \odot x = x^\alpha$. Then
+  $(\R^+,\R, \oplus, \odot)$ is a vector space with identity element
+  $1$.   
+\end{example}
+
+The previous few examples are each finite dimensional vector
+spaces. There are also infinite dimensional vector spaces.
+\begin{example}
+  Let $V = \{$ all sequences of real numbers $\}$. For two sequences
+  $\mathbf{x} = \{x_1, x_2, ... \}$ and $\mathbf{y} = \{y_1, y_2,
+  ... \}$, define $\mathbf{x} + \mathbf{y} = \{ x_1 + y_1 , x_2 + y_2,
+  ... \}$ and defie scalar multiplication as $\alpha \mathbf{x}l = \{
+  \alpha x_1 , \alpha x_2, ... \}$. Then this is a vector space.
+\end{example}
+We encounter vector spaces of sequences in economics when we study
+infinite horizon discrete time optimization problems. 
+
+Spaces of functions are often vector spaces. In economic
+theory, we might want to work with a set of functions because we want
+to prove something for all functions in the set. That is, we prove
+something for all utility functions or for all production
+functions. In non-parametric econometrics, we try to estimate an
+unknown function instead of an unknown finite dimensional
+parameter. For example, instead of linear regression $y = x\beta +
+\epsilon$ where want to estimate the unknown vector $\beta$, we might
+say $y = f(x) + \epsilon$ and try to estimate the unknown function
+$f$. 
+
+Here are some examples of vector spaces of functions. It would be a good
+exercise to verify that these examples have all the properties listed
+in the definition of a vector space. 
+\begin{example} \label{ex:funcSpace}
+  Let $V = $ all functions from $[0,1]$ to $\R$. For $f, g \in V$,
+  define $f + g$ by $(f+g)(x) = f(x) + g(x)$. Define scalar
+  multiplication as $(\alpha f)(x) = \alpha f(x)$. Then this is a
+  vector space. 
+\end{example}
+Sets of functions with certain properties also form vector spaces. 
+\begin{example}
+  The set of all continuous functions with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example}
+  The set of all $k$ times continuously differentiable functions with
+  addition and scalar multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example}
+  The set of all polynomials with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+\begin{example} 
+  The set of all polynomials of degree at most $d$ with addition and scalar
+  multiplication defined as in \ref{ex:funcSpace}.
+\end{example}
+
+Generally, the vector space with which we are most interested is
+Euclidean space, $\R^n$. In fact, a good way to think about other
+vector spaces is that they are just variations of $\R^n$. The whole
+reason for defining and studying abstract vector spaces is to take our
+intuitive understanding of two and three dimensional Euclidean space
+and apply it to other contexts. If you find the discussion of abstract
+vector spaces and their variations to be confusing, you can often
+ignore it and think of two or three dimensional Euclidean space
+instead.
+
+Vector spaces often contain other vector spaces. For example, either
+axis (or more generally any line passing through the origin) in $\R^2$
+is itself a vector space.  
+\begin{definition}
+  A set $S \subseteq V$ is called a \textbf{linear
+    subspace} if it is closed under (i) scalar multiplication and (ii)
+  addition in other words, if 
+  \begin{itemize}
+  \item[(i)] for every $\mathbf{x} \in S$ and $\alpha \in \mathbb{R}$,
+    we have $\alpha \mathbf{x} \in S$, and
+  \item[(ii)] for every $\mathbf{x} \in S$ and $\mathbf{y} \in
+    S$, we have
+    $\mathbf{x} + \mathbf{y} \in S$
+  \end{itemize}
+\end{definition}
+This two requirements are sometimes written more succintly as $\forall
+\mathbf{x}, \mathbf{y} \in S$ and $\alpha \in \R$, $\alpha \mathbf{x}
++ \mathbf{y} \in S$. When the ``linear'' is clear from context, linear
+subspaces are often simply called subspaces. 
+\begin{exercise}
+  Show that if $S$ is a linear subspace, then $0 \in S$. 
+\end{exercise}
+\begin{example}
+  For any vector space $V$, the set of containing only the $0$
+  element, $\{0\}$, is a linear subspace.
+\end{example}
+\begin{example}
+  In $\R^2$, any line passing through the origin is a linear subspace.
+  In $\R^3$, any line passing through the origin, and any plane
+  passing through the origin is a linear subspace.
+\end{example}
+\begin{example}
+  The set of all continuous functions from $\R \to \R$ such that
+  $f(294) = 0$ is a linear subspace of the vector space of continuous
+  functions. 
+\end{example}
+\begin{example}
+  The set of all polynomials of degree at most $d$ is a linear
+  subspace of the space of all polynomials.  
+\end{example}
+
+The intersection of two linear subspaces is also a linear subspace.
+\begin{example}
+  If $S$ and $W$ are linear subspaces of $V$, then so is $S \cap W$.
+\end{example}
+However, the union of two linear subspaces is not necessarily a
+subspace. For example in $\R^2$, the two axes are each subspaces, but
+their union is not because, $(1,0)$ and $(0,1)$ are both in the union,
+but $(1,0) + (0,1) = (1,1)$ is not. 
+\begin{definition}
+  Let $S_1, ..., S_k$ be linear subspaces of $V$. The \textbf{sum} of
+  them is
+  \[ S_1 + \cdots + S_k = \{ \mathbf{x}_1 + \cdots + \mathbf{x}_k :
+  \mathbf{x}_j \in S_j \} \]
+\end{definition}
+$S_1 + \cdots + S_k$ is another linear subspace of $V$. An especially
+interesting situaation is when $S_1 + \cdots + S_k = V$ and every
+$\mathbf{v} \in V$ can be uniquely written as a sum of elements of
+$S_j$. 
+\begin{definition}
+  If $S_1 + \cdots + S_k = V$ and $\forall \mathbf{v} \in V$, there
+  are unique $\mathbf{x}_j \in S_j$ such that 
+  \[ \mathbf{v} = \mathbf{x}_1 + \cdots  + \mathbf{s}_k \]
+  then $V$ is the \textbf{direct sum} of $S_1, ..., S_k$, written 
+  \[ V = S_1 \oplus \cdots \oplus S_k \]
+\end{definition}
+Representing a vector space as a direct sum will be important for some
+of the results below. The following lemma will be useful.
+\begin{lemma}
+  Suppose $S_1$ and $S_2$ are linear subspaces of $V$. Then $V = S_1
+  \oplus S_2$ iff $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. 
+\end{lemma}
+\begin{proof}
+  Suppose $V = S_1 \oplus S_2$. Then by definition $V = S_1 +
+  S_2$. Also, if $\mathbf{x} \in S_1 \cap S_2$, then $0 = \mathbf{x} + (-\mathbf{x})$. The
+  definition of direct sum requires this representation to be unique,
+  so $\mathbf{x} = 0$ must be the only element of $S_1 \cap S_2$.
+
+  Suppose $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. Let $\mathbf{v} \in
+  V$. Since $V = S_1 + S_2$, $\exists \mathbf{x}_1 \in S_1$ and $\mathbf{x}_2 \in S_2$
+  such that $\mathbf{v} = \mathbf{x}_1 + \mathbf{x}_2$. Suppose that
+  $\mathbf{y}_1 \in S_1$ and $\mathbf{y}_2 \in S_2$ and $\mathbf{v} =
+  \mathbf{y}_1 + \mathbf{y}_2$. Subtracting, 
+  \[ 0 = \underbrace{(\mathbf{x}_1 - \mathbf{y}_1)}_{\in S_1} + \underbrace{(\mathbf{x}_2 -
+    \mathbf{y}_2)}_{\in S_2} \]
+  so $(\mathbf{x}_1 - \mathbf{y}_1) = -(\mathbf{x}_2 -
+  \mathbf{y}_2)$. By the definition of subspaces, $S_1$ and $S_2$ are
+  closed under scalar multiplication. Therefore, $(\mathbf{x}_i -
+  \mathbf{y}_i) \in S_1 \cap S_2$ for $i = 1, 2$. By assumption, this
+  intersection only contains $0$, so we can conclude that
+  $\mathbf{x}_i = \mathbf{y}_i$. The representation of $\mathbf{v} =
+  \mathbf{x}_1 + \mathbf{x}_2$ is unique.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Linear combinations}
+
+\begin{definition}
+  Let $V$ be a vector space and $\mathbf{x}_1,..., \mathbf{x}_k \in
+  V$. A \textbf{linear combination} of $\mathbf{x}_1,...,
+  \mathbf{x}_k$ is any vector
+  \[c_1 \mathbf{x}_1 + ... + c_k \mathbf{x}_k \]
+  where $c_1, ..., c_k \in \R$. 
+\end{definition}
+Note that by the definition of a vector space (in particular the
+requirement that vector spaces are closed under addition and
+multiplication), it must be that $c_1 \mathbf{x}_1 + ... + c_k \mathbf{x}_k \in V$. 
+
+If we take all possible linear combinations of, $\{c_1 x_1 + c_2
+x_2 : c_1 \in \R, c_2 \in \R\}$, then the set will contain $0$, and it
+will be a linear subspace. This motivates the following definition.
+\begin{definition}
+  Let $V$ be a vector space and $W \subseteq V$. The
+  \textbf{span} of $W$ is the set
+  of all finite linear combinations of elements of $W$
+\end{definition}
+When $W$ is finite, say $W = \{\mathbf{x}_1, ..., \mathbf{x}_k\}$, the span of $W$ is
+the set 
+\[ \{ c_1 \mathbf{x}_1 + ... + c_k \mathbf{x}_k : c_1, ..., c_k \in \R
+\}. \] 
+When $W$ is infinite, the span of $W$ is the set of all finite
+weighted sums of elements of $W$.
+\begin{lemma}
+  The \textbf{span} of any  $W \subseteq V$ is a linear subspace.
+\end{lemma}
+\begin{proof}
+  Left as an exercise.
+\end{proof}
+
+\begin{example}
+  Let $V$ be the vector space of all functions from $[0,1]$ to $\R$ as
+  in example \ref{ex:funcSpace}. The span of $\{1, x, ..., x^n\}$ is
+  the set of all polynomials of degree less than or equal $n$.
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dimension, linear independence, and basis} 
+
+You are probably familiar with the idea that $\R^n$ is
+$n$-dimensional. Roughly speaking if a vector space is $n$
+dimensional, then we should be able to describe any vector in it by
+listing $n$ scalars or coordinates.  In this section we formally
+define dimension. 
+\begin{definition}
+  A set of vectors $W \in V$, is \textbf{linearly
+    independent} if the only solution to
+  \begin{align*}
+    \sum_{j=1}^k c_j \mathbf{x}_j = 0 
+  \end{align*}
+  is $c_1 = c_2 = ... = c_k = 0$ for any $k$ and $\mathbf{x}_1, ...,
+  \mathbf{x}_k \in W$. If $W$ is not linearly independent, then it is
+  \textbf{linearly dependent},
+\end{definition}
+\begin{example}
+  In $\R^2$, $\{(1,0), (0,1)\}$ is linearly independent. $\{(0,0)\}$
+  is linearly dependent. Any set of three or more vectors in linearly
+  dependent. 
+\end{example}
+\begin{definition}
+  The \textbf{dimension} of a vector space, $V$, is the cardinality of
+  the largest set of linearly independent elements in $V$.
+\end{definition} 
+How large can the largest set of linearly independent elements be? The
+following theorem is a starting point. It tells us that a linearly
+independent set is smaller than any set that spans. The above
+definitions for linear independence and dimension work for any
+dimension, finite or infinite. However, some of the theorems that
+follow are awkward to state and prove for infinite dimension, so most
+of them will assume finite dimension. 
+\begin{theorem}\label{thm:spanLin}
+  Suppose $\mathbf{v}_1, ...., \mathbf{v}_n$ span $V$, and 
+  $\mathbf{u}_1, ..., \mathbf{u}_m$ are linearly independent, then  $n
+  \geq m$. 
+\end{theorem}
+\begin{proof}
+  Since $\mathbf{v}_1, ...., \mathbf{v}_n$ span $V$, it must be that 
+  $\mathbf{u}_1, \mathbf{v}_1, ... , \mathbf{v}_n$ are linearly
+  dependent. Therefore, $\exists \alpha_j \in \R$ and not all $0$ such that 
+  \[ \alpha_1 \mathbf{u}_1 + \sum_{j=1}^n \alpha_{j+1} \mathbf{v}_j =
+  0 \]
+  Since the $\mathbf{u}$'s are linearly independent, $\mathbf{u}_1
+  \neq 0$. Therefore, for some $j \geq 2$, $\alpha_j \neq 0$. Let
+  $\ell$ be the largest such $j$. We can then rearrange to write
+  \[ \mathbf{v}_\ell = -\frac{\alpha_1}{\alpha_\ell} \mathbf{u}_1 -
+  \sum_{j=1}^{\ell-1} \frac{\alpha_{j+1}}{\alpha_\ell} \mathbf{v}_j = 0. \]
+  It follows that we can remove $\mathbf{v}_\ell$ and the remaining
+  $\mathbf{v}$'s along with $\mathbf{u}_1$ will still span $V$. 
+
+  We can then repeat the above argument.  Since $\mathbf{u}_1, ...,
+  \mathbf{u}_{i-1}, \mathbf{v}_1, ...., \mathbf{v}_{n-i+1}$ span $V$,
+  it must be that $\mathbf{u}_1, ...,
+  \mathbf{u}_{i}, \mathbf{v}_1, ...., \mathbf{v}_{n-i+1}$ are
+  linearly dependent. Therefore, $\exists \alpha_j \in \R$ and not all
+  $0$ such that
+  \[ \sum_{k=1}^i \alpha_i \mathbf{u}_i + \sum_{j=1}^n \alpha_{j+1}
+  \mathbf{v}_j = 0 \] 
+  Since the $\mathbf{u}$'s are linearly
+  independent, for some $j \geq i+1$, $\alpha_j \neq 0$. Let $\ell$ be
+  the largest such $j$. We can then rearrange to write
+  \[ \mathbf{v}_\ell = -\sum_{k=1}^i \frac{\alpha_i}{\alpha_\ell} \mathbf{u}_i -
+  \sum_{j=1}^{\ell-1} \frac{\alpha_{j+i+1}}{\alpha_\ell} \mathbf{v}_j = 0. \]
+  It follows that we can remove $\mathbf{v}_\ell$ and the remaining
+  $\mathbf{v}$'s along with $\mathbf{u}_1, ... , \mathbf{u}_i$ will
+  still span $V$. 
+
+  If there are fewer $\mathbf{v}$'s than $\mathbf{u}$'s, then the
+  above induction contradicts the assumption that the $\mathbf{u}$'s
+  are linearly independent.
+\end{proof}
+This theorem implies that if $B$ is linearly independent and spans
+$V$, then any other linearly independent set must have smaller
+cardinality. Hence, the dimension of $V$ must equal the cardinality of
+$B$. Sets that are linearly independent and span a vector space are
+very useful, so they have a name.
+\begin{definition}
+  A \textbf{basis} of a vector space $V$ is any set of linearly
+  independent vectors $B$ such that the span of $B$ is $V$.
+\end{definition}
+If $V$ has a basis with $k$ elements, then the dimension of $V$ must
+be at least $k$. In fact, the previous theorem implies that dimension
+of $V$ must be exactly $k$. Another consequence is that any two bases must have
+the same cardinality. 
+\begin{corollary}
+  Any two bases for a vector space have the same cardinality.
+\end{corollary}
+\begin{proof}
+  Let $B_1$ and $B_2$ be bases for a vector space $V$. Since $B_1$
+  spans and $B_2$ is linearly independent, by theorem
+  \ref{thm:spanLin}, $|B_1| \geq |B_2|$. Conversely, since $B_2$ spans
+  and $B_1$ is linearly independent, $|B_2| \geq |B_1|$. Hence $|B_1|
+  = |B_2|$.
+\end{proof}
+\begin{example}
+  A basis for $\R^n$ is $e_1 = (1, 0, ..., 0 )$, $e_2 = (0, 1, 0, ...,
+  0)$, $...$, $e_n = (0, ... , 0 , 1)$. This basis is called the
+  standard basis of $\R^n$. 
+
+  The standard basis is not the only basis for $\R^n$. In fact, there
+  are infinite different bases. Can you give some examples?
+\end{example}
+\begin{exercise} 
+  What is the dimension of each of the examples of vector spaces
+  above? Can you find a basis for them? 
+\end{exercise}
+
+Given a set that spans a vector space, it is always possible to remove
+elements until the set is also linearly independent, and hence a
+basis. Doing this will be useful in various proofs, so we state it is
+a lemma.
+\begin{lemma}\label{lem:spanToBasis}
+  Suppose $\mathbf{v}_1, ..., \mathbf{v}_n$ span $V$. Then there is a
+  subset of the $\mathbf{v}$'s that is a basis for $V$.
+\end{lemma}
+\begin{proof}
+  We proceed by induction. If $\mathbf{v}_1 = 0$, then remove
+  it. Otherwise, keep it. For $j=2,..., n$, if $\mathbf{v}_j \in
+  \text{span}(\mathbf{v}_1, ..., \mathbf{v}_{j-1})$, then delete it,
+  otherwise keep it. At every step, the remaining $\mathbf{v}$ still
+  span $V$. Furthermore, each step ensures that the non-deleted
+  $\mathbf{v}_1, ..., \mathbf{v}_j$ are linearly independent. 
+\end{proof}
+Conversely, every linearly independent set can be expanded to a
+basis. 
+\begin{lemma}\label{lem:linToBasis}
+  Suppose $V$ is finite dimensional and $\mathbf{v}_1, ...,
+  \mathbf{v}_n$ are linearly independent.  Then $\exists$
+  $\mathbf{v}_{n+1}, ... , \mathbf{v}_m$ such that $\mathbf{v}_1, ...,
+  \mathbf{v}_m$ is a basis for $V$.
+\end{lemma}
+\begin{proof}
+  By assumption $V$ is finite dimensional, so it has a basis, say
+  $\mathbf{u}_1, ..., \mathbf{u}_m$. Following the same argument as in
+  the proof of theorem \ref{thm:spanLin}, the $\mathbf{u}$'s can be
+  replaced by the $\mathbf{v}$'s to get another basis consisting of
+  all the $\mathbf{v}$'s and $m-n$ of the $\mathbf{u}$'s.
+\end{proof}
+
+The elements of a vector space can always be written in terms of a
+basis. 
+\begin{lemma} \label{lem:uniqueRep}
+  Let $B$ be a basis for a vector space $V$. Then
+  $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \R$ and
+  $b_1, ..., b_k \in B$
+  such that $ v = \sum_{i=1}^k x_i b_i$  
+\end{lemma}
+\begin{proof}
+  By the definition of a basis, $B$ spans $V$, so such
+  $(x_1, ..., x_k)$ must exist. Now suppose there exists another such
+  $(x_1', ..., x_j')$ and associated $b_i'$. The $\{b_1, ..., b_k\}$ and
+  $\{b_1', ..., b_j'\}$ might not be the same collection of elements
+  of $B$. Let $\{\tilde{b}_1, ..., \tilde{b}_n \} =  \{b_1, ...,
+  b_k\} U \{b_1', ..., b_j'\}$. Define $\tilde{x}_i = x_j$ if
+  $\tilde{b}_i = b_j$, else $0$. Similarly define $\tilde{x}_i'$. With
+  this new notation we have
+  \begin{align*}
+    v = \sum_{i=1}^n \tilde{x}_i \tilde{b}_i = & \sum_{i=1} \tilde{x}_i' \tilde{b}_i \\
+    \sum (\tilde{x}_i - \tilde{x}_i')\tilde{b}_i = & 0 \\
+  \end{align*}
+  However, if $B$ is a basis, its elements must be linearly
+  independent so $\tilde{x}_i = \tilde{x}_i'$ for all $i$, so the
+  original $x_1, ..., x_k$ must be unique.
+\end{proof}
+
+\begin{lemma}\label{lem:directSum}
+  Suppose $V$ is finite dimensional and $S$ is a subspace of $V$. Then
+  $\exists$ another subspace, $W$, of $V$ such that $V = S \oplus W$,
+  and $\dim(V) = \dim(S) + \dim(W)$.
+\end{lemma}
+\begin{proof}
+  Construct a basis for $S$ as follows. Set the basis $B = \{\}$. If
+  $S = \text{span}(B)$, then stop. Otherwise, choose $\mathbf{b}_j \in
+  S \setminus \text{span}(B)$ and add it to $B$. Since $V$ is finite
+  dimensional, this process must stop after at most $\dim(V)$
+  steps. This gives a basis $B$ for $S$. 
+
+  We will now construct a basis for $W$. Set $E = \{\}$. If
+  $\text{span}(B \cup E) = V$, then stop. Otherwise choose $\mathbf{e}_j \in V
+  \setminus \text{span}(B \cup E)$ and add it to $E$. Again, this
+  process must stop because $V$ is finite dimensional. Let $W =
+  \text{span}(E)$. By construction $\text{span}(B \cup E) = S + W =
+  V$. Also, lemma \ref{lem:uniqueRep} implies that each $\mathbf{v}
+  \in V$ can be uniquely written as a linear combination of elements
+  of $B \cup E$, each $\mathbf{s} \in S$ can be uniquely written as a
+  linear combination of $B$, and each $\mathbf{w} \in W$ can be
+  uniquely written as a linear combination of $E$. It follows that for
+  each $\mathbf{v} \in V$ there are unique $\mathbf{s} \in S$ and
+  $\mathbf{w} \in W$ such that $\mathbf{v} = \mathbf{s} +
+  \mathbf{w}$. 
+\end{proof}
+
+
+\subsection{$\R^n$ as the  only finite dimensional vector spaces}
+
+$\R^n$ is the only $n$-dimesion vector space in the sense that any
+other finite dimensional vector space can be viewed as a simple change
+of basis.
+
+Suppose $V$ is an $n$-dimension vector space. By the definition of dimension,
+there must be a set of $n$ linearly independent elements that span
+$V$. These elements form a basis. Call them $b_1, ..., b_n$. For each
+$\mathbf{x} \in V$, there are unique $x_1, ..., x_n \in \R$ such that 
+\[ \mathbf{x} = \sum_{i=1}^n x_i b_i. \]
+Thus we can construct a function, say $\mathcal{I}: V \to \R^n$ defined by 
+\[ \mathcal{I}(\mathbf{x}) = (x_1, ..., x_n). \]
+By lemma \ref{lem:uniqueRep}, $\mathcal{I}$ must be one-to-one. $\mathcal{I}$ must also be
+onto since by definition of a vector space, for any $(x_1, ..., x_n)
+\in \R^n$, the linear combination, $\sum_{i=1}^n x_i b_i$ is in
+$V$. Moreover, $\mathcal{I}$ preserves addition in that for
+any $\mathbf{x}^1, \mathbf{x}^2 \in V$,
+\begin{align*}
+  \mathcal{I}(\mathbf{x}^1 + \mathbf{x}^2) = & (x_1^1 + x_1^2, ..., x_n^1 + x_n^2) \\
+  = & (x_1^1, ..., x_n^1) + (x_1^2 + ... + x_n^2) \\
+  = & \mathcal{I}(\mathbf{x}^1) + \mathcal{I}(\mathbf{x}^2).
+\end{align*}
+Similarly, $\mathcal{I}$ preserves scalar multiplication in that for all $\mathbf{x} \in
+V$, $\alpha \in \R$
+\[ \mathcal{I}(\alpha \mathbf{x}) = \alpha \mathcal{I}(\mathbf{x}). \]
+Thus, $V$ and $\R^n$ are essentially the same in that there is a
+one-to-one and onto mapping between them that preserves all the
+properties that make them vector spaces. 
+\begin{definition}
+  Let $V$ and $W$ be vector spaces over the field $\F$. $V$ and $W$ are
+  \textbf{isomorphic} if there exists a one-to-one and onto function,
+  $\mathcal{I}:V \to W$ such that 
+  \[ \mathcal{I}(\mathbf{x}^1 + \mathbf{x}^2) = \mathcal{I}(\mathbf{x}^1) + \mathcal{I}(\mathbf{x}^2) \]
+  for all $\mathbf{x}^1, \mathbf{x}^2 \in V$,
+  and 
+  \[ \mathcal{I}(\alpha \mathbf{x}) = \alpha \mathcal{I}(\mathbf{x}) \]
+  for all $\mathbf{x} \in V$, $\alpha \in \F$.
+  Such an $\mathcal{I}$ is called an \textbf{isomorphism}.
+\end{definition}
+The discussion preceeding this definition showed that all
+$n$-dimensional real\footnote{Here ``real'' refers to the fact that
+  the scalars for the vector space are real numbers. In this course,
+  all vector spaces will be real. However, you can define vector
+  spaces with scalars from other fields, such as the complex numbers.}
+vector spaces are isomorphic to $\R^n$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Linear transformations}
+
+An isomorphism is a one-to-one and onto (bijective) functions that
+preserves addition and scalar multiplication. Can a function between
+vector spaces preserve addition and multiplication without being
+bijective?  Let's try to construct an example. We know from above that
+all finite dimensional vector spaces are isomorphic to $\R^n$, so we
+might as well work with $\R^n$. To keep everything as simple as
+possible, let's just work with $\R^1$. Consider $f:\R \to \R$ defined
+by $f(x) = 0$ for all $x \in \R$. Clearly, $f$ is not bijective. $f$
+preserves addition since
+\[ f(x) + f(y) = 0 + 0 = 0 = f(x+y). \]
+$f$ also preserves multiplication because 
+\[ \alpha f(x) = \alpha 0 = 0 = f(\alpha x). \]
+Thus, we know there are functions that preserve addition and scalar
+multiplication but are not necessarily isomorphisms. Let's give such
+functions a name. 
+\begin{definition}
+  A \textbf{linear transformation} (aka linear function) is a
+  function, $A$, from a vector space $(V,\R,+,\cdot)$ to a vector
+  space $(W,\R,+,\cdot)$ such that $\forall v_1, v_2 \in V$,
+  \begin{align*}
+    A (v_1 + v_2) = A v_1 + A v_2 
+  \end{align*}
+  and 
+  \begin{align*}
+    A (\alpha v_1) = \alpha A v_1
+  \end{align*}
+  for all scalars $\alpha \in \R$.   
+
+  A linear transformation from $V$ to $V$ is called a \textbf{linear
+    operator} on $V$. A linear transformation from $V$ to $\R$ is
+  called a \textbf{linear functional} on $V$.
+\end{definition}
+Any isomorphism between vector spaces is a linear
+transformation. 
+\begin{example}
+  Define $f: \R^2 \to \R$ by $f( (x_1, x_2) ) = x_1$, that is $f(x)$ is
+  the first coordinate of $x$. Then,
+  \[ f(\alpha x + y) = \alpha x_1 + y_1 = \alpha f(x) + f(y) \]
+  so $f$ is a linear transformation.
+\end{example}
+
+In general we can construct linear transformations between finite
+dimensional vector spaces as follows. Let 
+\[ A = \gmatrix{a} \]
+be a matrix. As usual let 
+\[ A\mathbf{x} = 
+\begin{pmatrix} 
+  \sum_{j=1}^n a_{1j} x_j \\
+  \vdots \\
+  \sum_{j=1}^n a_{mj} x_j 
+\end{pmatrix}, \] for $\mathbf{x} = (x_1, ..., x_n) \in \R^n$. Then
+$A$ is a linear transformation from $\R^n$ to $\R^m$. You may want to
+verify that $A(\alpha \mathbf{x}_1 + \mathbf{x}_2 ) = \alpha A
+\mathbf{x}_1 + A \mathbf{x}_2$ for scalars $\alpha \in \R$ and
+vectors $\mathbf{x}_1, \mathbf{x}_2 \in \R^n$. 
+
+Conversely let $A$ be a linear transformation from $V$ to $W$ (if it
+is helpful, you can let $V=\R^n$ and $W=\R^m$), and let $b_1, b_2,
+..., b_n$ be a basis for $V$. By the definition of a basis, any $v \in
+V$ can be written $v = \sum_{j=1}^n v_j b_j$ for some $v_j
+\in \R$. By the definition of a linear transformation, we have
+\begin{align*}
+  A v = \sum_{j=1}^n v_j A b_j. 
+\end{align*}
+Thus, a linear transformation is completely determined by its action
+on a basis. Also, if $d_1, ..., d_m$ is a basis for $W$ then for each
+$A b_j$ we must be able to write $A b_j$ as a sum of the basis
+elements $d_1, ..., d_m$, i.e.\
+\begin{align*}
+  A b_j = \sum_{i=1}^m a_{ij} d_i.
+\end{align*}
+Substituting this equation into the previous one, we can write $Av$ as
+\begin{align*}
+  Av = & \sum_{j=1}^n v_j A b_j \\
+  = & \sum_{j=1}^n v_j \sum_{i=1}^m a_{ij} d_i \\
+  = & \sum_{i=1}^m d_i \left( \sum_{j=1}^n a_{ij} v_j \right) 
+\end{align*}
+Thus, associated with a linear transformation there is an array of
+$a_{ij} \in \R$ determined by the linear transformation (and choice of
+basis for $V$ and $W$). In the previous paragraph, we saw that
+conversely, if we have an array of $a_{ij} \in \R$ we can construct a
+linear transformation. This leads us to the following result.
+\begin{theorem}
+  For any linear transformation, $A$, from $\R^n$ to $\R^m$ there is an
+  associated $m$ by $n$ matrix,
+  \[ 
+  \gmatrix{a}
+  \]
+  where $a_{ij}$ is defined by $A e_j = \sum_{i=1}^m a_{ij}
+  e_i$. Conversely, for any $m$ by $n$ matrix, there is an associated
+  linear transformation from $\R^n$ to $\R^m$ defined by $A e_j =
+  \sum_{i=1}^n a_{ij} e_i$.
+\end{theorem}
+Thus, we see that matrices and linear transformations from $\R^m$ to
+$\R^n$ are the same thing. This fact will help us make sense of many
+of the properties of matrices that we will go through in the next
+section. Also, it will turn out that most of the properties of
+matrices are properties of linear transformations. There are linear
+transformations that cannot be represented by matrices, yet many of
+the results and definitions that are typically stated for matrices
+will apply to these sorts of linear transformations as well.
+
+Two examples of linear transformations that cannot be represented by
+matrices are integral and differential operators,
+\begin{example}[Integral operator]
+  Let $k(x,y)$ be a function from $(0,1)$ to $(0,1)$ such that
+  $\int_0^1 \int_0^1 k(x,y)^2 dx dy$ is finite.  Define
+  $K:\mathcal{L}^2(0,1) \rightarrow \mathcal{L}^2(0,1)$ by
+  \begin{align*}
+    (K f) (x) = \int_0^1 k(x,y) f(y) dy
+  \end{align*}
+  Then $K$ is a linear transformation because
+  \begin{align*}
+    (K ( \alpha f + g) ) (x) = & \int_0^1 k(x,y) (\alpha f(y) + g(y))dy
+    \\
+    = & \alpha \int_0^1 k(x,y) f(y) dy + \int_0^1 k(x,y) g(y)dy \\
+    = & \alpha (K f) (x) + (K g)(x) 
+  \end{align*}      
+\end{example}
+
+\begin{example}[Conditional expectation]
+  One special type of an integral operator that appears often in
+  economics is the conditional expectation operator. Suppose $X$ and
+  $Y$ are real valued random variables with joint pdf $f_{xy}(x,y)$
+  and marginal pdfs $f_x(x) = \int_\R f(x,y) dy$ and $f_y(y) = \int_\R
+  f(x,y) dx$. Consider the vector spaces 
+  \[ 
+  V = \mathcal{L}^2(\R,f_y) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_y(y) g(y)^2 dy <
+  \infty \} \]
+  and 
+  \[ 
+  W = \mathcal{L}^2(\R,f_x) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+  \infty \} 
+  \]  
+  $V$ is the space of all functions of $Y$ such that the variance of
+  $g(Y)$ is finite. Similarly, $W$ is the space of all functions of
+  $X$ such that the variance of $g(X)$ is finite. 
+  The conditional expectation operator is $\mathcal{E}: V \to W$
+  defined by 
+  \begin{align*}
+    (\mathcal{E} g)(x) = E[g(Y) | X = x] = & \int_\R
+    \frac{f_{xy}(x,y)}{f_x(x) f_y(y)} g(y) f_y(y) dy.
+  \end{align*}
+  The conditional expectation operator is an integral operator, so it
+  is a linear transformation. 
+\end{example}
+
+\begin{example}[Differential operator]
+  Let $C^\infty(0,1)$ be the set of all infinitely differentiable
+  functions from $(0,1)$ to $\R$. $C^\infty(0,1)$ is a vector space.
+  Let $D:C^\infty(0,1) \rightarrow C^\infty(0,1)$ be defined by
+  \[ (D f) (x) = \frac{d f}{dx}(x) \]
+  Then $D$ is a linear transformation.
+\end{example}
+Integral and differential operators are very important when studying
+differential equations.  They are also useful in many areas of
+econometrics and in dynamic programming. We already encountered some linear
+transformations on infinite dimensional spaces when studying optimal
+control. However, for the rest of this lecture, our main focus will be
+an linear transformations between finite dimensional spaces,
+i.e.\ matrices. 
+
+\section{Matrix operations and properties}
+
+Let $A$ and $B$ be linear transformations from $\R^m$ to $\R^n$ and
+let $\gmatrix{a}$ and $\gmatrix{b}$ be the associated matrices.  Since
+the linear transformation $A$ and the matrix $\gmatrix{a}$ represent
+the same object, we will use $A$ to denote both.  From the previous
+section, we know that $A$ and $B$ are characterized by their action on
+the standard basis vectors in $\R^n$. In particular, $A e_j =
+\sum_{i=1}^m a_{ij} e_i$ and $B e_j = \sum_{i=1}^m b_{ij} e_i$. 
+
+\subsection{Addition} 
+To define matrix addition, it makes sense to
+require $(A+B)x = Ax + Bx$. Then,
+\begin{align*}
+  (A + B) e_j = & A e_i + B e_j \\
+  = & \sum_{j=1}^m a_{ij} e_i + \sum_{j=1}^m b_{ij} e_i\\
+  = & \sum_{j=1}^m (a_{ij} + b_{ij}) e_i,
+\end{align*}
+so the only way sensible way to define matrix addition is 
+\begin{align*}
+  A + B = \begin{pmatrix} a_{11} + b_{11} & \cdots &
+    a_{1n} + b_{1n}  \\ \vdots & \ddots & \vdots \\ a_{m1} + b_{m1} & \cdots &
+    a_{mn}+b_{mn} \end{pmatrix}
+\end{align*}
+As an exercise, you might want to verify that matrix addition has the
+following properties:
+\begin{enumerate}
+\item Associative: $A+(B + C) = (A+B) + C$,
+\item Commutative: $A + B = B + A$ ,
+\item Identity: $A + \mathbf{0} = A$, where $\mathbf{0}$ is an $m$ by
+  $n$ matrix of zeros, and
+\item Invertible $A + (-A) = \mathbf{0}$ where $-A = \gmatrix{-a}$.
+\end{enumerate}
+
+\subsection{Scalar multiplication}
+The definition of linear transformations requires that $A \alpha x =
+\alpha A x$ where $\alpha \in \mathbb{R}$ and $x \in V$. To be
+consistent with this, for matrices we must define
+\begin{align*}
+  \alpha A = \begin{pmatrix} \alpha a_{11} & \cdots &
+    \alpha a_{1n} \\ \vdots & \ddots & \vdots \\ \alpha a_{m1} & \cdots &
+    \alpha a_{mn} \end{pmatrix}
+\end{align*}
+We have now defined addition and scalar multiplication for
+matrices. It should be no surprise that the set of all $m$ by $n$
+matrices along with these two operations and the field $\R$ forms a
+vector space. 
+\begin{example}
+  The set of all $m$ by $n$ matrices is a vector space. 
+\end{example}
+In fact, the above is not only true of the set of all
+$m$ by $n$ matrices, but of any set of all linear transformations
+between two vector spaces.
+\begin{example}
+  Let $L(V,W)$ be the set of all linear transformations from $V$ to
+  $W$. Define addition and scalar multiplication as above. Then 
+  $L(V,W)$ is a vector space.
+\end{example}
+$L(\R^n, \R^m)$ is the set of all linear transformations from $\R^n
+\to \R^m$, i.e.\ all $m$ by $n$ matrices. 
+
+\subsection{Matrix multiplication}
+Matrix multiplication is really the composition of two linear
+transformations. Let $A$ be a linear transformation from $\R^n$ to
+$\R^m$ and $B$ be a linear transformation from $\R^p$ to $\R^n$. Now,
+we defined matrices by looking at how a linear tranformation acts on a
+basis vectors, so to define multiplication, we should look at $A(B
+e_k)$
+\begin{align*}
+  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_j) & \text{definition of $Be_k$}\\
+  = & \sum_{j=1}^n b_{jk} A e_j & \text{Definition of linear
+    transformtion} \\
+  = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right)  &
+  \text{definition of $Ae_j$} \\
+  = & \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
+  = & \begin{pmatrix} 
+    \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
+    \vdots & \ddots & \vdots \\
+    \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
+  \end{pmatrix} e_k  \\
+  = & (AB)e_k .
+\end{align*}
+The indexing in the above equations is unpleasant and could be
+confusing. The important thing to remember is that matrix
+multiplication is the composition of linear transformations. It then
+makes sense that if $A$ is $m$ by $n$ (a transformation from $\R^n$ to
+$\R^m$)and $B$ is $k$ by $l$ (a transformation from $R^l$ to $\R^k$),
+we can only multiply $A$ times $B$ if $k = m$. Matrix multiplication
+has the following properties:
+\begin{enumerate}
+\item Associative: $A(BC) = (AB) C$
+\item Distributive: $A(B+C) = AB + AC$ and $(A+B)C = AC + BC$. 
+\item Identity: $AI_n = A$ where $A$ is $m$ by $n$ and $I_n$ is the linear
+  transformation from $\R^n$ to $\R^n$ such that $I_nx = x \forall x \in
+  \R^n$.
+\end{enumerate}
+Matrix multiplication is not commutative. 
+
+\section{Null Spaces and Ranges}
+
+We are often interested in solving linear equations of the form $A x =
+b$, where $x \in V$, $b \in W$, and $A \in L(V,W)$. For example, $V$
+could be $\R^n$, and $W$ could be $\R^m$ and then $A$ would be an $m
+\times n$ matrix. The null space and range of a linear transformation
+are two subspaces that can describe when the solution to $Ax=b$ is
+unique and when it the solution exists.
+
+\begin{definition}
+  Let $A \in L(V,W)$. The set of solutions to the homogeneous
+  equation $Ax = 0$ is the \textbf{null space} (or kernel) of
+  $A$, denoted by $\mathcal{N}(A)$ (or $\mathrm{Null}(A)$),
+  \[ \mathcal{N}(A) = \{x \in V: Ax = 0 \} \]
+\end{definition}
+As its name suggests, the null space of a linear transformation is a
+subspace.
+\begin{exercise}
+  Show that $\mathcal{N}(A)$ is a linear subspace.
+\end{exercise}
+Null spaces are important for studying linear equations because if $z
+\in \mathcal{N}(A)$, then $A (x + z) = Ax + A z = Ax$. In other words,
+if $Ax = b$ for some $x$, then $A(x+z) = b$ for all $z \in
+\mathcal{N}(A)$. Note that $0 \in \mathcal{N}(A)$ always. From this
+discussion, we see that if $A x = b$ has one solutions, it will have
+multiple solutions if $\mathcal{N}(A) \neq \{0 \}$.
+\begin{definition}
+  Let $A \in L(V,W)$. $A$ is \textbf{one-to-one} (or
+  \textbf{injective}) if $Ax = A v \implies x = v$.
+\end{definition}
+Note that $A$ is injective if and only if $\mathcal{N}(A) = 0$. Thus,
+we can also say that if $A x = b$ has one solution, then it will have
+multiple solutions if $A$ is not injective.
+
+\begin{definition}
+  Let $A \in L(V,W)$. The \textbf{range} of $A$ is the subset of $W$
+  consisting of $A x$ for some $x \in V$, i.e.
+  \[ \text{range } A = \{ Ax: x \in V \} \subseteq W \]
+\end{definition}
+When $A$ is a matrix, its range is called its column space. 
+\begin{exercise}
+  Show that the range of a linear transformation is a linear subspace.
+\end{exercise}
+In terms of linear equations, $Ax = b$ has a solution if and only if
+$b \in \text{range } A$. 
+\begin{definition}
+  Let $A \in L(V,W)$, $A$ is \textbf{onto} (or \textbf{surjective}) if
+  $\text{range } A = W$.
+\end{definition}
+
+The dimensions of the range and null spaces of
+a linear transformation are related.
+\begin{theorem}[Rank-Nullity theorem \label{thm:rankNull}]
+  If $V$ is finite dimensional and $A \in L(V,W)$, then 
+  \[ \dim(V) = \dim(\text{null } A) + \dim(\text{range } A). \]
+\end{theorem}
+\begin{proof}
+  Since $V$ is finite dimensional and $\text{null } A \subseteq V$,
+  $\text{null } A$ is also finite dimensional. Let $u_1, ..., u_n$ be
+  a basis for $\text{null } A$. By lemma \ref{lem:linToBasis} we can
+  expand this to a basis for $V$. Let, $u_1, ...,
+  u_n$, $e_1, ..., e_m$ be a basis for $V$, so $\dim(V) = n + m$. 
+  Let $v \in V$, then $\exists \alpha$'s and $\beta$'s $\in \R$ such
+  that 
+  \[ v = \sum_{i=1}^n \alpha_i u_i  + \sum_{i=1}^m \beta_i e_i. \]
+  Since $A$ is linear, 
+  \[ A v = \sum_{i=1}^n \alpha_i A u_i  + \sum_{i=1}^m \beta_i A
+  e_i. \]
+  Since $u_i \in \text{null } A$, 
+  \[ A v =  \sum_{i=1}^m \beta_i A
+  e_i. \]
+  Therefore, $A e_1, ..., A e_m$ span $\text{range } A$. 
+  
+  We now show that $A e_1, ..., A e_m$ must also be linearly
+  independent. Suppose
+  \[ \sum_{i=1}^m c_i A e_i = 0 \]
+  then 
+  \[ A \left( \sum_{i=1}^m c_i e_i \right) = 0\]
+  so $\left( \sum_{i=1}^m c_i e_i \right) \in \text{null }
+  A$. However, the $u$'s span $ \text{null } A$, so $\exists d$'s $\in
+  \R$ such that
+  \[ \sum_{i=1}^n d_i u_i = \sum_{i=1}^m c_i e_i. \]
+  Finally, since $u_1, ..., u_n, e_1, ..., e_m$ are linearly
+  independent, the previous equation can only hold if the $c$'s and
+  $d$'s are all $0$. 
+\end{proof}
+This theorem has some important implications for when a linear
+transformation can be one-to-one and onto. 
+\begin{corollary}
+  If $V$ is finite dimensional and $\dim(V) > \dim(W)$, then no linear
+  transformation from $V$ to $W$ is one-to-one.
+\end{corollary}
+\begin{proof}
+  Let $A \in L(V,W)$. $A$ is one-to-one iff $\text{null } A = \{0\}$,
+  i.e. iff $\dim(\text{null A}) = 0$. From the theorem, this is
+  impossible since
+  \begin{align*}
+    \dim(\text{null } A) = \dim(V) - \dim(\text{range } A) \geq
+    \dim(V) - \dim(W) > 0 
+  \end{align*}
+\end{proof}
+\begin{corollary}
+  If $W$ is finite dimensional and $\dim(V) < \dim(W)$, then no linear
+  transformation from $V$ to $W$ is onto.
+\end{corollary}
+\begin{proof}
+  Left as an exercise. 
+\end{proof}
+
+
+\section{Transpose and dual spaces}
+
+Even more can be said about linear equations after we have defined the
+transpose of a linear transformation.  Defining the transpose requires
+first introducing dual spaces. Dual spaces are of independent interest
+because they are needed to define differentiation on vector spaces,
+which we will want to do later. Also, in optimization problems, Lagrange
+multipliers are elements of dual spaces. 
+\begin{definition}
+  Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
+  $V^\ast$ is the set of all (continuous)\footnote{We have not yet
+    defined continuity, so do not worry about this requirement. All
+    linear functionals on finite dimensional spaces are
+    continuous. Some linear functionals on infinite dimensional spaces
+    are not continuous. The definition of dual space does not always
+    require continuity. Often the dual space is defined as the set of
+    all linear functionals, and the topological dual space is the set
+    of all continuous linear functionals. We will ignore this
+    distinction.}  linear functionals, $v^\ast: V \to \R$.
+\end{definition}
+
+\begin{example}
+  The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
+  fact, for any finite dimensional vector space, the dual space is the
+  set of row vectors from that space. 
+\end{example}
+In fact, since any $n$ dimensional vector space is isomorphic to
+$\R^n$, the dual space of any $n$ dimensional space is the space itself. 
+
+\begin{example}
+  The space $\ell_p$ for $1 \leq p \leq \infty$ is the set of
+  sequences of real numbers $\mathbf{x}=(x_1, x_2, ...)$ such that
+  $\sum_{i=1}^\infty |x_i|^p < \infty$. (When $p = \infty$, $\ell_\infty = \{ 
+  (x_1, x_2, ...) : \max_{i \in \mathbb{N}} |x_i| < \infty \}$). Such
+  spaces appear in economics in discrete time, infinite horizon
+  optimization problems. 
+
+  Let's consider the dual space of $\ell_\infty$. In macro models, we
+  rule out everlasting bubbles and ponzi schemes by requiring
+  consumption divided by productivity to be in $\ell_\infty$. Every
+  sequence, $\mathbf{p} = (p_1, p_2, ...) \in \ell_1$ gives rise to a linear
+  functional on $\ell_\infty$ defined by
+  \begin{align*}
+    \mathbf{p}^\ast \mathbf{x} = \sum_{i=1}^\infty p_i x_i \leq
+    \left(\sum_{i=1}^\infty |p_i| \right) \left(\max_{i \in
+        \mathbb{N}} |x_i| < \infty\right). 
+  \end{align*}
+  We can conclude that $\ell_1 \subseteq \ell_\infty^\ast$. 
+
+  As a (difficult) exercise, you could try to show whether or not
+  $\ell_1 = \ell_\infty^\ast$. Exercise 3.46 of Carter is very
+  related. 
+\end{example}
+
+\begin{example}
+  What is the dual space of $V = \mathcal{L}^2(\R,f_x) = \{g:
+  \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
+  \infty\}$? Let $h \in \mathcal{L}^2(\R,f_x)$. Define 
+  \[ h^\ast(g) = \int_\R f_x(x) g(x) h(x) dx. \] 
+  Assuming $h^\ast(g)$
+  exists, $h^\ast$ is an integral operator from $V$ to $\R$, so it is
+  linear. To show that $h^\ast \in V^\ast$ all we need to do is
+  establish that $h^\ast(g)$ exists (is finite) for all $g \in V$. 
+  H\:{o}lder's inequality\footnote{See
+    e.g.
+    \href{http://en.wikipedia.org/wiki/H\%C3\%B6lder\%27s_inequality}
+      {Wikipedia for more information and a proof and more
+        information.}} , which we have not studied but is good to be
+    aware of, says that
+  \[ \int_\R f_x(x) |g(x) h(x)| dx \leq \sqrt{\int f_x(x) g(x)^2 dx}
+  \sqrt{\int f_x(x) h(x)^2 dx}. \]
+  Since $h$ and $g \in V$, the right hand side must be finite, so
+  $h^\ast(g)$ is finite as well. Thus all such $h^\ast$ is a subset of
+  $V^\ast$.   In fact, all such $h^\ast$ is equal to
+  $V^\ast$.\footnote{This is a consequence of the Radon-Nikodym
+    theorem, which is beyond the scope of this course.}
+ 
+  We were actually working with $V^\ast$ and similar dual spaces when
+  we studied optimal control.
+\end{example}
+
+\begin{definition}
+  If $A: V \to W$ is a linear transformation, then the
+  \textbf{transpose} (or dual) of $A$ is $A^T: W^\ast \to V^\ast$
+  defined by $(A^Tw^\ast)v = w^\ast(Av)$.
+\end{definition}
+To parse this definition, note that $A^T w^\ast$ is an element of
+$V^\ast$, so it is a linear transformation from $V$ to $\R$. Thus,
+$(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
+\R$, so $w^\ast (A v) \in \R$. 
+\begin{example}
+  Let $A \in L(\R^n, \R^m)$, so that $A$ can be represented by an $m
+  \times n$ matrix, $\gmatrix{a}$. Also, $A^T \in L(\R^m, \R^n)$ can
+  be represented by an $n \times m$ matrix, $\gmatrix{\tilde{a}}$. Let
+  $v = e_k$ be the $k$th standard basis vector, and $w^\ast =
+  e_j^\ast$. Then the definition of the transpose says that
+  \begin{align*}
+    (A^T e_j^\ast) e_k = & e_j^\ast A e_k  \\
+    \left(\gmatrix{\tilde{a}} e_j\right)^T e_k = & e_j^T \gmatrix{a}
+    e_k \\
+    \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{mj}
+    \end{pmatrix} e_k \\ = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
+    \end{pmatrix} \\
+    \tilde{a}_{kj} = & a_{jk}
+  \end{align*}
+  In other words, the definition is to simply swap rows and columns.  
+\end{example}
+
+\section{Fundamental theorem of linear algebra}
+
+There is an interesting relationship among the null spaces and ranges
+of a linear transformation and its transpose. Let $A \in L(V,W)$. Then
+$\text{null }A \subseteq V$ and $\text{range }A^T \subseteq V$. How
+are these subspaces related?  Suppose $x$ is in the null space of
+$A$. Then $A x = 0$. By the definition of the transpose, $ w^T A x =
+(A^T w)^T x = 0$ The set $\{v : v = A^T w\}$ is the range of $A^T$. It
+must then be that $\text{null }A \cap \text{range }A^T = \{ 0 \}$. Let
+$U$ be such that $\text{null }A \oplus U = V$ (lemma
+\ref{lem:directSum}). Then, the range of $A^T$ is a subset of $U$, so
+$\dim (\text{range }A^T) \leq \dim(U)$. Also, we know that
+$\dim(\text{range }A ) = \dim(U)$, so $\dim (\text{range }A^T) \leq \dim (\text{range
+}A)$.  Identical reasoning shows the opposite inequality. Therefore
+$\dim(\text{range }A) = \dim(\text{range }A^T)$. Finally, since
+$\dim(\text{null }A) + \dim(\text{range }A^T) = \dim(V)$ and 
+$\text{null }A \cap \text{range }A^T = \{ 0 \}$, we can conclude that
+$V = \text{null }A \oplus \text{range }A^T$. 
+Identical reasoning shows that $W = \text{null }A^T \oplus \text{range
+}A$. 
+
+Implications: row rank = column rank, dim null A = dim null $A^T$, 
+\cite{strang1993}.
+
+
+\bibliographystyle{jpe}
+\bibliography{../526}
+
+
+
+\end{document}
