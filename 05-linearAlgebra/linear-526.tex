@@ -1,5 +1,6 @@
 \input{../noteHeader} 
 
+
 \title{Linearity}
 \date{\today}
 
@@ -300,7 +301,7 @@ $S_j$.
 \end{definition}
 Representing a vector space as a direct sum will be important for some
 of the results below. The following lemma will be useful.
-\begin{lemma}
+\begin{lemma}\label{lem:dirSum}
   Suppose $S_1$ and $S_2$ are linear subspaces of $V$. Then $V = S_1
   \oplus S_2$ iff $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. 
 \end{lemma}
@@ -400,7 +401,9 @@ independent set is smaller than any set that spans. The above
 definitions for linear independence and dimension work for any
 dimension, finite or infinite. However, some of the theorems that
 follow are awkward to state and prove for infinite dimension, so most
-of them will assume finite dimension. 
+of them will assume finite dimension. Most of the important results
+also apply to infinite dimensional spaces, with the important
+exception of theorem \ref{thm:fund}.
 \begin{theorem}\label{thm:spanLin}
   Suppose $\mathbf{v}_1, ...., \mathbf{v}_n$ span $V$, and 
   $\mathbf{u}_1, ..., \mathbf{u}_m$ are linearly independent, then  $n
@@ -508,6 +511,12 @@ basis.
   replaced by the $\mathbf{v}$'s to get another basis consisting of
   all the $\mathbf{v}$'s and $m-n$ of the $\mathbf{u}$'s.
 \end{proof}
+This lemma implies that if $V$ is finite dimensional, then a basis for
+$V$ exists. We will assume that a basis exists even if $V$ is infinite
+dimensional.\footnote{This follows from Zorn's lemma,
+  which is equivalent to the axiom of choice---given any collection of
+  nonempty sets, we can define a function that chooses one element
+  from each set.} 
 
 The elements of a vector space can always be written in terms of a
 basis. 
@@ -535,6 +544,7 @@ basis.
   original $x_1, ..., x_k$ must be unique.
 \end{proof}
 
+The next three lemmas will be used later when proving theorem \ref{thm:fund}.
 \begin{lemma}\label{lem:directSum}
   Suppose $V$ is finite dimensional and $S$ is a subspace of $V$. Then
   $\exists$ another subspace, $W$, of $V$ such that $V = S \oplus W$,
@@ -562,6 +572,43 @@ basis.
   \mathbf{w}$. 
 \end{proof}
 
+\begin{lemma}\label{lem:dimisect}
+  Suppose $V$ is finite dimensional and $S$ and $T$ are subspaces of
+  $V$. If $S \cap T = 0$ and $\dim(S) + \dim(T) = \dim(V)$, then $V =
+  S \oplus T$. 
+\end{lemma}
+\begin{proof}
+  Let $b_1, ..., b_n$ be a basis for $S$ and $e_1, ..., e_m$ be a
+  basis for $T$. Suppose 
+  \[ \sum_{i=1}^n \alpha_i b_i +  \sum_{j=1}^m \beta_j e_j = 0 \]
+  Then let
+  \[ \mathbf{x} = \sum_{i=1}^n \alpha_i b_i = -\sum_{j=1}^m \beta_j
+  e_j \]
+  $\mathbf{x} \in S$, and $\mathbf{x} \in T$. We assume $S \cap T =
+  0$, so then $\mathbf{x} = 0$. Since $b_1, ..., b_n$ are linearly
+  independent, we must have $\alpha_1 = \cdots = \alpha_n =
+  0$. Similarly all $\beta_j = 0$. Therefore, $b_1, ..., b_n$, $e_1,
+  ..., e_m$ are linearly independent. This is a linearly independent
+  set of $\dim(S) + \dim(T) = \dim(V)$ elements, so it is a basis for
+  $V$. Hence, $V = S + T$. 
+\end{proof}
+\begin{lemma}\label{lem:dimSum}
+  Let $S$ and $T$ be subspaces of a finite dimensional space $V$. Then
+  \[ \dim(S + T) = \dim(S) + \dim(T) - \dim(S \cap T). \]
+\end{lemma}
+\begin{proof}
+  We will be brief for this proof. You may want to add the details as
+  an exercise. 
+  
+  Let $B$ be basis for $S \cap T$. Extend $U$ to a basis for $S$, call
+  it $B \cup B_S$. Similarly extend $U$ to a basis for $T$, $B\cup
+  B_T$. Then $\spn(B \cup B_S \cup B_T) = S + T$. Also, you can show
+  that $B \cup B_S \cup B_T$ is linearly independent, and hence a
+  basis, for $S+T$. Finally, note that since $B$, $B_S$, and $B_T$ must
+  be disjoint, 
+  \[ \dim(S+T) = | B \cup B_S \cup B_T | = | B \cup B_S | + | B \cup
+  B_T | - | B |. \]
+\end{proof}
 
 \subsection{$\R^n$ as the  only finite dimensional vector spaces}
 
@@ -596,9 +643,9 @@ properties that make them vector spaces.
   Let $V$ and $W$ be vector spaces over the field $\F$. $V$ and $W$ are
   \textbf{isomorphic} if there exists a one-to-one and onto function,
   $\mathcal{I}:V \to W$ such that 
-  \[ \mathcal{I}(\mathbf{x}^1 + \mathbf{x}^2) = \mathcal{I}(\mathbf{x}^1) + \mathcal{I}(\mathbf{x}^2) \]
-  for all $\mathbf{x}^1, \mathbf{x}^2 \in V$,
-  and 
+  \[ \mathcal{I}(\mathbf{x}^1 + \mathbf{x}^2) =
+  \mathcal{I}(\mathbf{x}^1) + \mathcal{I}(\mathbf{x}^2) \] for all
+  $\mathbf{x}^1, \mathbf{x}^2 \in V$, and
   \[ \mathcal{I}(\alpha \mathbf{x}) = \alpha \mathcal{I}(\mathbf{x}) \]
   for all $\mathbf{x} \in V$, $\alpha \in \F$.
   Such an $\mathcal{I}$ is called an \textbf{isomorphism}.
@@ -734,7 +781,7 @@ matrices are integral and differential operators,
   \end{align*}      
 \end{example}
 
-\begin{example}[Conditional expectation]
+\begin{example}[Conditional expectation\label{ex:condex}]
   One special type of an integral operator that appears often in
   economics is the conditional expectation operator. Suppose $X$ and
   $Y$ are real valued random variables with joint pdf $f_{xy}(x,y)$
@@ -888,7 +935,7 @@ unique and when it the solution exists.
 \begin{definition}
   Let $A \in L(V,W)$. The set of solutions to the homogeneous
   equation $Ax = 0$ is the \textbf{null space} (or kernel) of
-  $A$, denoted by $\mathcal{N}(A)$ (or $\mathrm{Null}(A)$),
+  $A$, denoted by $\mathcal{N}(A)$ (or $\nulls A$),
   \[ \mathcal{N}(A) = \{x \in V: Ax = 0 \} \]
 \end{definition}
 As its name suggests, the null space of a linear transformation is a
@@ -913,29 +960,29 @@ multiple solutions if $A$ is not injective.
 \begin{definition}
   Let $A \in L(V,W)$. The \textbf{range} of $A$ is the subset of $W$
   consisting of $A x$ for some $x \in V$, i.e.
-  \[ \text{range } A = \{ Ax: x \in V \} \subseteq W \]
+  \[ \range A = \{ Ax: x \in V \} \subseteq W \]
 \end{definition}
 When $A$ is a matrix, its range is called its column space. 
 \begin{exercise}
   Show that the range of a linear transformation is a linear subspace.
 \end{exercise}
 In terms of linear equations, $Ax = b$ has a solution if and only if
-$b \in \text{range } A$. 
+$b \in \range A$. 
 \begin{definition}
   Let $A \in L(V,W)$, $A$ is \textbf{onto} (or \textbf{surjective}) if
-  $\text{range } A = W$.
+  $\range A = W$.
 \end{definition}
 
 The dimensions of the range and null spaces of
 a linear transformation are related.
 \begin{theorem}[Rank-Nullity theorem \label{thm:rankNull}]
   If $V$ is finite dimensional and $A \in L(V,W)$, then 
-  \[ \dim(V) = \dim(\text{null } A) + \dim(\text{range } A). \]
+  \[ \dim(V) = \dim(\nulls A) + \dim(\range A). \]
 \end{theorem}
 \begin{proof}
-  Since $V$ is finite dimensional and $\text{null } A \subseteq V$,
-  $\text{null } A$ is also finite dimensional. Let $u_1, ..., u_n$ be
-  a basis for $\text{null } A$. By lemma \ref{lem:linToBasis} we can
+  Since $V$ is finite dimensional and $\nulls A \subseteq V$,
+  $\nulls A$ is also finite dimensional. Let $u_1, ..., u_n$ be
+  a basis for $\nulls A$. By lemma \ref{lem:linToBasis} we can
   expand this to a basis for $V$. Let, $u_1, ...,
   u_n$, $e_1, ..., e_m$ be a basis for $V$, so $\dim(V) = n + m$. 
   Let $v \in V$, then $\exists \alpha$'s and $\beta$'s $\in \R$ such
@@ -944,18 +991,18 @@ a linear transformation are related.
   Since $A$ is linear, 
   \[ A v = \sum_{i=1}^n \alpha_i A u_i  + \sum_{i=1}^m \beta_i A
   e_i. \]
-  Since $u_i \in \text{null } A$, 
+  Since $u_i \in \nulls A$, 
   \[ A v =  \sum_{i=1}^m \beta_i A
   e_i. \]
-  Therefore, $A e_1, ..., A e_m$ span $\text{range } A$. 
+  Therefore, $A e_1, ..., A e_m$ span $\range A$. 
   
   We now show that $A e_1, ..., A e_m$ must also be linearly
   independent. Suppose
   \[ \sum_{i=1}^m c_i A e_i = 0 \]
   then 
   \[ A \left( \sum_{i=1}^m c_i e_i \right) = 0\]
-  so $\left( \sum_{i=1}^m c_i e_i \right) \in \text{null }
-  A$. However, the $u$'s span $ \text{null } A$, so $\exists d$'s $\in
+  so $\left( \sum_{i=1}^m c_i e_i \right) \in \nulls
+  A$. However, the $u$'s span $ \nulls A$, so $\exists d$'s $\in
   \R$ such that
   \[ \sum_{i=1}^n d_i u_i = \sum_{i=1}^m c_i e_i. \]
   Finally, since $u_1, ..., u_n, e_1, ..., e_m$ are linearly
@@ -969,11 +1016,11 @@ transformation can be one-to-one and onto.
   transformation from $V$ to $W$ is one-to-one.
 \end{corollary}
 \begin{proof}
-  Let $A \in L(V,W)$. $A$ is one-to-one iff $\text{null } A = \{0\}$,
+  Let $A \in L(V,W)$. $A$ is one-to-one iff $\nulls A = \{0\}$,
   i.e. iff $\dim(\text{null A}) = 0$. From the theorem, this is
   impossible since
   \begin{align*}
-    \dim(\text{null } A) = \dim(V) - \dim(\text{range } A) \geq
+    \dim(\nulls A) = \dim(V) - \dim(\range A) \geq
     \dim(V) - \dim(W) > 0 
   \end{align*}
 \end{proof}
@@ -1007,15 +1054,33 @@ multipliers are elements of dual spaces.
     distinction.}  linear functionals, $v^\ast: V \to \R$.
 \end{definition}
 
-\begin{example}
+\begin{example}\label{ex:rdual}
   The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
   fact, for any finite dimensional vector space, the dual space is the
   set of row vectors from that space. 
 \end{example}
 In fact, since any $n$ dimensional vector space is isomorphic to
-$\R^n$, the dual space of any $n$ dimensional space is the space itself. 
+$\R^n$, the dual space of any $n$ dimensional space is the space
+itself. Dual spaces are especially important in economics because
+prices are in dual spaces.
+\begin{example}[Prices as elements of a dual space]
+  Suppose we have an economy with bundles of represented by vectors in
+  some vector space, $V$. There could be $n$ goods, and $V$ could be
+  $\R^n$. We could also think of the bundles of good as something like
+  consumption at every instance of time and every state of the
+  world. In that case, $V$ would be a vector space of sequences (if
+  time and states of the world are discrete) or functions (if time and
+  states of the world are continuous). The dual space of $V$, $V^\ast$
+  is the set of linear transformations from $V$ to $\R$. If $p \in
+  V^\ast$, then $pv$ is the total cost of purchasing $v$. $p$ is the
+  price vector.
+\end{example}
 
-\begin{example}
+Finite dimensional spaces are self-dual in the sense of example
+\ref{ex:rdual}, i.e. $V$ and $V^*$ are isomorphic. Infinite
+dimensional spaces are often not self-dual, as in the following
+example.
+\begin{example}\label{ex:lpdual}
   The space $\ell_p$ for $1 \leq p \leq \infty$ is the set of
   sequences of real numbers $\mathbf{x}=(x_1, x_2, ...)$ such that
   $\sum_{i=1}^\infty |x_i|^p < \infty$. (When $p = \infty$, $\ell_\infty = \{ 
@@ -1039,6 +1104,7 @@ $\R^n$, the dual space of any $n$ dimensional space is the space itself.
   $\ell_1 = \ell_\infty^\ast$. Exercise 3.46 of Carter is very
   related. 
 \end{example}
+It is always however always the case that $V \subseteq (V^*)^*$. 
 
 \begin{example}
   What is the dual space of $V = \mathcal{L}^2(\R,f_x) = \{g:
@@ -1087,36 +1153,686 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
     \left(\gmatrix{\tilde{a}} e_j\right)^T e_k = & e_j^T \gmatrix{a}
     e_k \\
     \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{mj}
-    \end{pmatrix} e_k \\ = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
+    \end{pmatrix} e_k  = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
     \end{pmatrix} \\
     \tilde{a}_{kj} = & a_{jk}
   \end{align*}
   In other words, the definition is to simply swap rows and columns.  
 \end{example}
+\begin{exercise}(Difficult) What is the transpose of the conditional
+  expectation operator from example \ref{ex:condex}?
+\end{exercise}
 
 \section{Fundamental theorem of linear algebra}
 
 There is an interesting relationship among the null spaces and ranges
-of a linear transformation and its transpose. Let $A \in L(V,W)$. Then
-$\text{null }A \subseteq V$ and $\text{range }A^T \subseteq V$. How
-are these subspaces related?  Suppose $x$ is in the null space of
-$A$. Then $A x = 0$. By the definition of the transpose, $ w^T A x =
-(A^T w)^T x = 0$ The set $\{v : v = A^T w\}$ is the range of $A^T$. It
-must then be that $\text{null }A \cap \text{range }A^T = \{ 0 \}$. Let
-$U$ be such that $\text{null }A \oplus U = V$ (lemma
-\ref{lem:directSum}). Then, the range of $A^T$ is a subset of $U$, so
-$\dim (\text{range }A^T) \leq \dim(U)$. Also, we know that
-$\dim(\text{range }A ) = \dim(U)$, so $\dim (\text{range }A^T) \leq \dim (\text{range
-}A)$.  Identical reasoning shows the opposite inequality. Therefore
-$\dim(\text{range }A) = \dim(\text{range }A^T)$. Finally, since
-$\dim(\text{null }A) + \dim(\text{range }A^T) = \dim(V)$ and 
-$\text{null }A \cap \text{range }A^T = \{ 0 \}$, we can conclude that
-$V = \text{null }A \oplus \text{range }A^T$. 
-Identical reasoning shows that $W = \text{null }A^T \oplus \text{range
-}A$. 
+of a linear transformation and its transpose. Let $A \in L(V,W)$ and
+suppose $V$ and $W$ are finite dimensional. Finite dimension ensures
+that $V^\ast = V$ and $W^\ast = W$. Then $\nulls A
+\subseteq V$ and $\range A^T \subseteq V$. How are these
+subspaces related?  
+\begin{theorem}[Fundamental theorem of linear algebra]\label{thm:fund}
+  Let $A \in L(V,W)$, where $V$ and $W$ are finite dimensional. Then 
+  \[ V = \nulls A \oplus \range A^T \]
+  and 
+  \[ W = \nulls A^T \oplus \range A. \] 
+  Also, $\dim(\range A) = \dim(\range  A^T)$ and,
+  \[ \dim(V) = \dim(\nulls A) + \dim(\range A) \]
+  and 
+  \[ \dim(W) = \dim(\nulls A^T) + \dim(\range A). \]
+\end{theorem}
+\begin{proof}
+  Suppose $x$ is in the null space of $A$. Then $A x
+  = 0$. By the definition of the transpose,
+  \[ w^T A x = (A^T w)^T x = 0 \]
+  The set $\{v : v = A^T w\}$ is the range of $A^T$. If $x \in
+  \nulls A \cap \range A^T$, then there is a $w$ such that
+  $A^T w = x$. We know from the previous equation that $(A^T w)^T x = 0
+  = x^T x$. Therefore, it must be that $x=0$, so $\nulls A \cap
+  \range A^T = \{ 0 \}$. 
+  
+  Let $U$ be such that $\nulls A \oplus U = V$ (lemma
+  \ref{lem:directSum}), and $\dim(\nulls A) + \dim(U) =
+  \dim(V)$. Theorem \ref{thm:rankNull} then implies that, 
+  $\dim(U) = \dim(\range A)$. Additionally, lemma \ref{lem:dimSum}
+  implies that $\dim(\nulls A + \range A^T) = \dim(\nulls A) +
+  \dim(\range A^T) \leq \dim (V)$, so we can conclude that
+  $\dim(\range A^T) \leq \dim(\range A)$.
+  
+  Identical reasoning shows the opposite inequality. Therefore
+  $\dim(\range A) = \dim(\range A^T)$. Finally, since
+  $\dim(\nulls A) + \dim(\range A^T) = \dim(V)$ and 
+  $\nulls A \cap \range A^T = \{ 0 \}$, using lemma
+  \ref{lem:dimisect}, we can conclude that
+  $V = \nulls A \oplus \range A^T$. 
+  Identical reasoning shows that $W = \nulls A^T \oplus \range A$. 
+\end{proof}
+\cite{strang1993} has a nice discussion of this theorem. 
 
-Implications: row rank = column rank, dim null A = dim null $A^T$, 
-\cite{strang1993}.
+The requirement of finite dimension is really essential in this
+theorem. In infinite dimension, $V^\ast$ need not be the same as
+$V$. If $V$ and $V^\ast$ are different, it does not make sense to talk
+about $\nulls A + \range A^T$, because $\nulls A \subseteq V$ and
+$\range A^T \subseteq V^\ast$. Some people object to calling this
+theorem ``fundamental'' because it does not extend to infinite
+dimensional spaces. 
+
+This theorem has some nice implications for systems of linear
+equations. If $A = \gmatrix{a}$ is a matrix, then the range of $A$ is 
+\begin{align*}
+  \{Ax : x \in \R^n\} = \left\lbrace \begin{pmatrix} \sum_{j=1}^n
+      a_{1j} x_j \\ 
+      \vdots
+      \sum_{j=1}^n a_{mj} x_j 
+    \end{pmatrix} : x_j \in \R \right\rbrace,
+\end{align*}
+the set of linear combinations of the columns of $A$. 
+The \textbf{column space} of $A$,
+denoted $\col(A)$, is the space spanned by the column vectors of
+$A$. The column space of $A$ is the same as the range of $A$.
+
+Similar reasoning shows that the space of linear combinations of the
+rows of $A$ is the range of $A^T$. The \textbf{row space} of $A$,
+denoted $\row (A)$, is the space spanned by the row vectors of
+$A$. The fundamental theorem of linear algebra shows that the
+dimensions of the column and row spaces are equal. The rank of a
+matrix is the dimension of its row and column spaces.
+\begin{definition}
+  The \textbf{rank} of a linear transformation is the dimension of its
+  range.
+\end{definition}
+
+\begin{example}
+  Let $X$ be an $n \times k$ matrix. Define:
+  \[ P_x = X (X^T X)^{-1} X^T \]
+  and 
+  \[ M_x = I - X (X^T X)^{-1} X^T. \]
+  Both $P_x$ and $M_x$ are linear transformations from $\R^n$ to
+  $\R^n$. Also, both $P_x = P_x^T$ and $M_x = M_x^T$. Therefore, from
+  the fundamental theorem of linear algebra, 
+  \[ \R^n = \nulls P_x \oplus \range  P_x \]
+  and
+  \[ \R^n = \range M_x \oplus \nulls  M_x. \]
+  
+  Suppose $w \in \range  P_x$, then $\exists y \in \R^n$ such
+  that $P_x y = w$. Notice that 
+  \begin{align*}
+    M_x w = & M_x P_x y \\
+    = & (P_x - P_x)y = 0, 
+  \end{align*}
+  so $w \in \nulls  M_x$.  Similarly, if $w \in \range 
+  M_x$, then $w \in \nulls  P_x$. Also, if $w \in \nulls 
+  P_x$, then 
+  \[ M_x w = w - P_x w = w \]
+  so $w \in \range  M_x$. We can conclude that null $P_x = $
+  range $M_x$ and null $M_x = $ range $P_x$. Hence,
+  \[
+  \begin{array}{cccc}
+    \R^n = & \nulls  P_x & \oplus & \range  P_x \\
+                & \verteq &            & \verteq \\
+    \R^n = & \range M_x & \oplus & \nulls  M_x.
+  \end{array}
+  \]
+  
+\end{example}
+
+In studying constrained optimization  problems, 
+\[ \max_x f(x) \text{ s.t.  } h(x) = c, \]
+we used the fact that
+\begin{equation}
+  D h_x v = 0 \implies D f_x v = 0 \label{eq:dhdf}
+\end{equation}
+is equivalent to there existing $\lambda^T$ such that
+\[ Df_x + \lambda^T Dh_x = 0. \]
+Equation (\ref{eq:dhdf}) is just another way of saying $\nulls Dh_x
+\subseteq \nulls Df_x$. An immediate consequence of theorem
+\ref{thm:fund} is the following. 
+\begin{corollary}\label{cor:nullrange}
+  Let $A \in L(V,W)$ and $B \in L(V,Z)$. Then $\nulls A \subseteq
+  \nulls B$ iff $\range A^T \supseteq \range B^T$.
+\end{corollary}
+\begin{proof}
+  From theorem \ref{thm:fund}, we know that $V = \nulls A \oplus
+  \range A^T = \nulls B \oplus \range B^T$. Suppose $\nulls A
+  \subseteq \nulls B$. Let $v \in \range B^T$. Then either $v =
+  0$, in which case $v \in \range A^T$, or $v \not\in \nulls B$. If $v
+  \not\in \nulls B$, $v \not\in \nulls A$ as well. Therefore, $v \in \range
+  A^T$. 
+
+  If $\range A^T \supseteq \range B^T$, an identical argument shows
+  $\nulls A \subseteq \nulls B$.
+\end{proof}
+Letting $A = Dh_x$ and $B=Df_x$, we know that $\nulls Dh_x \subseteq
+Df_x$ iff $\range Dh_x^T \supseteq \range Df_x^T$. This means that for
+every $w^* \in W^*$, $\exists \lambda_w \in Z^*$ such that
+\[ Df_x^T w^* = Dh_x^T \lambda_w. \]
+For optimization problems, $W=\R$, so it suffices to just consider
+$w^* = 1$, 
+\[ Df_x^T = Dh_x^T \lambda. \]
+ If $V$ and $Z$ are finite dimensional, then we can substract and
+ transpose to get
+\[ Df_x - \lambda^T Dh_x = 0. \]
+
+Corollary (\ref{cor:nullrange}) is also true in infinite dimensional
+spaces under some additional conditions.\footnote{The spaces must be complete
+and the ranges of $A$ and $B$ must be closed. See e.g.\ section 6.6 of
+\cite{luenberger1969}.}
+When working with optimal control problems, we were using this same
+result and making some implicit assumptions about how elements from
+the duals spaces can be written as integrals. Appropriately defining
+$V$ and $Z$ ensures that these assumptions hold. The details are
+tedious, so we will not go into them. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Normed vector spaces}
+
+One property of two and three dimensional Euclidean space is that
+vectors have lengths. Our definition of vector spaces does not
+guarantee that we have a way of measuring length, so let's define a
+special type of vector space where we can measure length. 
+\begin{definition}
+  A \textbf{normed vector space}, $(V,+,\cdot, \norm{\cdot})$, is a
+  vector space with a function, called the \textbf{norm}, from $V$ to
+  $\R$ and denoted by $\norm{v}$ with the following properties:
+  \begin{enumerate}
+  \item (Positive definite) $\norm{v} \geq 0$ and $\norm{v} = 0$ iff $v = 0$,
+  \item (Homogenous) $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \F$,
+  \item The triangle inequality holds:
+    \[ \norm{v_1+v_2} \leq \norm{v_1} + \norm{v_2} \]
+    for all $v_1, v_2 \in V$.
+  \end{enumerate}
+\end{definition}
+As above, when the addition, multiplication,
+and norm are clear from context, we will just write $V$ instead of
+$(V,+,\cdot, \norm{\cdot})$ to denote a normed vector space. 
+Like length, a norm is always non-negative and only zero for the zero
+vector. Also, similar to length, if we multiply a vector by a scalar,
+the norm also gets multiplied by the scalar. The triangular inequality
+means that norm obeys the idea that the shortest distance between two
+points is a straight line. If you go directly from $x$ to $y$ you
+``travel'' $\norm{x - y}$. If you stop at point $z$ in between, you travel
+$\norm{x - z} + \norm{z - y}$. The triangle inequality guarantees that 
+\[ \norm{x-y} \leq \norm{x - z} + \norm{z - y}. \]
+
+\subsection{Examples}
+\begin{example}
+  $\R^3$ is a normed vector space with norm
+  \[ \norm{x} = \sqrt{x_1^2 + x_2^2 + x_3^2}. \] 
+  This norm is exactly
+  how we usually measure distance. For this reason, it is called the
+  Euclidean norm.
+
+  More generally, for any $n$, $\R^n$, is a normed vector space with
+  norm 
+  \[ \norm{x} = \sqrt{\sum_{i=1}^n x_i^2 }. \]
+\end{example}
+The Euclidean norm is the most natural way of measuring distance in
+$\R^n$, but it is not the only one.  A vector space can often be given
+more than one norm, as the following example shows.
+\begin{example}
+  $\R^n$ with the norm 
+  \[ \norm{x}_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p} \]
+  for $p \in [1,\infty]$\footnote{Where $\norm{x}_\infty = \max_{1\leq
+      i \leq n} |x_i| $} is a normed vector space. This norm is called
+  the p-norm. 
+\end{example}
+For nearly all practical purposes, $\R^n$ with any p-norm is
+essentially the same as $\R^n$ with any other p-norm. $\R^n$ is the
+same collection of elements regardless of the choice of p-norm, and
+the choice of p-norm does not affect the topology of $\R^n$ or the
+definition of derivatives.\footnote{We will discuss topology next
+  lecture, and derivatives soon afterward, so do not worry if you do
+  not know what that means.} However, there are normed vector spaces
+where the choice of norm makes a difference.
+\begin{example}
+  Let $\ell_p =$ infinite sequences such that 
+  \[ \norm{x}_p = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} \]
+  is finite. Then $\ell_p$ with $\norm{\cdot}_p$ is a normed vector
+  space. 
+\end{example}
+\begin{example}
+  Define 
+  \[ \norm{f}_p = \left(\int_0^1 |f(x)|^p dx\right)^{1/p}. \]
+  Let $\mathcal{F}_p = \{f: (0,1) \to \R \text{ such that }
+  \norm{f}_p<\infty\}$. 
+  Define an equivalence relation between functions as
+  \[ f \sim_p \tilde{f} \iff \norm{f - \tilde{f}}_p = 0 \]
+  The space  $\mathcal{L}^p(0,1) = \{\text{equivalence classes of
+  }\mathcal{F}_p\}$ with norm $\norm{\cdot}_p$ is a
+  normed vector space. The space is defined as the set of equivalences
+  classes because if $f$ and $\tilde{f}$ differ at only a finite
+  collection of points, then
+  \[ \norm{f-\tilde{f}}_p = \left(\int_0^1 |f(x) - \tilde{f}(x) |^p dx\right)^{1/p} =
+  0. \]
+  If such $f$ and $\tilde{f}$ were considered different vectors, then
+  the norm would not be positive definite. 
+  
+  Moreover, $\mathcal{L}^p(0,1)$ is a different
+  space for different $p$. For example, $\frac{1}{x^{1/p}} \not\in
+  \mathcal{L}^p(0,1)$, but $\frac{1}{x^{1/p}} \in \mathcal{L}^q(0,1)$
+  for $q < p$. 
+\end{example}
+Having a norm allows us to consider limits, continuity, and
+derivatives. We will discuss these in greater detail in the next
+lecture.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Inner product spaces}
+
+In $\R^n$ we can measure angles and talk about vectors being
+orthogonal to one another. The following definition generalizes this
+idea to other vector spaces.
+\begin{definition}
+  An \textbf{inner product space} is a vector space with an additional
+  operation called the inner product that is 
+  function from $V \times V$ to $\mathbb{R}$. We denote the inner
+  product of $v_1, v_2 \in V$ by $\iprod{v_1}{v_2}$. It has the
+  following properties:
+  \begin{enumerate}
+  \item Symmetry: $\iprod{v_1}{v_2} = \iprod{v_2}{v_1}$
+  \item Bilinear: $\iprod{a v_1 + b v_2}{v_3} = a \iprod{v_1}{v_3} + b
+    \iprod{v_2}{v_3}$ for $a, b \in \R$
+  \item Positive definite: $\iprod{v}{v} \geq 0$ and equals $0$ iff
+    $v=0$. 
+  \end{enumerate}  
+\end{definition}
+Any inner product space is also a normed vector space with norm
+\[ \norm{x} = \sqrt{\iprod{x}{x}}. \]
+\begin{example}
+  $\R^n$ with the \textbf{dot product}, $x \cdot y = \sum_{i=1}^n x_i
+  y_i$, is an inner product space. 
+\end{example}
+\begin{example}
+  $\ell^p$ with $\iprod{x}{y} = \sum_{i=1}^\infty x_i y_i$ is
+  an inner product space.
+\end{example}
+\begin{example}
+  $\mathcal{L}^2(0,1)$ with $\iprod{f}{g}
+  \equiv \int_0^1 f(x) g(x) dx$ is an inner product space. 
+\end{example}
+
+Suppose we have an inner product space then:
+\begin{align*}
+  \norm{x + y}^2 = & \iprod{x+y}{x+y} \\
+  = & \iprod{x}{x} + 2\iprod{x}{y} + \iprod{y}{y}
+\end{align*}
+In $\R^n$ with the Euclidean norm when $x$ and $y$ are at right angles
+to one other, $\iprod{x}{y} = 0$, and we have the Pythagorean theorem:
+\[ \norm{x + y}^2 = \norm{x}^2 + \norm{y}^2. \]
+This motivates the following definition
+\begin{definition}
+  Let $x,y \in V$, an inner product space. $x$ and $y$ are
+  \textbf{orthogonal} iff $\iprod{x}{y} = 0$. 
+\end{definition}
+
+\subsection{Useful inequalities}
+When we start looking at limits next week, will we often need to prove
+that the norm of something is small. There are a number of
+inequalities that we will repeatedly use. The most common is the
+triangle inequality, which was part of our definition of norms.  The
+triangle inequality has many implications, some of which are not
+obvious. These implications are often useful in proofs. The most
+common is what is known as the reverse triangle inequality.
+\begin{theorem}[Reverse triangle inequality]
+  Let $V$ be a normed vector space and $x,y \in V$. Then
+  \[ \left| \norm{x} - \norm{y} \right| \leq \norm{x-y}. \]
+\end{theorem}
+\begin{proof}
+  By the usual triangle inequality,
+  \begin{align*}
+    \norm{x} + \norm{x-y} \geq & \norm{y} \\
+    \norm{x-y} \geq \norm{y} - \norm{x}
+  \end{align*}
+  and
+  \begin{align*}
+    \norm{y} + \norm{y-x} \geq & \norm{x} \\
+    \norm{y-x} \geq \norm{x} - \norm{y}.
+  \end{align*}
+  Also, $\norm{y-x} = \norm{(-1)(x-y)} = |-1| \norm{x-y} =
+  \norm{x-y}$ is greater than both $\norm{x}-\norm{y}$ and
+  $\norm{y}-\norm{x}$ and 
+  \[ \norm{x-y} \geq \left| \norm{x} - \norm{y} \right|. \]
+\end{proof}
+
+After the triangle inequality, arguably the most important inequality
+in mathematics is the Cauchy-Schwarz inequality. 
+\begin{theorem}[Cauchy-Schwarz inequality \label{thm:cauchy-schwarz}]
+  Let $V$ be an inner product space and let $u,v\in V$. Then,
+  \[ \left\vert \iprod{u}{v} \right\vert \leq \norm{u}\norm{v}. \]
+\end{theorem}
+\begin{proof}
+  The idea of this proof can be illustrated in $\R^2$ by forming a right
+  angle triangle with vertices at $0$, $u$, and $tv$ and sides of
+  lengths $\norm{tv}$, $\norm{u-tv}$, and $\norm{v}$, where $t$ is
+  chosen such that $v$ and $u-tv$ are orthogonal, as shown in the
+  following diagram.
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{cauchy-schwarz.png}
+  \end{center}
+  We are choosing $t$ so that $\iprod{v}{u-tv} = 0$, so solving for $t$,
+  \begin{align*}
+    \iprod{v}{u-tv} = & 0 \\
+    \iprod{v}{v} = & t \iprod{u}{v} \\
+    t = & \frac{\iprod{u}{v}}{\norm{v}^2}.
+  \end{align*}
+  We can choose such a $t$ in any inner product space, not just
+  $\R^2$.
+  
+  Now, let $z = u-tv$. By construction, $\iprod{z}{v} = 0$ and $u = tv
+  + z$. Hence, by the Pythagorean theorem,
+  \begin{align*}
+    \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
+    = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
+  \end{align*}
+  $\norm{z}^2\geq 0$, so
+  \begin{align*}
+    \norm{u}^2 \geq & \frac{\iprod{u}{v}^2}{\norm{v}^2} \\
+    \norm{u}\norm{v} \geq |\iprod{u}{v}|.
+  \end{align*}
+\end{proof}
+Notice that in the proof, we also saw that  $\norm{u}\norm{v} =
+|\iprod{u}{v}|$ if and only if $\norm{z} = 0$. $\norm{z}$ is zero
+whenever $u$ and $v$ are linearly dependent i.e. $u = \alpha v$ where
+$\alpha \in \R$. 
+
+\subsection{Projections}
+The mapping from $u$ to $tv$ that we saw in the proof of theorem
+\ref{thm:cauchy-schwarz} is so common that it has
+a name. It is the projection of $u$ onto $v$. 
+\begin{definition}
+  Let $V$ be an inner product space and $x,y \in V$. The (orthogonal) 
+  \textbf{projection} of $y$ onto $x$ is 
+  \[ P_x y = \frac{\iprod{y}{x}}{\norm{x}^2} x. \]
+\end{definition}
+Note that if $z \in \spn(\{x\})$, then 
+\begin{align*}
+  \norm{z - y}^2 = & \norm{ (z - P_x y) + (P_x y - y)}^2 \\
+  = & \norm{ z - P_x y }^2+ 2\iprod{z-P_x y}{P_x y - y} + \norm{P_x y
+    - y}^2 \\
+  = & \norm{ z - P_x y }^2+ \norm{P_x y
+    - y}^2 \geq \norm{P_x y - y}^2.
+\end{align*}
+In other words, $P_x y$ minimizes $\norm{\tilde{x} - y}$ for
+$\tilde{x} \in \spn(x)$. This motivates the following definition of a
+projection.
+\begin{definition}
+  Let $U \subseteq V$ be a subspace of the inner-product space
+  $V$. Then the \textbf{projection} of $x$ onto $U$ is the unique $P_U x
+  \in U$ such that $\norm{x - P_U x} \leq \norm{x - u}$ for all $u \in
+  U$. 
+\end{definition}
+To ensure that this definition makes sense, we should verify that $P_U
+x$ exists and is unique. Uniqueness follows from the following.
+\begin{lemma} \label{lem:orthoProj}
+  $\iprod{x-P_U x}{u} = 0$ for all $u \in U$.
+\end{lemma}
+\begin{proof}
+  Let $u_1 = P_U x + \iprod{x-P_U x}{u} u$. Then
+  \begin{align*}
+    \norm{x - u_1}^2 = & \norm{x - P_U x -  \iprod{x-P_U x}{u} u}^2 \\
+    = & \norm{x - P_u x}^2 - \iprod{x-P_U x}{u}^2 
+  \end{align*}
+  This must be greater than or equal to $\norm{x - P_U x}^2$, so it must
+  be that $\iprod{x - P_U x}{u} = 0$.
+\end{proof}
+\begin{lemma}
+  $P_U x$ is unique.
+\end{lemma}
+\begin{proof}
+  Let $z \in U$
+  \begin{align*}
+    \norm{z - x}^2 = & \norm{ (z - P_U x) + (P_U x - x)}^2 \\
+    = & \norm{ z - P_U x }^2+ 2\iprod{z-P_U x}{P_U x - x} + \norm{P_U x
+      - x}^2 \\
+    = & \norm{ z - P_U x }^2+ \norm{P_U x
+      - x}^2 \geq \norm{P_U x - x}^2.
+  \end{align*}
+  Also, $  \norm{z - x}^2 = \norm{P_U x - x}^2$ only if $\norm{P_u x -
+    z}=0$, i.e. only if $z = P_U x$.
+\end{proof}
+In finite dimensional spaces, $P_U x$ can be constructed from the
+basis. First, another definition.
+\begin{definition}
+  $E \subseteq V$ are \textbf{orthonormal} if for all $e \in E$,
+  $\norm{e} = 1$ and for all $e \neq b \in E$, $\iprod{e}{b} = 0$.
+\end{definition}
+Projections can be written in terms of an orthonormal basis for
+subspaces. 
+\begin{lemma}
+  If $\{e_1, ..., e_n\}$ are an orthonormal basis for $U \subseteq V$,
+  then $P_U x = \sum_{i=1}^n \iprod{e_i}{x} e_i.$
+\end{lemma}
+\begin{proof}
+  ...
+\end{proof}
+The existence of an orthonormal basis is shown by the Gram-Schmidt process.
+\begin{theorem}[Gram-Schmidt]
+  Let $\{v_i\}$ be a countable or finite set of linearly independent
+  vectors. Then there exists an orthnormal set $\{e_i\}$ such that
+  $\spn(v_1, ... , v_n) = \spn(e_1, ..., e_n)$ for all $n$.
+\end{theorem}
+\begin{proof}
+  Let $e_1 = \frac{v_1}{\norm{v_1}}$. Define the remaining $e_i$ by
+  induction.
+  Let $z_i = v_i - \sum_{j=1}^{i-1} \iprod{v_i}{e_j}e_j$
+  and $e_i = \frac{z_i}{\norm{z_i}}$.
+\end{proof}
+In infinite dimensional spaces an additional condition called
+completeness is required to show $P_U x$ exists. We may define
+completeness later.
+\begin{lemma} 
+  A projection is a linear transformation. 
+\end{lemma}
+\begin{proof}
+  ...
+\end{proof}
+
+Projections are related to subspaces as follows.
+\begin{definition}
+  Let $U \subseteq V$. The \textbf{orthogonal complement} of $U$ is
+  \[ U^\perp = \{v \in V: \iprod{v}{w} = 0 \forall w \in U \}. \]
+\end{definition}
+The bilinearity of the inner product implies that $U^\perp$ is a
+linear subspace. Also, if $U$ is itself is a subspace, then
+\begin{lemma}
+  If $U \subseteq V$ is a subspace,  then 
+  \[ V = U \oplus U^\perp. \]
+\end{lemma}
+\begin{proof}
+  We will use lemma \ref{lem:dirSum}. The positive definiteness of the
+  inner product implies $U \cap U^\perp = \{0\}$. Also, for any $x \in
+  V$, $x = P_U x + (x - P_U x)$. $P_U x \in U$ by definition, and $x -
+  P_U x \in U^\perp$ by lemma \ref{lem:orthoProj}. Therefore $V = U +
+  U^\perp.$ 
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{First welfare theorem}
+
+We have some set of commodities, $S$, which we will assume is a normed
+vector space. For example, in a world with $n$ goods, $S$ could be
+$\R^n$ and for each $s = (s_1,...,s_n) \in S$, $s_j$ represents the
+quantity of the $j$th good. These goods include everything that is
+bought or sold, including things like food or clothing that we usually
+think of as goods, and things like labor and land. There are $I$
+consumers, indexed by $i$. Each consumer chooses goods from a feasible
+set $X_i \subseteq S$. These $X_i$ are feasible consumption sets, not
+budget sets. It is supposed to represent the physical constraints of
+the world. For example if there are three goods: food, clothing, and labor
+measured in days of labor per day, then $X_i$ might be $[0, \infty)
+\times [0,\infty) \times [0, 1]$.  Each consumer has preferences over
+$X_i$ represented by a preference relation, $\prefeq_i$ that as in the
+previous lecture the following properties:
+\begin{enumerate}
+\item (complete) $\forall x, z \in X_i$, either $x \prefeq_i z$ or $z
+  \prefeq_i x$ or both,
+\item (transitive) $\forall x, w, z \in X_i$, if $x \prefeq_i w$ and $w
+  \prefeq_i z$ then $x \prefeq_i z$,
+\item (reflexive) $\forall x \in X_i$, $x \prefeq_i x$.
+\end{enumerate}
+In words, $x \prefeq_i z$ means person $i$ likes the bundle of goods $x$
+as much as or more than the bundle of goods $z$. If you wish, you can
+think of the preference relation coming from a utility function,
+$u_i(x) : X_i \rightarrow \R$ and $x \prefeq_i z$ means $u_i(x) \geq
+u_i(z)$.  If $x \prefeq_i z$ but $z \not\prefeq_i x$, then we say that
+$x$ is strictly preferred to $z$ and write $x \pref_i z$. If $x
+\prefeq_i z$ and $z \prefeq_i x$ we say that person $i$ is indifferent
+between $x$ and $z$ and write $x \simeq_i z$.
+
+There are also $J$ firms indexed by $j$. Each firm $j$ chooses
+production $y_j$ from production possibility set $Y_j \subseteq
+S$. The firm will produce positive quantities of its outputs and
+negative quantities of its inputs. Continuing with the example of
+three goods, if the firm produces $F^f(l)$ units of food from $l$
+units of labor and $F^c(l)$ units of clothing, then production
+possibility set could be written: 
+\[ Y_j = \{ (f,c,l) \in S: l \leq 0 \wedge f \leq F^f(\alpha |l|)
+\wedge c \leq F^c((1-\alpha) |l|) \text{ for some } \alpha \in
+[0,1]\}. \] 
+Firms produce goods and consumers consume goods. For the market to
+\textbf{clear} we must have sum of production equal to the sum of
+consumption, 
+i.e. 
+\begin{align*}
+  \sum_{i=1}^I x_i = \sum_{j=1}^J y_j \label{eq:mc}
+\end{align*}
+We call the $I+J$-tuple of all $x_i$ and $y_j$, $\left( (x_1,..., x_I)
+  , (y_1, ..., y_J) \right)$ (which we will sometimes shorted by just
+writing $((x_i),(y_j))$) an \textbf{allocation}. An allocation is
+\textbf{feasible} if $x_i \in X_i \forall i$, $y_j \in Y_j \forall j$,
+and $ \sum_{i=1}^I x_i = \sum_{j=1}^J y_j$.
+\begin{definition}
+  An allocation, $((x_i^0),(y_j^0))$, is \textbf{Pareto efficient} (or
+  Pareto optimal) if it is a feasible and there is no other feasible
+  allocation, $((x_i),(y_j))$, such that $x_i \prefeq_i x_i^0$ for all
+  $i$ and $x_i \pref_i x_i^0$ for some $i$.
+\end{definition}
+This definition is just a mathematical way of stating the usual verbal
+definition of Pareto efficient. An allocation is Pareto efficient if
+there is no other allocation that makes at least one person better off
+and no one worse off. 
+
+We are going to be comparing competitive equilibria to Pareto
+efficient allocations. To do that we must first define a competitive
+equilibrium. A price system is a continuous linear transformation,
+$p:S \rightarrow \R$, i.e. $p \in S^\ast$. In the case where $S =
+\R^n$, a price system is just a $1 \times n$ matrix. The entries in
+this price matrix are the prices of each of the $n$ goods. $px$ for $x
+\in S$ represents the total expenditure needed to purchase the bundle
+of goods $x$.
+\begin{definition}
+  An allocation, $((x_i^0),(y_j^0))$, along with a price system, $p$,
+  is a \textbf{competitive equilibrium} if 
+  \renewcommand{\theenumi}{C\arabic{enumi}}
+  \begin{enumerate}
+  \item\label{c1} The allocation is feasible
+  \item\label{c2} For each $i$ and $x \in X_i$ if $px \leq px_i^0$
+    then $x_i^0 \prefeq_i x$,
+  \item\label{c3} For each $j$ if $y \in Y_j$ then $p y \leq p y_j^0$
+  \end{enumerate}
+  \renewcommand{\theenumi}{\roman{enumi}}
+\end{definition}
+Condition \ref{c2} says that each consumer must be choosing the most
+preferred bundle of goods that he or she can afford. If the preference
+relation comes from a utility function, \ref{c2} says that consumers
+maximize their utility given prices. Similarly, condition \ref{c3}
+says that producers maximize profits.
+
+The first welfare theorem requires one additional condition on
+preferences.
+\begin{definition}
+  Preference relation $\pref_i$ has the \textbf{local non-satiation
+    condition} if for each $x \in X_i$ and $\epsilon > 0$ $\exists x'
+  \in X_i$ such that $\norm{x - x'} \leq \epsilon $ and $x' \pref_i
+  x$.
+\end{definition}
+This condition says that given any bundle of goods you can find
+another bundle very close by that is preferred. If the preference
+relation comes from utility function, the utility function having a
+non-zero derivative everywhere implies local non-satiation. The
+intuition for why the first welfare theorem requires local
+non-satiation is that local non-satiation rules out the following
+scenario. Suppose person $i$ does not care about clothing at all. Then 
+you take clothes away from person $i$, making person $i$ no worse off,
+and give them to someone else, making that person better off. However,
+there is nothing in the definition of a competitive equilibrium that
+prevents person $i$ from having clothes.
+
+\begin{theorem}[First welfare theorem]
+  If $((x_i^0),(y^0_j))$ and $p$ is a competitive equilibrium and all
+  consumers' preferences have the local non-satiation condition, then
+  $((x^0_i),(y^0_i))$ is Pareto efficient.
+\end{theorem}
+\begin{proof}
+  We will prove it by contradiction. Suppose that a competitive
+  equilibrium is not Pareto efficient. Then there exists another
+  feasible allocation\footnote{This sort of allocation is called a
+    Pareto improvement.}, $((x_i),(y_j))$, such that there is at least
+  one $x_{i^*} \pref_{i^*} x_{i^*}^0$. The contrapositive of condition
+  \ref{c2} in the definition of competitive equilibrium implies that
+  then $p x_{i^*} > p x_{i^*}^0$.  For all other $i \neq i^*$ it must
+  be that $x_i \prefeq_i x_i^0$. When $x_i \pref_i x_i^0$, by the same
+  argument as above, $p x_i > p x_i^0$. When $x_i \simeq_i x_i^0$,
+  then we will show that local non-satiation implies $px_i \geq
+  px_i^0$. If not and $px_i < p x_i^0$, then by continuity\footnote{We
+    have not yet defined continuity, so do not worry if you find this
+    part of the proof confusing. A function $f: V\rightarrow W$ where
+    $V$ and $W$ are normed vector spaces is continuous if $\forall
+    \epsilon > 0$ $\exists \delta > 0$ such that whenever $\norm{x -
+      y}<\delta$ we also have $\norm{f(x) - f(y)} < \epsilon$. In this
+    proof, $V$ is $S$ , $W$ is $\R$, $f$ is $p$, and $\epsilon$ is
+    $|px_i - px_i^0|$. } of $p$ there exists some $\delta > 0$ such
+  that for all $x'$ with $\norm{x_i - x'} < \delta$, we have
+  \[ | p x_i - p x' | < | px_i - p x_i^0| \]
+  and in particular, 
+  \[ p x' < px_i^0. \]
+  Additionally since preferences are locally non-satiated, there
+  exists some $\tilde{x}$ with $\norm{x_i - \tilde{x}}<\delta$ and
+  $\tilde{x} \pref_i x_i \simeq_i x_i^0$. However, then we also have
+  $\tilde{x} \pref_i x_i^0$ and $p \tilde{x} < p x_i^0$, which contradicts
+  $x_i^0$  and $p$ being part of a competitive equilibrium. Thus, we
+  can conclude that $p x_i \geq p x_i^0$.
+
+  At this point we have shown that if $((x_i^0),(y_j^0))$ is a
+  competitive equilibrium that is not Pareto efficient, then there is
+  some other allocation $((x_i),(y_j))$ that is feasible and has $x_i
+  \prefeq_i x_i^0$, which implies that $p x_i \geq p x_i^0$. Each
+  consumer spends (weakly) more in this alternative, Pareto improving
+  allocation. Now we will show that each consumer spending at least as
+  much contradicts profit maximization. The total expenditure of
+  consumers in the alternate allocation must be greater than in the
+  competitive equilibrium because there is one consumer who is
+  spending strictly more. That is,
+  \begin{align}
+    \sum_{i=1}^I p x_i > \sum_{i=1}^I p x_i^0 \label{ieq:ex}
+  \end{align}
+  The price system is a linear transformation, so
+  \[ \sum_{i=1}^I p x_i = p \left(\sum_{i=1}^I x_I \right) \]
+  Both allocations are feasible, and, in particular, market clearing
+  so
+  \begin{align*}
+    \sum_{i=1}^I x_i & = \sum_{j=1}^J y_j \\
+  \end{align*}
+  Applying $p$ to both sides, 
+  \begin{align*}
+    p\left( \sum_{i=1}^I x_i\right) & = p\left( \sum_{j=1}^J y_j
+    \right) \\ 
+    = & \sum_{j=1}^J p y_j.
+  \end{align*}
+  Identical reasoning would show that 
+  \[ \sum_{i=1}^I p x_i^0 = \sum_{j=1}^J p y_j^0. \]
+  Substituting into (\ref{ieq:ex}) we get
+  \begin{align}
+    \sum_{j=1}^J p y_j > \sum_{j=1}^J p y_j^0. \label{ieq:prof}
+  \end{align}
+  But this contradicts profit maximization (\ref{c3}) since $y_j \in
+  Y_j$ and we cannot have (\ref{ieq:prof}) if $p y_j \leq p y_j^0$. 
+  Therefore, we conclude that there can be no Pareto improvement from
+  a competitive equilibrium, i.e.\ any competitive equilibrium is
+  Pareto efficient.
+\end{proof}
+
+
 
 
 \bibliographystyle{jpe}
