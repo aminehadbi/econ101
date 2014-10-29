@@ -1,0 +1,1211 @@
+\input{../noteHeader} 
+
+
+\title{Metric spaces, topology, and continuity}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+This lecture focuses on metric spaces, topology, and continuity.
+Similar material is covered in chapters 12 and 29, of \cite{sb1994}, or
+1.3 of \cite{carter2001}.
+
+\section{Sequences and limits}
+
+A \textbf{sequence} is a list of elements, $\{x_1, x_2, ... \}$ or
+$\seq{x}$ or sometimes just $\{x_n\}$. Although the notation for a
+sequence is similar to the notation for a set, they should not be
+confused. Sequences are different from sets in that the order of
+elements in a sequence matters, and the same element can appear many
+times in a sequence.  Some examples of sequences with $x_i \in \R$
+include
+\begin{enumerate}
+\item\label{sfib} $\{ 1, 1, 2, 3, 5, 8, ... \}$
+\item\label{sc} $\{ 1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, ... \}$
+\item\label{sd} $\{\frac{1}{2}, \frac{-2}{3}, \frac{3}{4}, \frac{-4}{5},
+  \frac{5}{6}, ... \}$
+\end{enumerate}
+Some sequences, like \ref{sc}, have elements that all get closer and
+closer to some fixed point. We say that these types of sequences
+converge. A sequence that does not converge diverges. Some divergent
+sequences like \ref{sfib}, increase without bound. Other divergent
+sequences, like \ref{sd}, are bounded, but they do not converge to any
+single point. 
+
+To analyze sequences with elements that are not necessarily real
+numbers, we need to be able to say how far apart the entries in the
+sequence are. 
+\begin{definition}
+  A \textbf{metric space} is a set, $X$, and function $d:X\times X
+  \rightarrow \R$ called a \textbf{metric} (or distance) such that
+  $\forall x, y, z \in X$
+  \begin{enumerate}
+  \item $d(x,y) > 0$ unless $x=y$ and then $d(x,x) = 0$
+  \item (symmetry) $d(x,y) = d(y,x)$
+  \item (triangle inequality) $d(x,y) \leq d(x,z) + d(z,y)$.
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  $\R$ is a metric space with $d(x,y) = |x - y|$. 
+\end{example}
+\begin{example}
+  Any normed vector space is a metric space with $d(x,y) =
+  \norm{x-y}$. 
+\end{example}
+The most common metric space that we will encounter will be $\R^n$
+with the Euclidean metric, $d(x,y) = \norm{x-y} = \sqrt{\sum_{i=1}^n
+  (x_i - y_i)^2}$.  
+\begin{definition}
+  A sequence $\{x_n\}_{n=1}^\infty$ in a metric space \textbf{converges} to $x$
+  if $\forall \epsilon > 0$ $\exists N$ such that 
+  \[ d(x_n, x) < \epsilon \]
+  for all $n \geq N$. We call $x$ the \textbf{limit} of $\seq{x}$ and
+  write $\lim_{n \rightarrow \infty} x_n = x$ or $x_n \rightarrow x$. 
+\end{definition}
+\begin{example}
+  The sequence $\{ 1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, ... \} =
+  \{1/n\}_{n=1}^\infty$ converges. To see this, take any
+  $\epsilon>0$. Then $\exists$ $N$ such that $1/N < \epsilon$. For all
+  $n \geq N$, $d(1/n,0) = 1/n < \epsilon$. 
+\end{example}
+If a sequence does not converge, it diverges. 
+\begin{example}
+  The Fibonacci sequence, $\{ 1, 1, 2, 3, 5, 8, ... \}$ diverges.
+\end{example}
+\begin{definition}
+  $a$ is an \textbf{accumulation point} of $\seq{x}$ if $\forall
+  \epsilon > 0$ $\exists$ infinitely many $x_i$ such that 
+  \[ d(a, x_i ) < \epsilon. \]
+\end{definition}
+\begin{example}
+  The sequence $\{\frac{1}{2}, \frac{-2}{3}, \frac{3}{4},
+  \frac{-4}{5}, \frac{5}{6}, ... \}$ has two accumulation points, $1$ 
+  and $-1$.
+\end{example}
+The limit of any convergent sequence is an accumulation point of the
+sequence. In fact, it is the only accumulation point.
+\begin{lemma}
+  If $x_n \rightarrow x$, then $x$ is the only accumulation point of
+  $\seq{x}$. 
+\end{lemma}
+\begin{proof}
+  Let $\epsilon>0$ be given. By the definition of convergence,
+  $\exists N$ such that 
+  \[ d(x_n,x) < \epsilon \]
+  for all $n \geq N$. $\{n\in \mathbb{N}: n\geq N\}$ is infinite, so
+  $x$ is an accumulation point. 
+
+  Suppose $x'$ is another accumulation point. Then $\forall
+  \epsilon>0$ $\exists N$ and $N'$ such that if $n \geq N$ and $n \geq
+  N'$, then $d(x_n, x) < \epsilon/2$ and $d(x_n,x') < \epsilon/2)$. By
+  the triangle inequality, $d(x,x') \leq d(x_n,x') + d(x_n,x) <
+  \epsilon$. Since this inequality holds for any $\epsilon$, it must
+  be that $d(x,x') = 0$. $d$ is a metric, so then $x = x'$, and the
+  limit of sequence is the sequence's unique accumulation point. 
+\end{proof}
+The third example of a sequence at the start of this section,
+\ref{sd}, shows that the converse of this lemma is false. Not every
+accumulation point is a limit. 
+\begin{definition}
+  Given $\seq{x}$ and any sequence of positive integers, $\{n_k\}$
+  such that $n_1 < n_2 < ... $ we call $\{x_{n_k}\}$ a
+  \textbf{subsequence} of $\seq{x}$. 
+\end{definition}
+In example \ref{sd}, there are two accumulation points, $-1$ and $1$,
+and you can find subsequences that converge to these points. 
+\begin{lemma}
+  Let $a$ be an accumulation point of $\{x_n\}$. Then $\exists$
+  a subsequence that converges to $a$. 
+\end{lemma}
+\begin{proof}
+  We can construct a subsequence as follows. Let $\{\epsilon_k\}$ be a
+  sequence that converges to zero with $\epsilon_k >0 \forall k$, (for
+  example, $\epsilon_k = 1/k$). By the definition of accumulation
+  point, for each $\epsilon_k$ $\exists$ infinitely many $x_n$ such
+  that 
+  \begin{align}
+    d(x_n, a) < \epsilon_k \label{ieq:a}
+  \end{align}
+  Pick any $x_{n_1}$ such that (\ref{ieq:a}) holds for
+  $\epsilon_1$. For $k>1$, pick $n_k \neq n_{j}$ for all $j<k$ and
+  such that (\ref{ieq:a}) holds for $\epsilon_k$. Such an $n_k$ always
+  exists because there are infinite $x_n$ that satisfy
+  (\ref{ieq:a}). By construction, $\lim_{k\rightarrow \infty} x_{n_k}
+  = a$ (you should verify this using the definition of limit).
+\end{proof}
+
+Convergence of sequences is often preserved by arithmetic
+operations, as in the following two theorems.
+\begin{theorem}
+  Let $\{x_n\}$ and $\{y_n\}$ be sequences in a normed vector space
+  $V$. If $x_n \to x$ and $y_n \to y$, then
+  \[ x_n + y_n \to x + y. \]
+\end{theorem}
+\begin{proof}
+  Let $\epsilon > 0$ be given. Then $\exists$ $N_x$ such that for all
+  $n \geq N_x$, 
+  \[ d(x_n,x) < \epsilon/2,\] and $\exists N_y$ such that
+  for all $n \geq N_y$,  
+  \[ d(y_n,y) < \epsilon/2. \]
+  Let $N =\max\{N_x,N_y\}$. Then for all $n \geq N$, 
+  \begin{align*}
+    d(x_n + y_n,x+y) = \norm{(x_n + y_n) - (x+y)} \leq & \norm{x_n -
+      x} + \norm{y_n - y} \\
+    < & \epsilon/2 + \epsilon /2  = \epsilon.
+  \end{align*}  
+\end{proof}
+\begin{theorem}
+  Let $\{x_n \}$ be a sequence in a normed vector space with scalar
+  field $\R$ and let $\{c_n\}$ be a sequence in $\R$. If
+  $x_n \to x$ and $c_n \to c$ then 
+  \[ x_n c_n \to x c. \]
+\end{theorem}
+\begin{proof}
+  Left as an exercise.
+\end{proof}
+In fact, later we will see that if $f(\cdot,\cdot)$ is
+continuous, then $\lim f(x_n, y_n) = f(x,y)$. The previous two
+theorems are examples of this with $f(x,y) = x+y$ and $f(c,x) = c x$,
+respectively.
+
+\subsection{Series}
+
+Infinite sums or series are formally defined as the limit of the
+sequence of partial sums. 
+\begin{definition}
+  Let $\seq{x}$ be a sequence in a normed vector space. Let $s_n =
+  \sum_{i=1}^n x_i$ denote the sum of the first $n$ elements of the
+  sequence. We call $s_n$ the $n$th partial sum. We define the sum of
+  all the $x_i$s as
+  \[ \sum_{i=1}^\infty x_i \equiv \lim_{n \to \infty} s_n \]
+  This is called a(n infinite) \textbf{series}. 
+\end{definition}
+
+\begin{example}
+  Let $\beta \in \R$. $\sum_{i=0}^\infty \beta^i$ is called a
+  geometric series. Geometric series appear often in
+  economics, where $\beta$ will be the subjective discount factor or
+  perhaps $1/(1+r)$.  Notice  that
+  \begin{align*}
+    s_n = & 1 + \beta + \beta^2 + \cdots + \beta^n \\
+    = & 1 + \beta ( 1 + \beta + \cdots + \beta^{n-1} ) \\
+    = & 1 + \beta ( 1 + \beta + \cdots + \beta^{n-1} + \beta^n) -
+    \beta^{n+1} \\
+    s_n(1 - \beta) = & 1 - \beta^{n+1} \\
+    s_n = & \frac{1 - \beta^{n+1}}{1-\beta} ,
+  \end{align*}
+  so, 
+  \begin{align*}
+    \sum_{i=0}^\infty \beta^i = & \lim s_n \\
+    = & \lim \frac{1 - \beta^{n+1}}{1-\beta} \\
+    = & \frac{1}{1-\beta} \text{ if } |\beta|<1.
+  \end{align*}
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cauchy sequences}
+
+We have defined convergent sequences as ones whose entries all get
+close to a fixed limit point. This means that all the entries of the
+sequence are also getting closer together. You might imagine a
+sequence where the entries get close together without necessarily
+reaching a fixed limit.
+\begin{definition}
+  A sequence $\seq{x}$ is a \textbf{Cauchy} sequence if for any
+  $\epsilon > 0$ $\exists N$ such that for all $i,j\geq N$,
+  $d(x_i,x_j) < \epsilon$.
+\end{definition}
+It turns that in $\R^n$ Cauchy sequences and convergent sequences are
+the same. This is a consequence of $\R$ having the least upper bound
+property. 
+\begin{theorem}
+  A sequence in $\R^n$ converges if and only if it is a Cauchy
+  sequence. 
+\end{theorem}
+There is a proof of this in Chapter 29.1 of Simon and Blume. If you
+want more practice with the sort of proofs in this lecture, it would
+be good to read that section. The convergence of Cauchy sequences in
+the real numbers is a consequence of the least upper bound property
+that is discussed in the appendix to the lecture notes on sets.
+Essentially, the definition of the real numbers requires them to be
+complete.
+
+Cauchy sequences do not converge in all metric spaces. For example,
+the rational numbers are a metric space, and any sequence of rationals
+that converges to an irrational number in $\R$ is a Cauchy sequence in
+$\mathbb{Q}$ but has no limit in $\mathbb{Q}$. Having Cauchy sequences
+converge is necessary for proving many theorems, so we have a special
+name for metric spaces where Cauchy sequences converge.
+\begin{definition}
+  A metric space, $X$, is \textbf{complete} if every Cauchy sequence of
+  points in $X$ converges in $X$.
+\end{definition}
+Completeness is important for so many results that complete version of
+vector spaces are named after the mathematicians who first studied
+them extensively. A \textbf{Banach space} is a complete normed vector
+space. A \textbf{Hilbert space} is a complete inner product
+space. Since any inner product space is a normed vector space with
+norm $\norm{x} = \sqrt{\iprod{x}{x}}$, any Hilbert space is also a
+Banach space. 
+\begin{example}
+  $\R^n$ is a Hilbert space.
+\end{example}
+\begin{example}
+  $\ell^p = \{ (x_1, x_2, ...)\, s.t.\, x_i \in \R, \sum_{i=1}^\infty |x_i|^p <
+  \infty \}$ with norm 
+  \[ \norm{x} = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} \]
+  is a Banach space. 
+  
+  $\ell^2$ with 
+  \[ \iprod{x}{y} = \sum_{i=1}^\infty x_i y_i \]
+  is a Hilbert space. 
+  
+  Showing that $\ell^p$ is complete is slightly tricky because you
+  have deal with a sequence of $\mathbf{x}_i \in \ell^p$, each element
+  of which is itself an infinite sequence. You should not worry if you
+  have difficulty following the rest of this example.
+  
+  To show that $\ell^p$ is complete, let $\seq{\mathbf{x}}$ be a
+  Cauchy sequence. Denote the elements of $\mathbf{x}_i$ by $x_{i1},
+  x_{i2}, ... $. First, let's show that for any $n$, $x_{1n}, x_{2n},
+  ... $ is a Cauchy sequence in $\R$. Let $\epsilon > 0$. Since
+  $\seq{\mathbf{x}}$ is Cauchy, $\exists N_\epsilon$ such that for all $i,j
+  \geq N_\epsilon$, 
+  \[  \norm{\mathbf{x}_i - \mathbf{x}_j } < \epsilon. \]
+  Since 
+  \[ \norm{\mathbf{x}_i - \mathbf{x}_j }^p = \left( \sum_{m=1}^\infty
+    \abs{x_{i m} - x_{j m}}^p \right) \]
+  All terms in the sum on the right are non-negative and the sum
+  includes $\abs{x_{i n} - x_{jn}}$, so 
+  \begin{align*} \abs{x_{i n} - x_{j n} }^p \leq & \norm{\mathbf{x}_i -
+      \mathbf{x}_j }^p \\
+    \abs{x_{i n} - x_{j n} } \leq & 
+    \norm{\mathbf{x}_i - \mathbf{x}_j }  
+  \end{align*}
+  Therefore, $\abs{x_{i n} - x_{j n}} < \epsilon$ for all $i,j \geq
+  N_\epsilon$, i.e. $x_{1n}, x_{2n}, ...$ is a Cauchy sequence in
+  $\R$. $\R$ is complete, so it has some limit. Denote the limit by
+  $x^\ast_n$.  
+
+  Now we will show that $\mathbf{x}^\ast = (x_{1}^\ast, x_{2}^\ast,
+  ... )$ is the limit of $\seq{\mathbf{x}}$.  First, we should show
+  that $\mathbf{x}^\ast \in \ell^p$. Let 
+  \begin{align*}
+    s_m^\ast = \sum_{n=1}^m |x^\ast_n|^p.
+  \end{align*}
+  We need to show that $\lim s_m^\ast $ exists.  Since
+  $\seq{\mathbf{x}}$ is Cauchy, $\exists j$ such that if $i \geq j$,
+  $\norm{\mathbf{x}_i - \mathbf{x}_j} < 1$. Using the triangle
+  inequality, 
+  \[ \norm{\mathbf{x}_i} \leq \norm{\mathbf{x}_i - \mathbf{x}_j} +
+  \norm{\mathbf{x}_j} = 1 + \norm{\mathbf{x}_j} \equiv M \]
+  for all $i \geq j$ and some fixed $j$. Thus, $\norm{\mathbf{x}_i}
+  \leq M$ for some constant $M$ and all $i \geq j$. Then, 
+  \[
+  s_m^\ast = \lim_{i \to \infty} \sum_{n=1}^m |x_{in}|^p \leq
+  M^{p} \]
+  for all $m$. $s_m^\ast$ is a bounded weakly increasing sequence in
+  $\R$, so it must converge.\footnote{Let $\seq{x} \in \R$ and suppose $x_1
+    \leq x_2 \leq x_3 \leq ...$ and $\seq{x}$ is bounded, then we will
+    show $\seq{x}$ converges. Suppose not. Then the sequence has no
+    accumulation points. In particular, $x_i$ is not an accumulation
+    point of the sequence for any $i$ i.e. there is an $\epsilon>0$
+    such that for all $i$ there are finitely many $j$ with $d(x_i,
+    x_j) < \epsilon$. Then we can construct a subsequence
+    by choosing $j_k$ such that $j_k> j_{k-1}$ and $|x_{j_k} -
+    x_{j_{k-1}} | > \epsilon$. But then 
+    \begin{align*}
+      x_{j_k} = & x_{j_1} + (x_{j_2} - x_{j_1}) + (x_{j_3} - x_{j_2}) +
+      ... + (x_{j_k} - x_{j_{k-1}} ) \\
+      \geq & x_{j_1} + (k-1) \epsilon 
+    \end{align*}
+    which is not bounded.}
+  
+  Finally, we should show that $\seq{\mathbf{x}}$ converges to
+  $\mathbf{x}^\ast$. Let $\epsilon>0$. 
+  Since the original sequence is Cauchy, there is a $N$ such that if
+  $i,j > N$, then
+  \begin{align*}
+    \sum_{m=1}^M \abs{x_{im} - x_{jm}}^p \leq \norm{\mathbf{x}_i -
+      \mathbf{x}_j}^p < \epsilon
+  \end{align*}
+  for all $M$. Therefore, 
+  \begin{align*}
+    \lim_{j \to \infty} \sum_{m=1}^M \abs{x_{im} - x_{jm}}^p =
+    \sum_{m=1}^M\abs{x_{im} - x_m^\ast} < \epsilon 
+  \end{align*}
+  for all $i \geq N$ and all $M$. Thus, 
+  \[
+  \norm{\mathbf{x}_i - \mathbf{x}^\ast} = \lim_{M \to \infty}
+  \sum_{m=1}^M\abs{x_{im} - x_m^\ast} < \epsilon 
+  \]
+  for all $i \geq N$, so the sequence converges.
+ \end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Open sets}
+
+\begin{definition}
+  Let $X$ be a metric space and $x \in X$. A \textbf{neighborhood} of
+  $x$ is the set 
+  \[ N_\epsilon (x) = \{y \in X: d(x,y) < \epsilon. \]
+\end{definition}
+A neighborhood is also called an open $\epsilon$\textbf{-ball} of $x$
+and written $B_{\epsilon}(x)$. 
+\begin{definition}
+  A set, $S \subseteq X$ is \textbf{open} if $\forall x \in S$,
+  $\exists$ $\epsilon>0$ such that 
+  \[ N_\epsilon(x) \subset S. \]
+\end{definition}
+For every point in an open set, you can find a small neighborhood
+around that point such that the neighborhood lies entirely within the
+set. 
+\begin{example}
+  Any open interval, $(a,b) = \{x \in \R: a<x<b\}$, is an open set. 
+\end{example}
+\begin{example}
+  Any linear subspace of dimension $k < n$ in $\R^n$ is not open. 
+\end{example}
+
+\begin{theorem} $\,$
+  \begin{enumerate} \label{thm:uio}
+  \item Any union of open sets is open. (finite or infinite)
+  \item The \emph{finite} intersection of open sets is open.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Let $S_j$, $j \in J$ be a collection of open sets. Pick any $j_0 \in
+  J$. If $x \in \cup_{j \in J} S_j$, then there must be $\epsilon_{j_0} >
+  0$ such that $N_{\epsilon_{j_0}} (x) \subset S_{j_0}$. It is
+  immediate that $N_{\epsilon_{j_0}} (x) \subset \cup_{j \in J} S_j$
+  as well. 
+
+  Let $S_1, .., S_k$ be a finite collection of open sets. For each $i$
+  $\exists \epsilon_i > 0$ such that $N_{\epsilon_i}(x) \subset
+  S_i$. Let $\underline{\epsilon} = \min_{i \in \{1,..., k\}}
+  \epsilon_i$. Then $\underline{\epsilon}>0$ since it is the minimum
+  of a finite set of positive numbers. Also,
+  $N_{\underline{\epsilon}}(x) \subset S_i$ for each $i$, so
+  $N_{\underline{\epsilon}}(x) \subset \cap_{i=1}^k S_i$. 
+\end{proof}
+\begin{definition}
+  The \textbf{interior} of a set $A$ is the union of all open sets
+  contained in $A$. It is denoted as $\mathrm{int}(A)$.
+\end{definition}
+From the previous, theorem, we know that the interior of any set is
+open. 
+\begin{example}
+  Here some examples of the interior of sets in $\R$.
+  \begin{enumerate}
+  \item $A = (a,b)$, $\mathrm{int}(A) = (a,b)$.
+  \item $A = [a,b]$, $\mathrm{int}(A) = (a,b)$.
+  \item $A = \{1, 2, 3, 4, ... \}$, $\mathrm{A} = \emptyset$
+  \end{enumerate}  
+\end{example}
+
+\begin{exercise} \label{ex:openConvergence}
+  Let $X$ be a metric space and $\seq{x}$ a sequence in $X$. Show that
+  $x_n \to x$ if and only if for every open set $U$ containing $x$
+  $\exists N$ such that $x_n \in U$ for all $n \geq N$.
+\end{exercise}
+
+\section{Closed sets}
+
+A closed set is the opposite of an open set. 
+\begin{definition}
+  A set $S \subseteq X$ is closed if its complement, $X^c$, is open. 
+\end{definition}
+\begin{theorem} $\;$\label{thm:uic}
+  \begin{enumerate}
+  \item The intersection of any collection of closed sets is closed.
+  \item\label{uic2} The union of any finite collection of closed sets is closed. 
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Let $C_j$, $j\in J$ be a collection of closed sets. Then 
+  $ \left(\cap_{j \in J} C_j\right)^c = \cup_{j \in J}
+  C^c_j $. 
+  $C^c_j$ are open, so by theorem \ref{thm:uio},  $\cup_{j \in J}
+  C^c_j = \left(\cap_{j \in J} C_j\right)^c =$ is open.  
+  
+  The proof of part \ref{uic2} is similar. 
+\end{proof}
+
+\begin{example}[Closed sets]
+  Some examples of closed sets include
+  \begin{enumerate}
+  \item $[a,b] \subseteq \R$
+  \item Any linear subspace of $\R^n$
+  \item $\{(x,y) \in \R^2: x^2 + y^2 \leq 1\}$
+  \end{enumerate}
+\end{example}
+
+Closed sets can also be defined as sets that contain the limit of any
+convergent sequence in the set. Simon and Blume use this
+definition. The next theorem shows that their definition is equivalent
+to ours.
+\begin{theorem}\label{thm:clim}
+  Let $\{x_n\}$ be any convergent sequence with each element contained
+  in a set $C$. Then $\lim x_n = x \in C$ for all such $\{x_n\}$ if
+  and only if $C$ is closed.
+\end{theorem}
+\begin{proof}
+  First, we will show that any set that contains the limit points of
+  all its sequences is closed. Let $x \in C^c$. Consider
+  $N_{1/n}(x)$. If for any $n$, $N_{1/n}(x) \subset C^c$, then $C^c$
+  is open, and $C$ is closed as desired. If for all $n$, $N_{1/n}(x)
+  \not \subset C^c$, then $\exists y_n \in N_{1/n}(x) \cap C$. The
+  sequence $\{y_n\}$ is in $C$ and $y_n \to x$. However, by assumption
+  $C$ contains the limit of any sequence within it. Therefore, there
+  can be no such $x$, and $C^c$ must be open and $C$ is closed.
+
+  Suppose $C$ is closed. Then $C^c$ is open. Let $\{x_n\}$ be in $C$
+  and $x_n \to x$. Then $d(x_n, x) \to 0$, and for any $\epsilon > 0$,
+  $\exists x_n \in N_\epsilon(x)$. Hence, there can be no $\epsilon$
+  neighborhood of $x$ contained in $C^c$. $C^c$ is open by assumption,
+  so $x \not\in C^c$ and it must be that $x \in C$. 
+\end{proof}
+
+\begin{definition}
+  The \textbf{closure} of a set $S$, denoted by $\overline{S}$ (or
+  $\mathrm{cl}(S)$), is the intersection of all closed sets containing $S$.
+\end{definition}
+
+%\begin{definition}
+%  A \textbf{limit point} of a set $S$ is any $x$ such that for any
+%  $\epsilon>0$, $N_\epsilon(x) \cap S \neq \emptyset$.
+%\end{definition}
+\begin{example}
+  If $S$ is closed, $\overline{S} = S$. 
+\end{example}
+\begin{example}
+  $\overline{(0,1]} = [0,1]$
+\end{example}
+\begin{lemma}\label{lem:closure}
+  $\overline{S}$ is the set of limits of convergent sequences in $S$.
+\end{lemma}
+\begin{proof}
+  Let $\{x_n\}$ be a convergent sequence in $S$ with limit $x$. If $C$
+  is any closed set containing $S$, then $\{x_n\}$ is in $C$ and by
+  theorem \ref{thm:clim}, $x \in C$. Therefore, $x \in \overline{S}$. 
+  
+  Let $x \in \overline{S}$. For any $\epsilon>0$, $N_\epsilon(x) \cap
+  S \neq \emptyset$ because otherwise $N_\epsilon(x)^c$ is a closed
+  set containing $S$, but not $x$. Therefore, we can construct a
+  sequence $x_n \in S \cap N_{1/n}(x)$ that converges to $x$ and is in
+  $S$. 
+\end{proof}
+\begin{example}
+  $\overline{\{1/n\}_{n \in \mathbb{N}}} = \{0, 1, 1/2, 1/3, ... \}$
+\end{example}
+\begin{definition}
+  The \textbf{boundary} of a set $S$ is $\overline{S} \cap
+  \overline{S^c}$. 
+\end{definition}
+\begin{example}
+  The boundary of $[0,1]$ is $\{0,1\}$.
+\end{example}
+\begin{example}
+  The boundary of the unit ball, $\{x \in \R^2: \norm{x} < 1\}$ is the
+  unit circle, $\{x \in \R^2: \norm{x} = 1\}$.
+\end{example}
+\begin{lemma}
+  If $x$ is in the boundary of $S$ then $\forall \epsilon>0$,
+  $N_\epsilon(x) \cap S \neq \emptyset$ and $N_\epsilon(x) \cap S^c
+  \neq \emptyset$. 
+\end{lemma}
+\begin{proof}
+  As in the proof of lemma \ref{lem:closure}, all
+  $\epsilon$-neighborhoods of $x \in \overline{S}$ must intersect with
+  $S$. The same applies to $S^c$. 
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compact sets}
+
+\begin{definition}
+  An \textbf{open cover} of a set $S$ is a collection of open sets,
+  $\{G_\alpha\}$  $\alpha \in \mathcal{A}$ such that $S \subset
+  \cup_{\alpha \in \mathcal{A}} G_\alpha$. 
+\end{definition}
+\begin{example}
+  Some open covers of $\R$ are:
+  \begin{itemize}
+  \item $\{\R\}$ 
+  \item $\{(-\infty, 1), (-1, \infty)$
+  \item $\{..., (-3, -1), (-2, 0),(-1,1), (0,2), (1,3), ... \}$
+  \item $\{(x,y) : x<y \}$
+  \end{itemize}
+  The first two are finite open covers since they consist of finitely
+  many open sets. The third is a countably infinite open cover. The
+  fourth is an uncountably infinite open cover. 
+\end{example}
+\begin{example}
+  Let $X$ be a metric space and $A \subseteq X$. The set of open balls
+  of radius $\epsilon$ centered at all points in $A$ is an open cover
+  of $A$. If $A$ is finite / countable / uncountable, then this open
+  cover will also be finite / countable / uncountable. 
+\end{example}
+Open covers of the form in the previous example are often used to
+prove some property applies to all of $A$ by verifying the property in
+each small $N_\epsilon(x)$. Unfortunately, this often involves taking
+a maximum or sum of something for each set in the open cover. When the
+open cover is infinite, it can be hard to ensure that the infinite sum
+or maximum stays finite. When we have a finite open cover, we know
+that things will remain finite. 
+\begin{definition}
+  A set $K$ is \textbf{compact} if every open cover of $K$ has a
+  finite subcover. 
+\end{definition}
+By a finite subcover, we mean that there is finite set $G_{\alpha_1},
+... G_{\alpha_k}$ such that $S \subset \cup_{j=1}^k
+G_{\alpha_j}$. Compact sets are a generalization of finite sets. Many
+facts that are obviously true of finite sets are also true for compact
+sets, but not true for infinite sets that are not compact. Suppose we
+want to show a set has some property. If the set is compact, we can
+cover it with a finite number of small $\epsilon$ balls and then we
+just need to show that each small ball has the property we want. We
+will see many concrete examples of this technique in the next few
+weeks.
+\begin{example}
+  $\R$ is not compact. $\{..., (-3, -1), (-2, 0),(-1,1), (0,2), (1,3),
+  ... \}$ is an infinite cover, but if we leave out any single
+  interval (the one beginning with $n$) we will fail to cover
+  some number ($n+1$).
+\end{example}
+\begin{example}
+  Let $K = \{x\}$, a set of a single point. Then $K$ is compact. Let
+  $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ be an open cover of
+  $K$. Then $\exists$ $\alpha$ such that $x \in G_\alpha$. This single
+  set is a finite subcover.
+\end{example}
+\begin{example}
+  Let $K = \{x_1, ..., x_n\}$ be a finite set. Then $K$ is
+  compact.  Let
+  $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ be an open cover of
+  $K$. Then for each $i$, $\exists$ $\alpha_i$ such that $x_i \in
+  G_{\alpha_i}$. 
+  The collection $\{G_{\alpha_1}, ... G_{\alpha_n} \}$ is a finite
+  subcover.
+\end{example}
+\begin{example}
+  $(0,1) \subseteq \R$ is not compact. $\{(1/n,1)\}_{n=2}^\infty$ is
+  an open cover, but there can be no finite subcover. Any finite
+  subcover would have a largest $n$ and could not contain,
+  e.g. $1/(n+1)$. 
+\end{example}
+\begin{example}
+  Let $x \in V$, a normed vector space. Let $K = \{x\frac{1}{2},
+  x\frac{2}{3}, x\frac{3}{4}, ... \}$. Then $K$ is not
+  compact. Consider the open cover $N_{\norm{x}\frac{1}{3(n+2)^2}}(x
+  \frac{n}{n+1})$ for $n=1,2, ...$. Assuming $x \neq 0$, each of these
+  neighborhoods contains exactly one point of $K$, so there is no
+  finite subcover. 
+\end{example}
+
+
+Before using compactness, let's investigate how being compact relates
+to other properties of sets, such as closed/open. 
+\begin{lemma}\label{lem:compactClosed}
+  Let $X$ be a metric space and $K \subseteq X$. If $K$ is compact,
+  then $K$ is closed.
+\end{lemma}
+\begin{proof}
+  Let $x \in K^c$. The collection $\{N_{d(x.y)/3}(y)\}$, $y\in K$ is an
+  open cover of $K$. $K$ is compact, so there is a finite subcover,
+  $N_{d(x,y_1)/3}(y_1), ... , N_{d(x,y_n)/3}(y_n)$.  For each $i$,
+  $N_{d(x,y_i)/3}(y_i) \cap N_{d(x,y_i)/3}(x) = \emptyset$, so 
+  \[ \cap_{i=1}^n N_{d(x,y_i)/3}(x) \]
+  is an open neighborhood of $x$ that is contained in $K^c$. $K^c$ is
+  open, so $K$ is closed.
+\end{proof}
+\begin{lemma}
+  Let $X$ be a metric space, $C \subseteq K \subseteq X$. If $K$ is
+  compact and $C$ is closed. Then $C$ is also compact.
+\end{lemma}
+\begin{proof}
+  Let $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ be an open cover for
+  $C$. Then $\{G_\alpha\}_{\alpha \in \mathcal{A}}$ plus $C^c$ is an
+  open cover for $K$. Since $K$ is compact there is a finite
+  subcover. Since $C \subseteq K$, the finite subcover also covers
+  $C$. Therefore, $C$ is compact. 
+\end{proof}
+An equivalent definition of compactness is in terms of collection of
+sets with ``the finite intersection property.'' A collection of sets
+$\{C_\alpha \}_{\alpha \in \mathcal{B}}$ has the finite intersection
+property if for all finite subsets, $F \subseteq \mathcal{A}$, the
+intersection, $\cap_{\alpha \in F} C_\alpha$ is not empty.
+\begin{lemma}
+  Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
+  only if for every collection of closed subsets, $\{C_\alpha\}_\{\alpha
+  \in \mathcal{B}$ with $C_\alpha \subseteq K$, with the finite
+  intersection property, the intersection of all the subsets is not
+  empty i.e. 
+  $\cap_{\alpha \in \mathcal{A}} C_\alpha$ is not empty.
+\end{lemma}
+\begin{proof}
+  Left as an exercise. The statement in the lemma is basically the
+  contrapositive of the definition of compact, combined with the
+  observation that the complement of closed sets are open and vice
+  versa, and the fact that $(A \cup B)^c = A^c \cap B^c$.
+\end{proof}
+
+The definition of compactness is somewhat abstract. We just saw that
+compact sets are always closed. Another property of compact sets is
+that they are bounded. 
+\begin{definition}
+  Let $X$ be a metric space and $S \subseteq X$. $S$ is
+  \textbf{bounded} if $\exists x_0 \in S$ and $r \in \R$ such that 
+  \[ d(x,x_0) < r \]
+  for all $x \in S$.
+\end{definition}
+A bounded set is one that fits inside an open ball of finite
+radius. For subsets of $\R$ this definition is equivalent to there
+being a lower and upper bound for the set. For subsets of a normed
+vector space, if $S$ is bounded then there exists some $M$ such that
+$\norm{x} < M$ for all $x \in S$. 
+\begin{lemma}
+  Let $K \subseteq X$ be compact. Then $K$ is bounded. 
+\end{lemma}
+\begin{proof}
+  Pick $x_0 \in K$. $\{N_{r}(x_0) \}_{r \in \R}$ is an open cover of
+  $K$, so there must be a finite subcover. The finite subcover has
+  some maximum $r^*$. Then $K \subseteq N_{r^*}(x_0)$, so $K$ is bounded.
+\end{proof}
+This lemma along with lemma \ref{lem:compactClosed} show that if a set
+is compact then it is also closed and bounded. In $\R^n$, the converse
+is also true.
+\begin{theorem}[Heine-Borel]\label{thm:hb}
+  A set $S \subseteq \R^n$ is compact if and only if it is closed and
+  bounded. 
+\end{theorem}
+\begin{proof}
+  We already showed that if $S$ is compact, then it is closed and
+  bounded. 
+
+  Now suppose $S$ is closed and bounded. Since $S$ is bounded, it is a
+  subset of some $n$-dimensional cube, say $[-a,a]^n$ (i.e.\ the set
+  of all vectors $x = (x_1,..,x_n)$ with $-a \leq x_i \leq a$).  We
+  will show $[-a,a]^n$ is compact, and then use the fact that a
+  closed subset of a compact set is compact.
+
+  Let's just show $[-a,a]^n$ is compact for $n=1$. The argument for
+  larger $n$ is similar, but the notation is more cumbersome. If
+  $[-a,a]$ is not compact, then there is an infinite open cover with
+  no finite subcover, say $\{G_\alpha\}_{\alpha \in \mathcal{A}}$. If
+  we cut the interval into two halves, $[-a,0]$ and $[0,a]$, at least
+  one of them must have no finite subcover. We can repeat this
+  argument many times to get nested closed intervals of length
+  $a/(2^k)$ for any $k$. Call the $k$th interval $I_k$. We claim that
+  $\cap_{k=1}^\infty I_k \neq \emptyset$. To show this take the
+  sequence of lower endpoints of the intervals, call it
+  $\seq{x}$. This is a Cauchy sequence, so it converges to some limit,
+  $x_0$. Also, for any $k$, $\{x_n\}_{n=k}^\infty$ is a sequence in
+  $I_k$. $I_k$ is closed so $x_0 \in I_k$. Thus $x_0 \in
+  \cap_{k=1}^\infty I_k$. On the other hand, $I_k \subset \cup_{\alpha
+    \in \mathcal{A}} G_\alpha$ for all $k$. Therefore, $x_0$ must be
+  in some open $G_\alpha$ as part of this cover. Then $\exists
+  \epsilon>0$ such that $N_\epsilon(x_0) \subset G_\alpha$. However,
+  for $k>1/\epsilon$, $I_k \subset N_\epsilon(x_0) \subset G_\alpha$,
+  and then $I_k$ has a finite subcover. Therefore, $[-a,a]$ must be
+  compact. 
+
+  The argument for $n>1$ is very similar. For $n=2$, we would divide
+  the square $[-a,a]^2$ into four smaller squares. For $n=3$, we would
+  divide the cube into eight smaller cubes. In general we would divide
+  the hypercube $[-a,a]^n$ into $2^n$ hypercubes with half the side
+  length.
+\end{proof}
+You may wonder whether closed and bounded sets are always compact. We
+know that all finite dimensional real vector spaces are isomorphic to
+$\R^n$. In any such space, sets are compact iff they are closed and
+bounded. However, in infinite dimensional spaces, there are closed and
+bounded sets that are not compact. The argument in the previous proof
+does not apply to infinite-dimensional spaces because an infinite
+dimensional hypercube can only be divided into infinitely many
+hypercubes with half the side length. 
+\begin{example}
+  $\ell^\infty = \{ (x_1, x_2, ...) : \sup_{i} |x_i| < \infty$ with
+  norm $\norm{x} = \sup_{i} |x_i|$ is a normed vector space. Let $e_i$
+  be the element of all $0$s except for the $i$th position, which is
+  $1$. Then $E = \{e_i\}_{i=1}^\infty$ is closed and bounded. However,
+  $E$ is not compact because $\{N_{1/2}(e_i)\}_{i=1}^\infty$ is an
+  open cover with no finite subcover. 
+\end{example}
+
+We saw that closed sets contain the limit points of all their
+convergent sequences. There is also a relationship between compactness
+and sequences. 
+\begin{definition}
+  Let $X$ be a metric space and $K \subseteq X$. $K$ is
+  \textbf{sequentially compact} if every sequence in $K$ has an
+  accumulation point in $K$.
+\end{definition}
+Sometimes this definition is written as: $K$ is sequentially compact
+if every sequence in $K$ has a subsequence that converges in
+$K$. Compactness implies sequential compactness. 
+\begin{lemma}\label{lem:compactSeqCompact}
+    Let $X$ be a metric space and $K \subseteq X$ be compact. Then $K$
+    is sequentially compact. 
+\end{lemma}
+\begin{proof}
+  Let $\seq{x}$ be a sequence in
+  $K$. Pick any $\epsilon>0$, $N_\epsilon(x)$, $x \in K$ is an open
+  cover of $K$, so there is a finite subcover. Therefore, one of the
+  $\epsilon$ neighborhoods must contain an infinite number of the
+  elements from the sequence. Call this neighborhood
+  $N_\epsilon(x_1^\ast)$. Pick the smallest $n$ such that $x_n \in
+  N_\epsilon(x_1^\ast)$ and call it $n_1$. $\overline{N_{\epsilon}(x_1^\ast)}
+  \cap K$ is a closed subset of the compact set $K$, so is itself
+  compact. Repeat the above argument with $\epsilon/2$ in place of
+  $\epsilon$ and $\overline{N_{\epsilon}(x_1^\ast)} \cap K$ in place of $K$
+  to find an $n_2$, $n_3$, etc. Then the subsequence $x_{n_1},
+  x_{n_2}, ...$ is a Cauchy sequence, so it converges. Its limit is an
+  accumulation point. Its limit must be in $K$ because $K$ is compact,
+  and so, closed. Therefore, $K$ is sequentially compact.
+\end{proof}
+
+In $\R^n$, a set is sequentially compact iff it is compact iff it is
+closed and bounded.
+\begin{theorem}[Bolzano-Weierstrass] \label{thm:bw}
+  A set $S \subseteq \R^n$ is closed and bounded if and only if it is
+  sequentially compact. 
+\end{theorem}
+\begin{proof}
+  Let $S$ be closed and bounded. By the Heine-Borel theorem
+  (\ref{thm:hb}), $S$ is compact. By lemma
+  \ref{lem:compactSeqCompact}, $S$ is sequentially compact. 
+
+  Let $S$ be sequentially compact. Let $\{x_n\}$ be a convergent
+  sequence in $S$. Its limit is an accumulation point, so it must be
+  in $S$. Therefore, $S$ is closed. To show $S$ is bounded, pick $x_0
+  \in S$. Suppose $\exists x_1 \in S$ such that $d(x_1, x_0) \geq 1$,
+  and $x_2 \in S$ such that $d(x_2, x_0) \geq 2$ etc. This sequence is
+  not Cauchy because of the reverse triangle inequality,  
+  \begin{align*}
+    d(x_i,x_j) \geq & \abs{d(x_i,x_0) - d(x_j,x_0) } = |i-j|
+  \end{align*}  
+  This would be a sequence in $S$ with no accumulation
+  points. Therefore, it must not always be possible to find such
+  $x_n$. In other words, $S$ must be bounded.
+\end{proof}
+
+\begin{remark}
+  This theorem is sometimes stated as ``each bounded sequence in $\R^n$
+  has a convergent subsequence.'' As an exercise, you may want to
+  verify that this statement is equivalent to the one above.
+\end{remark}
+Simon and Blume also prove this theorem in chapter 29.2. They do not
+prove the Heine-Borel theorem first though, so their proof is of the
+Bolzano-Weierstrass theorem is longer. Perhaps unsurprisingly, the
+details of their proof are somewhat similar to our proof of the
+Heine-Borel theorem.
+
+In $\R^n$, compactness, sequential compactness, and closed and bounded
+are all the same. In general metric spaces, this need not be true. We
+saw above that in infinite dimensional normed vector spaces, there are
+closed and bounded sets which are not compact.  However it is always
+true that sequential compactness and compactness are the same for
+metric spaces. We already showed that compactness implies sequential
+compactness.  The proof that sequential compactness implies
+compactness is a somewhat long and difficult, and you may want to skip
+it unless you are especially interested.
+\begin{theorem}
+  Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
+  only if $K$ is sequentially compact. 
+\end{theorem}
+\begin{proof}
+  Lemma \ref{lem:compactSeqCompact} shows that if $K$ is compact, then
+  $K$ is sequentially compact.
+  
+  Suppose every sequence in $K$ has a convergent subsequence with a
+  limit point in $K$. Let $G_{\alpha}$, $\alpha \in \mathcal{A}$ be an
+  open cover of $K$. $\mathcal{A}$ could be uncountable, so we will
+  begin by showing that there must be a countable subcover.  Let
+  $n=1$. Pick $x_1 \in K$. If possible choose $x_2 \in K$ such that
+  $d(x_1,x_2) \geq 1/n$. Repeat this process, choosing $x_j$ in $K$
+  such that $d(x_j,x_i) \geq 1/n$ for each $i<j$. Eventually this will
+  no longer be possible because otherwise we could construct a
+  sequence with no convergent subsequence. When it is no longer
+  possible, set $n = n+1$. This gives a countable collection of open
+  neighborhoods $N_{1/n}(x_i)$ that cover $K$ for each $n$ and get
+  arbitrarily small as $n$ increases. Call these neighborhoods
+  $\eta_j$ for $j = 1,2,..$. Let $J$ be set of all $\eta_j$ such that
+  $\eta_j \subseteq G_\alpha$ for some $\alpha$. $J$ is a subset of a
+  countable set, so $J$ is countable. Note that $\cup_{j \in J} \eta_j
+  \supset K$ because if $x \in K$, then $x \in G_\alpha$ for some
+  $\alpha$, and then $\exists \epsilon$ such that $N_{\epsilon}(x) \in
+  G_{\alpha}$ and $\exists j$ s.t. $\eta_j \subset N_{\epsilon}(x)$.
+  Finally, for each $j \in J$ choose $G_{\alpha_j}$ such that $\eta_j
+  \subseteq G_{\alpha_j}$. Such $\alpha_j$ exist by construction. Also
+  $\cup_{j \in J} G_{\alpha_j} \supset \cup_{j \in J} \eta_j \supset
+  K$. So $G_{\alpha_j}$ is a countable subcover.
+
+  If $G_{\alpha_j}$ has no finite subcover, then for each $n$, 
+  \[ F_n = \left(\cup_{i=1}^n G_{\alpha_i}\right)^c \cap K \] is not
+  empty (if it were empty, then $\cup_{i=1}^n G_{\alpha_i}$ would be a
+  finite subcover). Choose $x_n \in F_n$. Then $\{x_n\}$ is a sequence in $K$,
+  and it must have a convergent subsequence with a limit, $x_0$, in
+  $K$. However, each $F_{i+1} \subset F_i$ and $F_i$ are all
+  closed. Therefore, the sequence $\{x_j\}_{j=i}^\infty$ is also in
+  $F_i$ and so is its limit. Then $x_0 \in \cap_{i=1}^\infty
+  F_i$. However, 
+  \[ \cap_{i=1}^\infty F_i = \left(\cup_{i=1}^\infty
+    G_{\alpha_i}\right)^c \cap K, \]  
+  but $G_{\alpha_i}$ is a countable cover of $K$, which implies 
+  \[ \cap_{i=1}^\infty F_i = \left(\cup_{i=1}^\infty
+    G_{\alpha_i}\right)^c \cap K = \emptyset\] 
+  and we have a contradiction. Therefore, $G_{\alpha_j}$ must have a
+  finite subcover, and $K$ is compact.
+\end{proof}
+
+\begin{remark}
+  There are non-metric spaces where sequential compactness and
+  compactness are not equivalent. One can define open sets on a space
+  without a metric by simply specifying which sets are open and making
+  it such that theorem \ref{thm:uio} holds. Such a space is called a
+  topological space. You can then define closed sets, compact sets,
+  and sequential compactness in terms of open sets.  Exercise
+  \ref{ex:openConvergence} showed that it is possible to define the
+  convergence of sequences using only open sets, without referring to
+  a metric at all. Similarly, you can define continuity of functions
+  in terms of open and closed sets. Topology is the branch of
+  mathematics that studies topological spaces. One interesting
+  observation is that on $\R^n$, if a set is open with respect to some
+  $p$-norm, then it is also open with respect to any other
+  $p$-norm. Thus, we say that $\R^n$ with the $p$-norms are
+  topologically equivalent or homeomorphic. Properties like continuity
+  and compactness are the same regardless of what $p$-norm we use.
+  
+  Topological spaces that are not metric spaces do not come up very
+  often in economics, so we will not be studying them.
+\end{remark}
+
+To review, in $\R^n$ a set is compact if any of the following three
+things hold:
+\begin{enumerate}
+\item For every open cover there exists a finite subcover,
+\item Every sequence in the set has a convergent subsequence, or
+\item The set is closed and bounded.
+\end{enumerate}
+In infinite dimensional spaces, closed and bounded sets need not be
+compact, but compact sets are always closed and bounded. In any metric
+space, a set is compact iff it is sequentially compact.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Functions and continuity}
+
+We have already used functions in this course, so perhaps we should
+have defined them earlier. Anyway, a \textbf{function} from a set $A$
+to a set $B$ is a rule that assigns to each $a \in A$ one and only one
+$b \in B$. If we want to call this function $f$, we denote this by
+$f:A \to B$, which is read as ``$f$ is a function from $A$ to $B$'' or
+simply ``$f$ from $A$ to $B$.'' The set $A$ is called the
+\textbf{domain} of $f$. $B$ is called the \textbf{target} of $f$. The
+set 
+\[ \{y  \in B:  f(x) = y \text{ for some } x \in A \} \]
+is called the \textbf{image} of $f$. 
+
+
+\begin{example}$\;$
+\begin{enumerate}
+\item Production functions: $f:\R^2 \to \R$ 
+  \begin{itemize}
+  \item Linear $ f(x_1,x_2) = a_1 x_1 + a_2 x_2 $
+  \item Cobb-Douglas: $f(x_1,x_2) = K x_1^{\alpha_1} x_2^{\alpha_2}$
+  \item Constant elasticity of substitution: $f(x_1,x_2) = K (c_1
+    x_1^{-a} + c_2 x_2^{-a})^{-b/a}$
+  \end{itemize}
+\item Utility functions: $u: \R^T \to \R$
+  \begin{itemize}
+  \item Constant relative risk aversion: $u(c_1,...,c_T) =
+    \sum_{t=1}^T \beta^t \frac{c_t^{1-\gamma}}{1-\gamma}$
+  \item Constant absolute risk aversion: $u(c_1,...,c_T) =
+    \sum_{t=1}^T \beta^t (-e^{-\alpha c_t})$
+  \end{itemize}
+\item Demand function with constant elasticity,  $D:\R^3 \to \R^2$
+  \[ D(p_1,p_2,y) = \begin{pmatrix} M p_1^{\alpha_{11}}
+    p_2^{\alpha_{12}} y^{\beta_1} \\
+    M p_1^{\alpha_{21}} p_2^{\alpha_{22}} y^{\beta_2}
+  \end{pmatrix}
+  \]  
+  where $p_1$ and $p_2$ are the prices of two goods and $y$ is income.
+\end{enumerate}
+I do not expect you to remember the names of these functions, but it
+is very likely that you will repeatedly encounter them this year. 
+\end{example}
+
+A continuous function is a function without any jumps or
+holes. Formally,
+\begin{definition}
+  A function $f:X \to Y$ where $X$ and $Y$ are metric spaces is
+  \textbf{continuous} at $x$ if whenever $\seq{x}$ converges to $x$ in
+  $X$, then $f(x_n) \to f(x)$ in $Y$.  
+\end{definition}
+We simply say that $f$ is continuous if it is continuous at every $x
+\in X$.  There are some equivalent definitions of continuity that are
+also useful. You may have seen continuity defined as the result of the
+following lemma.
+\begin{lemma}\label{lem:ced}
+  $f: X \to Y$ is continuous at $x$ if and only if for every
+  $\epsilon>0$ $\exists$ $\delta >0$ such that $d(x,x') < \delta $
+  implies $d(f(x),f(x')) < \epsilon$.
+\end{lemma}
+\begin{proof}
+  Suppose $f$ is continuous and there is an $\epsilon>0$ such that
+  such that for any $\delta>0$, $d(x,x') < \delta$ does not imply
+  $d(f(x),f(x'))< \epsilon$. Then by letting $\delta = 1/n$ we can
+  construct a convergent sequence by choosing $x_n$ such that
+  $d(x,x_n) < 1/n$ and $d(f(x),f(x_n)) \geq \epsilon$. $x_n \to x$,
+  but $f(x_n) \not\to f(x)$. Therefore, if $f$ is continuous it must
+  be impossible to construct such a sequence. This means that there
+  must be some $\delta>0$ such that $d(x,x') < \delta$ implies
+  $d(f(x),f(x')) < \epsilon$.
+
+  Now suppose $\forall \epsilon>0$ $\exists \delta>0$ such that
+  $d(x,x')<\delta$ implies $d(f(x),f(x')) <\epsilon$. Let $x_n \to
+  x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
+  this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
+\end{proof}
+A third way of defining continuity is in terms of open sets. First,
+another definition.
+\begin{definition}
+  Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
+  set in $X$, $f^{-1}(V)$ defined by
+  \[ f^{-1} (V) = \{ x \in X: f(x) \in V \} \]
+\end{definition}
+A function is continuous if and only if the preimage of any open set
+is open. 
+\begin{lemma}\label{lem:copen}
+  $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
+  open $V \subseteq Y$. 
+\end{lemma}
+\begin{proof}
+  %On problem set.
+  Suppose for all open $V \subseteq Y$ that $f^{-1}(V)$ is also
+  open. We want to show that then $f$ is continuous. To do that, let
+  $x_n \to x$ and let $\epsilon>0$. $N_\epsilon(f(x))$ is open, so by
+  assumption, $f^{-1}(N_{\epsilon}(f(x)))$ is also open. By the
+  definition of open sets, $\exists$ $\delta > 0$ such that
+  $N_{\delta}(x) \subseteq f^{-1}(N_{\epsilon}(f(x)))$. By the
+  definition of $x_n \to x$, $\exists N$ such that if $n \geq N$, $x_n
+  \in N_{\delta}(x)$. Then $x_n \in f^{-1}(N_{\epsilon}(f(x)))$, so
+  $f(x_n) \in N_{\epsilon}(f(x))$, i.e.
+  \[ d\left(f(x_n),f(x) \right) < \epsilon. \]
+  Therefore, $f(x_n) \to f(x)$. 
+
+  Conversely, suppose $f$ is continuous. Let $V \subseteq Y$ be
+  open. We want to show that $f^{-1}(V)$ is also open. Suppose it is
+  not open. Then $\exists x \in f^{-1}(V)$ such that for any $\epsilon
+  > 0$, $\exists \tilde{x}_{\epsilon} \not\in f^{-1}(V)$ with 
+  \[ d(x,\tilde{x}_{\epsilon}) < \epsilon. \]
+  Pick a sequence of $\epsilon_n$ that converges to zero, such as
+  $\epsilon_n = 1/n$. Then the associated $\tilde{x}_n \to
+  x$. However, since each $\tilde{x}_n \not\in f^{-1}(V)$,
+  $f(\tilde{x}_n) \in V^c$. But then having $f(\tilde{x}_n) \to f(x)$
+  would mean that $V^c$ is not closed, which contradict $V$ being
+  open. Thus, $f^{-1}(V)$ must be open when $f$ is continuous.
+\end{proof}
+Since the a set is open if and only its complement is closed, we can
+also define continuity using closed sets.
+\begin{corollary}
+  $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is closed for all
+  closed $V \subseteq Y$. 
+\end{corollary}
+\begin{proof}
+  Let $V \subseteq Y$ be closed. Then $V^c$ is open. Also, note that
+  the complement of the preimage of $V$ is the preimage of $V^c$. In
+  symbols,
+  \begin{align*}
+    f^{-1}(V)^c = \{x \in X: f(x) \not\in V \} = \{x \in X: f(x) \in V^c
+    \} = f^{-1}(V^c).
+  \end{align*}
+  From lemma \ref{lem:copen}, $f$ is continuous iff $f^{-1}(V^c) =
+  f^{-1}(V)^c$ is open for all open sets $V^c$, which is true iff
+  $f^{-1}(V)$ is closed for all closed sets $V$.
+\end{proof}
+
+Earlier we saw that convergence of sequences is preserved by
+arithmetic. Since continuity can be defined using sequences, it should
+be no surprise that continuity is also preserved by arithmetic.
+\begin{theorem}
+  Let $f:X \to Y$ and $g:X \to Y$ be continuous and $X$ and $Y$ be
+  vector spaces. Then $(f+g)(x) = f(x) + g(x)$ is continuous.
+\end{theorem}
+\begin{proof}
+  If $f$ and $g$ are continuous, then by definition $f(x_n) \to f(x)$
+  and $g(x_n) \to g(x)$ whenever $x_n \to x$. From the previous
+  lecture the limit of a (finite) sum is the sum of limits, so 
+  $f(x_n) + g(x_n) \to f(x) + g(x)$, and $f+g$ is continuous.
+\end{proof}
+Similar results can be shown for subtraction, multiplication, etc,
+whenever they are well defined. 
+
+Continuity is also preserved by composition.
+\begin{theorem}
+  Let $f:X \to Y$ and $g:Y \to Z$ be continuous where $X$, $Y$, and
+  $Z$ are metric spaces. Then $f \circ g$ is continuous, where
+  \[ (f \circ g)(x) = f(g(x)). \]
+\end{theorem}  
+\begin{proof}
+  Let $x_n \to x$. $g$ is continuous, so $g(x_n) \to g(x)$. $f$ is
+  also continuous, so $f(g(x_n)) \to f(g(x))$.
+\end{proof}
+$f\circ g$ is called the composition of $f$ and $g$.
+
+\subsection{Onto, one-to-one, and inverses}
+We have already used the concepts of onto, one-to-one, and inverses.
+We restates the definitions here for completeness.
+\begin{definition}
+  $f:X \to Y$ is \textbf{one-to-one} or \textbf{injective} if for all
+  $x_1, x_2 \in X$, 
+  \[ f(x_1) = f(x_2) \]
+  if and only if $x_1 = x_2$.
+\end{definition}
+Equivalently, $f$ is injective if for each $y \in Y$, the set $\{x:
+f(x) = y\}$ is either a singleton or empty.  In terms of a nonlinear
+equation, if $f$ is one-to-one, then $f(x) = b$ has at most one
+solution. 
+\begin{definition}
+  $f:X \to Y$ is \textbf{onto} or \textbf{surjective} if $\forall y
+  \in Y$, $\exists x \in X$ such that $f(x) = y$.
+\end{definition}
+In terms of a nonlinear equation, if $f$ is onto, then $f(x) = b$ has
+at least one solution. When $f$ is one-to-one and onto, we say that
+$f$ is \textbf{bijective}. A bijective function has an inverse.
+\begin{definition}
+  If $f:X \to Y$ is bijective, then the \textbf{inverse} of $f$,
+  written $f^{-1}$ satisfies
+  \[ f(f^{-1} (y)) = y  \]
+  and 
+  \[ f^{-1} ( f(x) ) = x. \]
+\end{definition}
+
+\begin{remark}
+  While writing these notes, I briefly tried to prove that if $f:X \to
+  Y$ is bijective and continuous, then $f^{-1}$ is continuous. I could
+  not do this, which is good, because that statement is false. You have
+  to be a little creative in defining $X$ and $Y$ to come up with a
+  counterexample. Let $X = [0,2\pi)$ and $Y = \{(x,y) \in \R^2: x^2 +
+  y^2 = 1 \}$. Then $f(x) = (cos(x), sin(x))$ is bijective and
+  continuous, but $f^{-1}$ is not continuous at $(1,0)$. 
+  
+  This counterexample is actually related to a fundamental fact in
+  topology. You may remember from last lecture that topology is about
+  studying spaces with open and closed sets that do not necessarily
+  have a metric. One thing that people are interested when studying
+  such spaces is finding a continuous (in both directions) bijections
+  between them. Loosely speaking, two topological spaces will have a
+  continuous bijection between them if one can be bent and stretched
+  from one into the form of another. You cannot bend a circle into an
+  interval without breaking the circle, so there is no continuous
+  bijection between the circle and an interval. When there is a
+  continuous bijection between two spaces, they have the same
+  collection of open sets, so to a topologist, they are the same. We
+  then call the spaces homeomorphic (or topologically
+  isomorphic). Loosely speaking, spaces will be homeomorphic if they
+  are the same dimension and their shapes have the same number of
+  holes.  The circle has one hole, an interval has none, so they are
+  not topologically isomorphic. I'd be remiss not to make a joke now,
+  so here goes: Why did the topologist eat her/his coffee mug and
+  drink from his/her donut?  Because they're topologically
+  isomorphic. Hahaha.
+\end{remark}
+
+We begin the course by studying how to solve optimization
+problems. However, we did not worry too much about conditions that
+ensure an optimum exists. One fundamental result that ensures the
+existence of optima is Weierstrass's theorem.
+\begin{theorem}[Weierstrass]
+  Let $f:\R^n \to \R$ be continuous and $K \subset \R^n$ be
+  compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
+  \forall x \in K$. 
+\end{theorem}
+\begin{proof}
+  On review problems for final.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Correspondences \label{sec:corr}} 
+
+\footnote{This section is largely based on section 2.1.5 of
+  \cite{carter2001}.}A function, $f:X \to Y$ associates exactly one
+element of $Y$, $f(x)$, with each $x \in X$. Often we encounter things
+that are like functions, but for each $x \in X$, there are multiple
+elements of $Y$. We call this generalization of a function as
+correspondence.
+\begin{definition}
+  A \textbf{correspondence} from a set $X$ to a set $Y$, is a rule
+  that assigns to each a $x \in X$ a subset of $Y$. We denote a
+  correspondence by $\phi: X \corres Y$.
+\end{definition}
+An equivalent definition is that $\phi: X \corres Y$ is a function
+from $X$ to the power set of $Y$. Correspondences appear often in
+economics, especially as constraint sets in optimization problems.
+\begin{example}[Budget correspondence]
+  Suppose there are $n$ goods with prices $p \in \R^n$. Then given
+  income of $m$, a consumer can afford $\chi(p,m)=\{ x \in X \subseteq
+  \R^n: p'x \leq m\}$, which defines a correspondence $\chi: \R^{n+1}
+  \corres X$. We can write the consumer's problem of maximizing
+  utility subject to the budget constraint as
+  \begin{align*}
+    \max_{x \in \chi(p,m)} u(x) 
+  \end{align*}
+  If this problem has a solution, then the indirect utility function
+  is the maximized utility,
+  \[ v(p,m) = \max_{x \in \chi(p,m)} u(x). \]
+  The demand correspondence (usually function) is
+  \[ x^*(p,m) = \argmax_{x \in \chi(p,m)} u(x). \] 
+  Such maximization problems are central to economics. To derive
+  properties of the indirect utility and demand functions it is often
+  useful to treat the budge set as a correspondence.
+\end{example}
+Correspondences also appear in economics in any model where we
+multiple equilibria, such as many games. 
+
+Defining continuity is a bit more complicated for correspondences than
+for functions. A function can either be continuous or it can jump. A
+correspondence can also expand or contract. For example, consider
+$\xi:\R \corres \R$ defined by 
+\[ \xi(x) = \begin{cases} 
+  [0,1] & \text{ if } x > 0 \\
+  [1/4,3/4] & \text{ if } x \leq 0 
+\end{cases} \]
+and $\psi: \R \corres \R$ defined by
+\[ \psi(x) = \begin{cases} 
+  [0,1] & \text{ if } x \geq 0 \\
+  [1/4,3/4] & \text{ if } x < 0 
+\end{cases} \]
+Both these correspondences are somewhat continuous because they
+contain a continuous function, e.g. $f(x) = 1/2$,  for all
+$x$. However, they are also somewhat discontinuous because the
+corresponding set changes suddenly at $0$. Motivated by this
+observation we define the following:
+\begin{definition}
+  A correspondence, $\phi: X \corres Y$ is \textbf{upper
+    hemicontinuous} at $x$ if for all sequences $x_n \to x$ and $y_n
+  \in \phi(x_n)$ with $y_n \to y$, then $y \in \phi(x)$.
+\end{definition}
+In the previous example, $\psi$ is upper hemicontinuous at $0$, but
+$\xi$ is not. To see this consider $x_n = 1/n$ and $y_n = 1$.
+\begin{definition}
+  A correspondence, $\phi: X \corres Y$ is \textbf{lower
+    hemicontinuous} at $x$ if for all sequences $x_n \to x$ and $y \in
+  \phi(x)$, there exists a subsequence, $x_{nk}$ and $y_k \in
+  \phi(x_{nk})$ with $y_k \to y$.
+\end{definition}
+In the previous example, $\xi$ is lower hemicontinuous at $0$, but
+$\psi$ is not. To see this consider $x_n = -1/n$ and $y = 1$. 
+\begin{definition}
+  We say that a correspondence is \textbf{continuous} if it is both
+  upper and lower hemicontinuous.
+\end{definition}
+At all $x \neq 0$, $\xi$ and $\psi$ are continuous.
+
+\bibliographystyle{jpe}
+\bibliography{../526}
+
+\end{document}
