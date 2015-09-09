@@ -9,9 +9,10 @@
 
 Today's lecture is about optimization. Useful references are chapters
 1-5 of \cite{dixit1990}, chapters 16-19 of \cite{sb1994}, and chapter
-5 of \cite{carter2001}. We typically model economic
-agents as optimizing some objective function. Consumers maximize
-utility. 
+5 of \cite{carter2001}. 
+
+We typically model economic agents as optimizing some objective
+function. Consumers maximize utility.
 \begin{example}
   A consumer with income $y$ chooses a bundle of goods $x_1, ...,
   x_n$ with prices $p_1, ..., p_n$ to maximize utility
@@ -53,7 +54,7 @@ common optimization problems are utility maximization and profit
 maximization. Because of this, we will state most of our definitions
 and results for maximization problems. Of course, we could just as
 well state each definition and result for a minimization problem by
-reversing the sign of most inequalities.
+reversing the direction of most inequalities.
 
 We will start by examining generic unconstrained optimization problems
 of the form
@@ -112,7 +113,7 @@ later as the global maximum.
   summer math review for reference.}Suppose we want to maximize
 $f(x)$. If we are at $x$ and travel some small distance $\Delta$ in
 direction $v$, then we can approximate how much $f$ will change by
-it's directional derivative, i.e.\
+its directional derivative, i.e.\
 \[ f(x + \Delta v) \approx f(x) + df(x;v) \Delta. \]
 If there is some direction $v$ with $df(x;v) \neq 0$, then we could
 take that $\Delta v$ or $-\Delta v$ step and reach a higher function
@@ -167,7 +168,7 @@ We can see that $x^*$ is a local maximum if
 \[ \frac{1}{2} v^T D^2 f_{x^*} v \leq 0 \] for all $h$. The above
 inequality will be true if $v^T D^2 f_{x^*} v \leq 0$ for all $v$. The
 Hessian, $D^2 f_{x^*}$ is just some symmetric $n$ by $n$ matrix, and
-$v^T D^2 F_{x^*} v$ is a quadratic form in $h$. This motivates the
+$v^T D^2 F_{x^*} v$ is a quadratic form in $v$. This motivates the
 following definition.
 \begin{definition}
   Let $A$ be a symmetric matrix, then $A$ is
@@ -191,11 +192,11 @@ discussion.
   Let $F: \R^n \to \R$ be twice continuously differentiable and
   let $x^*$ be a critical point. If
   \begin{enumerate}
-  \item\label{c:smax} The Hessian, $D^2 F_{x^*}$ is negative definite,
+  \item\label{c:smax} The Hessian, $D^2 F_{x^*}$, is negative definite,
     then $x^*$ is a strict local maximizer.  
-  \item The Hessian, $D^2 F_{x^*}$ is positive definite, then $x^*$ is
+  \item The Hessian, $D^2 F_{x^*}$, is positive definite, then $x^*$ is
     a strict local minimizer. 
-  \item The Hessian, $D^2 F_{x^*}$ is indefinite, $x^*$ is neither a
+  \item The Hessian, $D^2 F_{x^*}$, is indefinite, $x^*$ is neither a
     local min nor a local max.
   \item\label{c:ambig} The Hessian is positive or negative
     semi-definite, then $x^*$ could be a local maximum, minimum, or
@@ -323,15 +324,16 @@ consumer in an economy with two goods.
   In economics 101, you probably analyzed this problem graphically by
   drawing indifference curves and the budget set, as in figure
   \ref{fig:indiff}. In this figure, the curved lines are indifference
-  curves. That is, they are regions where utility is constant. So going
-  outward from the axis they show all $(x_1,x_2)$ such that $u(x_1, x_2)
-  = c_1$, $u(x_1, x_2) = c_2$, $u(x_1, x_2) = c_3$, and $u(x_1, x_2) =
-  c_4$ with $c_1 < c_2 < c_3 < c_4$. The diagonal line is the budget set
-  all points below this line satisfy the constraint $p_1 x_1 + p_2 x_2
-  \leq y$. The optimal $x_1, x_2$ is the point $x^*$ where an
-  indifference curve is tangent to the budget line. The slope of the
-  budget line is $-\frac{p_1}{p_2}$. The slope of the indifference curve
-  can be found by implicitly differentiating,
+  curves. That is, they are regions where utility is constant. So
+  going outward from the axis they show all $(x_1,x_2)$ such that
+  $u(x_1, x_2) = c_1$, $u(x_1, x_2) = c_2$, $u(x_1, x_2) = c_3$, and
+  $u(x_1, x_2) = c_4$ with $c_1 < c_2 < c_3 < c_4$. The diagonal line
+  is the budget constraint. All points below this line satisfy the
+  constraint $p_1 x_1 + p_2 x_2 \leq y$. The optimal $x_1, x_2$ is the
+  point $x^*$ where an indifference curve is tangent to the budget
+  line. The slope of the budget line is $-\frac{p_1}{p_2}$. The slope
+  of the indifference curve can be found by implicitly
+  differentiating,
   \begin{align*}
     \frac{\partial u}{\partial x_1}(x^*) dx_1 + \frac{\partial
       u}{\partial x_2}(x^*) dx_2 = & 0 \\
@@ -424,6 +426,19 @@ or in matrix notation $Df_x = \mu^T Dh_x$. This is indeed true. It is
 tedious to show using algebra, but will be easy to show later using
 some results from linear algebra about the row, column, and null
 spaces of matrices. 
+
+A heuristic geometric argument supporting the previous claims is as
+follows. Imagine the level sets or contour lines of $h(\cdot)$. The
+feasible points that satisfy the constraint lie on the contour line
+with $h(x) = 0$. Similarly imagine the contour lines of $f(\cdot)$. If
+$x^*$ is a constrained maximizer, then as we move alone the contour
+line $h(\cdot) = 0$, we must stay on the same contour line (or set if
+$f$ is flat) of $f$. In other words, the contour lines of $h$ and $f$
+must be parallel at $x^*$. Gradients give the direction of steepest
+ascent and are perpendicular to contour lines. Therefore, if the
+gradients of $h$ and $f$ are parallel, then so are the contour
+lines. Gradients being parallel just means that they should be
+multiples of one another, i.e.  $Df_x = \mu^T Dh_x$ for some $\mu^T$. 
 
 The following theorem formally states the preceding result.
 \begin{theorem}[First order condition for maximization with equality
@@ -532,11 +547,11 @@ $\mu_j$ is called the shadow price of $c_j$.
 \subsection{Inequality constraints}
 
 Now let's consider an inequality instead of equality constraint. 
-\[ \max_{x} f(x) \text{ s.t. } g(x) \leq b. \] 
-When the constraints binds, i.e.\ $g(x^*) = b$, the situation is exactly the
-same as with an equality constraint. However, the constraints do not
-necessarily bind at a local maximum, so we must allow for that
-possibility.  
+\[ \max_{x} f(x) \text{ s.t. } g(x) \leq b. \]
+When the constraints binds, i.e.\ $g(x^*) = b$, the situation is
+exactly the same as with an equality constraint. However, the
+constraints do not necessarily bind at a local maximum, so we must
+allow for that possibility.
 
 Suppose $x^*$ is a constrained local maximum. To begin with, let's
 consider a simplified case where there is only one constraint,
@@ -555,8 +570,8 @@ multiplier $\lambda$ matters here.
 To summarize the results of the previous paragraph. If $x^*$ is a
 constrained local maximum, then there exists $\lambda \geq 0$ such
 that $Df_{x^*} - \lambda Dg_{x^*} = 0$. Furthermore if $\lambda > 0$, then
-$g(x^*) = b$. If $g(x^*) < b$, then $\lambda = 0$ (it is also, but
-rare possible for both $\lambda = 0$ and $g(x^*) = b$). This situation
+$g(x^*) = b$. If $g(x^*) < b$, then $\lambda = 0$ (it is also possible, but
+rare for both $\lambda = 0$ and $g(x^*) = b$). This situation
 where if one inequality is strict and then another holds with equality
 and vice versa is called a complementary slackness condition. 
 
@@ -609,16 +624,15 @@ you end up with multipliers with the ``wrong'' sign. You will still
 end up with the same solution for $x$. The sign of the multiplier does
 matter for whether it is the shadow price of $b$ or $-b$. 
 
-To solve the first conditions of an inequality constrained
-maximization problem, you would first guess which constraints do and
-do not bind. Then you would impose $\lambda_j = 0$ for the non-binding
-constraints and solve for $x$ and the remaining components
-$\lambda$. If the resulting $x$ do lead to the constraints not binding
-that you guessed not binding, then that $x$ is a possible local
-maximum. To find all possible local maxima, you would have to repeat
-this for all possible combinations of constraints binding or
-not. There $2^m$ such possibilities, so this process can be
-tedious. 
+To solve the first order conditions of an inequality constrained
+maximization problem, you would first determine or guess which
+constraints do and do not bind. Then you would impose $\lambda_j = 0$
+for the non-binding constraints and solve for $x$ and the remaining
+components $\lambda$. If the resulting $x$ do lead to the constraints
+not binding that you guessed not binding, then that $x$ is a possible
+local maximum. To find all possible local maxima, you would have to
+repeat this for all possible combinations of constraints binding or
+not. There $2^m$ such possibilities, so this process can be tedious.
 \begin{example}
   Let's solve
   \begin{align*}
@@ -727,7 +741,7 @@ $2^m$ possibilities.
   \[ \max_x f(x) \text{ s..t } g(x) \leq b. \]
   with an equality constrained problem with slack variables $s$, 
   \[ \max_{x,s} f(x) \text{ s..t } g(x) - s = b, \]
-  leads to the same conclusions are theorem \ref{thm:icon}
+  leads to the same conclusions as theorem \ref{thm:icon}
 \end{exercise}
 
 
@@ -744,12 +758,11 @@ case, we can take a second order expansion of $f(x)$ around $x^*$.
   v \\
   \approx &  \frac{1}{2} v^T D^2 f_{x^*} v \\
 \end{align*}
-This is constrained problem, so any $x^* + v$ must satisfy the
-constraints as well. As before, what will really
-matter are the equality constraints and binding inequality
-constraints. To simplify notation, let's just work with equality
-constraints, say $h(x)=c$. We can take a first order expansion of $h$
-around $x^*$ to get
+This is a constrained problem, so any $x^* + v$ must satisfy the
+constraints as well. As before, what will really matter are the
+equality constraints and binding inequality constraints. To simplify
+notation, let's just work with equality constraints, say $h(x)=c$. We
+can take a first order expansion of $h$ around $x^*$ to get
 \[ h(x^* + v) \approx h(x^*) + Dh_{x*} v  = c. \]
 Then $v$ satisfies the constraints if
 \begin{align*}
@@ -836,7 +849,7 @@ demand functions).
 
 The envelope theorem tells us about the derivatives of the maximum
 value function. Suppose we have an objective function that depends on
-some parameters $\theta$. Define the maximum value function as
+some parameters $\theta$. Define the value function as
 \[ v(\theta) = \max_x f(x,\theta) \text{ s.t. } h(x) = c. \]
 Let $x^*(\theta)$ denote the maximizer as function of $\theta$, i.e. 
 \[ x^*(\theta) = \argmax_x f(x,\theta) \text{ s.t. } h(x) = c. \]
