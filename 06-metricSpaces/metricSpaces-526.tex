@@ -8,6 +8,16 @@
 
 \maketitle
 
+\begin{quotation}
+  Always consider a problem under the minimum structure in which it
+  makes sense. ... one is naturally led to the study of problems with
+  a kind of minimal and intrinsic structure. Besides the fact that it
+  is much easier to find the crux of the matter in a simple structure
+  than in a complicated one, there are not so many really basic
+  structures, so one can hope that they will remain of interest for a
+  very long time. --- \cite{talagrand2005}
+\end{quotation}
+
 This lecture focuses on metric spaces, topology, and continuity.
 Similar material is covered in chapters 12 and 29, of \cite{sb1994}, or
 1.3 of \cite{carter2001}.
@@ -219,19 +229,17 @@ reaching a fixed limit.
   $d(x_i,x_j) < \epsilon$.
 \end{definition}
 It turns that in $\R^n$ Cauchy sequences and convergent sequences are
-the same. This is a consequence of $\R$ having the least upper bound
-property. 
-\begin{theorem}
-  A sequence in $\R^n$ converges if and only if it is a Cauchy
-  sequence. 
-\end{theorem}
-There is a proof of this in Chapter 29.1 of Simon and Blume. If you
-want more practice with the sort of proofs in this lecture, it would
-be good to read that section. The convergence of Cauchy sequences in
-the real numbers is a consequence of the least upper bound property
-that is discussed in the appendix to the lecture notes on sets.
-Essentially, the definition of the real numbers requires them to be
-complete.
+the same. This is a consequence of the way the real numbers are
+defined.  
+\begin{assumption}
+  Every Cauchy sequence in $\R$ converges.
+\end{assumption}
+There is a more detailed discussion of this in Chapter 29.1 of Simon
+and Blume. If you want more practice with the sort of proofs in this
+lecture, it would be good to read that section. The convergence of
+Cauchy sequences in the real numbers is equivalent to the least upper
+bound property that is discussed in the appendix to the lecture notes
+on sets.
 
 Cauchy sequences do not converge in all metric spaces. For example,
 the rational numbers are a metric space, and any sequence of rationals
@@ -247,11 +255,24 @@ Completeness is important for so many results that complete version of
 vector spaces are named after the mathematicians who first studied
 them extensively. A \textbf{Banach space} is a complete normed vector
 space. A \textbf{Hilbert space} is a complete inner product
-space. Since any inner product space is a normed vector space with
+space.\footnote{According to legend, the term Hilbert space became
+  widely used without Hilbert himself realizing it. In 1929 von Neumann gave a lecture
+  about some theorem involving Hilbert spaces with David Hilbert in
+  attendance. At the end of the lecture, Hilbert asked, ``Dr. von
+  Neumann, I would very much like to know, what after all is a Hilbert
+  space?'' \cite{krantz2002}.} Since any inner product space is a normed vector space with
 norm $\norm{x} = \sqrt{\iprod{x}{x}}$, any Hilbert space is also a
 Banach space. 
 \begin{example}
-  $\R^n$ is a Hilbert space.
+  $\R^n$ is a Hilbert space. We already discussed how $\R^n$ is an
+  inner product space, so we just to need to show that $\R^n$ is
+  complete. A brief argument follows. You may want to state the
+  details as an exercise. Let $\{\mathbf{x}_i\}$ be a Cauchy sequence
+  in $\R^n$. Each coordinate of $\mathbf{x}_i = (x_{1i}, ... ,
+  x_{ni})$ is a Cauchy sequence in $\R$. $\R$ is complete, so each
+  coordinate has a limit, $x_{ji} \to x_j$ for $j = 1, ...,
+  n$. Finally, show that $\mathbf{x} = (x_1, ..., x_n)$ is the limit
+  of the original sequence in $\R^n$.
 \end{example}
 \begin{example}
   $\ell^p = \{ (x_1, x_2, ...)\, s.t.\, x_i \in \R, \sum_{i=1}^\infty |x_i|^p <
@@ -414,7 +435,7 @@ open.
 
 \section{Closed sets}
 
-A closed set is the opposite of an open set. 
+A closed set is like the opposite of an open set. 
 \begin{definition}
   A set $S \subseteq X$ is closed if its complement, $X^c$, is open. 
 \end{definition}
@@ -523,8 +544,24 @@ to ours.
   $S$. The same applies to $S^c$. 
 \end{proof}
 
+Exercise \ref{ex:openConvergence} and theorem \ref{thm:clim} show that
+there is an important relationship between convergence of sequences
+and open and closed sets. Given a definition of what it means for a
+sequence to converge, we could use theorem \ref{thm:clim} to define
+closed sets. Open sets are then defined as the complement of closed
+sets. Conversely, if we specify which sets are open and closed, we can
+then define convergence of sequences as in exercise
+\ref{ex:openConvergence}. Metrics, convergence of sequences, and open and
+closed sets are three different ways of describing the continuity
+properties of a set. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compact sets}
+
+Compact sets are a generalization of finite sets. Compact sets are
+essential for proving many important theorems. Compact sets have a
+somewhat difficult to understand definition, but they are incredibly
+useful.
 
 \begin{definition}
   An \textbf{open cover} of a set $S$ is a collection of open sets,
@@ -640,11 +677,11 @@ property if for all finite subsets, $F \subseteq \mathcal{A}$, the
 intersection, $\cap_{\alpha \in F} C_\alpha$ is not empty.
 \begin{lemma}
   Let $X$ be a metric space and $K \subseteq X$. $K$ is compact if and
-  only if for every collection of closed subsets, $\{C_\alpha\}_\{\alpha
-  \in \mathcal{B}$ with $C_\alpha \subseteq K$, with the finite
+  only if for every collection of closed subsets, $\{C_\alpha\}_{\alpha
+  \in \mathcal{B}}$ with $C_\alpha \subseteq K$, with the finite
   intersection property, the intersection of all the subsets is not
   empty i.e. 
-  $\cap_{\alpha \in \mathcal{A}} C_\alpha$ is not empty.
+  $\cap_{\alpha \in \mathcal{B}} C_\alpha$ is not empty.
 \end{lemma}
 \begin{proof}
   Left as an exercise. The statement in the lemma is basically the
@@ -884,13 +921,16 @@ it unless you are especially interested.
   often in economics, so we will not be studying them.
 \end{remark}
 
-To review, in $\R^n$ a set is compact if any of the following three
+To review, in $\R^n$ a set is compact if any of the following four
 things hold:
 \begin{enumerate}
 \item For every open cover there exists a finite subcover,
+\item Every collection of closed sets with the finite intersection
+  property has a non-empty intersection
 \item Every sequence in the set has a convergent subsequence, or
 \item The set is closed and bounded.
 \end{enumerate}
+The first two are always equivalent. 
 In infinite dimensional spaces, closed and bounded sets need not be
 compact, but compact sets are always closed and bounded. In any metric
 space, a set is compact iff it is sequentially compact.
