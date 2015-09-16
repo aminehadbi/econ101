@@ -110,18 +110,7 @@ continuum of types also lead to infinite choice variables.
   type chooses a contract designed for it---is called the revelation
   principle because the choice of contract makes the consumers reveal
   their types. 
-  
-  Note that this setup does not just apply to price discriminating
-  monopolists. There are many other applications. For example, if you
-  consider a government that needs to raise a certain amount of
-  revenue by taxing workers with heterogeneous productivity, then you
-  end up with essentially the same problem. $\theta$ would be worker
-  productivity. $q(\theta)$ is the labor supplied by type $\theta$,
-  $\theta \nu(q(\theta))$ is the output of type $\theta$, and
-  $T(\theta)$ is the tax. The government maximizes total output
-  subject to a revenue constraint and the constraints above.  
 \end{example}
-
 \begin{example}[Optimal income taxation \citet{mirrlees1971}]
   There are a continuum of workers with productivity $w \in [w_l,w_h]$
   with density $f$. Workers' wages equal their productivity. If a
@@ -135,7 +124,7 @@ continuum of types also lead to infinite choice variables.
   not observe $w$. Using the revelation principle as in the previous
   example, we can write the government's problem as
   \begin{align*}
-    \max_{\ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w),\ell(w))
+    \max_{\ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w\ell(w)),\ell(w))
     \right) f(w) dw \\
     & \text{ s.t. } \\
     & \int_{w_l}^{w_h} t(w) f(w) dw \geq g \\
@@ -265,8 +254,8 @@ continuous time Lagrangian. Recall that our problem is:
   & y(0) = y_0.
 \end{align*}
 The Lagrangian is the objective function minus the sum of the
-multiplies times the constraints. Here, we have a continuum of
-constraints on $dy/dt$, so instead of a sum we must use an
+multipliers times the constraints. Here, we have a continuum of
+constraints on $dy/dt$, so instead of a sum we should use an
 integral. The Lagrangian is then 
 \begin{align*}
   L(x,y,\lambda,\mu_0) = \int_0^T F(x(t),y(t),t) dt - \int_0^T
@@ -638,31 +627,31 @@ $u$, then the optimal $c(t) > 0$ for all $t$ and $\mu_0(t) =
 gives
 \[ \delta e^{-\delta t} u'(c) + e^{-\delta t} u''(c) \frac{dc}{dt}  = - \frac{d\lambda}{dt}. \]
 Substituting into $[k]$ and rearranging gives
-\[ \frac{dc}{dt} =  -\frac{u'(c)}{u''(c)} \left(f'(k(t)) - \phi - \delta
-\right) \]
+\[ \frac{dc}{dt} = -\frac{u'(c)}{u''(c)} \left(f'(k(t)) - \phi -
+  \delta \right) \]
 This equation along with the constraint on $k$ give us a pair of
 differential equations expressing $dc/dt$ and $dk/dt$ as functions of
 $c$ and $k$. We can plot $dc/dt$ and $dk/dt$ as functions of $c$ and
 $k$ in a phase diagram as shown in figure \ref{fig:phase}. First, we
 can plot the line where $dk/dt = 0$. This is just $c = f(k) - \phi
-k$. Above this red line, $dk/dt< 0$, and below $dk/dt>0$.  Then, we can
-also plot the line where $dc/dt = 0$ in blue. This is just were
-$k=k^*$ where $f'(k^*) = \phi + \delta$. Usually we assume $f$ is
-concave, so then to the left of this line, $dc/dt>0$ and to the right
-$dc/dt<0$.  
+k$.
+Above this red line, $dk/dt< 0$, and below $dk/dt>0$.  Then, we can
+also plot the line where $dc/dt = 0$ in blue. This is just where
+$f'(k^*) = \phi + \delta$. Usually we assume $f$ is concave, so then
+to the left of this line, $dc/dt>0$ and to the right $dc/dt<0$.
 
-Given any initial $k(0)$ and $c(0)$ we can use the phase diagram to
-trace out the path of $k$ and $c$. Initial capital, $k(0) = k_0$ is
-fixed. The optimal $c(0)$ will be such that the subsequent path
-converges to the steady-state. The steady-state is where both capital
-and consumption are constant. In the phase diagram, the steady-state
-is the intersection of the blue and red lines. For each possible
-$k_0$, there is a unique $c(0)$ that leads to the stead state. This
-stable path is shown in black in the figure. If $k_0<k^*$, then any
-$c(0)$ above the red cannot be optimal because then capital just
-decreases further. If $c(0)$ is too low, then capital increases, but
-consumption initially increases then decreases and fails to reach the
-steady-state.
+Given any initial $k(0)$ we can use the phase diagram to trace out the
+path of $k$ and $c$. Initial capital, $k(0) = k_0$ is fixed. The
+optimal $c(0)$ will be such that the subsequent path converges to the
+steady-state. The steady-state is where both capital and consumption
+are constant. In the phase diagram, the steady-state is the
+intersection of the blue and red lines. For each possible $k_0$, there
+is a unique $c(0)$ (on the black line in the figure) that leads to the
+stead state. This stable path is shown in black in the figure. If
+$k_0<k^*$, then any $c(0)$ above the red cannot be optimal because
+then capital just decreases further. If $c(0)$ is too low, then
+capital increases, but consumption initially increases then decreases
+and fails to reach the steady-state.
 
 \begin{figure}\caption{Phase diagram \label{fig:phase}}
   \begin{minipage}{\linewidth}
@@ -844,7 +833,7 @@ $n=2$, $z(t) = (x(t),y(t))$, and
 - g(x(t),y(t),t). \]
 \begin{theorem}[Generalized maximum principle]\label{thm:gen}
   Let $z: [0,T] \to \R^n$. Let $\dot{z}: [0,T] \to \R^n$ denote the
-  derivatives $z$.  Consider
+  derivatives of $z$.  Consider
   \begin{align}
     \max_{z} & \int_0^T F(z(t),t) dt \notag \\
     & \text{ s.t.} \notag \\
