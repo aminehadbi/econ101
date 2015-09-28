@@ -331,7 +331,7 @@ interchange integration and differentiation,\footnote{By Leibniz's
   && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
       y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
     \lambda(t)  \right)dt - \int_0^T \frac{dv}{dt}(t)\lambda(t)
-h  dt  - \mu_0v(0)\\
+         dt  - \mu_0v(0)\\
   && = & \int_0^T v(t) \left(\frac{\partial F}{\partial
       y}(x(t),y(t),t) + \frac{\partial g}{\partial y}(x(t),y(t),t)
     \lambda(t)  \right)dt + \int_0^T \frac{d\lambda}{dt}(t)v(t)dt -
@@ -538,7 +538,7 @@ approach (1) or (2), or perhaps use theorem (\ref{thm:gen}).
   \end{align*}
   Let's solve this problem using the maximum principle. This problem
   includes inequality constraints for all $t$, so we should use the
-  form of the maximum derived in section \ref{sec:constraints}. 
+  form of the maximum principle derived in section \ref{sec:constraints}. 
   \begin{align*}
     [x]: && -2cx + \lambda + \mu = & 0 \\
     [y]: && -s = & -\frac{d\lambda}{dt} 
@@ -559,12 +559,12 @@ approach (1) or (2), or perhaps use theorem (\ref{thm:gen}).
     y(T) - y(0) = & \int_0^T \frac{dy}{dt} dt \\
     y_T - 0 = & \int_0^T x(t) dt \\
     = & \int_0^T \frac{st + \lambda(0)}{2c} \\
-    = & \frac{sT^2 + \lambda(0) T}{2c} \\
-    \lambda(0) = & \frac{1}{T} 2c y_T  - sT
+    = & \frac{sT^2 + \lambda(0) T}{4c} \\
+    \lambda(0) = & \frac{1}{T} 4c y_T  - sT
   \end{align*}
   Substituting,
   \[ x(t) = \frac{s}{2c}(t-T) + \frac{y_T}{T}. \] This $x(t)
-  \geq 0$ for all $t$ if $y_T \geq s/2c T^2$.  
+  \geq 0$ for all $t$ if $y_T \geq s/4c T^2$.  
 
   If this inequality does not hold, then since storage is costly, we
   should expect that if production, $x$, is ever $0$, it would be
@@ -573,21 +573,21 @@ approach (1) or (2), or perhaps use theorem (\ref{thm:gen}).
   \begin{align*}
     y_T = & \int_{\bar{t}}^T \frac{st + \lambda(0)}{2c} \\
     y_T = & \frac{s(T^2 - \bar{t}^2) + \lambda(0) (T-\bar{t})}{2c} \\
-    \lambda(0) = & y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t}).
+    \lambda(0) = & y_T \frac{4c}{T-\bar{t}} - s(T+\bar{t}).
   \end{align*}
   Finally, we can use $x(\bar{t}) = 0$ to solve for $\bar{t}$.
   \begin{align*}
-    0 = & s\bar{t} + y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t})
+    0 = & s\bar{t} + y_T \frac{4c}{T-\bar{t}} - s(T+\bar{t})
     \\
-    0 = & s\bar{t}(T-\bar{t}) + y_T 2c - s (T^2 - \bar{t}^2) \\
-    0 = & s \bar{t} T + y_T 2c - s T^2 \\
-    \bar{t} = & T - \frac{y_T 2c}{T s}.
+    0 = & s\bar{t}(T-\bar{t}) + y_T 4c - s (T^2 - \bar{t}^2) \\
+    0 = & s \bar{t} T + y_T 4c - s T^2 \\
+    \bar{t} = & T - \frac{y_T 4c}{T s}.
   \end{align*}
   Thus,
   \begin{align*}
     x(t) = \begin{cases} 
       \frac{s}{2c} (t - T) + \frac{y_T}{T} & \text{ if } t > T -
-      \frac{y_T 2c}{T s} \\
+      \frac{y_T 4c}{T s} \\
       0 & \text{ otherwise }
     \end{cases}
   \end{align*}      
@@ -757,14 +757,14 @@ The first order condition for $q$ is
 \begin{align*}
   0 = & \int_{\theta_l}^{\theta_h} c x(\theta) f_\theta(\theta)
   d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
-  \left( \theta \nu''(q(\theta))q'(\theta) x(\theta) + \theta
-    \nu'(q(\theta)) x'(\theta) \right)d\theta - \\
+  \left[ \theta \nu''(q(\theta))q'(\theta) x(\theta) + \theta
+    \nu'(q(\theta)) x'(\theta) \right]d\theta - \\
   & - \mu_0 \theta_l
   \nu'(q(\theta_l))x'(\theta_l) - \int_{\theta_l}^{\theta_h}
   \lambda(\theta) x'(\theta) d\theta \\
-  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left[ c f_\theta(\theta)
     - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) -
-      \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right)
+      \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right]
   d\theta + \\
   & + \int_{\theta_l}^{\theta_h} 
   \mu'(\theta) \theta \nu'(\theta) x(\theta) d\theta 
@@ -772,15 +772,15 @@ The first order condition for $q$ is
   \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
   & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
   - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta \\
-  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( c f_\theta(\theta)
+  0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left[ c f_\theta(\theta)
     + \mu(\theta) \nu'(q(\theta)) + 
-    \mu'(\theta) \theta \nu'(\theta)\right) d\theta  - \\
+    \mu'(\theta) \theta \nu'(\theta)\right] d\theta  - \\
     & - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
     \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
     & - \mu_0 \theta_l \nu'(q(\theta_l))x'(\theta_l) 
     - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta 
 \end{align*}
-If we assume that the monotonicy constraint does not bind, so
+If we assume that the monotonicity constraint does not bind, so
 $\lambda(\theta) = 0$, we see that
 \begin{align*}
   0 = &c f_\theta(\theta) + \mu(\theta) \nu'(q(\theta)) + \mu'(\theta)
