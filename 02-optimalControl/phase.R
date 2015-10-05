@@ -107,7 +107,7 @@ phase <- ggplot(data=d) +
   xlim(min(k.grid),max(k.grid)) +
   ylim(min(c.grid),max(c.grid)) + theme_minimal()
 pdf("phase.pdf")
-phase
+print(phase)
 dev.off()
 
 
