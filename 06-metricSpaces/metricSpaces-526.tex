@@ -61,7 +61,9 @@ sequence are.
   $\R$ is a metric space with $d(x,y) = |x - y|$. 
 \end{example}
 \begin{example}
-  Any normed vector space is a metric space with $d(x,y) =
+  Any normed vector space\footnote{In the past, we covered vector
+    spaces before metric spaces, so this example made more sense
+    here. Now it can be safely skipped.} is a metric space with $d(x,y) =
   \norm{x-y}$. 
 \end{example}
 The most common metric space that we will encounter will be $\R^n$
@@ -326,7 +328,7 @@ Banach space.
   for all $i \geq j$ and some fixed $j$. Thus, $\norm{\mathbf{x}_i}
   \leq M$ for some constant $M$ and all $i \geq j$. Then, 
   \[
-  s_m^\ast = \lim_{i \to \infty} \sum_{n=1}^m |x_{in}|^p \leq
+  s_m^\ast = \sum_{n=1}^m |x_{n}^\ast|^p = \lim_{i \to \infty} \sum_{n=1}^m |x_{in}|^p \leq
   M^{p} \]
   for all $m$. $s_m^\ast$ is a bounded weakly increasing sequence in
   $\R$, so it must converge.\footnote{Let $\seq{x} \in \R$ and suppose $x_1
@@ -347,7 +349,7 @@ Banach space.
   
   Finally, we should show that $\seq{\mathbf{x}}$ converges to
   $\mathbf{x}^\ast$. Let $\epsilon>0$. 
-  Since the original sequence is Cauchy, there is a $N$ such that if
+  Since the original sequence is Cauchy, there is an $N$ such that if
   $i,j > N$, then
   \begin{align*}
     \sum_{m=1}^M \abs{x_{im} - x_{jm}}^p \leq \norm{\mathbf{x}_i -
@@ -437,7 +439,7 @@ open.
 
 A closed set is like the opposite of an open set. 
 \begin{definition}
-  A set $S \subseteq X$ is closed if its complement, $X^c$, is open. 
+  A set $S \subseteq X$ is closed if its complement, $S^c$, is open. 
 \end{definition}
 \begin{theorem} $\;$\label{thm:uic}
   \begin{enumerate}
@@ -1098,7 +1100,7 @@ $f\circ g$ is called the composition of $f$ and $g$.
 
 \subsection{Onto, one-to-one, and inverses}
 We have already used the concepts of onto, one-to-one, and inverses.
-We restates the definitions here for completeness.
+We restate the definitions here.
 \begin{definition}
   $f:X \to Y$ is \textbf{one-to-one} or \textbf{injective} if for all
   $x_1, x_2 \in X$, 
