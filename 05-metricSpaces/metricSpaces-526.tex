@@ -920,7 +920,19 @@ it unless you are especially interested.
   and compactness are the same regardless of what $p$-norm we use.
   
   Topological spaces that are not metric spaces do not come up very
-  often in economics, so we will not be studying them.
+  often in economics, so we will not be studying them. An example of a
+  non-metrizable topological space is the following. Let
+  $X = \{f: \R \to \R\}$. Define convergence of sequences in this
+  space as $f_n \to f$ if $f_n(x) \to f(x)$ for all $x \in \R$. Let
+  $S \subset X$ be closed if $S$ contains the accumulation points of
+  all sequences in $S$. This definition of closed and open sets is
+  called the topology of pointwise convergence. This space and
+  definition of convergence sounds reasonable (and is reasonable), but
+  there is no metric on this space that leads to the same definition
+  of convergence and closed sets. In an area of econometrics and
+  statistics called empirical process theory, you often have to work
+  with a space with something called the topology of weak convergence,
+  which has a broadly similar definition and is also non-metrizable.
 \end{remark}
 
 To review, in $\R^n$ a set is compact if any of the following four
@@ -949,7 +961,7 @@ simply ``$f$ from $A$ to $B$.'' The set $A$ is called the
 \textbf{domain} of $f$. $B$ is called the \textbf{target} of $f$. The
 set 
 \[ \{y  \in B:  f(x) = y \text{ for some } x \in A \} \]
-is called the \textbf{image} of $f$. 
+is called the \textbf{image} or \textbf{range} of $f$. 
 
 
 \begin{example}$\;$
@@ -987,9 +999,9 @@ holes. Formally,
   \textbf{continuous} at $x$ if whenever $\seq{x}$ converges to $x$ in
   $X$, then $f(x_n) \to f(x)$ in $Y$.  
 \end{definition}
-We simply say that $f$ is continuous if it is continuous at every $x
-\in X$.  There are some equivalent definitions of continuity that are
-also useful. You may have seen continuity defined as the result of the
+We simply say that $f$ is continuous if it is continuous at every
+$x \in X$.  There are some equivalent definitions of continuity that
+are also useful. You may have seen continuity defined as in the
 following lemma.
 \begin{lemma}\label{lem:ced}
   $f: X \to Y$ is continuous at $x$ if and only if for every
@@ -1012,44 +1024,53 @@ following lemma.
   x$. Then $\exists N$ s.t. $n\geq N$ implies $d(x,x_n) < \delta$. But
   this implies $d(f(x),f(x_n)) < \epsilon$, so $f$ is continuous.
 \end{proof}
+Both the definition of continuity and (\ref{lem:ced}) are about $f$
+being continuous at a point $x$. We say that $f$ is continuous on $U
+\subseteq X$ if $f$ is continuous at all $x \in U$.
+
 A third way of defining continuity is in terms of open sets. First,
 another definition.
 \begin{definition}
-  Let $f: X \to Y$. The \textbf{preimage} of $V \subseteq Y$ is the
+  Let $f: X \to Y$. $f$ is continuous The \textbf{preimage} of $V \subseteq Y$ is the
   set in $X$, $f^{-1}(V)$ defined by
   \[ f^{-1} (V) = \{ x \in X: f(x) \in V \} \]
 \end{definition}
 A function is continuous if and only if the preimage of any open set
 is open. 
 \begin{lemma}\label{lem:copen}
-  $f:X \to Y$ is continuous if and only if $f^{-1}(V)$ is open for all
-  open $V \subseteq Y$. 
+  $f:X \to Y$ is continuous at $x$ if and only if for all open $V$
+  with $f(x) \in V$,
+  $\exists$ open $U \subseteq X$ such that $x \in U \subseteq f^{-1}(V)$.
 \end{lemma}
 \begin{proof}
   %On problem set.
-  Suppose for all open $V \subseteq Y$ that $f^{-1}(V)$ is also
-  open. We want to show that then $f$ is continuous. To do that, let
-  $x_n \to x$ and let $\epsilon>0$. $N_\epsilon(f(x))$ is open, so by
-  assumption, $f^{-1}(N_{\epsilon}(f(x)))$ is also open. By the
-  definition of open sets, $\exists$ $\delta > 0$ such that
-  $N_{\delta}(x) \subseteq f^{-1}(N_{\epsilon}(f(x)))$. By the
-  definition of $x_n \to x$, $\exists N$ such that if $n \geq N$, $x_n
-  \in N_{\delta}(x)$. Then $x_n \in f^{-1}(N_{\epsilon}(f(x)))$, so
-  $f(x_n) \in N_{\epsilon}(f(x))$, i.e.
+  Suppose for all open $V \subseteq Y$ that $\exists$ open $U$ such
+  that $x \in U \subseteq f^{-1}(V)$. We want to show that then $f$ is
+  continuous on $U$. To do that, let $x_n \to x$ and let
+  $\epsilon>0$. $N_\epsilon(f(x))$ is open, so by assumption,
+  $\exists$ open $U$ such that
+  $x \in U \subseteq f^{-1}(N_{\epsilon}(f(x)))$. By the definition of
+  open sets, $\exists$ $\delta > 0$ such that
+  $N_{\delta}(x) \subseteq U \subseteq f^{-1}(N_{\epsilon}(f(x)))$. By
+  the definition of $x_n \to x$, $\exists N$ such that if $n \geq N$,
+  $x_n \in N_{\delta}(x)$. Then $x_n \in f^{-1}(N_{\epsilon}(f(x)))$,
+  so $f(x_n) \in N_{\epsilon}(f(x))$, i.e.
   \[ d\left(f(x_n),f(x) \right) < \epsilon. \]
   Therefore, $f(x_n) \to f(x)$. 
 
   Conversely, suppose $f$ is continuous. Let $V \subseteq Y$ be
-  open. We want to show that $f^{-1}(V)$ is also open. Suppose it is
-  not open. Then $\exists x \in f^{-1}(V)$ such that for any $\epsilon
-  > 0$, $\exists \tilde{x}_{\epsilon} \not\in f^{-1}(V)$ with 
+  open. We want to show that $\exists$ open $U$ such that
+  $x \in U \subseteq f^{-1}(V)$. Suppose there is no such $U$. Then
+  for any $\epsilon > 0$,
+  $\exists \tilde{x}_{\epsilon} \not\in f^{-1}(V)$ with
   \[ d(x,\tilde{x}_{\epsilon}) < \epsilon. \]
   Pick a sequence of $\epsilon_n$ that converges to zero, such as
   $\epsilon_n = 1/n$. Then the associated $\tilde{x}_n \to
   x$. However, since each $\tilde{x}_n \not\in f^{-1}(V)$,
   $f(\tilde{x}_n) \in V^c$. But then having $f(\tilde{x}_n) \to f(x)$
   would mean that $V^c$ is not closed, which contradict $V$ being
-  open. Thus, $f^{-1}(V)$ must be open when $f$ is continuous.
+  open. Thus, there must exist an open $U$ such that $x \in U
+  \subseteq f^{-1}(V)$  when $f$ is continuous.
 \end{proof}
 Since the a set is open if and only its complement is closed, we can
 also define continuity using closed sets.

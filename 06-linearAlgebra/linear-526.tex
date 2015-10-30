@@ -16,7 +16,9 @@ like
 \href{http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/}
 {Gilbert Strang's video lectures} (and his textbook). These notes were
 originally based on the material in \cite{sb1994}, but they are now
-closer to the approach of \cite{axler1997}. 
+closer to the approach of \cite{axler1997} for finite dimensional
+spaces, and some mix of \cite{luenberger1969} and \cite{clarke2013}
+for infinite dimensional spaces. 
 
 We will study linear algebra with two goals in mind. First, we will
 finally carefully prove that the Lagrangian works. Recall that for a
@@ -27,16 +29,19 @@ we argued that $x^*$ is a local max if for all $v$,
 We then made a heuristic argument that this is equivalent to the
 existence of Lagrange multipliers such that 
 \[ Df_{x^*} + \lambda^T Dh_{x^*} = 0. \]
-This result will be a consequence of the fundamental theorem of linear
-algebra, which relates the null spaces of matrices to their ranges. 
+This result will be a consequence of the separating hyperplane theorem
+(or the geometric form of the Hahn-Banach theorem for infinite
+dimensional spaces).
 
 The second main result that we will build toward are the first and
 second welfare theorems. The first welfare theorem states that a
 competitive equilibrium is Pareto efficient. The second welfare
 theorems states that every Pareto efficient allocation can be achieved
-by some competitive equilibrium. The welfare theorems involve
-preferences (the subject of the previous set of notes), vector spaces
-(the topic of these notes), and some continuity (the next topic). 
+by some competitive equilibrium. The second welfare theorem is also a
+consequence of the separating hyperplane theorem. The welfare theorems
+involve preferences (the subject of the notes on sets), vector spaces
+(the topic of these notes), and some continuity (the subject of the
+previous set of notes).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Vector spaces}
@@ -60,7 +65,8 @@ likely already have some familiarity with the first two
 approaches. Here, we are going to take the third approach. This
 approach is more abstract, but this abstraction will allow us to
 generalize what we might know about $\R^n$ to other more exotic vector
-spaces. Also, many theorems and proofs become shorter and more elegant.
+spaces. Also, some theorems and proofs become shorter and more
+elegant. 
 
 \begin{definition}
   A \textbf{vector space} is a set $V$  with
@@ -116,6 +122,9 @@ the principal foundations of mathematical economics. The most
 important examples of linear spaces are $\R$ and $\R^n$. Indeed, the
 abstract notion of linear space generalizes the algebraic behavior of
 $\R$ and $\R^n$.''
+One way of looking at vector spaces is that they are a way of trying
+to generalize the things that we know about two and three dimensional
+space to other contexts. 
 
 \subsubsection{Examples}
 We now give some examples of vector spaces. 
@@ -142,9 +151,6 @@ We now give some examples of vector spaces.
   often just write $V$ instead of $(V,\R,+,\cdot)$ when referring to a
   vector space.
 \end{example}
-One way of looking at vector spaces is that they are a way of trying
-to generalize the things that we know about two and three dimensional
-space to other contexts. 
 %\begin{example}
 %  Any linear subspace of $\R^n$ along with the field
 %  $\R$ and the usual vector addition and scalar multiplication is a
@@ -164,8 +170,8 @@ space to other contexts.
   \end{align*}
 \end{example}  
 Most of the time, the two operations on a vector space are the usual
-addition and multiplication. However, they can appear different, as the
-following example illustrates.
+addition and multiplication. However, they can appear different, as
+the following example illustrates.
 \begin{example}
   Take $V = \R^+$. Define ``addition'' as $x \oplus y = xy$ and define
   ``scalar multiplication'' as $\alpha \odot x = x^\alpha$. Then
@@ -179,7 +185,7 @@ spaces. There are also infinite dimensional vector spaces.
   Let $V = \{$ all sequences of real numbers $\}$. For two sequences
   $\mathbf{x} = \{x_1, x_2, ... \}$ and $\mathbf{y} = \{y_1, y_2,
   ... \}$, define $\mathbf{x} + \mathbf{y} = \{ x_1 + y_1 , x_2 + y_2,
-  ... \}$ and defie scalar multiplication as $\alpha \mathbf{x}l = \{
+  ... \}$ and defie scalar multiplication as $\alpha \mathbf{x} = \{
   \alpha x_1 , \alpha x_2, ... \}$. Then this is a vector space.
 \end{example}
 We encounter vector spaces of sequences in economics when we study
@@ -375,7 +381,7 @@ You are probably familiar with the idea that $\R^n$ is
 $n$-dimensional. Roughly speaking if a vector space is $n$
 dimensional, then we should be able to describe any vector in it by
 listing $n$ scalars or coordinates.  In this section we formally
-define dimension. 
+define dimension.
 \begin{definition}
   A set of vectors $W \in V$, is \textbf{linearly
     independent} if the only solution to
@@ -397,13 +403,22 @@ define dimension.
 \end{definition} 
 How large can the largest set of linearly independent elements be? The
 following theorem is a starting point. It tells us that a linearly
-independent set is smaller than any set that spans. The above
-definitions for linear independence and dimension work for any
-dimension, finite or infinite. However, some of the theorems that
-follow are awkward to state and prove for infinite dimension, so most
-of them will assume finite dimension. Most of the important results
-also apply to infinite dimensional spaces, with the important
-exception of theorem \ref{thm:fund}.
+independent set is smaller than any set that spans. 
+\begin{remark}
+  The above definitions for linear independence and dimension work for
+  any dimension, finite or infinite. However, some of the theorems
+  that follow are awkward to prove for infinite dimension, so some of
+  them will assume finite dimension. Exercise \ref{ex:basis}, sketches
+  how to prove the existence of a basis for infinite dimensional
+  spaces. 
+\end{remark}
+% The above
+% definitions for linear independence and dimension work for any
+% dimension, finite or infinite. However, some of the theorems that
+% follow are awkward to state and prove for infinite dimension, so most
+% of them will assume finite dimension. Most of the important results
+% also apply to infinite dimensional spaces, with the important
+% exception of theorem \ref{thm:fund}.
 \begin{theorem}\label{thm:spanLin}
   Suppose $\mathbf{v}_1, ...., \mathbf{v}_n$ span $V$, and 
   $\mathbf{u}_1, ..., \mathbf{u}_m$ are linearly independent, then  $n
@@ -444,6 +459,17 @@ exception of theorem \ref{thm:fund}.
   above induction contradicts the assumption that the $\mathbf{u}$'s
   are linearly independent.
 \end{proof}
+\begin{remark}
+  A more general version of theorem \ref{thm:spanLin} is that if $W
+  \subseteq V$ spans $V$ and $U \subseteq V$ is linearly independent,
+  then $\abs{W} \geq \abs{V}$. 
+
+  The argument we used to prove theorem \ref{thm:spanLin} does not
+  suffice when $U$ is infinite because the iterative replacement of
+  elements of $W$ with elements of $U$ would never terminate. Exercise
+  \ref{ex:basis} sketches how to prove this theorem with infinite
+  $U$. 
+\end{remark}
 This theorem implies that if $B$ is linearly independent and spans
 $V$, then any other linearly independent set must have smaller
 cardinality. Hence, the dimension of $V$ must equal the cardinality of
@@ -478,8 +504,18 @@ the same cardinality.
 \begin{exercise} 
   What is the dimension of each of the examples of vector spaces
   above? Can you find a basis for them? 
+  
+  Note that an important requirement for a basis is that every
+  $\mathbf{x} \in V$ can be written as a \textbf{finite} sum of basis
+  elements. Therefore, for example, in
+  $\ell^\infty = \{(x_1, x_2, ...): x_i \in \R, \sup_{1\leq i\leq
+    \infty} \abs{x_i} < \infty\}$,
+  consider the set $E = \{e_i\}_{i=1}^\infty$, where $e_i$ is an
+  element of all $0$'s, except for a $1$ in the $i$th position. $E$ is
+  linearly independent, but $E$ does not span $\ell^\infty$ because
+  e.g. you cannot write $(1,1,1,1,...)$ as a finite sum of the
+  elements of $E$.
 \end{exercise}
-
 Given a set that spans a vector space, it is always possible to remove
 elements until the set is also linearly independent, and hence a
 basis. Doing this will be useful in various proofs, so we state it is
@@ -512,14 +548,53 @@ basis.
   all the $\mathbf{v}$'s and $m-n$ of the $\mathbf{u}$'s.
 \end{proof}
 This lemma implies that if $V$ is finite dimensional, then a basis for
-$V$ exists. We will assume that a basis exists even if $V$ is infinite
-dimensional.\footnote{This follows from Zorn's lemma,
-  which is equivalent to the axiom of choice---given any collection of
-  nonempty sets, we can define a function that chooses one element
-  from each set.} 
+$V$ exists. Even if $V$ is infinite dimensional, then a basis
+exists. The argument is outlined in the following exercise.
+\begin{exercise}[Difficult]\label{ex:basis}
+  A partial order is a relation that is reflexive, transitive, and
+  antisymmetric. A set with a partial order is called a partially
+  ordered set. Not all elements of a partially ordered set are
+  comparable (a partial order need not be complete). A \textbf{chain}
+  is any subset of a partially order set where all elements are
+  comparable to one another. If $Y$ is a partially ordered set with
+  partial order $\succeq$, and $A \subseteq Y$, then an upper bound
+  for $A$ is a $y \in Y$ such that $y \succeq z$ for all $z \in A$.
+  $y \in Y$ is a maximal element if there does not exist any $z \in Y$
+  such that $z \succ y$.
+  
+  Zorn's lemma\footnote{Zorn's lemma is equivalent to the axiom of
+    choice, which is a basic assumption of set theory. The axiom of
+    choice says that given a collection of non-empty sets,
+    $\{S_i\}_{i \in \mathcal{I}}$, we can choose an element from each
+    set $\{x_i\}_{i \in \mathcal{I}}$.} says that if every chain in a
+  partially ordered set has an upper bound, then the partially ordered
+  set has a maximal element.
+  \begin{enumerate}
+  \item Let $X$ be a set $\mathcal{P}(X)$ be a the power set of
+    $X$. Show that $\subseteq$ is a partial order on $\mathcal{P}(X)$.
+  \item Let $V$ be a vector space (possibly of infinite dimension) and
+    let $L \subseteq V$ be linearly independent. Define 
+    \[ \mathcal{P} = \{S \subseteq V: L \subseteq S \text{ and } S
+    \text{ linearly independent}\} \]
+    Show that $(\mathcal{P},\subseteq)$ is a partially order set (this is
+    short).
+  \item Let $\mathcal{C} \subseteq \mathcal{P}$ be a chain. Show that
+    $\cup_{C \in \mathcal{C}} C$ is an upper bound for
+    $\mathcal{C}$. [Hint: you need to show $\cup_{C \in \mathcal{C}} C
+    \in \mathcal{P}$.]
+  \item Argue that $\mathcal{P}$ has a maximal element, $B$. [Hint:
+    use Zorn's lemma.]
+  \item Show that $\spn(B) = V$. [Hint: if $x \not\in \spn(B)$, then
+    $\{x\} \cup B \in \mathcal{P}$.]
+  \item Conclude $B$ is a basis for $V$.
+  \end{enumerate}
+  For finite dimensional spaces, we could explicitly extend a linearly
+  independent set to a basis by adding elements. This exercise shows a
+  similar result for infinite dimensional spaces.
+\end{exercise}
 
-The elements of a vector space can always be written in terms of a
-basis. 
+The elements of a vector space can always be written uniquely in terms
+of a basis.
 \begin{lemma} \label{lem:uniqueRep}
   Let $B$ be a basis for a vector space $V$. Then
   $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \R$ and
@@ -532,82 +607,16 @@ basis.
   $(x_1', ..., x_j')$ and associated $b_i'$. The $\{b_1, ..., b_k\}$ and
   $\{b_1', ..., b_j'\}$ might not be the same collection of elements
   of $B$. Let $\{\tilde{b}_1, ..., \tilde{b}_n \} =  \{b_1, ...,
-  b_k\} U \{b_1', ..., b_j'\}$. Define $\tilde{x}_i = x_j$ if
+  b_k\} \cup \{b_1', ..., b_j'\}$. Define $\tilde{x}_i = x_j$ if
   $\tilde{b}_i = b_j$, else $0$. Similarly define $\tilde{x}_i'$. With
   this new notation we have
   \begin{align*}
     v = \sum_{i=1}^n \tilde{x}_i \tilde{b}_i = & \sum_{i=1} \tilde{x}_i' \tilde{b}_i \\
-    \sum (\tilde{x}_i - \tilde{x}_i')\tilde{b}_i = & 0 \\
+    \sum_{i=1}^n (\tilde{x}_i - \tilde{x}_i')\tilde{b}_i = & 0 \\
   \end{align*}
   However, if $B$ is a basis, its elements must be linearly
   independent so $\tilde{x}_i = \tilde{x}_i'$ for all $i$, so the
   original $x_1, ..., x_k$ must be unique.
-\end{proof}
-
-The next three lemmas will be used later when proving theorem \ref{thm:fund}.
-\begin{lemma}\label{lem:directSum}
-  Suppose $V$ is finite dimensional and $S$ is a subspace of $V$. Then
-  $\exists$ another subspace, $W$, of $V$ such that $V = S \oplus W$,
-  and $\dim(V) = \dim(S) + \dim(W)$.
-\end{lemma}
-\begin{proof}
-  Construct a basis for $S$ as follows. Set the basis $B = \{\}$. If
-  $S = \text{span}(B)$, then stop. Otherwise, choose $\mathbf{b}_j \in
-  S \setminus \text{span}(B)$ and add it to $B$. Since $V$ is finite
-  dimensional, this process must stop after at most $\dim(V)$
-  steps. This gives a basis $B$ for $S$. 
-
-  We will now construct a basis for $W$. Set $E = \{\}$. If
-  $\text{span}(B \cup E) = V$, then stop. Otherwise choose $\mathbf{e}_j \in V
-  \setminus \text{span}(B \cup E)$ and add it to $E$. Again, this
-  process must stop because $V$ is finite dimensional. Let $W =
-  \text{span}(E)$. By construction $\text{span}(B \cup E) = S + W =
-  V$. Also, lemma \ref{lem:uniqueRep} implies that each $\mathbf{v}
-  \in V$ can be uniquely written as a linear combination of elements
-  of $B \cup E$, each $\mathbf{s} \in S$ can be uniquely written as a
-  linear combination of $B$, and each $\mathbf{w} \in W$ can be
-  uniquely written as a linear combination of $E$. It follows that for
-  each $\mathbf{v} \in V$ there are unique $\mathbf{s} \in S$ and
-  $\mathbf{w} \in W$ such that $\mathbf{v} = \mathbf{s} +
-  \mathbf{w}$. 
-\end{proof}
-
-\begin{lemma}\label{lem:dimisect}
-  Suppose $V$ is finite dimensional and $S$ and $T$ are subspaces of
-  $V$. If $S \cap T = 0$ and $\dim(S) + \dim(T) = \dim(V)$, then $V =
-  S \oplus T$. 
-\end{lemma}
-\begin{proof}
-  Let $b_1, ..., b_n$ be a basis for $S$ and $e_1, ..., e_m$ be a
-  basis for $T$. Suppose 
-  \[ \sum_{i=1}^n \alpha_i b_i +  \sum_{j=1}^m \beta_j e_j = 0 \]
-  Then let
-  \[ \mathbf{x} = \sum_{i=1}^n \alpha_i b_i = -\sum_{j=1}^m \beta_j
-  e_j \]
-  $\mathbf{x} \in S$, and $\mathbf{x} \in T$. We assume $S \cap T =
-  0$, so then $\mathbf{x} = 0$. Since $b_1, ..., b_n$ are linearly
-  independent, we must have $\alpha_1 = \cdots = \alpha_n =
-  0$. Similarly all $\beta_j = 0$. Therefore, $b_1, ..., b_n$, $e_1,
-  ..., e_m$ are linearly independent. This is a linearly independent
-  set of $\dim(S) + \dim(T) = \dim(V)$ elements, so it is a basis for
-  $V$. Hence, $V = S + T$. 
-\end{proof}
-\begin{lemma}\label{lem:dimSum}
-  Let $S$ and $T$ be subspaces of a finite dimensional space $V$. Then
-  \[ \dim(S + T) = \dim(S) + \dim(T) - \dim(S \cap T). \]
-\end{lemma}
-\begin{proof}
-  We will be brief for this proof. You may want to add the details as
-  an exercise. 
-  
-  Let $B$ be basis for $S \cap T$. Extend $U$ to a basis for $S$, call
-  it $B \cup B_S$. Similarly extend $U$ to a basis for $T$, $B\cup
-  B_T$. Then $\spn(B \cup B_S \cup B_T) = S + T$. Also, you can show
-  that $B \cup B_S \cup B_T$ is linearly independent, and hence a
-  basis, for $S+T$. Finally, note that since $B$, $B_S$, and $B_T$ must
-  be disjoint, 
-  \[ \dim(S+T) = | B \cup B_S \cup B_T | = | B \cup B_S | + | B \cup
-  B_T | - | B |. \]
 \end{proof}
 
 \subsection{$\R^n$ as the  only finite dimensional vector spaces}
@@ -656,6 +665,100 @@ $n$-dimensional real\footnote{Here ``real'' refers to the fact that
   all vector spaces will be real. However, you can define vector
   spaces with scalars from other fields, such as the complex numbers.}
 vector spaces are isomorphic to $\R^n$. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Normed vector spaces}
+
+One property of two and three dimensional Euclidean space is that
+vectors have lengths. Our definition of vector spaces does not
+guarantee that we have a way of measuring length, so let's define a
+special type of vector space where we can measure length. 
+\begin{definition}
+  A \textbf{normed vector space}, $(V,+,\cdot, \norm{\cdot})$, is a
+  vector space with a function, called the \textbf{norm}, from $V$ to
+  $\R$ and denoted by $\norm{v}$ with the following properties:
+  \begin{enumerate}
+  \item (Positive definite) $\norm{v} \geq 0$ and $\norm{v} = 0$ iff $v = 0$,
+  \item (Homogenous) $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \F$,
+  \item The triangle inequality holds:
+    \[ \norm{v_1+v_2} \leq \norm{v_1} + \norm{v_2} \]
+    for all $v_1, v_2 \in V$.
+  \end{enumerate}
+\end{definition}
+As above, when the addition, multiplication,
+and norm are clear from context, we will just write $V$ instead of
+$(V,+,\cdot, \norm{\cdot})$ to denote a normed vector space. 
+Like length, a norm is always non-negative and only zero for the zero
+vector. Also, similar to length, if we multiply a vector by a scalar,
+the norm also gets multiplied by the scalar. The triangular inequality
+means that norm obeys the idea that the shortest distance between two
+points is a straight line. If you go directly from $x$ to $y$ you
+``travel'' $\norm{x - y}$. If you stop at point $z$ in between, you travel
+$\norm{x - z} + \norm{z - y}$. The triangle inequality guarantees that 
+\[ \norm{x-y} \leq \norm{x - z} + \norm{z - y}. \]
+
+\subsection{Examples}
+\begin{example}
+  $\R^3$ is a normed vector space with norm
+  \[ \norm{x} = \sqrt{x_1^2 + x_2^2 + x_3^2}. \] 
+  This norm is exactly
+  how we usually measure distance. For this reason, it is called the
+  Euclidean norm.
+
+  More generally, for any $n$, $\R^n$, is a normed vector space with
+  norm 
+  \[ \norm{x} = \sqrt{\sum_{i=1}^n x_i^2 }. \]
+\end{example}
+The Euclidean norm is the most natural way of measuring distance in
+$\R^n$, but it is not the only one.  A vector space can often be given
+more than one norm, as the following example shows.
+\begin{example}
+  $\R^n$ with the norm 
+  \[ \norm{x}_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p} \]
+  for $p \in [1,\infty]$\footnote{Where $\norm{x}_\infty = \max_{1\leq
+      i \leq n} |x_i| $} is a normed vector space. This norm is called
+  the p-norm. 
+\end{example}
+For nearly all practical purposes, $\R^n$ with any p-norm is
+essentially the same as $\R^n$ with any other p-norm. $\R^n$ is the
+same collection of elements regardless of the choice of p-norm, and
+the choice of p-norm does not affect the topology (i.e. which sets are
+open and closed) of $\R^n$ or the definition of derivatives. However,
+there are normed vector spaces where the choice of norm makes a
+difference.
+\begin{example}
+  Let $\ell_p =$ infinite sequences such that 
+  \[ \norm{x}_p = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} \]
+  is finite. Then $\ell_p$ with $\norm{\cdot}_p$ is a normed vector
+  space. 
+\end{example}
+\begin{example}
+  Define 
+  \[ \norm{f}_p = \left(\int_0^1 |f(x)|^p dx\right)^{1/p}. \]
+  Let $\mathcal{F}_p = \{f: (0,1) \to \R \text{ such that }
+  \norm{f}_p<\infty\}$. 
+  Define an equivalence relation between functions as
+  \[ f \sim_p \tilde{f} \iff \norm{f - \tilde{f}}_p = 0 \]
+  The space  $\mathcal{L}^p(0,1) = \{\text{equivalence classes of
+  }\mathcal{F}_p\}$ with norm $\norm{\cdot}_p$ is a
+  normed vector space. The space is defined as the set of equivalences
+  classes because if $f$ and $\tilde{f}$ differ at only a finite
+  collection of points, then
+  \[ \norm{f-\tilde{f}}_p = \left(\int_0^1 |f(x) - \tilde{f}(x) |^p dx\right)^{1/p} =
+  0. \]
+  If such $f$ and $\tilde{f}$ were considered different vectors, then
+  the norm would not be positive definite. 
+  
+  Moreover, $\mathcal{L}^p(0,1)$ is a different
+  space for different $p$. For example, $\frac{1}{x^{1/p}} \not\in
+  \mathcal{L}^p(0,1)$, but $\frac{1}{x^{1/p}} \in \mathcal{L}^q(0,1)$
+  for $q < p$. 
+\end{example}
+Having a norm allows us to consider limits, continuity, and
+derivatives. When working with limits we will typically need to be
+sure that Cauchy sequences converge. In other words, we will want to
+work in complete normed vector spaces. Complete normed vector spaces
+are called \textbf{Banach} spaces. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -821,9 +924,7 @@ Integral and differential operators are very important when studying
 differential equations.  They are also useful in many areas of
 econometrics and in dynamic programming. We already encountered some linear
 transformations on infinite dimensional spaces when studying optimal
-control. However, for the rest of this lecture, our main focus will be
-an linear transformations between finite dimensional spaces,
-i.e.\ matrices. 
+control. 
 
 \section{Matrix operations and properties}
 
@@ -943,12 +1044,12 @@ subspace.
 \begin{exercise}
   Show that $\mathcal{N}(A)$ is a linear subspace.
 \end{exercise}
-Null spaces are important for studying linear equations because if $z
-\in \mathcal{N}(A)$, then $A (x + z) = Ax + A z = Ax$. In other words,
-if $Ax = b$ for some $x$, then $A(x+z) = b$ for all $z \in
-\mathcal{N}(A)$. Note that $0 \in \mathcal{N}(A)$ always. From this
-discussion, we see that if $A x = b$ has one solutions, it will have
-multiple solutions if $\mathcal{N}(A) \neq \{0 \}$.
+Null spaces are important for studying linear equations because if
+$z \in \mathcal{N}(A)$, then $A (x + z) = Ax + A z = Ax$. In other
+words, if $Ax = b$ for some $x$, then $A(x+z) = b$ for all
+$z \in \mathcal{N}(A)$. Note that $0 \in \mathcal{N}(A)$ always. From
+this discussion, we see that if $A x = b$ has at least one solution,
+then it will have multiple solutions if $\mathcal{N}(A) \neq \{0 \}$.
 \begin{definition}
   Let $A \in L(V,W)$. $A$ is \textbf{one-to-one} (or
   \textbf{injective}) if $Ax = A v \implies x = v$.
@@ -1032,6 +1133,34 @@ transformation can be one-to-one and onto.
   Left as an exercise. 
 \end{proof}
 
+If $V$ and $W$ are normed vector spaces, then the space of linear
+transformations can also be given a norm.
+\begin{definition}
+  A linear transformation $A:V \to W$ is bounded if there exists $M
+  \in \R$ such that $\norm{Ax}_W \leq M \norm{x}_V$ for all $x \in V$.
+\end{definition}
+\begin{lemma}
+  A linear transformation is bounded if and only if it is continuous. 
+\end{lemma}
+\begin{proof}
+  On problem set 5.
+\end{proof}
+\begin{lemma}
+  If $V$ and $W$ are finite dimensional, and $A \in L(V,W)$, then $A$
+  is bounded.
+\end{lemma}
+\begin{proof}
+  On problem set 5.
+\end{proof}
+In infinite dimensional spaces, there are discontinuous linear
+transformations. Let $B(V,W)$ denote the set of all bounded linear
+transformations from $V$ to $W$. 
+\begin{exercise}
+  Show $B(V,W)$ is a linear subspace of $L(V,W)$.
+\end{exercise}
+$B(V,W)$ can be given norm: 
+\[ \norm{A}_{B(V,W)} = \sup_{x \neq 0, x\in V}
+\frac{\norm{Ax}_{W}}{\norm{x}_V}. \]
 
 \section{Transpose and dual spaces}
 
@@ -1043,17 +1172,15 @@ which we will want to do later. Also, in optimization problems, Lagrange
 multipliers are elements of dual spaces. 
 \begin{definition}
   Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
-  $V^\ast$ is the set of all (continuous)\footnote{We have not yet
-    defined continuity, so do not worry about this requirement. All
-    linear functionals on finite dimensional spaces are
-    continuous. Some linear functionals on infinite dimensional spaces
-    are not continuous. The definition of dual space does not always
-    require continuity. Often the dual space is defined as the set of
-    all linear functionals, and the topological dual space is the set
-    of all continuous linear functionals. We will ignore this
+  $V^\ast$ is the set of all (continuous)\footnote{All linear
+    functionals on finite dimensional spaces are continuous. Some
+    linear functionals on infinite dimensional spaces are not
+    continuous. The definition of dual space does not always require
+    continuity. Often the dual space is defined as the set of all
+    linear functionals, and the topological dual space is the set of
+    all continuous linear functionals. We will ignore this
     distinction.}  linear functionals, $v^\ast: V \to \R$.
 \end{definition}
-
 \begin{example}\label{ex:rdual}
   The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
   fact, for any finite dimensional vector space, the dual space is the
@@ -1110,32 +1237,28 @@ It is always however always the case that $V \subseteq (V^*)^*$.
   What is the dual space of $V = \mathcal{L}^2(\R,f_x) = \{g:
   \R \to \R \text{ such that } \int_{\R} f_x(x) g(x)^2 dx <
   \infty\}$? Let $h \in \mathcal{L}^2(\R,f_x)$. Define 
-  \[ h^\ast(g) = \int_\R f_x(x) g(x) h(x) dx. \] 
-  Assuming $h^\ast(g)$
-  exists, $h^\ast$ is an integral operator from $V$ to $\R$, so it is
-  linear. To show that $h^\ast \in V^\ast$ all we need to do is
-  establish that $h^\ast(g)$ exists (is finite) for all $g \in V$. 
-  H\:{o}lder's inequality\footnote{See
-    e.g.
+  \[ h^\ast(g) = \int_\R f_x(x) g(x) h(x) dx. \]
+  Assuming $h^\ast(g)$ exists, $h^\ast$ is an integral operator from
+  $V$ to $\R$, so it is linear. To show that $h^\ast \in V^\ast$ all
+  we need to do is establish that $h^\ast(g)$ exists (is finite) for
+  all $g \in V$.  H\"{o}lder's inequality\footnote{See e.g.
     \href{http://en.wikipedia.org/wiki/H\%C3\%B6lder\%27s_inequality}
-      {Wikipedia for more information and a proof and more
-        information.}} , which we have not studied but is good to be
-    aware of, says that
+    {Wikipedia for a proof and more information.}} , which we have not
+  studied but is good to be aware of, says that
   \[ \int_\R f_x(x) |g(x) h(x)| dx \leq \sqrt{\int f_x(x) g(x)^2 dx}
   \sqrt{\int f_x(x) h(x)^2 dx}. \]
   Since $h$ and $g \in V$, the right hand side must be finite, so
   $h^\ast(g)$ is finite as well. Thus all such $h^\ast$ is a subset of
   $V^\ast$.   In fact, all such $h^\ast$ is equal to
-  $V^\ast$.\footnote{This is a consequence of the Radon-Nikodym
-    theorem, which is beyond the scope of this course.}
+  $V^\ast$.\footnote{This is a consequence of the Riesz representation
+    theorem.}
  
   We were actually working with $V^\ast$ and similar dual spaces when
   we studied optimal control.
 \end{example}
-
 \begin{definition}
   If $A: V \to W$ is a linear transformation, then the
-  \textbf{transpose} (or dual) of $A$ is $A^T: W^\ast \to V^\ast$
+  \textbf{transpose} (or adjoint) of $A$ is $A^T: W^\ast \to V^\ast$
   defined by $(A^Tw^\ast)v = w^\ast(Av)$.
 \end{definition}
 To parse this definition, note that $A^T w^\ast$ is an element of
@@ -1162,492 +1285,142 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
 \begin{exercise}(Difficult) What is the transpose of the conditional
   expectation operator from example \ref{ex:condex}?
 \end{exercise}
-
-\section{Fundamental theorem of linear algebra}
-
-There is an interesting relationship among the null spaces and ranges
-of a linear transformation and its transpose. Let $A \in L(V,W)$ and
-suppose $V$ and $W$ are finite dimensional. Finite dimension ensures
-that $V^\ast = V$ and $W^\ast = W$. Then $\nulls A
-\subseteq V$ and $\range A^T \subseteq V$. How are these
-subspaces related?  
-\begin{theorem}[Fundamental theorem of linear algebra]\label{thm:fund}
-  Let $A \in L(V,W)$, where $V$ and $W$ are finite dimensional. Then 
-  \[ V = \nulls A \oplus \range A^T \]
-  and 
-  \[ W = \nulls A^T \oplus \range A. \] 
-  Also, $\dim(\range A) = \dim(\range  A^T)$ and,
-  \[ \dim(V) = \dim(\nulls A) + \dim(\range A) \]
-  and 
-  \[ \dim(W) = \dim(\nulls A^T) + \dim(\range A). \]
-\end{theorem}
-\begin{proof}
-  Suppose $x$ is in the null space of $A$. Then $A x
-  = 0$. By the definition of the transpose,
-  \[ w^T A x = (A^T w)^T x = 0 \]
-  The set $\{v : v = A^T w\}$ is the range of $A^T$. If $x \in
-  \nulls A \cap \range A^T$, then there is a $w$ such that
-  $A^T w = x$. We know from the previous equation that $(A^T w)^T x = 0
-  = x^T x$. Therefore, it must be that $x=0$, so $\nulls A \cap
-  \range A^T = \{ 0 \}$. 
-  
-  Let $U$ be such that $\nulls A \oplus U = V$ (lemma
-  \ref{lem:directSum}), and $\dim(\nulls A) + \dim(U) =
-  \dim(V)$. Theorem \ref{thm:rankNull} then implies that, 
-  $\dim(U) = \dim(\range A)$. Additionally, lemma \ref{lem:dimSum}
-  implies that $\dim(\nulls A + \range A^T) = \dim(\nulls A) +
-  \dim(\range A^T) \leq \dim (V)$, so we can conclude that
-  $\dim(\range A^T) \leq \dim(\range A)$.
-  
-  Identical reasoning shows the opposite inequality. Therefore
-  $\dim(\range A) = \dim(\range A^T)$. Finally, since
-  $\dim(\nulls A) + \dim(\range A^T) = \dim(V)$ and 
-  $\nulls A \cap \range A^T = \{ 0 \}$, using lemma
-  \ref{lem:dimisect}, we can conclude that
-  $V = \nulls A \oplus \range A^T$. 
-  Identical reasoning shows that $W = \nulls A^T \oplus \range A$. 
-\end{proof}
-\cite{strang1993} has a nice discussion of this theorem. 
-
-The requirement of finite dimension is really essential in this
-theorem. In infinite dimension, $V^\ast$ need not be the same as
-$V$. If $V$ and $V^\ast$ are different, it does not make sense to talk
-about $\nulls A + \range A^T$, because $\nulls A \subseteq V$ and
-$\range A^T \subseteq V^\ast$. Some people object to calling this
-theorem ``fundamental'' because it does not extend to infinite
-dimensional spaces. 
-
-This theorem has some nice implications for systems of linear
-equations. If $A = \gmatrix{a}$ is a matrix, then the range of $A$ is 
-\begin{align*}
-  \{Ax : x \in \R^n\} = \left\lbrace \begin{pmatrix} \sum_{j=1}^n
-      a_{1j} x_j \\ 
-      \vdots
-      \sum_{j=1}^n a_{mj} x_j 
-    \end{pmatrix} : x_j \in \R \right\rbrace,
-\end{align*}
-the set of linear combinations of the columns of $A$. 
-The \textbf{column space} of $A$,
-denoted $\col(A)$, is the space spanned by the column vectors of
-$A$. The column space of $A$ is the same as the range of $A$.
-
-Similar reasoning shows that the space of linear combinations of the
-rows of $A$ is the range of $A^T$. The \textbf{row space} of $A$,
-denoted $\row (A)$, is the space spanned by the row vectors of
-$A$. The fundamental theorem of linear algebra shows that the
-dimensions of the column and row spaces are equal. The rank of a
-matrix is the dimension of its row and column spaces.
-\begin{definition}
-  The \textbf{rank} of a linear transformation is the dimension of its
-  range.
-\end{definition}
-
-\begin{example}
-  Let $X$ be an $n \times k$ matrix. Define:
-  \[ P_x = X (X^T X)^{-1} X^T \]
-  and 
-  \[ M_x = I - X (X^T X)^{-1} X^T. \]
-  Both $P_x$ and $M_x$ are linear transformations from $\R^n$ to
-  $\R^n$. Also, both $P_x = P_x^T$ and $M_x = M_x^T$. Therefore, from
-  the fundamental theorem of linear algebra, 
-  \[ \R^n = \nulls P_x \oplus \range  P_x \]
-  and
-  \[ \R^n = \range M_x \oplus \nulls  M_x. \]
-  
-  Suppose $w \in \range  P_x$, then $\exists y \in \R^n$ such
-  that $P_x y = w$. Notice that 
-  \begin{align*}
-    M_x w = & M_x P_x y \\
-    = & (P_x - P_x)y = 0, 
-  \end{align*}
-  so $w \in \nulls  M_x$.  Similarly, if $w \in \range 
-  M_x$, then $w \in \nulls  P_x$. Also, if $w \in \nulls 
-  P_x$, then 
-  \[ M_x w = w - P_x w = w \]
-  so $w \in \range  M_x$. We can conclude that null $P_x = $
-  range $M_x$ and null $M_x = $ range $P_x$. Hence,
-  \[
-  \begin{array}{cccc}
-    \R^n = & \nulls  P_x & \oplus & \range  P_x \\
-                & \verteq &            & \verteq \\
-    \R^n = & \range M_x & \oplus & \nulls  M_x.
-  \end{array}
-  \]
-  
-\end{example}
-
-In studying constrained optimization  problems, 
-\[ \max_x f(x) \text{ s.t.  } h(x) = c, \]
-we used the fact that
-\begin{equation}
-  D h_x v = 0 \implies D f_x v = 0 \label{eq:dhdf}
-\end{equation}
-is equivalent to there existing $\lambda^T$ such that
-\[ Df_x + \lambda^T Dh_x = 0. \]
-Equation (\ref{eq:dhdf}) is just another way of saying $\nulls Dh_x
-\subseteq \nulls Df_x$. An immediate consequence of theorem
-\ref{thm:fund} is the following. 
-\begin{corollary}\label{cor:nullrange}
-  Let $A \in L(V,W)$ and $B \in L(V,Z)$. Then $\nulls A \subseteq
-  \nulls B$ iff $\range A^T \supseteq \range B^T$.
-\end{corollary}
-\begin{proof}
-  From theorem \ref{thm:fund}, we know that $V = \nulls A \oplus
-  \range A^T = \nulls B \oplus \range B^T$. Suppose $\nulls A
-  \subseteq \nulls B$. Let $v \in \range B^T$. Then either $v =
-  0$, in which case $v \in \range A^T$, or $v \not\in \nulls B$. If $v
-  \not\in \nulls B$, $v \not\in \nulls A$ as well. Therefore, $v \in \range
-  A^T$. 
-
-  If $\range A^T \supseteq \range B^T$, an identical argument shows
-  $\nulls A \subseteq \nulls B$.
-\end{proof}
-Letting $A = Dh_x$ and $B=Df_x$, we know that $\nulls Dh_x \subseteq
-Df_x$ iff $\range Dh_x^T \supseteq \range Df_x^T$. This means that for
-every $w^* \in W^*$, $\exists \lambda_w \in Z^*$ such that
-\[ Df_x^T w^* = Dh_x^T \lambda_w. \]
-For optimization problems, $W=\R$, so it suffices to just consider
-$w^* = 1$, 
-\[ Df_x^T = Dh_x^T \lambda. \]
- If $V$ and $Z$ are finite dimensional, then we can substract and
- transpose to get
-\[ Df_x - \lambda^T Dh_x = 0. \]
-
-Corollary (\ref{cor:nullrange}) is also true in infinite dimensional
-spaces under some additional conditions.\footnote{The spaces must be complete
-and the ranges of $A$ and $B$ must be closed. See e.g.\ section 6.6 of
-\cite{luenberger1969}.}
-When working with optimal control problems, we were using this same
-result and making some implicit assumptions about how elements from
-the duals spaces can be written as integrals. Appropriately defining
-$V$ and $Z$ ensures that these assumptions hold. The details are
-tedious, so we will not go into them. 
+Since the dual space of $V$ is defined at $V^* = B(V,\R)$, a norm on
+$V^*$ can be defined in the same way, 
+\[ \norm{v^*}_{V^*} = \sup_{v \neq 0, v \in V}
+\frac{\abs{v^*v}}{\norm{v}_V}. \]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Normed vector spaces}
+\section{Separating hyperplane theorem}
 
-One property of two and three dimensional Euclidean space is that
-vectors have lengths. Our definition of vector spaces does not
-guarantee that we have a way of measuring length, so let's define a
-special type of vector space where we can measure length. 
+A line in $\R^2$ splits $\R^2$ into two pieces. A plane in $\R^3$
+splits it into two pieces. More generally, an $n-1$ dimensional
+affine space splits $\R^n$ into two pieces.
 \begin{definition}
-  A \textbf{normed vector space}, $(V,+,\cdot, \norm{\cdot})$, is a
-  vector space with a function, called the \textbf{norm}, from $V$ to
-  $\R$ and denoted by $\norm{v}$ with the following properties:
-  \begin{enumerate}
-  \item (Positive definite) $\norm{v} \geq 0$ and $\norm{v} = 0$ iff $v = 0$,
-  \item (Homogenous) $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \F$,
-  \item The triangle inequality holds:
-    \[ \norm{v_1+v_2} \leq \norm{v_1} + \norm{v_2} \]
-    for all $v_1, v_2 \in V$.
-  \end{enumerate}
+  A \textbf{hyperplane} in $\R^n$ is an $n-1$ dimensional affine
+  subspace. Equivalently, a hyperplane is the set of solutions to a
+  single equation with $n$ variables.
 \end{definition}
-As above, when the addition, multiplication,
-and norm are clear from context, we will just write $V$ instead of
-$(V,+,\cdot, \norm{\cdot})$ to denote a normed vector space. 
-Like length, a norm is always non-negative and only zero for the zero
-vector. Also, similar to length, if we multiply a vector by a scalar,
-the norm also gets multiplied by the scalar. The triangular inequality
-means that norm obeys the idea that the shortest distance between two
-points is a straight line. If you go directly from $x$ to $y$ you
-``travel'' $\norm{x - y}$. If you stop at point $z$ in between, you travel
-$\norm{x - z} + \norm{z - y}$. The triangle inequality guarantees that 
-\[ \norm{x-y} \leq \norm{x - z} + \norm{z - y}. \]
+Any hyperplane can be written in the form:
+\[ H_{\xi,c} = \{x: \xi^Tx = c \} \]
+where $c \in \R$ and $\xi \in (\R^n)^*=\R^n$. Based on this, we define
+a hyperplane in an arbitrary vector space as follows:
+\begin{definition}
+  A \textbf{hyperplane} in $V$ is any set that can be written as
+  \[ H_{\xi,c} = \{x \in V: \xi v = c\} \]
+  for some $c \in \R$ and $\xi \in V^*, \xi \neq 0$
+\end{definition}
+Hyperplanes play an important role in optimization.  There is one
+theorem that is especially useful.  We will use this theorem to prove
+the existence of Lagrange multipliers and the second welfare
+theorem. First, a definition.
+\begin{definition}
+  A set $S \subseteq V$ is \textbf{convex} if $\forall x_1, x_2 \in
+  S$ and $\lambda \in (0,1)$, we have $x_1 \lambda + x_2(1-\lambda)
+  \in S$.
+\end{definition}
+If a set is convex, when we draw a line segment between any two points
+in the set, the line segment remains entirely within the set.  In
+$\R^2$, convex sets include things shaped like triangles, squares,
+pentagons, circles, ellipses, etc. Some non-convex shapes are stars,
+horseshoes, rings, etc.
+\begin{theorem}[Separating hyperplane theorem] \label{thm:sht} If
+  $S_1$ and $S_2 \subseteq V$ are convex and
+  $S_1 \cap S_2 = \emptyset$ and either $V$ is finite dimensional or
+  the interior of $S_1$ or $S_2$ is not empty. Then there exists a
+  hyperplane, $H_{\xi c} = \{ x: \xi'x = c \}$ such that
+  \[ \xi s_1 \leq c \leq \xi s_2 \]
+  for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
+  separates $S_1$ and $S_2$. 
+\end{theorem}
+Visually, this theorem says that we can draw a hyperplane, $H$,
+between $S_1$ and $S_2$. $H$ is orthogonal to the line passing through
+$\xi$ and $0$. The projection of $S_1$ on $\xi$ is disjoint from
+the projection of $S_2$ on $\xi$. See figure \ref{fig:sht} for an
+illustration in $\R^2$.
 
-\subsection{Examples}
-\begin{example}
-  $\R^3$ is a normed vector space with norm
-  \[ \norm{x} = \sqrt{x_1^2 + x_2^2 + x_3^2}. \] 
-  This norm is exactly
-  how we usually measure distance. For this reason, it is called the
-  Euclidean norm.
+% Recall that the projection of $S_1$ on $H$ is the set
+% \[ P_H S_1 = \{ \iprod{s_1}{\xi}\xi : s_1 \in S_1. \] The projections
+% are disjoint or almost disjoint)\footnote{Really this argument only
+%   shows disjointness if $S_1$ and $S_2$ are topologically
+%   closed, something that we will discuss later.} because if
+% $\iprod{s_1}{\xi} < \iprod{s_2}{\xi}$ $\forall s_1 \in S_1, s_2 \in
+% S_2$, we can never have $\iprod{s_1}{\xi}\xi = \iprod{s_2}{\xi}\xi $.
+\begin{figure}\caption{Separating hyperplane \label{fig:sht}}
+  \begin{centering}
+    \includegraphics[width=0.8\textwidth]{separatingHyperplane}
+  \end{centering}
+\end{figure}
 
-  More generally, for any $n$, $\R^n$, is a normed vector space with
-  norm 
-  \[ \norm{x} = \sqrt{\sum_{i=1}^n x_i^2 }. \]
-\end{example}
-The Euclidean norm is the most natural way of measuring distance in
-$\R^n$, but it is not the only one.  A vector space can often be given
-more than one norm, as the following example shows.
-\begin{example}
-  $\R^n$ with the norm 
-  \[ \norm{x}_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p} \]
-  for $p \in [1,\infty]$\footnote{Where $\norm{x}_\infty = \max_{1\leq
-      i \leq n} |x_i| $} is a normed vector space. This norm is called
-  the p-norm. 
-\end{example}
-For nearly all practical purposes, $\R^n$ with any p-norm is
-essentially the same as $\R^n$ with any other p-norm. $\R^n$ is the
-same collection of elements regardless of the choice of p-norm, and
-the choice of p-norm does not affect the topology of $\R^n$ or the
-definition of derivatives.\footnote{We will discuss topology next
-  lecture, and derivatives soon afterward, so do not worry if you do
-  not know what that means.} However, there are normed vector spaces
-where the choice of norm makes a difference.
-\begin{example}
-  Let $\ell_p =$ infinite sequences such that 
-  \[ \norm{x}_p = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} \]
-  is finite. Then $\ell_p$ with $\norm{\cdot}_p$ is a normed vector
-  space. 
-\end{example}
-\begin{example}
-  Define 
-  \[ \norm{f}_p = \left(\int_0^1 |f(x)|^p dx\right)^{1/p}. \]
-  Let $\mathcal{F}_p = \{f: (0,1) \to \R \text{ such that }
-  \norm{f}_p<\infty\}$. 
-  Define an equivalence relation between functions as
-  \[ f \sim_p \tilde{f} \iff \norm{f - \tilde{f}}_p = 0 \]
-  The space  $\mathcal{L}^p(0,1) = \{\text{equivalence classes of
-  }\mathcal{F}_p\}$ with norm $\norm{\cdot}_p$ is a
-  normed vector space. The space is defined as the set of equivalences
-  classes because if $f$ and $\tilde{f}$ differ at only a finite
-  collection of points, then
-  \[ \norm{f-\tilde{f}}_p = \left(\int_0^1 |f(x) - \tilde{f}(x) |^p dx\right)^{1/p} =
-  0. \]
-  If such $f$ and $\tilde{f}$ were considered different vectors, then
-  the norm would not be positive definite. 
-  
-  Moreover, $\mathcal{L}^p(0,1)$ is a different
-  space for different $p$. For example, $\frac{1}{x^{1/p}} \not\in
-  \mathcal{L}^p(0,1)$, but $\frac{1}{x^{1/p}} \in \mathcal{L}^q(0,1)$
-  for $q < p$. 
-\end{example}
-Having a norm allows us to consider limits, continuity, and
-derivatives. We will discuss these in greater detail in the next
-lecture.
+Exercises 3.182-3.186 of \cite{carter2001} guide you through a proof
+of the separating hyperplane theorem in $\R^n$. A proof of the general
+version can be found in appendix \ref{app:hyperplane}, or any text on
+functional analysis such as \cite{luenberger1969}, \cite{clarke2013},
+or \cite{holmes1975}. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Inner product spaces}
+\subsection{Existence of Lagrange multipliers}
 
-In $\R^n$ we can measure angles and talk about vectors being
-orthogonal to one another. The following definition generalizes this
-idea to other vector spaces.
-\begin{definition}
-  An \textbf{inner product space} is a vector space with an additional
-  operation called the inner product that is 
-  function from $V \times V$ to $\mathbb{R}$. We denote the inner
-  product of $v_1, v_2 \in V$ by $\iprod{v_1}{v_2}$. It has the
-  following properties:
-  \begin{enumerate}
-  \item Symmetry: $\iprod{v_1}{v_2} = \iprod{v_2}{v_1}$
-  \item Bilinear: $\iprod{a v_1 + b v_2}{v_3} = a \iprod{v_1}{v_3} + b
-    \iprod{v_2}{v_3}$ for $a, b \in \R$
-  \item Positive definite: $\iprod{v}{v} \geq 0$ and equals $0$ iff
-    $v=0$. 
-  \end{enumerate}  
-\end{definition}
-Any inner product space is also a normed vector space with norm
-\[ \norm{x} = \sqrt{\iprod{x}{x}}. \]
-\begin{example}
-  $\R^n$ with the \textbf{dot product}, $x \cdot y = \sum_{i=1}^n x_i
-  y_i$, is an inner product space. 
-\end{example}
-\begin{example}
-  $\ell^p$ with $\iprod{x}{y} = \sum_{i=1}^\infty x_i y_i$ is
-  an inner product space.
-\end{example}
-\begin{example}
-  $\mathcal{L}^2(0,1)$ with $\iprod{f}{g}
-  \equiv \int_0^1 f(x) g(x) dx$ is an inner product space. 
-\end{example}
-
-Suppose we have an inner product space then:
-\begin{align*}
-  \norm{x + y}^2 = & \iprod{x+y}{x+y} \\
-  = & \iprod{x}{x} + 2\iprod{x}{y} + \iprod{y}{y}
-\end{align*}
-In $\R^n$ with the Euclidean norm when $x$ and $y$ are at right angles
-to one other, $\iprod{x}{y} = 0$, and we have the Pythagorean theorem:
-\[ \norm{x + y}^2 = \norm{x}^2 + \norm{y}^2. \]
-This motivates the following definition
-\begin{definition}
-  Let $x,y \in V$, an inner product space. $x$ and $y$ are
-  \textbf{orthogonal} iff $\iprod{x}{y} = 0$. 
-\end{definition}
-
-\subsection{Useful inequalities}
-When we start looking at limits next week, will we often need to prove
-that the norm of something is small. There are a number of
-inequalities that we will repeatedly use. The most common is the
-triangle inequality, which was part of our definition of norms.  The
-triangle inequality has many implications, some of which are not
-obvious. These implications are often useful in proofs. The most
-common is what is known as the reverse triangle inequality.
-\begin{theorem}[Reverse triangle inequality]
-  Let $V$ be a normed vector space and $x,y \in V$. Then
-  \[ \left| \norm{x} - \norm{y} \right| \leq \norm{x-y}. \]
+In studying constrained maximization problems, we showed that if $x^*$
+is a local maximizer for 
+\[ \max f(x) \text{ s.t. } h(x) = c \]
+then it must be that for all $v$ such that $Dh_{x^*} v = 0$ we also have
+$Df_{x^*} v = 0$. We then made some heuristic arguments that this is
+equivalent to $Df_x = \mu^T Dh_x$ for some Lagrange multipliers
+$\mu$. The separating hyperplane theorem let's us prove this
+fact. Notice that $Df_{x^*}$ is a $1 \times n$ matrix, i.e. a linear
+transformation from $\R^n \to \R$, and $Dh_{x^*}$ is an $m \times n$
+matrix, i.e. a linear transformation from $R^n \to \R^m$. 
+\begin{theorem}\label{thm:multipliers}
+  Let $V$ and $W$ be normed vector spaces, $A \in B(V,\R)$ and
+  $C \in B(V,W)$. Assume that $\range C$ is closed. Then
+  $\nulls A \subseteq \nulls C$ if and only if $A = \mu C$ for some
+  $\mu \in W^*$.
 \end{theorem}
 \begin{proof}
-  By the usual triangle inequality,
+  Assume $\nulls A \subseteq \nulls C$. Consider $D:V \to \R \times W$
+  defined by $Dv = (Av, -Cv)$. $D$ is linear and bounded since $A$ and
+  $C$ are.  Therefore $\range D$ is a subspace of $\R \times W$. Also
+  $(1,0_W) \not\in \range D$ because $Cv = 0_w$ only if
+  $v \in \nulls C$, but if $v \in \nulls C$, then $v \in \nulls A$ by
+  assumption, and $Av = 0 \neq 1$. Since $\range C$ is closed and
+  $\range A$ is finite dimensional and therefore closed, $\range D$ is
+  closed. Therefore, there exists an open neighborhood of $(1,0_W)$
+  that does not intersect $\range D$. Call it $N$. This neighborhood
+  is convex, and so is $\range D$. Therefore, by the separating
+  hyperplane theorem, there exists $\xi \in (\R \times W)^*$ and
+  $c \in \R$ such that
+  \[ \xi x \leq c < \xi y \]
+  for all $x \in \range D$ and $y \in N$.  It must be that $\xi x = 0$
+  for all $x \in \range D$. If not, say $\xi x = d \neq >0$, then
+  since $\range D$ is a subspace, $2c/d x \in \range D$, and since
+  $\xi$ is linear, $\xi(2c/d x) = 2c > c$.  Let
+  $\xi = (\xi_1, -\tilde{\mu})$, where $\xi_1 \in \R^* = \R$ and
+  $\mu \in W^*$. Since $(1,0_w) \in N$, it must be that $\xi_1 >
+  0$. Therefore, for all $v \in V$,
   \begin{align*}
-    \norm{x} + \norm{x-y} \geq & \norm{y} \\
-    \norm{x-y} \geq \norm{y} - \norm{x}
+    0 = & \xi Dv \\
+    0 = & \xi_1 Av - \tilde{\mu} Cv \\
+    \mu C v = & Av 
   \end{align*}
-  and
-  \begin{align*}
-    \norm{y} + \norm{y-x} \geq & \norm{x} \\
-    \norm{y-x} \geq \norm{x} - \norm{y}.
-  \end{align*}
-  Also, $\norm{y-x} = \norm{(-1)(x-y)} = |-1| \norm{x-y} =
-  \norm{x-y}$ is greater than both $\norm{x}-\norm{y}$ and
-  $\norm{y}-\norm{x}$ and 
-  \[ \norm{x-y} \geq \left| \norm{x} - \norm{y} \right|. \]
-\end{proof}
+  i.e. $\mu C = A$.
 
-After the triangle inequality, arguably the most important inequality
-in mathematics is the Cauchy-Schwarz inequality. 
-\begin{theorem}[Cauchy-Schwarz inequality \label{thm:cauchy-schwarz}]
-  Let $V$ be an inner product space and let $u,v\in V$. Then,
-  \[ \left\vert \iprod{u}{v} \right\vert \leq \norm{u}\norm{v}. \]
-\end{theorem}
-\begin{proof}
-  The idea of this proof can be illustrated in $\R^2$ by forming a right
-  angle triangle with vertices at $0$, $u$, and $tv$ and sides of
-  lengths $\norm{tv}$, $\norm{u-tv}$, and $\norm{v}$, where $t$ is
-  chosen such that $v$ and $u-tv$ are orthogonal, as shown in the
-  following diagram.
-  \begin{center}
-    \includegraphics[width=0.5\linewidth]{cauchy-schwarz.png}
-  \end{center}
-  We are choosing $t$ so that $\iprod{v}{u-tv} = 0$, so solving for $t$,
-  \begin{align*}
-    \iprod{v}{u-tv} = & 0 \\
-    \iprod{v}{v} = & t \iprod{u}{v} \\
-    t = & \frac{\iprod{u}{v}}{\norm{v}^2}.
-  \end{align*}
-  We can choose such a $t$ in any inner product space, not just
-  $\R^2$.
-  
-  Now, let $z = u-tv$. By construction, $\iprod{z}{v} = 0$ and $u = tv
-  + z$. Hence, by the Pythagorean theorem,
-  \begin{align*}
-    \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
-    = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
-  \end{align*}
-  $\norm{z}^2\geq 0$, so
-  \begin{align*}
-    \norm{u}^2 \geq & \frac{\iprod{u}{v}^2}{\norm{v}^2} \\
-    \norm{u}\norm{v} \geq |\iprod{u}{v}|.
-  \end{align*}
+  Conversely, suppose $\mu C = A$. Let $v \in \nulls C$. Then, 
+  $ 0 = C v $, so $A v = \mu C v = \mu 0 = 0$. Therefore $v \in \nulls A$.
 \end{proof}
-Notice that in the proof, we also saw that  $\norm{u}\norm{v} =
-|\iprod{u}{v}|$ if and only if $\norm{z} = 0$. $\norm{z}$ is zero
-whenever $u$ and $v$ are linearly dependent i.e. $u = \alpha v$ where
-$\alpha \in \R$. 
-
-\subsection{Projections}
-The mapping from $u$ to $tv$ that we saw in the proof of theorem
-\ref{thm:cauchy-schwarz} is so common that it has
-a name. It is the projection of $u$ onto $v$. 
-\begin{definition}
-  Let $V$ be an inner product space and $x,y \in V$. The (orthogonal) 
-  \textbf{projection} of $y$ onto $x$ is 
-  \[ P_x y = \frac{\iprod{y}{x}}{\norm{x}^2} x. \]
-\end{definition}
-Note that if $z \in \spn(\{x\})$, then 
-\begin{align*}
-  \norm{z - y}^2 = & \norm{ (z - P_x y) + (P_x y - y)}^2 \\
-  = & \norm{ z - P_x y }^2+ 2\iprod{z-P_x y}{P_x y - y} + \norm{P_x y
-    - y}^2 \\
-  = & \norm{ z - P_x y }^2+ \norm{P_x y
-    - y}^2 \geq \norm{P_x y - y}^2.
-\end{align*}
-In other words, $P_x y$ minimizes $\norm{\tilde{x} - y}$ for
-$\tilde{x} \in \spn(x)$. This motivates the following definition of a
-projection.
-\begin{definition}
-  Let $U \subseteq V$ be a subspace of the inner-product space
-  $V$. Then the \textbf{projection} of $x$ onto $U$ is the unique $P_U x
-  \in U$ such that $\norm{x - P_U x} \leq \norm{x - u}$ for all $u \in
-  U$. 
-\end{definition}
-To ensure that this definition makes sense, we should verify that $P_U
-x$ exists and is unique. Uniqueness follows from the following.
-\begin{lemma} \label{lem:orthoProj}
-  $\iprod{x-P_U x}{u} = 0$ for all $u \in U$.
-\end{lemma}
-\begin{proof}
-  Let $u_1 = P_U x + \iprod{x-P_U x}{u} u$. Then
-  \begin{align*}
-    \norm{x - u_1}^2 = & \norm{x - P_U x -  \iprod{x-P_U x}{u} u}^2 \\
-    = & \norm{x - P_u x}^2 - \iprod{x-P_U x}{u}^2 
-  \end{align*}
-  This must be greater than or equal to $\norm{x - P_U x}^2$, so it must
-  be that $\iprod{x - P_U x}{u} = 0$.
-\end{proof}
-\begin{lemma}
-  $P_U x$ is unique.
-\end{lemma}
-\begin{proof}
-  Let $z \in U$
-  \begin{align*}
-    \norm{z - x}^2 = & \norm{ (z - P_U x) + (P_U x - x)}^2 \\
-    = & \norm{ z - P_U x }^2+ 2\iprod{z-P_U x}{P_U x - x} + \norm{P_U x
-      - x}^2 \\
-    = & \norm{ z - P_U x }^2+ \norm{P_U x
-      - x}^2 \geq \norm{P_U x - x}^2.
-  \end{align*}
-  Also, $  \norm{z - x}^2 = \norm{P_U x - x}^2$ only if $\norm{P_u x -
-    z}=0$, i.e. only if $z = P_U x$.
-\end{proof}
-In finite dimensional spaces, $P_U x$ can be constructed from the
-basis. First, another definition.
-\begin{definition}
-  $E \subseteq V$ are \textbf{orthonormal} if for all $e \in E$,
-  $\norm{e} = 1$ and for all $e \neq b \in E$, $\iprod{e}{b} = 0$.
-\end{definition}
-Projections can be written in terms of an orthonormal basis for
-subspaces. 
-\begin{lemma}
-  If $\{e_1, ..., e_n\}$ are an orthonormal basis for $U \subseteq V$,
-  then $P_U x = \sum_{i=1}^n \iprod{e_i}{x} e_i.$
-\end{lemma}
-\begin{proof}
-  ...
-\end{proof}
-The existence of an orthonormal basis is shown by the Gram-Schmidt process.
-\begin{theorem}[Gram-Schmidt]
-  Let $\{v_i\}$ be a countable or finite set of linearly independent
-  vectors. Then there exists an orthnormal set $\{e_i\}$ such that
-  $\spn(v_1, ... , v_n) = \spn(e_1, ..., e_n)$ for all $n$.
-\end{theorem}
-\begin{proof}
-  Let $e_1 = \frac{v_1}{\norm{v_1}}$. Define the remaining $e_i$ by
-  induction.
-  Let $z_i = v_i - \sum_{j=1}^{i-1} \iprod{v_i}{e_j}e_j$
-  and $e_i = \frac{z_i}{\norm{z_i}}$.
-\end{proof}
-In infinite dimensional spaces an additional condition called
-completeness is required to show $P_U x$ exists. We may define
-completeness later.
-\begin{lemma} 
-  A projection is a linear transformation. 
-\end{lemma}
-\begin{proof}
-  ...
-\end{proof}
-
-Projections are related to subspaces as follows.
-\begin{definition}
-  Let $U \subseteq V$. The \textbf{orthogonal complement} of $U$ is
-  \[ U^\perp = \{v \in V: \iprod{v}{w} = 0 \forall w \in U \}. \]
-\end{definition}
-The bilinearity of the inner product implies that $U^\perp$ is a
-linear subspace. Also, if $U$ is itself is a subspace, then
-\begin{lemma}
-  If $U \subseteq V$ is a subspace,  then 
-  \[ V = U \oplus U^\perp. \]
-\end{lemma}
-\begin{proof}
-  We will use lemma \ref{lem:dirSum}. The positive definiteness of the
-  inner product implies $U \cap U^\perp = \{0\}$. Also, for any $x \in
-  V$, $x = P_U x + (x - P_U x)$. $P_U x \in U$ by definition, and $x -
-  P_U x \in U^\perp$ by lemma \ref{lem:orthoProj}. Therefore $V = U +
-  U^\perp.$ 
-\end{proof}
+If we take $A = Df_x$ and $C = Dh_x$, then this theorem shows that
+existence of Lagrange multipliers such that $Df_x = \mu^T Dh_x$ is
+equivalent to $Dh_{x^*} v = 0$ implying that $Df_{x^*} v = 0$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{First welfare theorem}
+\section{Welfare theorems}
+A second major use of the separating hyperplane theorem (and vector
+spaces more generally) is in the proof of the first and second welfare
+theorems. The first welfare theorem says that every competitive
+equilibrium is Pareto efficient. The second welfare theorem says that every
+Pareto efficient allocation can be achieved by some competitive
+equilibrium. 
 
 We have some set of commodities, $S$, which we will assume is a normed
 vector space. For example, in a world with $n$ goods, $S$ could be
@@ -1758,6 +1531,7 @@ and give them to someone else, making that person better off. However,
 there is nothing in the definition of a competitive equilibrium that
 prevents person $i$ from having clothes.
 
+\subsection{First welfare theorem}
 \begin{theorem}[First welfare theorem]
   If $((x_i^0),(y^0_j))$ and $p$ is a competitive equilibrium and all
   consumers' preferences have the local non-satiation condition, then
@@ -1832,7 +1606,766 @@ prevents person $i$ from having clothes.
   Pareto efficient.
 \end{proof}
 
+\subsection{Second welfare theorem}
+The second welfare theorem is the converse of the first welfare
+theorem. The second welfare theorem says that any Pareto efficient
+allocation can be achieved by some competitive equilibrium. The second
+welfare theorem does not hold quite as generally as the first welfare
+theorem. 
+\begin{definition}
+  A preference relation, $\prefeq_i$, is \textbf{convex} if whenever $x
+  \prefeq_i z$ and $y \prefeq_i z$, then $\lambda x + (1-\lambda) y
+  \prefeq_i z$ for all $\lambda \in [0,1]$. 
+\end{definition}
+Alternatively, a preference relation is convex if the set $\{x\in X_i: x
+\prefeq_i z\}$ is convex for each $z$. Whenever you have seen convex
+indifference curves, the associated preference relation is convex. If
+the preference relation is generated by a concave (more generally
+quasi-concave) utility function, then the preference relation is
+convex.
+\begin{definition}
+  A preference relation, $\prefeq_i$, is \textbf{continuous} if
+  for any  $x \pref_i z$ there exists a $\delta >
+  0$ such that for all $x'$ with $\norm{x - x'}<\delta$ we have $x'
+  \pref_i z$.
+\end{definition}
+A continuous preference relation can be generated by a continuous
+utility function.
 
+\begin{theorem}[Second welfare theorem]
+  Assume the preferences of each consumer are convex, locally
+  non-satiated, and continuous, and that $X_i$ is convex and
+  non-empty.  
+  Also assume that $Y_j$ is convex and non-empty for each
+  firm $j$. 
+
+  Suppose $((x_i^e), (y_j^e))$ is a Pareto efficient allocation such
+  that for any price system, $p$, there is always a cheaper bundle of
+  goods, i.e.\ $\exists x_i \in X_i$ s.t. $p x_i < p x_i^e$ for each
+  $i$. Then there exists a price system, $p^e$ such that $((x_i^e),
+  (y_j^e))$ and $p^e$ is a competitive equilibrium.
+\end{theorem}
+\begin{proof}
+  We are going to construct the price system by applying the
+  separating hyperplane theorem. Let $V_i = \{ x \in X_i : x \pref_i
+  x_i^e \}$ be the set of $x$ strictly preferred by person $i$. Let 
+  \begin{align*}
+    V = \{ \chi \in S: \chi = \sum_{i=1}^I x_i \text{ for some } x_i
+    \in V_i \}  
+  \end{align*}
+  be the set of sums of elements from each $V_i$. The convexity of
+  $X_i$ and the preference relation implies that $V_i$ is convex for
+  each $i$. That, in turn, implies that $V$ is convex.\footnote{It
+    might be a good exercise to prove these claims. } 
+  Similarly, if 
+  \begin{align*}
+    Y = \{ \psi \in S: \psi = \sum_{i=j}^J y_j \text{
+      for some } y_j \in Y_j \}  
+  \end{align*}
+  is the sum of each firms' production possibility set, then $Y$ is
+  convex. 
+
+  We have two convex sets. Now, we just need to show that they are
+  disjoint, and then we can apply the separating hyperplane
+  theorem. Suppose $\chi \in Y \cap V$. Then $\exists x_i \in V_i$ and
+  $y_j \in Y_j$ such that $\chi = \sum_{i=1}^I x_i = \sum_{j=1}^J$. This
+  is feasible allocation, and $x_i \pref_i x_i^e$ by
+  construction. This contradicts $((x_i^e),(y_i^e))$ being Pareto
+  efficient. Therefore, $Y \cap V = \emptyset$. o
+
+  Now, by the separating hyperplane theorem, $\exists p$ such
+  that\footnote{In the notation of theorem \ref{thm:sht}, $p$ is $\xi$.}
+  \begin{align}
+    p \chi \geq p \psi \label{ieq:p}
+  \end{align}
+  for all $\chi \in V$ and $\psi \in Y$. Now we need to verify
+  that $((x_i^e),(y_j^e))$ with $p$ is a competitive equilibrium. It
+  is feasible because $((x_i^e),(y_j^e))$ is Pareto efficient, and
+  feasible by definition.
+  
+  We now show that (\ref{ieq:p}) holds with equality at $\chi^e =
+  \sum_{i=1}^I x_i^e$ and $\psi^e = \sum_{j=1}^J y_j^e$. On the
+  one hand, $\chi^e = \psi^e \in Y$, so we must have 
+  \begin{align*}
+    p \chi \geq p \chi^e 
+  \end{align*}
+  for all $\chi \in V$. On the other hand, for any$\delta > 0$, by
+  local non-satiation, we can find $x_i$ such that $x_i \pref_i x_i^e$
+  and $\norm{x_i - x_i^e}<\delta/I$. It follows that
+  $\norm{\sum_{i=1}^I x_i - \sum_{i=1}^T x_i^e } < \delta$. $p$ is
+  continuous, so
+  \[
+  \left\vert p\left( \sum_{i=1}^e x_i \right) - p\left(\sum_{i=1}^I
+      x_i\right) \right\vert < \epsilon,
+  \]
+  and we can choose $\epsilon>0$ to be as small as we want. 
+  Then, for any $\epsilon >0$, 
+  \begin{align*}
+    p \chi^e + \epsilon \geq p \psi
+  \end{align*}
+  for all $y \in Y$. Since this is true for any $\epsilon$, it must be
+  that $p \chi^e \geq p \psi$. Therefore, we have now shown
+  that
+  \begin{align}
+    p\chi \geq p \chi^e = p \psi^e \geq p \psi
+  \end{align}  
+  for all $\chi \in V$ and $\psi \in Y$. 
+
+  It must be then also be that $p x_i \geq p x_i^e $ for each $i$ and
+  all $x_i \in V_i$. If not, then there is an $\epsilon>0$ such that
+  $p x_i + \epsilon < p x_i^e$, and then using local non-satiation we
+  can choose $x_k$ for $k\neq i$ such that $x_k \in V_k$ and 
+  \[\left| \sum_{
+      k \neq i } px_k - \sum_{k \neq i } p x_k^e \right| < \epsilon/2
+  \]
+  and then 
+  \[ \sum_{k=1}^I p x_k + \epsilon/2 < \sum_{k=1}^I p x_k^e. \]
+  Similarly, we must have $p y_j^e \geq p y_j$ for all $y_j \in Y_j$,
+  which proves that profit maximization, (\ref{c3}), holds. 
+
+  We have nearly shown that utility maximization, (\ref{c2}), also
+  holds. We have shown that for each $i$ if $x_i \pref_i x_i^e$ then
+  $p x_i \geq p x_i^e$. To strengthen it to the form in the
+  definition, we need to show that $px_i > p x_i^e$. We will use the
+  continuity of preferences and the cheaper good condition. Suppose $p
+  x_i = p x_i^e$ and $\exists x'_i \in X_i$ such that $p x_i' < p
+  x_i^e$. Then for any $\lambda \in (0,1)$, $p(\lambda x_i'
+  +(1-\lambda) x_i') < p x_i^e$. Also, by the continuity of
+  preferences, for $\lambda$ close enough to $0$, $\lambda x_i +
+  (1-\lambda)x_i' \pref_i x_i^e$. However, then $\lambda x_i +
+  (1-\lambda) x_i' \in V_i$ contradicting $p(\lambda x_i
+  +(1-\lambda) x_i') < p x_i^e$. Therefore, if the cheaper good
+  exists, we must have $p x_i < p x_i^e$.   
+\end{proof}
+
+\clearpage
+\appendix
+\section{Proof of the separating hyperplane theorem \label{app:hyperplane}}
+
+This section is based on \cite{holmes1975}.  The following lemma is a
+first step to proving the theorem.
+\begin{lemma}[Stone]\label{lem:stone}
+  Let $V$ be a vector space and $A$ and $B$ be disjoint convex subsets
+  of $V$, then there exist convex sets $C$ and $D$ such that $A
+  \subseteq C$, $B \subseteq D$, $C \cap D = \emptyset$ and $C \cup D
+  = V$.
+\end{lemma}
+\begin{proof}
+  We employ a similar technique as used to show the existence of a
+  basis. Let $\mathcal{C}$ be the collection of all convex sets
+  containing $A$ and disjoint from $B$. $\mathcal{C}$ is non-empty
+  because $A \in \mathcal{C}$.  As in the exercise showing existence
+  of a basis, $(\mathcal{C}, \subseteq)$ is a partially ordered
+  set. Also, for any chain $\mathcal{H} \subseteq \mathcal{C}$,
+  $\cup_{E \in \mathcal{H}} E$ is an upper bound. Therefore, by Zorn's
+  lemma, $\mathcal{C}$ has a maximal element. Let $C$ be a maximal
+  element. Define $D = V \setminus C$.  By construction
+  $C \cap D = \emptyset$, $B \subseteq D$, and $C \cup D = V$.
+
+  To complete the proof, we just need to show that $D$ is
+  convex. Suppose $D$ is not convex, then there exists $x,z \in D$,
+  $\lambda \in (0,1)$ such that $y = \lambda x + (1-\lambda) z \not\in
+  D$. Then $y \in C$. Furthermore, observe that for any $d \in D$, there
+  must be a $c \in C$ and $\lambda \in [0,1]$ such that $b = \lambda d
+  + (1-\lambda) c \in B$. If there were not, then the set 
+  \[ \tilde{C} = \{\lambda d + (1-\lambda) c:  \lambda \in [0,1], c
+  \in C\} \]
+  would be a convex set containing $A$ and disjoint from $B$,
+  contradicting the fact that $C$ is a maximal such set. 
+  Then can find $p,q \in C$ and $u,v \in B$ such $u$ is a convex
+  combination of $p$ and $x$, and $v$ is a convex combination of $q$
+  and $z$, i.e. there are $\lambda_u, \lambda_v \in (0,1)$ such that:
+  \begin{align*}
+    u = & \lambda_u x + (1-\lambda_u) p \\
+    v = & \lambda_v z + (1-\lambda_v) q 
+  \end{align*}
+  However, then there would be some convex combination of $u$ and $v$
+  that can also be written as a convex combination of $p$, $q$, and
+  $y$. Since $B$ is convex and $u,v\in B$, this convex combination
+  would also be in $B$. Since $C$ is convex and $p,q,y \in C$, the
+  convex combination would also be in $C$. In other words $B \cap C$
+  would not be empty, but this contradicts the way $C$ is
+  defined. Therefore, it must be that $D$ is convex. 
+\end{proof}
+For any hyperplane, $H_{\xi,c}$, the sets $\{v \in V: \xi v \geq c\}$
+and $\{v \in V: \xi v < c\}$ are disjoint and convex. The next step is
+to show that disjoint convex sets from lemma \ref{lem:stone} take this
+form. First, we need some definitions of the boundary and interior of
+subsets of a vector space (without a norm). For normed vector spaces,
+these definitions are the same as the definitions using open and
+closed sets.
+\begin{definition}
+  Let $V$ be a vector space and $A \subseteq V$. The \textbf{algebraic
+    interior} of $A$ is set of all $a \in A$ such that for every $v
+  \in V$ there exists $\bar{\lambda} \in (0,1)$ such that 
+  \[ a(1-\lambda) + \lambda v \in A \]
+  for all $\lambda \in [0,\bar{\lambda}]$. Denote the algebraic
+  interior of $A$ as $\mathrm{int}(A)$.
+\end{definition}
+At interior points, we can move slighty from $a$ toward any other
+point $v$ and remain inside $A$.
+\begin{definition}
+  Let $V$ be a vector space and $A \subseteq V$. The \textbf{algebraic
+    closure}\footnote{This is non-standard terminology.} of $A$ is set
+  of all $v \in V$ such that $\exists a \in A$ such that
+  $\forall \lambda \in [0,1)$,
+  \[ a(1-\lambda) + \lambda v \in A \]
+  Denote the algebraic closure of $A$ as $\overline{A}$.
+\end{definition}
+Finally, we need to define affine sets.
+\begin{definition}
+  $A \subseteq V$ is \textbf{affine} if $\forall x, y \in A$ and $\lambda \in
+  \R$, $\lambda x + (1-\lambda)y \in A$.
+\end{definition}
+The difference between affine and convex is that affine sets allow
+$\lambda <0$ and $\lambda >1$. Affine sets contain the line passing
+through any two vectors in the set. Convex sets only contain the line
+segment between any two points. Affine sets are like linear subspaces
+in that they are lines, planes, etc, except that affine sets need not
+contain $0$.  We also need the following lemma about hyperplanes.
+\begin{lemma}
+  An affine set $A$ is a hyperplane if and only if it is a maximal
+  proper affine set with respect to inclusion.
+\end{lemma}
+\begin{proof}
+  Left as an exercise.
+\end{proof}
+\begin{lemma}\label{lem:compconvex}
+  Let $C$ and $D$ be non-empty convex sets in a vector space
+  $V$ with $C \cap D = \emptyset$ and $C \cup D = V$. Let
+  $M = \overline{C} \cap \overline{D}$, then either $M = V$ or $M$ is
+  a hyperplane in $V$.
+\end{lemma}
+\begin{proof}
+  Since $C$ and $D$ are convex, so are $\overline{C}$ and
+  $\overline{D}$. For any convex sets, their intersection is also
+  convex, so $M$ is convex. Moreover, $M$ is affine. To see this let
+  $x,y \in M$ and $z = \lambda x + (1-\lambda) y $ for $\lambda \in
+  \R$. If $\lambda \in (0,1)$, we known $M$ is convex, so $z \in
+  M$. If $z \not\in M$, then $z \in \mathrm{int}(C) \cup
+  \mathrm{int}(D)$. To be concrete, suppose $z \in \mathrm{int}(C)$ and $\lambda<1$
+  (the other cases are dealt with similarly). Then $y = z/(1-\lambda)
+  - \lambda/(1-\lambda) x$ is a convex combination of $x$ and
+  $z$. Notice that $x \in \overline{C}$ and $z \in \mathrm{int}(C)$ implies
+  $y \in \mathrm{int}(C)$, but this contradicts the assumption that $y
+  \in M$. Therefore, it must be that $z \in M$. 
+
+  Suppose $M \neq V$. Pick any $m \in M$. Then
+  $\exists (m+p) \in V \setminus M = \mathrm{int}(C) \cup
+  \mathrm{int}(D)$.
+  Without loss of generality, assume $(m+p) \in \mathrm{int}(C)$.  If
+  $(m-p) \in \mathrm{int}(C)$, then
+  $0.5(m+p) + 0.5(m-p) = m \in \mathrm{int}(C)$ by convexity, but we
+  know $m \not\in \mathrm{int}(C)$, so it must be that
+  $(m-p) \in \mathrm{int}(D)$. To conclude, we show that the span of
+  $\{p\} \cup M = V$, so $M$ is a maximal affine set, i.e. a
+  hyperplane. Let $x \in C$. By definition of $\overline{C}$ and
+  $\overline{D}$, there exists $\lambda \in (0,1)$ such that
+  $\lambda x + (1-\lambda) (m-p) \in M$, so
+  $x \in \spn(M \cup \{p\})$. Similarly if $x \in D$,
+  $x \in \spn(M \cup \{p\})$.
+\end{proof}
+Finally, we can prove the separating hyperplane theorem.
+\begin{proof}[Proof of theorem \ref{thm:sht}]
+  By Stone's separation lemma \ref{lem:stone}, there exists convex
+  sets $C$ and $D$ such that $S_1 \subseteq C$, $S_2 \subseteq D$,
+  $C \cap D = \emptyset$, and $C \cup D = V$. By lemma
+  \ref{lem:compconvex}, $H = \overline{C} \cap \overline{D}$ is either
+  $V$ or the separating hyperplane that we want. $H$ is not a
+  hyperplane only if $\overline{C} = \overline{D} = V$. If $V$ is
+  finite dimensional, and $C$ and $D$ are not empty, then this is
+  impossible. TODO: make a lemma proving this. Regardless of the
+  dimension of $V$, if $C$ (or $D$) has a non-empty interior, then
+  lemma \ref{lem:ubiq} implies that $\overline{C}$ (or $\overline{D}$)
+  cannot be all of $V$, since we know that $C \neq V$.
+\end{proof}
+\begin{lemma}\label{lem:ubiq}
+  If $C \subseteq V$ is convex, $\mathrm{int}(C)$ is not empty, and
+  $\overline{C} = V$, then $C = V$. 
+\end{lemma}
+\begin{proof}
+  Let $x \in V$, and $y \in \mathrm{int}(C)$.  Without loss of
+  generality assume $y = 0$. Since $\overline{C} = V$ so $2x \in \overline{C}$,
+  $\exists z \in C$ such that
+  \[ (1-\lambda)z + \lambda 2x \in C \]
+  for all $\lambda \in [0,1)$. 
+  Since $y = 0 \in \mathrm{int}(C)$ there is $\delta>0$ such that 
+  $-\delta z \in C$. Since $C$ in convex, for any $t \in [0,1]$ and
+  $\lambda \in [0,1)$,
+  \[ [(1-\lambda)z + \lambda 2x] t - (1-t) \delta z \in C \]
+  Setting $\lambda = \frac{1+\delta}{1+2\delta}$ and $t =
+  \frac{1+2\delta}{2(1+\delta)}$, we can conclude that $x \in C$, so
+  $C = V$.  
+\end{proof}
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fundamental theorem of linear algebra}
+I've covered this in past years, but we will not get to it this year.
+
+The next three lemmas will be used later when proving theorem
+\ref{thm:fund}. You may want to skip ahead and only come back to these
+lemmas when they're needed.
+\begin{lemma}\label{lem:directSum}
+  Suppose $V$ is finite dimensional and $S$ is a subspace of $V$. Then
+  $\exists$ another subspace, $W$, of $V$ such that $V = S \oplus W$,
+  and $\dim(V) = \dim(S) + \dim(W)$.
+\end{lemma}
+\begin{proof}
+  Construct a basis for $S$ as follows. Set the basis $B = \{\}$. If
+  $S = \text{span}(B)$, then stop. Otherwise, choose $\mathbf{b}_j \in
+  S \setminus \text{span}(B)$ and add it to $B$. Since $V$ is finite
+  dimensional, this process must stop after at most $\dim(V)$
+  steps. This gives a basis $B$ for $S$. 
+
+  We will now construct a basis for $W$. Set $E = \{\}$. If
+  $\text{span}(B \cup E) = V$, then stop. Otherwise choose $\mathbf{e}_j \in V
+  \setminus \text{span}(B \cup E)$ and add it to $E$. Again, this
+  process must stop because $V$ is finite dimensional. Let $W =
+  \text{span}(E)$. By construction $\text{span}(B \cup E) = S + W =
+  V$. Also, lemma \ref{lem:uniqueRep} implies that each $\mathbf{v}
+  \in V$ can be uniquely written as a linear combination of elements
+  of $B \cup E$, each $\mathbf{s} \in S$ can be uniquely written as a
+  linear combination of $B$, and each $\mathbf{w} \in W$ can be
+  uniquely written as a linear combination of $E$. It follows that for
+  each $\mathbf{v} \in V$ there are unique $\mathbf{s} \in S$ and
+  $\mathbf{w} \in W$ such that $\mathbf{v} = \mathbf{s} +
+  \mathbf{w}$. 
+\end{proof}
+
+\begin{lemma}\label{lem:dimisect}
+  Suppose $V$ is finite dimensional and $S$ and $T$ are subspaces of
+  $V$. If $S \cap T = 0$ and $\dim(S) + \dim(T) = \dim(V)$, then $V =
+  S \oplus T$. 
+\end{lemma}
+\begin{proof}
+  Let $b_1, ..., b_n$ be a basis for $S$ and $e_1, ..., e_m$ be a
+  basis for $T$. Suppose 
+  \[ \sum_{i=1}^n \alpha_i b_i +  \sum_{j=1}^m \beta_j e_j = 0 \]
+  Then let
+  \[ \mathbf{x} = \sum_{i=1}^n \alpha_i b_i = -\sum_{j=1}^m \beta_j
+  e_j \]
+  $\mathbf{x} \in S$, and $\mathbf{x} \in T$. We assume $S \cap T =
+  0$, so then $\mathbf{x} = 0$. Since $b_1, ..., b_n$ are linearly
+  independent, we must have $\alpha_1 = \cdots = \alpha_n =
+  0$. Similarly all $\beta_j = 0$. Therefore, $b_1, ..., b_n$, $e_1,
+  ..., e_m$ are linearly independent. This is a linearly independent
+  set of $\dim(S) + \dim(T) = \dim(V)$ elements, so it is a basis for
+  $V$. Hence, $V = S + T$. 
+\end{proof}
+\begin{lemma}\label{lem:dimSum}
+  Let $S$ and $T$ be subspaces of a finite dimensional space $V$. Then
+  \[ \dim(S + T) = \dim(S) + \dim(T) - \dim(S \cap T). \]
+\end{lemma}
+\begin{proof}
+  We will be brief for this proof. You may want to add the details as
+  an exercise. 
+  
+  Let $B$ be basis for $S \cap T$. Extend $U$ to a basis for $S$, call
+  it $B \cup B_S$. Similarly extend $U$ to a basis for $T$, $B\cup
+  B_T$. Then $\spn(B \cup B_S \cup B_T) = S + T$. Also, you can show
+  that $B \cup B_S \cup B_T$ is linearly independent, and hence a
+  basis, for $S+T$. Finally, note that since $B$, $B_S$, and $B_T$ must
+  be disjoint, 
+  \[ \dim(S+T) = | B \cup B_S \cup B_T | = | B \cup B_S | + | B \cup
+  B_T | - | B |. \]
+\end{proof}
+
+There is an interesting relationship among the null spaces and ranges
+of a linear transformation and its transpose. Let $A \in L(V,W)$ and
+suppose $V$ and $W$ are finite dimensional. Finite dimension ensures
+that $V^\ast = V$ and $W^\ast = W$. Then $\nulls A
+\subseteq V$ and $\range A^T \subseteq V$. How are these
+subspaces related?  
+\begin{theorem}[Fundamental theorem of linear algebra]\label{thm:fund}
+  Let $A \in L(V,W)$, where $V$ and $W$ are finite dimensional. Then 
+  \[ V = \nulls A \oplus \range A^T \]
+  and 
+  \[ W = \nulls A^T \oplus \range A. \] 
+  Also, $\dim(\range A) = \dim(\range  A^T)$ and,
+  \[ \dim(V) = \dim(\nulls A) + \dim(\range A) \]
+  and 
+  \[ \dim(W) = \dim(\nulls A^T) + \dim(\range A). \]
+\end{theorem}
+\begin{proof}
+  Suppose $x$ is in the null space of $A$. Then $A x
+  = 0$. By the definition of the transpose,
+  \[ w^T A x = (A^T w)^T x = 0 \]
+  The set $\{v : v = A^T w\}$ is the range of $A^T$. If $x \in
+  \nulls A \cap \range A^T$, then there is a $w$ such that
+  $A^T w = x$. We know from the previous equation that $(A^T w)^T x = 0
+  = x^T x$. Therefore, it must be that $x=0$, so $\nulls A \cap
+  \range A^T = \{ 0 \}$. 
+  
+  Let $U$ be such that $\nulls A \oplus U = V$ (lemma
+  \ref{lem:directSum}), and $\dim(\nulls A) + \dim(U) =
+  \dim(V)$. Theorem \ref{thm:rankNull} then implies that, 
+  $\dim(U) = \dim(\range A)$. Additionally, lemma \ref{lem:dimSum}
+  implies that $\dim(\nulls A + \range A^T) = \dim(\nulls A) +
+  \dim(\range A^T) \leq \dim (V)$, so we can conclude that
+  $\dim(\range A^T) \leq \dim(\range A)$.
+  
+  Identical reasoning shows the opposite inequality. Therefore
+  $\dim(\range A) = \dim(\range A^T)$. Finally, since
+  $\dim(\nulls A) + \dim(\range A^T) = \dim(V)$ and 
+  $\nulls A \cap \range A^T = \{ 0 \}$, using lemma
+  \ref{lem:dimisect}, we can conclude that
+  $V = \nulls A \oplus \range A^T$. 
+  Identical reasoning shows that $W = \nulls A^T \oplus \range A$. 
+\end{proof}
+\cite{strang1993} has a nice discussion of this theorem. 
+
+The requirement of finite dimension is really essential in this
+theorem. In infinite dimension, $V^\ast$ need not be the same as
+$V$. If $V$ and $V^\ast$ are different, it does not make sense to talk
+about $\nulls A + \range A^T$, because $\nulls A \subseteq V$ and
+$\range A^T \subseteq V^\ast$. Some people object to calling this
+theorem ``fundamental'' because it does not extend to infinite
+dimensional spaces. 
+
+This theorem has some nice implications for systems of linear
+equations. If $A = \gmatrix{a}$ is a matrix, then the range of $A$ is 
+\begin{align*}
+  \{Ax : x \in \R^n\} = \left\lbrace \begin{pmatrix} \sum_{j=1}^n
+      a_{1j} x_j \\ 
+      \vdots
+      \sum_{j=1}^n a_{mj} x_j 
+    \end{pmatrix} : x_j \in \R \right\rbrace,
+\end{align*}
+the set of linear combinations of the columns of $A$. 
+The \textbf{column space} of $A$,
+denoted $\col(A)$, is the space spanned by the column vectors of
+$A$. The column space of $A$ is the same as the range of $A$.
+
+Similar reasoning shows that the space of linear combinations of the
+rows of $A$ is the range of $A^T$. The \textbf{row space} of $A$,
+denoted $\row (A)$, is the space spanned by the row vectors of
+$A$. The fundamental theorem of linear algebra shows that the
+dimensions of the column and row spaces are equal. The rank of a
+matrix is the dimension of its row and column spaces.
+\begin{definition}
+  The \textbf{rank} of a linear transformation is the dimension of its
+  range.
+\end{definition}
+
+\begin{example}
+  Let $X$ be an $n \times k$ matrix. Define:
+  \[ P_x = X (X^T X)^{-1} X^T \]
+  and 
+  \[ M_x = I - X (X^T X)^{-1} X^T. \]
+  Both $P_x$ and $M_x$ are linear transformations from $\R^n$ to
+  $\R^n$. Also, both $P_x = P_x^T$ and $M_x = M_x^T$. Therefore, from
+  the fundamental theorem of linear algebra, 
+  \[ \R^n = \nulls P_x \oplus \range  P_x \]
+  and
+  \[ \R^n = \range M_x \oplus \nulls  M_x. \]
+  
+  Suppose $w \in \range  P_x$, then $\exists y \in \R^n$ such
+  that $P_x y = w$. Notice that 
+  \begin{align*}
+    M_x w = & M_x P_x y \\
+    = & (P_x - P_x)y = 0, 
+  \end{align*}
+  so $w \in \nulls  M_x$.  Similarly, if $w \in \range 
+  M_x$, then $w \in \nulls  P_x$. Also, if $w \in \nulls 
+  P_x$, then 
+  \[ M_x w = w - P_x w = w \]
+  so $w \in \range  M_x$. We can conclude that null $P_x = $
+  range $M_x$ and null $M_x = $ range $P_x$. Hence,
+  \[
+  \begin{array}{cccc}
+    \R^n = & \nulls  P_x & \oplus & \range  P_x \\
+                & \verteq &            & \verteq \\
+    \R^n = & \range M_x & \oplus & \nulls  M_x.
+  \end{array}
+  \]  
+\end{example}
+
+In studying constrained optimization  problems, 
+\[ \max_x f(x) \text{ s.t.  } h(x) = c, \]
+we used the fact that
+\begin{equation}
+  D h_x v = 0 \implies D f_x v = 0 \label{eq:dhdf}
+\end{equation}
+is equivalent to there existing $\lambda^T$ such that
+\[ Df_x + \lambda^T Dh_x = 0. \]
+Equation (\ref{eq:dhdf}) is just another way of saying $\nulls Dh_x
+\subseteq \nulls Df_x$. An immediate consequence of theorem
+\ref{thm:fund} is the following. 
+\begin{corollary}\label{cor:nullrange}
+  Let $A \in L(V,W)$ and $B \in L(V,Z)$. Then $\nulls A \subseteq
+  \nulls B$ iff $\range A^T \supseteq \range B^T$.
+\end{corollary}
+\begin{proof}
+  From theorem \ref{thm:fund}, we know that $V = \nulls A \oplus
+  \range A^T = \nulls B \oplus \range B^T$. Suppose $\nulls A
+  \subseteq \nulls B$. Let $v \in \range B^T$. Then either $v =
+  0$, in which case $v \in \range A^T$, or $v \not\in \nulls B$. If $v
+  \not\in \nulls B$, $v \not\in \nulls A$ as well. Therefore, $v \in \range
+  A^T$. 
+
+  If $\range A^T \supseteq \range B^T$, an identical argument shows
+  $\nulls A \subseteq \nulls B$.
+\end{proof}
+Letting $A = Dh_x$ and $B=Df_x$, we know that $\nulls Dh_x \subseteq
+Df_x$ iff $\range Dh_x^T \supseteq \range Df_x^T$. This means that for
+every $w^* \in W^*$, $\exists \lambda_w \in Z^*$ such that
+\[ Df_x^T w^* = Dh_x^T \lambda_w. \]
+For optimization problems, $W=\R$, so it suffices to just consider
+$w^* = 1$, 
+\[ Df_x^T = Dh_x^T \lambda. \]
+ If $V$ and $Z$ are finite dimensional, then we can substract and
+ transpose to get
+\[ Df_x - \lambda^T Dh_x = 0. \]
+
+Corollary (\ref{cor:nullrange}) is also true in infinite dimensional
+spaces under some additional conditions.\footnote{The ranges of $A$
+  and $B$ must be closed. See e.g.\ section 6.6 of
+  \cite{luenberger1969}.} In fact, theorem \ref{thm:multipliers} is
+equivalent to this corollary.  When working with optimal control
+problems, we were using this result and making some implicit
+assumptions about how elements from the duals spaces can be written as
+integrals. Appropriately defining $V$ and $Z$ ensures that these
+assumptions hold. The details are tedious, so we will not go into
+them.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Inner product spaces}
+
+% In $\R^n$ we can measure angles and talk about vectors being
+% orthogonal to one another. The following definition generalizes this
+% idea to other vector spaces.
+% \begin{definition}
+%   An \textbf{inner product space} is a vector space with an additional
+%   operation called the inner product that is 
+%   function from $V \times V$ to $\mathbb{R}$. We denote the inner
+%   product of $v_1, v_2 \in V$ by $\iprod{v_1}{v_2}$. It has the
+%   following properties:
+%   \begin{enumerate}
+%   \item Symmetry: $\iprod{v_1}{v_2} = \iprod{v_2}{v_1}$
+%   \item Bilinear: $\iprod{a v_1 + b v_2}{v_3} = a \iprod{v_1}{v_3} + b
+%     \iprod{v_2}{v_3}$ for $a, b \in \R$
+%   \item Positive definite: $\iprod{v}{v} \geq 0$ and equals $0$ iff
+%     $v=0$. 
+%   \end{enumerate}  
+% \end{definition}
+% Any inner product space is also a normed vector space with norm
+% \[ \norm{x} = \sqrt{\iprod{x}{x}}. \]
+% \begin{example}
+%   $\R^n$ with the \textbf{dot product}, $x \cdot y = \sum_{i=1}^n x_i
+%   y_i$, is an inner product space. 
+% \end{example}
+% \begin{example}
+%   $\ell^p$ with $\iprod{x}{y} = \sum_{i=1}^\infty x_i y_i$ is
+%   an inner product space.
+% \end{example}
+% \begin{example}
+%   $\mathcal{L}^2(0,1)$ with $\iprod{f}{g}
+%   \equiv \int_0^1 f(x) g(x) dx$ is an inner product space. 
+% \end{example}
+
+% Suppose we have an inner product space then:
+% \begin{align*}
+%   \norm{x + y}^2 = & \iprod{x+y}{x+y} \\
+%   = & \iprod{x}{x} + 2\iprod{x}{y} + \iprod{y}{y}
+% \end{align*}
+% In $\R^n$ with the Euclidean norm when $x$ and $y$ are at right angles
+% to one other, $\iprod{x}{y} = 0$, and we have the Pythagorean theorem:
+% \[ \norm{x + y}^2 = \norm{x}^2 + \norm{y}^2. \]
+% This motivates the following definition
+% \begin{definition}
+%   Let $x,y \in V$, an inner product space. $x$ and $y$ are
+%   \textbf{orthogonal} iff $\iprod{x}{y} = 0$. 
+% \end{definition}
+
+% \subsection{Useful inequalities}
+% When we work with limits, we often need to prove that the norm of
+% something is small. There are a number of inequalities that we will
+% repeatedly use. The most common is the triangle inequality, which was
+% part of our definition of norms.  The triangle inequality has many
+% implications, some of which are not obvious. These implications are
+% often useful in proofs. The most common is what is known as the
+% reverse triangle inequality.
+% \begin{theorem}[Reverse triangle inequality]
+%   Let $V$ be a normed vector space and $x,y \in V$. Then
+%   \[ \left| \norm{x} - \norm{y} \right| \leq \norm{x-y}. \]
+% \end{theorem}
+% \begin{proof}
+%   By the usual triangle inequality,
+%   \begin{align*}
+%     \norm{x} + \norm{x-y} \geq & \norm{y} \\
+%     \norm{x-y} \geq \norm{y} - \norm{x}
+%   \end{align*}
+%   and
+%   \begin{align*}
+%     \norm{y} + \norm{y-x} \geq & \norm{x} \\
+%     \norm{y-x} \geq \norm{x} - \norm{y}.
+%   \end{align*}
+%   Also, $\norm{y-x} = \norm{(-1)(x-y)} = |-1| \norm{x-y} =
+%   \norm{x-y}$ is greater than both $\norm{x}-\norm{y}$ and
+%   $\norm{y}-\norm{x}$ and 
+%   \[ \norm{x-y} \geq \left| \norm{x} - \norm{y} \right|. \]
+% \end{proof}
+
+% After the triangle inequality, arguably the most important inequality
+% in mathematics is the Cauchy-Schwarz inequality. 
+% \begin{theorem}[Cauchy-Schwarz inequality \label{thm:cauchy-schwarz}]
+%   Let $V$ be an inner product space and let $u,v\in V$. Then,
+%   \[ \left\vert \iprod{u}{v} \right\vert \leq \norm{u}\norm{v}. \]
+% \end{theorem}
+% \begin{proof}
+%   The idea of this proof can be illustrated in $\R^2$ by forming a right
+%   angle triangle with vertices at $0$, $u$, and $tv$ and sides of
+%   lengths $\norm{tv}$, $\norm{u-tv}$, and $\norm{v}$, where $t$ is
+%   chosen such that $v$ and $u-tv$ are orthogonal, as shown in the
+%   following diagram.
+%   \begin{center}
+%     \includegraphics[width=0.5\linewidth]{cauchy-schwarz.png}
+%   \end{center}
+%   We are choosing $t$ so that $\iprod{v}{u-tv} = 0$, so solving for $t$,
+%   \begin{align*}
+%     \iprod{v}{u-tv} = & 0 \\
+%     \iprod{v}{v} = & t \iprod{u}{v} \\
+%     t = & \frac{\iprod{u}{v}}{\norm{v}^2}.
+%   \end{align*}
+%   We can choose such a $t$ in any inner product space, not just
+%   $\R^2$.
+  
+%   Now, let $z = u-tv$. By construction, $\iprod{z}{v} = 0$ and $u = tv
+%   + z$. Hence, by the Pythagorean theorem,
+%   \begin{align*}
+%     \norm{u}^2 = & \norm{tv}^2 + \norm{z}^2 \\
+%     = & \frac{\iprod{u}{v}^2}{\norm{v}^2} + \norm{z}^2 
+%   \end{align*}
+%   $\norm{z}^2\geq 0$, so
+%   \begin{align*}
+%     \norm{u}^2 \geq & \frac{\iprod{u}{v}^2}{\norm{v}^2} \\
+%     \norm{u}\norm{v} \geq |\iprod{u}{v}|.
+%   \end{align*}
+% \end{proof}
+% Notice that in the proof, we also saw that  $\norm{u}\norm{v} =
+% |\iprod{u}{v}|$ if and only if $\norm{z} = 0$. $\norm{z}$ is zero
+% whenever $u$ and $v$ are linearly dependent i.e. $u = \alpha v$ where
+% $\alpha \in \R$. 
+
+% For normed vector spaces without an inner-product, there is a version
+% of the Cauchy-Schwarz inequality involving dual spaces.
+% \begin{corollary}[Cauchy-Schwarz inequality for dual spaces]
+%   Let $V$ be a normed vector space and let $v\in V$, and $u \in
+%   V^*$. Then,
+%   \[ \left\vert uv \right\vert \leq \norm{u}_{V^*}\norm{v}_V. \]
+% \end{corollary}
+
+
+% \subsection{Projections}
+% The mapping from $u$ to $tv$ that we saw in the proof of theorem
+% \ref{thm:cauchy-schwarz} is so common that it has
+% a name. It is the projection of $u$ onto $v$. 
+% \begin{definition}
+%   Let $V$ be an inner product space and $x,y \in V$. The (orthogonal) 
+%   \textbf{projection} of $y$ onto $x$ is 
+%   \[ P_x y = \frac{\iprod{y}{x}}{\norm{x}^2} x. \]
+% \end{definition}
+% Note that if $z \in \spn(\{x\})$, then 
+% \begin{align*}
+%   \norm{z - y}^2 = & \norm{ (z - P_x y) + (P_x y - y)}^2 \\
+%   = & \norm{ z - P_x y }^2+ 2\iprod{z-P_x y}{P_x y - y} + \norm{P_x y
+%     - y}^2 \\
+%   = & \norm{ z - P_x y }^2+ \norm{P_x y
+%     - y}^2 \geq \norm{P_x y - y}^2.
+% \end{align*}
+% In other words, $P_x y$ minimizes $\norm{\tilde{x} - y}$ for
+% $\tilde{x} \in \spn(x)$. This motivates the following definition of a
+% projection.
+% \begin{definition}
+%   Let $U \subseteq V$ be a subspace of the inner-product space
+%   $V$. Then the \textbf{projection} of $x$ onto $U$ is the unique $P_U x
+%   \in U$ such that $\norm{x - P_U x} \leq \norm{x - u}$ for all $u \in
+%   U$. 
+% \end{definition}
+% To ensure that this definition makes sense, we should verify that $P_U
+% x$ exists and is unique. Uniqueness follows from the following.
+% \begin{lemma} \label{lem:orthoProj}
+%   $\iprod{x-P_U x}{u} = 0$ for all $u \in U$.
+% \end{lemma}
+% \begin{proof}
+%   Let $u_1 = P_U x + \iprod{x-P_U x}{u} u$. Then
+%   \begin{align*}
+%     \norm{x - u_1}^2 = & \norm{x - P_U x -  \iprod{x-P_U x}{u} u}^2 \\
+%     = & \norm{x - P_u x}^2 - \iprod{x-P_U x}{u}^2 
+%   \end{align*}
+%   This must be greater than or equal to $\norm{x - P_U x}^2$, so it must
+%   be that $\iprod{x - P_U x}{u} = 0$.
+% \end{proof}
+% \begin{lemma}
+%   $P_U x$ is unique.
+% \end{lemma}
+% \begin{proof}
+%   Let $z \in U$
+%   \begin{align*}
+%     \norm{z - x}^2 = & \norm{ (z - P_U x) + (P_U x - x)}^2 \\
+%     = & \norm{ z - P_U x }^2+ 2\iprod{z-P_U x}{P_U x - x} + \norm{P_U x
+%       - x}^2 \\
+%     = & \norm{ z - P_U x }^2+ \norm{P_U x
+%       - x}^2 \geq \norm{P_U x - x}^2.
+%   \end{align*}
+%   Also, $  \norm{z - x}^2 = \norm{P_U x - x}^2$ only if $\norm{P_u x -
+%     z}=0$, i.e. only if $z = P_U x$.
+% \end{proof}
+% In finite dimensional spaces, $P_U x$ can be constructed from the
+% basis. First, another definition.
+% \begin{definition}
+%   $E \subseteq V$ are \textbf{orthonormal} if for all $e \in E$,
+%   $\norm{e} = 1$ and for all $e \neq b \in E$, $\iprod{e}{b} = 0$.
+% \end{definition}
+% Projections can be written in terms of an orthonormal basis for
+% subspaces. 
+% \begin{lemma}
+%   If $\{e_1, ..., e_n\}$ are an orthonormal basis for $U \subseteq V$,
+%   then $P_U x = \sum_{i=1}^n \iprod{e_i}{x} e_i.$
+% \end{lemma}
+% \begin{proof}
+%   ...
+% \end{proof}
+% The existence of an orthonormal basis is shown by the Gram-Schmidt process.
+% \begin{theorem}[Gram-Schmidt]
+%   Let $\{v_i\}$ be a countable or finite set of linearly independent
+%   vectors. Then there exists an orthnormal set $\{e_i\}$ such that
+%   $\spn(v_1, ... , v_n) = \spn(e_1, ..., e_n)$ for all $n$.
+% \end{theorem}
+% \begin{proof}
+%   Let $e_1 = \frac{v_1}{\norm{v_1}}$. Define the remaining $e_i$ by
+%   induction.
+%   Let $z_i = v_i - \sum_{j=1}^{i-1} \iprod{v_i}{e_j}e_j$
+%   and $e_i = \frac{z_i}{\norm{z_i}}$.
+% \end{proof}
+% In infinite dimensional spaces an additional condition called
+% completeness is required to show $P_U x$ exists. We may define
+% completeness later.
+% \begin{lemma} 
+%   A projection is a linear transformation. 
+% \end{lemma}
+% \begin{proof}
+%   ...
+% \end{proof}
+
+% Projections are related to subspaces as follows.
+% \begin{definition}
+%   Let $U \subseteq V$. The \textbf{orthogonal complement} of $U$ is
+%   \[ U^\perp = \{v \in V: \iprod{v}{w} = 0 \forall w \in U \}. \]
+% \end{definition}
+% The bilinearity of the inner product implies that $U^\perp$ is a
+% linear subspace. Also, if $U$ is itself is a subspace, then
+% \begin{lemma}
+%   If $U \subseteq V$ is a subspace,  then 
+%   \[ V = U \oplus U^\perp. \]
+% \end{lemma}
+% \begin{proof}
+%   We will use lemma \ref{lem:dirSum}. The positive definiteness of the
+%   inner product implies $U \cap U^\perp = \{0\}$. Also, for any $x \in
+%   V$, $x = P_U x + (x - P_U x)$. $P_U x \in U$ by definition, and $x -
+%   P_U x \in U^\perp$ by lemma \ref{lem:orthoProj}. Therefore $V = U +
+%   U^\perp.$ 
+% \end{proof}
 
 
 \bibliographystyle{jpe}

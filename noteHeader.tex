@@ -1,3 +1,4 @@
+
 \documentclass[12pt,reqno]{amsart}
 
 \usepackage{amsmath}
@@ -42,7 +43,7 @@
 \newtheorem{definition}{Definition}[section]
 
 \newtheorem{step}{Step}[section]
-\newtheorem{remark}{Comment}[section]
+\newtheorem{rem}{Comment}[section]
 \newtheorem{ex}{Example}[section]
 \newtheorem*{ex*}{Example}
 \newtheorem{exer}{Exercise}[section]
@@ -55,6 +56,12 @@
 \newenvironment{exercise}
   {\begin{mdframed}\begin{exer}}
   {\end{exer}\end{mdframed}}
+
+\newenvironment{remark}
+  {\begin{mdframed}\begin{rem}}
+  {\end{rem}\end{mdframed}}
+
+
 
 \linespread{1.1}
 
