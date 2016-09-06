@@ -301,7 +301,7 @@ $S_j$.
 \begin{definition}
   If $S_1 + \cdots + S_k = V$ and $\forall \mathbf{v} \in V$, there
   are unique $\mathbf{x}_j \in S_j$ such that 
-  \[ \mathbf{v} = \mathbf{x}_1 + \cdots  + \mathbf{s}_k \]
+  \[ \mathbf{v} = \mathbf{x}_1 + \cdots  + \mathbf{x}_k \]
   then $V$ is the \textbf{direct sum} of $S_1, ..., S_k$, written 
   \[ V = S_1 \oplus \cdots \oplus S_k \]
 \end{definition}
@@ -462,7 +462,7 @@ independent set is smaller than any set that spans.
 \begin{remark}
   A more general version of theorem \ref{thm:spanLin} is that if $W
   \subseteq V$ spans $V$ and $U \subseteq V$ is linearly independent,
-  then $\abs{W} \geq \abs{V}$. 
+  then $\abs{W} \geq \abs{U}$. 
 
   The argument we used to prove theorem \ref{thm:spanLin} does not
   suffice when $U$ is infinite because the iterative replacement of
@@ -599,7 +599,7 @@ of a basis.
   Let $B$ be a basis for a vector space $V$. Then
   $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \R$ and
   $b_1, ..., b_k \in B$
-  such that $ v = \sum_{i=1}^k x_i b_i$  
+  such that $\mathbf{x} = \sum_{i=1}^k x_i b_i$  
 \end{lemma}
 \begin{proof}
   By the definition of a basis, $B$ spans $V$, so such
@@ -1273,9 +1273,11 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
   e_j^\ast$. Then the definition of the transpose says that
   \begin{align*}
     (A^T e_j^\ast) e_k = & e_j^\ast A e_k  \\
-    \left(\gmatrix{\tilde{a}} e_j\right)^T e_k = & e_j^T \gmatrix{a}
+    \left(\begin{pmatrix} \tilde{a}_{11} & \cdots & \tilde{a}_{1m} \\
+        \vdots & & \vdots \\
+        \tilde{a}_{n1} & \cdots & \tilde{a}_{nm} \end{pmatrix}  e_j\right)^T e_k = & e_j^T \gmatrix{a}
     e_k \\
-    \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{mj}
+    \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{nj}
     \end{pmatrix} e_k  = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
     \end{pmatrix} \\
     \tilde{a}_{kj} = & a_{jk}
@@ -1307,7 +1309,7 @@ where $c \in \R$ and $\xi \in (\R^n)^*=\R^n$. Based on this, we define
 a hyperplane in an arbitrary vector space as follows:
 \begin{definition}
   A \textbf{hyperplane} in $V$ is any set that can be written as
-  \[ H_{\xi,c} = \{x \in V: \xi v = c\} \]
+  \[ H_{\xi,c} = \{x \in V: \xi x = c\} \]
   for some $c \in \R$ and $\xi \in V^*, \xi \neq 0$
 \end{definition}
 Hyperplanes play an important role in optimization.  There is one
@@ -1375,11 +1377,11 @@ matrix, i.e. a linear transformation from $R^n \to \R^m$.
 \begin{theorem}\label{thm:multipliers}
   Let $V$ and $W$ be normed vector spaces, $A \in B(V,\R)$ and
   $C \in B(V,W)$. Assume that $\range C$ is closed. Then
-  $\nulls A \subseteq \nulls C$ if and only if $A = \mu C$ for some
+  $\nulls A \supseteq \nulls C$ if and only if $A = \mu C$ for some
   $\mu \in W^*$.
 \end{theorem}
 \begin{proof}
-  Assume $\nulls A \subseteq \nulls C$. Consider $D:V \to \R \times W$
+  Assume $\nulls A \supseteq \nulls C$. Consider $D:V \to \R \times W$
   defined by $Dv = (Av, -Cv)$. $D$ is linear and bounded since $A$ and
   $C$ are.  Therefore $\range D$ is a subspace of $\R \times W$. Also
   $(1,0_W) \not\in \range D$ because $Cv = 0_w$ only if
@@ -1791,9 +1793,10 @@ For any hyperplane, $H_{\xi,c}$, the sets $\{v \in V: \xi v \geq c\}$
 and $\{v \in V: \xi v < c\}$ are disjoint and convex. The next step is
 to show that disjoint convex sets from lemma \ref{lem:stone} take this
 form. First, we need some definitions of the boundary and interior of
-subsets of a vector space (without a norm). For normed vector spaces,
-these definitions are the same as the definitions using open and
-closed sets.
+subsets of a vector space (without a norm). For convex sets in finite
+dimensional normed vector spaces, these definitions are the same as
+the definitions using open and closed sets. In general, the
+definitions differ, but they are capturing similar ideas. 
 \begin{definition}
   Let $V$ be a vector space and $A \subseteq V$. The \textbf{algebraic
     interior} of $A$ is set of all $a \in A$ such that for every $v
@@ -1803,10 +1806,16 @@ closed sets.
   interior of $A$ as $\mathrm{int}(A)$.
 \end{definition}
 At interior points, we can move slighty from $a$ toward any other
-point $v$ and remain inside $A$.
+point $v$ and remain inside $A$. This algebraic interior is different
+than the topological interior we defined using open sets earlier. For
+example, in $\ell^\infty$ let $A = \{(x_1, x_2, ...) : \abs{x_n} <
+1/n \}$. $A$ is equal to its algebraic interior, but the topological
+interior of $A$ is empty. 
 \begin{definition}
   Let $V$ be a vector space and $A \subseteq V$. The \textbf{algebraic
-    closure}\footnote{This is non-standard terminology.} of $A$ is set
+    closure}\footnote{This is non-standard terminology,
+    \cite{holmes1975} calls this lin(A). Holmes's notation for my
+    $\mathrm{int}(A)$ is $\mathrm{cor}(A)$.} of $A$ is set
   of all $v \in V$ such that $\exists a \in A$ such that
   $\forall \lambda \in [0,1)$,
   \[ a(1-\lambda) + \lambda v \in A \]
