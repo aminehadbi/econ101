@@ -59,12 +59,15 @@ reversing the direction of most inequalities.
 We will start by examining generic unconstrained optimization problems
 of the form
 \[ \max_{x} f(x) \] 
-where $x \in \R^n$ and $f:\R^n \to \R$.
+where $x \in \R^n$ and $f:\R^n \to \R$. To allow for the possibility
+that the domain of $f$ is not all of $\R^n$, we will let $U \subseteq
+\R^n$, be the domain, and write $\max_{x \in U} f(x)$ for the maximum
+of $f$ on $U$. 
 
 If $F^* = \max_{x} f(x)$, we mean that $f(x) \leq F^*$ for all $x$ and
 $f(x^*) = F^*$ for some $x^*$.
 \begin{definition}\label{d:max}
-  $F^* = \max_{x} f(x)$ is the \textbf{maximum} of $F$ on $U$ if
+  $F^* = \max_{x \in U} f(x)$ is the \textbf{maximum} of $F$ on $U$ if
   $f(x) \leq F^*$ for all $x$ and $f(x^*) = F^*$ for some $x^*$.
 \end{definition}
 There may be more than one such $x^*$. We denote the set of all $x^*$
@@ -84,10 +87,13 @@ such, $x^*$, we sometimes write $x^* = \argmax_{x} f(x)$.
 
 \begin{definition}\label{d:lmax}
   $f$ has a \textbf{local maximum} at $x$ if $\exists \delta > 0$ such
-  that $f(y) \leq f(x)$ for all $y \in  N_\delta(x) \cap U$. Each such
-  $x$ is called a \textbf{local maximizer} of $f$. If $f(y) < f(x)$
-  for all $y \neq x$, $y \in N_\delta(x) \cap U$, then we say $f$ has
-  a \textbf{strict local maximum} at $x$.
+  that $f(y) \leq f(x)$ for all $y$ in $U$ and within $\delta$
+  distance of $x$ (we will use the notation
+  $y \in N_\delta(x) \cap U$, which could be read $y$ in a $\delta$
+  neighborhood of $x$ intersected with $U$). Each such $x$ is called a
+  \textbf{local maximizer} of $f$. If $f(y) < f(x)$ for all
+  $y \neq x$, $y \in N_\delta(x) \cap U$, then we say $f$ has a
+  \textbf{strict local maximum} at $x$.
 \end{definition}
 When we want to be explicit about the distinction between local
 maximum and the maximum in definition \ref{d:max}, we refer to the
@@ -105,6 +111,36 @@ later as the global maximum.
     but has many local ones.
   \end{enumerate}
 \end{example}
+
+A related concept to the maximum is the supremum, or least upper
+bound.
+\begin{definition}
+  The \textbf{supremum} of $f$ on $U$ is $S$ is written, 
+  \[ S = \sup_{x \in U} f(x), \]
+  and means that $S \geq f(x)$ for all $x \in U$ and for any $A < S$
+  there exists $x_A \in U$ such that $f(x_A) > A$. 
+\end{definition}
+The supremum is also called the least upper bound. The main difference
+between the supremum and maximum is that the supremum can exist when
+the maximum does not. 
+\begin{example}
+  \begin{multicols}{2}
+    Let $x \in \R$ and $f(x) = -\frac{1}{1+x^2}$. Then $\max_{x \in \R}
+    f(x)$ does not exist, but $\sup_{x \in \R} f(x) = 0$. 
+    
+    \columnbreak
+    
+    \includegraphics[width=0.48\textwidth]{ex12}
+
+  \end{multicols}
+  
+\end{example}
+An important fact about real numbers is that if $f:\R^n \to \R$ is
+bounded above, i.e. there exists $B \in \R$ such that $f(x) \leq B$
+for all $x \in \R^n$, then $\sup_{x \in \R^n} f(x)$ exists and is
+unique. 
+
+The infimum is to the minimum as the supremum is to the maximum.
 
 \subsection{First order conditions}
 
@@ -128,7 +164,10 @@ same as saying $\frac{\partial f}{\partial x_i} = 0$ for all $i$.
 \begin{proof}
   The paragraph preceding the theorem is an informal proof. The only
   detail missing is some care to ensure that the $\approx$ is
-  sufficiently accurate. % Add details ... seems like a distraction 
+  sufficiently accurate. If you are interested, see the past course
+  notes for
+  details. \url{http://faculty.arts.ubc.ca/pschrimpf/526/lec10optimization.pdf}
+  % Add details ... seems like a distraction 
 \end{proof}
 The first order condition is the fact that $\frac{\partial f}{\partial
   x_i}= 0$ is a necessary condition for $x$ to be a local maximizer
@@ -165,7 +204,7 @@ v \] where $D^2 f_{x^*}$ is the matrix of $f$'s second order partial
 derivatives.  Since $x^*$ is a critical, point $Df_{x^*} = 0$, so
 \[ f(x^*+v) - f(x^*) \approx \frac{1}{2} v^T D^2 f_{x^*} v. \]
 We can see that $x^*$ is a local maximum if 
-\[ \frac{1}{2} v^T D^2 f_{x^*} v \leq 0 \] for all $h$. The above
+\[ \frac{1}{2} v^T D^2 f_{x^*} v \leq 0 \] for all $v$. The above
 inequality will be true if $v^T D^2 f_{x^*} v \leq 0$ for all $v$. The
 Hessian, $D^2 f_{x^*}$ is just some symmetric $n$ by $n$ matrix, and
 $v^T D^2 F_{x^*} v$ is a quadratic form in $v$. This motivates the
@@ -213,10 +252,18 @@ When the Hessian is not positive definite, negative definite, or
 indefinite, the result of this theorem is ambiguous. Let's go over
 some examples of this case.
 \begin{example}
+  \begin{multicols}{2} 
+    
   $F:\R \to \R$, $F(x) = x^4$. The first order condition is $4x^3 =
   0$, so $x^* = 0$ is the only critical point. The Hessian is $F''(x)
   = 12x^2 = 0$ at $x^*$. However, $x^4$ has a strict local minimum at
-  $0$.
+  $0$. 
+  
+  \columnbreak
+
+  \includegraphics[width=0.48\textwidth]{ex21}
+   
+  \end{multicols}
 \end{example}
 
 \begin{example}
@@ -264,14 +311,30 @@ we will not study these possibilities in detail.
   for $i=1,..., n$. 
 
   The second order condition is that
-  \[ D[p^T Df]_{x^*} = \begin{pmatrix} \sum_{j=1}^k p_j \frac{\partial^2
+  \[ D^2[p^T f]_{x^*} = \begin{pmatrix} \sum_{j=1}^k p_j \frac{\partial^2
       f_j}{\partial x_1^2}(x^*) & \cdots & \sum_{j=1}^k p_j \frac{\partial^2
       f_j}{\partial x_1\partial x_n}(x^*)  \\ \vdots & & \vdots \\
     \sum_{j=1}^k p_j \frac{\partial^2
       f_j}{\partial x_1\partial x_n}(x^*) & \cdots & \sum_{j=1}^k p_j
     \frac{\partial^2 f_j}{\partial x_n^2}(x^*) \end{pmatrix} 
   \]
-  must be negative semidefinite. 
+  must be negative semidefinite.\footnote{There is some awkwardness in
+    the notation for the second derivative of a function from $\R^n \to
+    \R^k$ when $k>1$. The first partial derivatives can be arranged in
+    an $k \times n$ matrix. There are then $k \times n \times n$ second
+    partial derivatives. When $k=1$ it is convenient to write these in an
+    $n \times n$ matrix. When $k>1$, one could arrange the second
+    partial derivates in 3-d array of dimension $k \times n \times n$,
+    or one could argue that an $kn \times n$ matrix makes
+    sense. These higher order derivatives are called tensors and
+    physicists and mathematicians do have some notation for working
+    with them. However, tensors do not come up that often in
+    economics. Moreover, we can usually avoid needing any such
+    notation by rearranging some operations. In the above example,
+    $f: \R^n \to \R^k$, so $D^2 f$ should be avoided (especially if we
+    combine it with other matrix and vector algebra), but $p^T f(x)$
+    is a function from $\R^n$ to $\R$, so $D^2[p^T f]$ is
+    unambiguously an $n \times n$ matrix. }
 \end{example}
 
 % \subsubsection{Multi-product monopolist}
@@ -382,7 +445,7 @@ case, consider a small perturbation of $x$ by some small $v$. The
 function value is then approximately,
 \[ f(x+v) \approx f(x) + Df_x v \]
 and the constraint value is 
-\[ h(x+v) \approx h(x) + Dh_x v \] $x+v$ will be satisfy the
+\[ h(x+v) \approx h(x) + Dh_x v \] $x+v$ will satisfy the
 constraint only if $Dh_xv = 0$. Thus, $x$ is a constrained local
 maximum if for all $v$ such that $Dh_x v = 0$ we also have $Df_x v =
 0$. 
@@ -740,7 +803,7 @@ $2^m$ possibilities.
   Show that replacing the problem 
   \[ \max_x f(x) \text{ s..t } g(x) \leq b. \]
   with an equality constrained problem with slack variables $s$, 
-  \[ \max_{x,s} f(x) \text{ s..t } g(x) - s = b, \]
+  \[ \max_{x,s} f(x) \text{ s..t } g(x) - s = b, s \geq 0 \]
   leads to the same conclusions as theorem \ref{thm:icon}
 \end{exercise}
 
@@ -1052,8 +1115,13 @@ situations are rare, so we will not worry about them.
 \item $f: \R^n \to \R$ means $f$ is a function from $\R^n$ to
   $\R$. That is, $f$'s argument is an n-tuple of real numbers and
   its output is a single real number.
+\item $U \subseteq \R^n$ means $U$ is a subset of $\R^n$. 
 \item When convenient we will treat $x \in \R^k$ as a $k \times 1$
   matrix, so $w^T x = \sum_{i=1}^k w_i x_i$
+\item $N_\delta(x)$ is a $\delta$ neighborhood of $x$, meaning the set
+  of points within $\delta$ distance of $x$. For $x \in \R^n$, we will
+  use Euclidean distance, so that $N_\delta(x)$ is the set of $y \in
+  \R^n$ such that $\sqrt{\sum_{i=1}^n (x_i - y_i)^2} < \delta$.
 \end{itemize}
 
 
