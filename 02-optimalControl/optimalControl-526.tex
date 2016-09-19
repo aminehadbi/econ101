@@ -22,7 +22,7 @@ Although more advanced than what these notes cover,
 \cite{luenberger1969} is the classic mathematics text on optimal
 control and is excellent. \cite{clarke2013} is available online
 through UBC libraries and covers similar material as
-\cite{luenberger1969}, but at an even more advanced level. 
+\cite{luenberger1969}, but at a more advanced level. 
 
 
 \section{Introduction}
@@ -154,9 +154,21 @@ maximum.
 
 \section{The maximum principle \label{sec:maxprin}}
 
-Let's approximate our continuous time problem with a discrete time
-problem. This will be useful because we already know how to solve
-optimization problems with a finite dimensional choice variable. 
+We will now derive some necessary conditions on the maximizers of an
+optimal control problem. In other words, we will come up with a first
+order condition. We will do this in two ways. First, we will
+approximate the continuous problem with a discrete one, solve the
+discrete problem, and then take a limit to make the solution
+continuous again. Second, we will set up a Lagrangian for the above
+problem and then take functional derivatives to get the first order
+condition. Both approaches will lead to the same solution.
+
+\subsection{Discretization}
+
+Let's begin by approximating our continuous time problem with a
+discrete time problem. This will be useful because we already know how
+to solve optimization problems with a finite dimensional choice
+variable.
 
 The integral can be approximated by a sum. If divide $[0,T]$ into $J$
 intervals of length $\Delta$, we have
@@ -194,7 +206,8 @@ slightly gives
     \lambda_j}{\Delta} \\
   [\lambda_j]: && g(x_j,y_j,\Delta j) = & \frac{y_j - y_{j-1}}{\Delta}.
 \end{align*}
-Using our approximation to go back to continuous time, these become,
+Taking the limit as $\Delta \to 0$ to go back to continuous time,
+these become,
 \begin{align*}
   [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
     g}{\partial x} = & 0 \\ 
@@ -245,6 +258,127 @@ multiplier).
   }
 \end{theorem}
 
+\subsection{Lagrangian approach}
+
+Although it leads to a correct maximum principle, the above
+discretization approach has some downsides. One is that the derivation
+is somewhat tedious, and it only applies to problems of the form we
+considered. Similar problems will still have something like a
+Hamiltonian and maximum principle, but the details can
+change. Discretizing every problem could be time consuming and error
+prone. More importantly, it is challenging to prove that discretizing
+actually gives the correct solution. Specifically, it is difficult to
+show that the limit as $\Delta \to 0$ of the discretized solution
+actually solves the continuous problem. 
+
+\begin{history}
+  Pontryagin laid out the maximum principle around 1950, a remarkably
+  recent date. Mathematicians have been studying related
+  problems for hundreds (or perhaps thousands) of years. Various
+  physical and geometric problems lead to a maximization of the form
+  \begin{equation} \max_x \int_a^b F(t,y(t),y'(t)) dt \; s.t. \; y(a) =A,\;
+    y(b)=B \label{cv-problem}.
+  \end{equation}
+  Hero of Alexandria studied one such problem in around 0 A.D. Many of
+  the mathematicians associated with the development of calculus in
+  the 17th century works on such problems, including Newton, Leibniz,
+  Bernoulli, and l'H\^{o}pital.  In 1744, Euler made the first
+  systematic study of (\ref{cv-problem}) and showed that a necessary
+  condition for $y^*$ to be a maximizer of is that
+  \[ \frac{d}{dt} \frac{\partial F}{\partial y'}(t,y(t),y'(t)) =
+    \frac{\partial F}{\partial y}(t,y(t),y'(t)), \] which is why we
+  still call similar results Euler(-Lagrange) equations. Euler proved
+  this by discretization. In 1755, Lagrange approached
+  (\ref{cv-problem}) using a different technique. Instead of
+  discretization, Lagrange worked with functional directional
+  derivatives. That, is Lagrange considered what happens to the
+  problem when you replace $x(t)$ with $x(t) + v(t)$ for some small
+  function $v$. He referred to the direction, $v$, as a
+  variation. Lagrange wrote a letter to Euler describing this new
+  approach. Euler instantly agreed that it was more elegant began
+  referring to this area of mathematics as the calculus of
+  variations. 
+
+  Optimal control problems were not systematically studied until 200
+  years later. Part of this reason was practical. In the 18th and 19th
+  century, there were many practical problems of the form
+  (\ref{cv-problem}), but not very many of the more general optimal
+  control form:
+  \begin{align}
+    \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \notag \\
+                     & \text{ s.t.} \label{oc-problem} \\
+                     & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in
+                       [0,T] \notag \\ 
+                     & y(0) = y_0. \notag
+  \end{align}
+  If Euler and Lagrange had thought (\ref{oc-problem}) was important,
+  they likely could have derived the maximum principle. Optimal
+  control problems were studied in the 1950s because questions like
+  how to launch a satellite using the least amount of fuel, how to
+  land a spaceship on the moon as softly as possible, and how to fire
+  an ICBM from one side of the world to the other as quickly as
+  possible all have this form. Pontryagin was a Soviet
+  mathematician.\footnote{At roughly the same time that Pontryagin
+    developed optimal control, Richard Bellman, an American
+    mathematician, developed dynamic programming to solve the same
+    sort of problems.}  
+
+  One technical difference between classic calculus of variation
+  problems (\ref{cv-problem}) and optimal control problems
+  (\ref{oc-problem}) is that calculus of variation problems typically
+  have solutions that are twice continuously differentiable, but
+  optimal control problems (\ref{oc-problem}) often have $y^*$ only
+  once differentiable, and $x^*$ discontinuous. Euler and Lagrange may
+  have been able to handle this difference. However, one thing that
+  modern mathematics does, but 18th century mathematics could not have
+  done, is give general conditions under which a maximum exists.
+\end{history}
+
+Discretization can be avoided by considering the similarities between
+optimal control problems and the finite optimization problems we
+studied earlier. A powerful technique for solving new problems is to
+think about the features the new problem shares with old ones. Then,
+define and study a new abstraction that subsumes both the old and new
+problem. This process can also give new insights to the old problem,
+and potentially apply to other problems that you were not even
+thinking about. We will do some of this here.
+
+To begin, recall how we arrived at the first order condition for
+standard optimization problems. We considered looking at small changes
+around a maximizer and approximated how the objective function would
+change using directional derivatives. We can apply a similar idea
+here. For $x \in \R^n$ and $f: \R^n \to \R$, a directional derivative
+is:
+\begin{align*}
+  df(x;v) = \lim_{\alpha \to 0} \frac{f(x + \alpha v)-f(x)}{\alpha}
+\end{align*}
+where $\alpha$ is a scalar and $v \in \R^n$ is a direction. When $x(\cdot)$
+is a function, we can apply the same idea. Let $Q$ be a function
+from some set of functions to $\R$. For example, in the optimal
+control example, $Q(x,y) = \int_0^T F(x(t),y(t),t)dt$, where $x:[0,T]
+\to \R$, $y:[0,T] \to \R$, $F:\R^3 \to \R$. Let $v:[0,T] \to \R$ be
+another function that we'll think of as a direction. The directional
+derivative of $Q$ with respect to $x$ in direction $v$ is
+\begin{align*}
+  d_xQ(x,y;v) = & \lim_{\alpha \to 0} \frac{Q(x+\alpha v, y) -
+  Q(x,y)}{\alpha} 
+\end{align*}
+For example, when $Q(x,y) = \int_0^T F(x(t),y(t),t)dt$, then
+\begin{align*}
+  d_xQ(x,y;v) =  & \lim_{\alpha \to 0} \frac{\int_0^T F(x(t) + \alpha
+                   v(t),y(t),t)dt -  F(x(t),y(t),t)dt} {\alpha} \\
+  & \text{ assuming we can interchange the limit and integral } \\
+  = & \int_0^T \lim_{\alpha \to 0} \frac{F(x(t) + \alpha
+                   v(t),y(t),t)dt -  F(x(t),y(t),t)} {\alpha} dt \\
+  = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t) dt
+\end{align*}
+\footnote{The dominated convergence theorem gives conditions for which
+  $\lim \int something = \int \lim something$. Here, an easy
+  sufficient condition is existence $\frac{\partial F}{\partial x}$ and
+  $\frac{\partial F}{\partial x} \leq M$ for some constant $M$.}
+
+
+
 Pontryagin's maximum principle can also be derived by starting with a
 continuous time Lagrangian. Recall that our problem is:
 \begin{align*}
@@ -275,7 +409,7 @@ parts gives
   (y(0) - y_0).
 \end{align*} 
 We can then differentiate with respect to $x(t)$ and $y(t)$ to get the
-first order conditions
+first order conditions. 
 \begin{align*}
   [x]: && \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
     g}{\partial x} = &  0 \\
@@ -300,7 +434,7 @@ obscure the transversality condition somewhat. In the discrete time
 approach, we set $\lambda_{J+1} =0$, so we also should impose
 $\lambda(T) = 0$. 
 
-The same condition appears in the Lagrangian approach, if we more
+The same condition appears in the Lagrangian approach, if we are more
 careful about taking derivatives. Taking the derivative of $\int_0^T
 F(x(t),y(t),t) dt$ with respect to $x(\tau)$ holding $x(\cdot)$
 constant for all other periods does not really make sense because
@@ -353,7 +487,7 @@ value of relaxing the constraint must be $0=\lambda(T)$.
 It is important to understand where the transversality condition comes
 from, because the transversality condition can change depending on
 whether $T$ is finite or infinite and whether or not there are
-constraint on $y(T)$ or $x(T)$. 
+constraints on $y(T)$ or $x(T)$. 
 
 \subsection{Additional constraints \label{sec:constraints}}
 
@@ -809,8 +943,7 @@ $F_\theta(\theta_h) = 1$.
   end up with is a bit messier. See \cite{mirrlees1971}, or
   \cite{diamond1998} for guidance. \cite{saez2001} expresses the
   optimal tax schedule in terms of elasticities and the distribution
-  of income, which allows the optimal tax schedule t
-o be estimated. 
+  of income, which allows the optimal tax schedule to be estimated. 
 \end{exercise}
 
 \appendix

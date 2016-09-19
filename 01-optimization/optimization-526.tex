@@ -526,19 +526,26 @@ we don't divide by zero when defining the Lagrange multipliers. When
 there is a single constraint, it simply says that at least one of the
 partial derivatives of the constraint is non-zero. This assumption is
 called the non-degenerate constraint qualification. It is rarely an
-issue for equality constraints.
+issue for equality constraints, but can sometimes fail as in the
+following examples.
 
 \begin{exercise}
-  Solve the problem:
-  \begin{align*}
+  \begin{enumerate}
+  \item Solve the problem:
+    \begin{align*}
     \max_{x} \alpha_1 \log x_1 + \alpha_2 \log x_2 \text{ s.t. } (p_1
-    x_1 + p_2 x_2 - y)^3 = 0
-  \end{align*}
-  What goes wrong? How does it differ from the following problem:
-  \begin{align*}
-    \max_{x} \alpha_1 \log x_1 + \alpha_2 \log x_2 \text{ s.t. } (p_1
-    x_1 + p_2 x_2 - y) = 0
-  \end{align*}  
+      x_1 + p_2 x_2 - y)^3 = 0
+    \end{align*}
+    What goes wrong? How does it differ from the following problem:
+    \begin{align*}
+      \max_{x} \alpha_1 \log x_1 + \alpha_2 \log x_2 \text{ s.t. } (p_1
+      x_1 + p_2 x_2 - y) = 0
+    \end{align*}  
+  \item Solve the problem:
+    \begin{align*}
+      \max_{x_1,x_2} x_1 + x_2 \text{ s.t. } x_1^2 + x_2^2 = 0
+    \end{align*}
+  \end{enumerate}
 \end{exercise}
 
 \subsection{Lagrange multipliers as shadow prices}
@@ -978,7 +985,7 @@ The following theorem summarizes the above discussion.
   In this context, $v$ is called the indirect utility function. From
   the envelope theorem,
   \begin{align*}
-    \frac{\partial v}{\partial p_i} = & \mu x_i^*(p,y) \\
+    \frac{\partial v}{\partial p_i} = & -\mu x_i^*(p,y) \\
     \frac{\partial v}{\partial y} = & \mu
   \end{align*}
   Taking the ratio we have a relationship between the (Marshallian)
@@ -998,8 +1005,8 @@ The following theorem summarizes the above discussion.
   \begin{align*}
     \frac{\partial e}{\partial p_i}(p,\bar{u}) = & x_i^h(p,\bar{u})
   \end{align*}
-  where $x_i^h(p,\bar{u})$ is the constrained minimizer. It is the Hicksian
-  (or compensated) demand function. 
+  where $x_i^h(p,\bar{u})$ is the constrained minimizer. It is the
+  Hicksian (or compensated) demand function.
 
   Finally, using the fact that $x_i^h(p,\bar{u}) =
   x_i^*(p,e(p,\bar{u})$ and differentiating with respect to $p_k$
