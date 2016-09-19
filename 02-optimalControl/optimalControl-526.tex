@@ -370,17 +370,54 @@ For example, when $Q(x,y) = \int_0^T F(x(t),y(t),t)dt$, then
   & \text{ assuming we can interchange the limit and integral } \\
   = & \int_0^T \lim_{\alpha \to 0} \frac{F(x(t) + \alpha
                    v(t),y(t),t)dt -  F(x(t),y(t),t)} {\alpha} dt \\
-  = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t) dt
+  = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t)v(t) dt
 \end{align*}
 \footnote{The dominated convergence theorem gives conditions for which
-  $\lim \int something = \int \lim something$. Here, an easy
-  sufficient condition is existence $\frac{\partial F}{\partial x}$ and
+  $\lim \int something = \int \lim something$. Here, a simple (but not
+  the weakest) sufficient condition is existence of 
+  $\frac{\partial F}{\partial x}$ and
   $\frac{\partial F}{\partial x} \leq M$ for some constant $M$.}
+Using directional derivatives the first order condition for
+(\ref{oc-problem}) can be stated as if $x^*$, $y*$ are maximizers,
+then for all $v$ that satisfy the constraints, we have
+\begin{align}
+  0 = d_xQ(x^*,y^*;v) & = \int_0^T \frac{\partial F}{\partial
+                        x}(x^*(t),y^*(t),t)v(t) dt \label{xfoc} \\
+  0 = d_yQ(x^*,y^*;v) & = \int_0^T \frac{\partial F}{\partial
+                        y}(x^*(t),y^*(t),t)v(t) dt \label{yfoc}.
+\end{align}
+Just as when maximizing with respect to vectors, the set of $v$ that
+satisfy the constraints is the set of $v$ for which the derivative of
+the constraints in direction $v$ is 0. The derivative of the
+constraints with respect to $x$ is
+\begin{align} 
+  0 = & \lim_{\alpha \to 0} \frac{g(x^*(t) + \alpha v(t), y^*(t),t) -
+        dy^*/dt - [g(x^*(t), y^*(t),t) - dy^*/dt]}{\alpha} \notag \\
+  0 = & \frac{\partial g}{\partial x}(x^*(t),y^*(t),t)v(t) \label{xcf}
+\end{align}
+The derivative of the constraints with respect to $y$ is
+\begin{align} 
+  0 = & \lim_{\alpha \to 0} \frac{g(x^*(t), y^*(t) + \alpha v(t) ,t) -
+        \frac{d}{dt}(y^*(t)+ \alpha v(t)) - [g(x^*(t), y^*(t),t) -
+        dy^*/dt]}{\alpha} \notag \\
+  0 = & \frac{\partial g}{\partial y}(x^*(t),y^*(t),t)v(t) -
+        \frac{dv}{dt}(t) \label{ycf}
+\end{align}
+Thus, the first order condition is that if satisfies $v$ 
+(\ref{xcf}) (or (\ref{ycf}) ) then $v$ much also satisfy (\ref{xfoc})
+(or (\ref{yfoc})). In the previous set of notes, when working with
+finite dimensional optimization problems, we then asserted that some
+results from linear algebra imply that this first order condition is
+equivalent to there existing Lagrange multipliers. These results can
+be generalized to the current situation by recognizing that both
+functions and vectors in $\R^n$ share some important
+properties. Namely, they can be added together and multiplied by
+scalars. We will return to this idea in the second half of the
+course. For now, let's take as given that this first order condition
+can be equivalently expressed using a Lagrangian. 
 
 
-
-Pontryagin's maximum principle can also be derived by starting with a
-continuous time Lagrangian. Recall that our problem is:
+What should the Lagrangian look like here? Recall that our problem is:
 \begin{align*}
   \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
   & \text{ s.t.} \\
