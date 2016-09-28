@@ -31,11 +31,15 @@ are discrete.
 \section{References}
 
 These notes are about dynamic programming.  References from our text
-books are chapter 11 of \cite{dixit1990}. \cite{adda2003} is very nice
-and available online from UBC library.  \cite{stokey1989} is the
-classic economics reference for dynamic programming, but is more
-advanced than what we will cover. 
+books are chapter 11 of \cite{dixit1990} and parts of
+\cite{carter2001}. Two other useful references are \cite{adda2003} and
+\cite{acemoglu2008}. \cite{adda2003} is very nice and available online
+from UBC library.  \cite{acemoglu2008} focuses on economic growth, but
+includes two very nice chapters on dynamic programming and optimal
+control.
 
+\cite{stokey1989} is the classic economics reference for dynamic
+programming, but is more advanced than what we will cover.
 \textit{Applied dynamic programming} by \cite{bellman1962} and
 \textit{Dynamic programming and the calculus of variations} by
 \cite{dreyfus1965} provide a good introduction to the main idea of
@@ -152,8 +156,11 @@ where $c \in \R$, $s \in \R$, $0<\beta<1$, and $u,g:\R^2 \to \R$.
 We want to show that the value function exists. Suppose we start with
 some guess at the value function $v_0:\R\to \R$. Then we refine that guess by
 setting 
-\[ v_1(s) = \max_{c,s'} u(c,s) + \beta v_0(s') \text{ s.t. }
-s'=g(c,s) \]
+\begin{align*} 
+  v_1(s) = \max_{c,s'} & u(c,s) + \beta v_0(s') \\
+           \text{s.t.} & g_0(c,s) \leq s' \leq g_1(c,s),\\
+                       & \underline{c} \leq c \leq \overline{c}
+\end{align*}]
 We could do this repeatedly. Hopefully eventually the value function guesses
 would stop changing and we would have the value function. Iteratively 
 refining the value function guess in this manner is called value
@@ -212,8 +219,9 @@ fairly general conditions.
   \end{align*} 
   where $c_i,s_i'$ is the maximizer to 
   \begin{align*}
-    \max_{c_i,s_i'} u(c_i,s) + \beta v_i(s_i') \text{ s.t. }
-    s_i'=g(c_i,s).
+    \max_{c_i,s_i'} & u(c_i,s) + \beta v_i(s_i') \\
+    \text{s.t.} & \; g_0(c_i,s) \leq s_i' \leq g_1(c_i,s), \\
+                & \underline{c} \leq c_i \leq \overline{c}
   \end{align*}
   Notice that
   \[ T v_0 (s) = u(c_0,s) + \beta v_0(s_0')  \geq u(c_1,s) + \beta
@@ -539,7 +547,7 @@ enter or exit a market.
   support $[0, B]$.
   The investor is risk neutral with discount rate $\beta$. At
   time $t$, the investor can choose to invest now or wait. Investing
-  now pays $z_t - I$. Let $V(z)$ denote the value of waiting given the
+  now pays $z_t - I$. Let $V(z)$ denote the value of this choice given the
   current $z$. The Bellman equation is 
   \[ V(z) = \max\{ z- I , \beta \int V(z') f(z') dz' \}. \]
   The value of waiting, $\beta \int V(z') f(z') dz'$, does not depend

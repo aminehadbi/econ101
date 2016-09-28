@@ -106,9 +106,9 @@ phase <- ggplot(data=d) +
   geom_line(data=stable,aes(x=k,y=c),colour="black") +
   xlim(min(k.grid),max(k.grid)) +
   ylim(min(c.grid),max(c.grid)) + theme_minimal()
-pdf("phase.pdf")
-print(phase)
-dev.off()
+#pdf("phase.pdf")
+#print(phase)
+#dev.off()
 
 
 
