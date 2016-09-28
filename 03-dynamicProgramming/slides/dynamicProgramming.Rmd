@@ -1,0 +1,384 @@
+---
+title       : Dynamic Programming
+subtitle    : Applications
+author      : Paul Schrimpf
+job         : 
+date        : September 2016
+output:
+  revealjs::revealjs_presentation:
+    self_contained: true
+    theme: league
+    transition: slide
+    center : true
+    highlight : zenburn
+    reveal_options:
+      slideNumber: false
+      center : true
+      help : true
+      previewLinks: true 
+#ext_widgets: {rCharts: [libraries/nvd3]}
+## For interactive chart to work, must either publish or view from
+## local webserver, else CDN links won't work 
+--- 
+
+# Dynamic Programming
+
+---
+
+  ``[Dynamic] also has a very interesting property as an adjective, and
+  that is it’s impossible to use the word, dynamic, in a pejorative
+  sense. Try thinking of some combination that will possibly give it a
+  pejorative meaning.  It’s impossible. Thus, I thought dynamic
+  programming was a good name.'' - Richard Bellman
+
+---
+
+## Example: Consumption & Savings
+
+$$
+  \max_{\{c_t\}_{t=0}^\infty,\{s_t\}_{t=1}^\infty} \sum_{t=0}^\infty
+  \beta^t u(c_t) \text{ s.t. } s_{t+1} = (1+r_t)(s_t - c_t)
+$$
+
+---
+
+## Finite Horizon
+
+$$
+\max_{c_T} u(c_T) \text{ s.t. } s_{T+1} = (1+r_T)(s_T -c_T) = 0
+$$
+
+- Value function defined recursively $V_T(s) = u(s)$
+$$
+\begin{aligned}
+V_{t-1}(s) = \max_{c_{t-1},s'} & u(c_{t-1}) + \beta V_{t}(s') \\
+\text{ s.t.} & s'  =
+  (1+r_{t-1})(c_{t-1}-s)
+\end{aligned}
+$$
+- Bellman equation
+
+
+# Principle of Optimality
+
+---
+
+``An optimal policy has the property that whatever the initial state
+and initial decision are, the remaining decisions must constitute an
+optimal policy with regard to the state resulting from the first
+decision.'' (Bellman 1962)
+
+---
+
+# Infinite Horizon
+
+---
+
+## Example: Consumption & Savings
+
+$$
+\begin{aligned}
+  \max_{\{c_t\}_{t=0}^\infty,\{s_t\}_{t=1}^\infty} & \sum_{t=0}^\infty
+  \beta^t u(c_t) \\ \text{ s.t. } & s_{t+1} = (1+r)(s_t - c_t)
+\end{aligned}
+$$
+
+- Starting with $t=0$ or $t=1$ or $t=s$ gives same maximization
+- Value function should not depend on time
+
+$$
+  V(s) = \max_{c,s'} u(c) + \beta V(s') \text{ s.t. } s' = (1+r)(s-c)
+$$
+- How do we know that $V$ exists? unique?
+
+---
+
+## General Setup
+
+$$
+\begin{aligned}
+  \max_{c_t,s_t} & \sum_{t=0}^\infty \beta^t u(c_t,s_t) \\
+  \text{s.t.} & g_0(c_t,s_t) \leq s_{t+1} \leq g_1(c_t,s_t), \\
+  & \underline{c} \leq c_t \leq \overline{c}
+\end{aligned}
+$$
+
+---
+
+## Value function iteration
+
+- Construct $V$ by guessing and refining
+  + $v_0(s) = 0$
+  + $v_{i+1}(s) = \max_{c,s'} u(c,s) + \beta v_i(s') \text{
+    s.t. constraints}$
+  + $V(s) = \lim_{i\to \infty} v_i(s)$
+- Need to show limit exists
+
+---
+
+## Bellman operator
+
+$$
+\begin{aligned}
+  T(v)(s) = \max_{c,s'} & u(c,s) + \beta v(s') \\
+  \text{s.t.} & g_0(c,s) \leq s' \leq g_1(c,s), \\
+  & \underline{c} \leq c \leq \overline{c}
+\end{aligned}
+$$
+
+- $T:\{$functions of s$\}\to\{$functions of s$\}$
+- $v_{i+1} = T(v_i)$
+
+---
+
+## Bellman operator is a contraction
+
+- Distance between functions $\Vert f - g \Vert = \sup_{s} \vert
+  f(s) - g(s) \vert$
+- $T$ is a contraction
+  $$ \Vert T(v) - T(w) \Vert \leq \beta \Vert v - w \Vert $$
+
+---
+
+## Contractions have unique limits
+
+- If $\lim v_i$, exists it is unique
+  $$ \Vert T^i(v) - T^i(w) \Vert \leq \beta^i \Vert v - w \Vert $$
+- $\{v_i \}$ is a Cauchy sequence
+  $$ \Vert T^{N+n}(v) - T^{N}(v) \Vert \leq \beta^{N} 2 M / (1-\beta) $$
+  + assume $u$ is bounded, $M = \sup_{c,s} \vert u(c,s) \vert$
+
+
+# Example: optimal growth
+
+---
+
+## Optimal growth
+
+---
+$$
+\begin{aligned}
+  \max_{\{c_t\}_{t=0}^\infty} & \sum_{t=0}^\infty \delta^t
+  \log(c_t) \\
+  \text{s.t. } & c_t + k_{t+1} = k_t^\alpha.
+\end{aligned}
+$$
+
+- Ways to solve:
+  + Iterate Bellman equation analytically
+  + Guess and verify $v(k) = c_0 + c_1 \log(k)$
+  + Iterate Bellman equation numerically
+  
+---
+
+## Solving numerically
+
++ Choose a grid of capital values $k_g$ for $g=1,..., G$
++ Set $\hat{v}_0(k) = 0$ for all $k$ (or anything else)
++ Repeatedly:
+  - Maximize the Bellman equation for each $k_g$
+      $$ v_{g,i} = \max_{c,k'} u(c) + \delta \hat{v}_{i-1}(k') \text{ s.t. } k' = f(k_g)
+      - c $$
+  - Set $\hat{v}_{i} (k) = $ linear interpolation of $\{k_g,
+      v_{g,i} \}$
++ Stop when the value function stops changing, e.g. when 
+   $$ \max_{g} \vert v_{g,i} - v_{g,i-1} \vert < \epsilon $$
+
+--- 
+```{r dp, echo=TRUE, cache=TRUE}
+## dynamic programming
+
+# constants
+alpha <- 0.6
+discount <- 0.95
+depreciation <- 1
+
+# symbolic expressions for utility and production functions
+u <- expression(log(c))
+f <- expression(k^alpha)
+
+# utility function
+utility <- deriv(u, "c", function(c) {})
+# production function
+production <- deriv(expression(k^alpha), "k", function(k) {})
+# transition
+transition <- deriv(substitute(F + k*(1-depreciation) - c,
+                               list(F=f[[1]])), c("k","c"),
+                    function(c,k) {})
+
+# steady state capital
+kss <- uniroot(f=function(k)
+               attr(transition(1,k),"gradient")[1,"k"]-1/discount,
+               interval=c(0.01,100))
+# steady state utility
+uss <- utility(production(kss$root) - kss$root*depreciation)
+## value function approximation
+k.grid <- seq(0.01,3*kss$root,length.out=200)
+# initial guess for v(k.grid)  -- any should work; just affects how
+# quickly we converge
+#v.grid <- rep(0,length(k.grid))
+v.grid <- rep(uss/(1-discount),length(k.grid))
+#v.grid <- utility(k.grid*0.5)/(1-discount)
+approx.method <- "spline"
+degree <- 10
+approxfn <- function(x,y) {
+  if (approx.method=="linear") {
+    return(approxfun(x, y,rule=2, method="linear"))
+  } else if (approx.method=="spline") {
+    return(splinefun(x, y, method="fmm"))
+  }
+  # least squares
+  else if (approx.method=="least-squares") {
+    model <- lm(y ~ poly(x, degree=degree))
+    f <- function(xnew) {
+      predict(model, newdata=data.frame(x=xnew))
+    }
+    return(f)
+  } else {
+    stop("unrecognized approx.method")
+  }
+}
+## initial guess at value function
+v0 <- approxfn(k.grid, v.grid)
+library(parallel)
+v.change <- 100
+tol <- 1e-4
+iterations <- 0
+v.app <- list()
+v.app[[1]] <- v0
+while(v.change > tol && iterations<100) {
+  bellman <- mcmapply(function(k) {
+    optimize(function(c) {
+      utility(c) + discount*v0(transition(c,k)) },
+             interval=c(0.01, production(k) + (1-depreciation)*k -
+                 0.01),
+             maximum=TRUE,
+             tol=tol*1e-3
+             )
+  }, k.grid)
+
+  v.g.new <- unlist(bellman["objective",])
+
+  v.change <- max(abs(v.g.new-v.grid))
+  iterations <- iterations+1
+  v.grid <- v.g.new
+  v0 <- approxfn(k.grid,v.grid)
+  v.app[[iterations+1]] <- v0
+  print(sprintf("After %d iterations v.change=%.2g\n",iterations,v.change))
+}
+
+df <- data.frame(k=k.grid, v1=v.app[[1]](k.grid), v2=v.app[[2]](k.grid),
+                 v10=v.app[[10]](k.grid), v100=v.app[[min(100,length(v.app))]](k.grid),
+                 v=v0(k.grid),
+                 c=unlist(bellman["maximum",]),
+                 k.new=transition(unlist(bellman["maximum",]),k.grid))
+
+```
+
+---
+
+## Value Function
+
+```{r value, echo=FALSE}
+library(ggplot2)
+
+theme_black = function(base_size = 12, base_family = "") {
+
+  theme_grey(base_size = base_size, base_family = base_family) %+replace%
+ 
+    theme(
+      # Specify axis options
+      axis.line = element_blank(),  
+      axis.text.x = element_text(size = base_size*0.8, color = "white", lineheight = 0.9),  
+      axis.text.y = element_text(size = base_size*0.8, color = "white", lineheight = 0.9),  
+      axis.ticks = element_line(color = "white", size  =  0.2),  
+      axis.title.x = element_text(size = base_size, color = "white", margin = margin(0, 10, 0, 0)),  
+      axis.title.y = element_text(size = base_size, color = "white", angle = 90, margin = margin(0, 10, 0, 0)),  
+      axis.ticks.length = unit(0.3, "lines"),   
+      # Specify legend options
+      legend.background = element_rect(color = NA, fill = "black"),  
+      legend.key = element_rect(color = "white",  fill = "black"),  
+      legend.key.size = unit(1.2, "lines"),  
+      legend.key.height = NULL,  
+      legend.key.width = NULL,      
+      legend.text = element_text(size = base_size*0.8, color = "white"),  
+      legend.title = element_text(size = base_size*0.8, face = "bold", hjust = 0, color = "white"),  
+      legend.position = "right",  
+      legend.text.align = NULL,  
+      legend.title.align = NULL,  
+      legend.direction = "vertical",  
+      legend.box = NULL, 
+      # Specify panel options
+      panel.background = element_rect(fill = "black", color  =  NA),  
+      panel.border = element_rect(fill = NA, color = "white"),  
+      panel.grid.major = element_line(color = "grey35"),  
+      panel.grid.minor = element_line(color = "grey20"),  
+      panel.margin = unit(0.5, "lines"),   
+      # Specify facetting options
+      strip.background = element_rect(fill = "grey30", color = "grey10"),  
+      strip.text.x = element_text(size = base_size*0.8, color = "white"),  
+      strip.text.y = element_text(size = base_size*0.8, color = "white",angle = -90),  
+      # Specify plot options
+      plot.background = element_rect(color = "black", fill = "black"),  
+      plot.title = element_text(size = base_size*1.2, color = "white"),  
+      plot.margin = unit(rep(1, 4), "lines")
+ 
+    )
+ 
+}
+   
+value <- ggplot(df,aes(x=k)) +
+    geom_line(aes(y=v1,colour="1")) +
+    geom_line(aes(y=v2,colour="2"))+
+    geom_line(aes(y=v10,colour="10")) +
+    geom_line(aes(y=v100,colour="100")) +
+    geom_line(aes(y=v,colour="converged")) +
+    theme_black() +
+    scale_colour_discrete(name="iteration") +
+    scale_y_continuous("value") +
+    scale_x_continuous("capital")
+print(value)
+```
+
+---
+
+## Policy Function
+
+```{r policy, echo=FALSE}
+policy <- ggplot(df,aes(x=k))+
+    geom_line(aes(y=c,colour="consumption"))  +
+    geom_line(aes(y=k.new,colour="next capital")) +
+    geom_line(aes(y=k),colour="gray") +
+    theme_black() +
+    scale_colour_discrete(name="") +
+    scale_y_continuous("consumption or capital") +
+    scale_x_continuous("current capital")
+print(policy)
+```
+
+# Discrete Controls
+
+---
+
+## Discrete Controls
+
+- Dynamic programming especially useful for discrete controls
+  + No derivatives
+  + Binary choice for $T$ periods $\leadsto$ $2^T$ possible
+  combinations of choices
+  + Form of policy function often easy to guess (threshold rule)
+
+---
+
+## Example: Investment Option
+
+- Each period: choose invest or not
+- Cost $I$
+- Payoff $z_t \in [0,B]$ i.i.d with pdf $f$ and cdf $F$
+- Bellman equation
+$$
+V(z) = \max\{ z- I , \beta \int V(z') f(z') dz'
+$$
+
+---
+

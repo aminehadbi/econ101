@@ -1,0 +1,134 @@
+---
+title       : "Optimal Control"
+subtitle    : Applications
+author      : Paul Schrimpf
+job         : 
+date        : September 2016
+output:
+  revealjs::revealjs_presentation:
+    self_contained: true
+    theme: league
+    transition: slide
+    center : true
+    highlight : zenburn
+    reveal_options:    
+      slideNumber: false
+      center : true
+      help : true
+      previewLinks: true    
+#ext_widgets: {rCharts: [libraries/nvd3]}
+## For interactive chart to work, must either publish or view from
+## local webserver, else CDN links won't work 
+--- 
+
+#  Optimal growth
+
+---
+
+## Optimal growth
+
+$$
+\begin{aligned}
+  \max_{c(t),k(t)} & \int_0^\infty e^{-\delta t} u(c(t)) dt \\
+  \text{ s.t. } & \frac{dk}{dt} = f(k(t)) - \phi k(t) - c(t) \\
+  & k(0) = k_0 \\
+  & 0 \leq c(t) \leq f(k(t))
+  \end{aligned}
+$$
+
+--- 
+
+## Evolution of optimal c and k
+
+- Constraint
+$$ \frac{dk}{dt} = f(k(t)) - \phi k(t) - c(t) $$
+- First order conditions $\Rightarrow$
+$$  \frac{dc}{dt} = -\frac{u'(c)}{u''(c)} \left(f'(k(t)) - \phi -
+\delta \right) $$
+- Given $k(0)$ and a choice of $c(0)$, these equations determine
+  $c(t)$ and $k(t)$
+- Steady state: $dk/dt = dc/dt= 0$
+$$ f'(k^{ss}) - \phi - \delta = 0 $$
+$$ f(k^{ss}) - \phi k^{ss} - c^{ss} = 0 $$
+- Stable path: given $k(0) = k_0$, there is unique $c(0)$ such that
+  $c(t)$ and $k(t)$ reach the steady state
+
+--- 
+
+## Phase diagram
+```{r phase, echo=FALSE, warning=FALSE}
+source("../phase.R")
+
+ord <- order(d$k)
+fig <- ggplot(data=d) +
+  #geom_segment(data=d,aes(x=k,y=c,yend=(c+dc),xend=(k+dk)),
+  #             arrow=arrow(length=unit(0.1,"cm")),colour="gray") +
+  geom_line(aes(x=k,y=zerodk),colour="red") +
+  geom_vline(xintercept=kss,colour="blue") +
+  annotate("text",label="dc/dt=0",colour="blue",x=kss,y=quantile(d$zerodk,0.25)) +
+  annotate("text",label="dk/dt=0",colour="red",x=d$k[ord[100]],y=d$zerodk[ord[100]]) +
+  xlim(min(k.grid),max(k.grid)) +
+  ylim(min(c.grid),max(c.grid)) + theme_minimal() + ylab("c")
+print(fig)
+```
+
+--- 
+
+## Phase diagram
+```{r phase2, echo=FALSE, warning=FALSE}
+fig2 <- fig + 
+  geom_segment(data=d,aes(x=k,y=c,yend=(c+dc),xend=(k+dk)),
+               arrow=arrow(length=unit(0.1,"cm")),colour="gray") 
+print(fig2)
+```
+
+--- 
+
+## Phase diagram
+```{r phase3, echo=FALSE, warning=FALSE}
+i <- sum(stable$k<25)
+fig3 <- fig2 + 
+  geom_line(data=stable,aes(x=k,y=c),colour="black") +
+  annotate("text",label="stable path",colour="black",x=stable$k[i],y=stable$c[i])
+print(fig3)
+```
+
+--- 
+
+# Contracting
+
+---
+
+## Contracting
+
+$$
+\begin{aligned}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta  \\
+  & \text{s.t.}  \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+  \theta \\
+  &\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+  \max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+  T(\tilde{\theta}) \forall \theta 
+\end{aligned}
+$$
+
+---
+
+## Contracting
+
+$$
+\begin{aligned}
+  \max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) d\theta  \\
+  & \text{s.t.}  \\
+  &\theta_l \nu\left(q(\theta_l)\right) - T(\theta_l) \geq 0 \\
+  & \theta \nu'(q(\theta))q'(\theta) - T'(\theta) =  0 \\
+  & \frac{dq(\theta)}{d\theta} \geq  0 
+\end{aligned}
+$$
+
+---
