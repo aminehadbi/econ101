@@ -139,7 +139,7 @@ set theory in the 1870's.
 
 A function (aka mapping), $f:A \rightarrow B$ is called
 \textbf{one-to-one} (aka injective) if for every $b \in B$ the set
-$\{a: f(a) = b \}$ is either a singleton or empty. $f$ is called
+$\{a: f(a) = b \}$ is either a singleton or emptyo. $f$ is called
 \textbf{onto} (aka surjective) if $\forall b \in B$ $\exists a \in A:
 f(a) = b$.  If there exists a one-to-one mapping of $A$ onto $B$ (aka
 bijection or one-to-one correspondence), then we say that $A$ and $B$
@@ -376,12 +376,12 @@ class.
 \end{example}
 
 \subsection{Order relations}
-A relation that is transitive and reflective but not symmetric is
+A relation that is transitive and reflexive but not symmetric is
 called an \textbf{order}. Preference relations are orders. Any order
 $\preceq$ induces another relation $\prec$ defined by $x \prec y$ if
 $x \preceq y$ and $y \npreceq x$. The reflexive order $\preceq$ is
-often called a weak order, and the non-reflexive $\prec$ is called a
-strict or strong order.  
+often called a non-strict order, and the non-reflexive $\prec$
+is called a strict order.
 
 The usual order on $\R$, $\leq$ has two additional properties that a
 generic order need not have. First, any set in $\R$ with an upper
@@ -406,8 +406,13 @@ indifference between goods that are not the same.
 
 Another aspect of the usual $\leq$ order on $\R$ is that all elements
 are comparable, i.e. it is complete. A relation that is complete,
-transitive, and not symmetric is called a \textbf{weak order} (or
-sometimes just an ordering). Preference relations are weak orders. 
+transitive, and reflexive is called a (non-strict) \textbf{weak order}
+(or sometimes just an ordering). Preference relations are weak
+orders.\footnote{The ``weak'' refers to the fact that $x \preceq y$
+  and $y \preceq x$ does not imply $x=y$. This is somewhat confusing
+  because in economics we might read $x \preceq y$ as ``$y$ is weakly
+  preferred to $x$'', where we weakly refers to allowing indifference,
+  not the fact that preference relations are weak orders.}
 
 \subsection{Pareto order}
 
@@ -417,7 +422,7 @@ impossibility theorem --- purely by thinking about orders.  Suppose we
 have $n$ individuals each with some preference, $\pref_i$ on set
 $X$. Think of $X$ as some set of outcomes for society. For example,
 each element of $X$ could specify how much consumption to give each
-individual. The (weak) Pareto order on $X$ is defined as
+individual. The (non-strict) Pareto order on $X$ is defined as
 \[ x \pref^P y \text{ if } x \pref_i y \text{ for all } i=1,...,n \]
 We say that $x$ Pareto dominates $y$ if $x \succ^P y$. $x$ is Pareto
 optimal (or Pareto efficient) if there is no $y$ such that $y \succ^P
@@ -474,7 +479,7 @@ society's preference. Of course, this is not a very desirable social
 ordering.
 
 \begin{theorem}[Arrow's impossibility theorem]
-  It is impossible to complete the weak Pareto ordering in a way that
+  It is impossible to complete the non-strict Pareto ordering in a way that
   is not dictatorial and is independent of irrelevant alternatives
   when $|X| \geq 4$. 
 \end{theorem}

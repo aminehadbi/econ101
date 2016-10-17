@@ -151,7 +151,8 @@ and you can find subsequences that converge to these points.
 Convergence of sequences is often preserved by arithmetic
 operations, as in the following two theorems.
 \begin{theorem}
-  Let $\{x_n\}$ and $\{y_n\}$ be sequences in a normed vector space
+  Let $\{x_n\}$ and $\{y_n\}$ be sequences in $\R^n$ (or any normed
+  vector space)
   $V$. If $x_n \to x$ and $y_n \to y$, then
   \[ x_n + y_n \to x + y. \]
 \end{theorem}
@@ -253,60 +254,57 @@ name for metric spaces where Cauchy sequences converge.
   A metric space, $X$, is \textbf{complete} if every Cauchy sequence of
   points in $X$ converges in $X$.
 \end{definition}
-Completeness is important for so many results that complete version of
-vector spaces are named after the mathematicians who first studied
-them extensively. A \textbf{Banach space} is a complete normed vector
-space. A \textbf{Hilbert space} is a complete inner product
-space.\footnote{According to legend, the term Hilbert space became
-  widely used without Hilbert himself realizing it. In 1929 von Neumann gave a lecture
-  about some theorem involving Hilbert spaces with David Hilbert in
-  attendance. At the end of the lecture, Hilbert asked, ``Dr. von
-  Neumann, I would very much like to know, what after all is a Hilbert
-  space?'' \cite{krantz2002}.} Since any inner product space is a normed vector space with
-norm $\norm{x} = \sqrt{\iprod{x}{x}}$, any Hilbert space is also a
-Banach space. 
+%Completeness is important for so many results that complete version of
+%vector spaces are named after the mathematicians who first studied
+%them extensively. A \textbf{Banach space} is a complete normed vector
+%space. A \textbf{Hilbert space} is a complete inner product
+%space.\footnote{According to legend, the term Hilbert space became
+%  widely used without Hilbert himself realizing it. In 1929 von Neumann gave a lecture
+%  about some theorem involving Hilbert spaces with David Hilbert in
+%  attendance. At the end of the lecture, Hilbert asked, ``Dr. von
+%  Neumann, I would very much like to know, what after all is a Hilbert
+%  space?'' \cite{krantz2002}.} Since any inner product space is a normed vector space with
+%norm $\norm{x} = \sqrt{\iprod{x}{x}}$, any Hilbert space is also a
+%Banach space. 
 \begin{example}
-  $\R^n$ is a Hilbert space. We already discussed how $\R^n$ is an
-  inner product space, so we just to need to show that $\R^n$ is
-  complete. A brief argument follows. You may want to state the
-  details as an exercise. Let $\{\mathbf{x}_i\}$ be a Cauchy sequence
-  in $\R^n$. Each coordinate of $\mathbf{x}_i = (x_{1i}, ... ,
-  x_{ni})$ is a Cauchy sequence in $\R$. $\R$ is complete, so each
-  coordinate has a limit, $x_{ji} \to x_j$ for $j = 1, ...,
-  n$. Finally, show that $\mathbf{x} = (x_1, ..., x_n)$ is the limit
-  of the original sequence in $\R^n$.
+  $\R^n$ is a complete metric space.  A brief argument follows. You
+  may want to state the details as an exercise. Let $\{\mathbf{x}_i\}$
+  be a Cauchy sequence in $\R^n$. Each coordinate of
+  $\mathbf{x}_i = (x_{1i}, ... , x_{ni})$ is a Cauchy sequence in
+  $\R$. $\R$ is complete, so each coordinate has a limit,
+  $x_{ji} \to x_j$ for $j = 1, ..., n$. Finally, show that
+  $\mathbf{x} = (x_1, ..., x_n)$ is the limit of the original sequence
+  in $\R^n$.
 \end{example}
 \begin{example}
   $\ell^p = \{ (x_1, x_2, ...)\, s.t.\, x_i \in \R, \sum_{i=1}^\infty |x_i|^p <
-  \infty \}$ with norm 
-  \[ \norm{x} = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} \]
-  is a Banach space. 
-  
-  $\ell^2$ with 
-  \[ \iprod{x}{y} = \sum_{i=1}^\infty x_i y_i \]
-  is a Hilbert space. 
-  
+  \infty \}$ with metric
+  \[ d_p(x,y) = \left( \sum_{i=1}^\infty |x_i - y_i|^p \right)^{1/p} \]
+  is a complete metric space. 
+    
   Showing that $\ell^p$ is complete is slightly tricky because you
   have deal with a sequence of $\mathbf{x}_i \in \ell^p$, each element
   of which is itself an infinite sequence. You should not worry if you
   have difficulty following the rest of this example.
   
   To show that $\ell^p$ is complete, let $\seq{\mathbf{x}}$ be a
-  Cauchy sequence. Denote the elements of $\mathbf{x}_i$ by $x_{i1},
+  Cauchy sequence. Let $\norm{x-y}_p$ denote $d_p(x,y)$.
+
+  Denote the elements of $\mathbf{x}_i$ by $x_{i1},
   x_{i2}, ... $. First, let's show that for any $n$, $x_{1n}, x_{2n},
   ... $ is a Cauchy sequence in $\R$. Let $\epsilon > 0$. Since
   $\seq{\mathbf{x}}$ is Cauchy, $\exists N_\epsilon$ such that for all $i,j
   \geq N_\epsilon$, 
-  \[  \norm{\mathbf{x}_i - \mathbf{x}_j } < \epsilon. \]
+  \[  \norm{\mathbf{x}_i - \mathbf{x}_j }_p < \epsilon. \]
   Since 
-  \[ \norm{\mathbf{x}_i - \mathbf{x}_j }^p = \left( \sum_{m=1}^\infty
+  \[ \norm{\mathbf{x}_i - \mathbf{x}_j }_p^p = \left( \sum_{m=1}^\infty
     \abs{x_{i m} - x_{j m}}^p \right) \]
   All terms in the sum on the right are non-negative and the sum
   includes $\abs{x_{i n} - x_{jn}}$, so 
   \begin{align*} \abs{x_{i n} - x_{j n} }^p \leq & \norm{\mathbf{x}_i -
-      \mathbf{x}_j }^p \\
+      \mathbf{x}_j }_p^p \\
     \abs{x_{i n} - x_{j n} } \leq & 
-    \norm{\mathbf{x}_i - \mathbf{x}_j }  
+    \norm{\mathbf{x}_i - \mathbf{x}_j }_p  
   \end{align*}
   Therefore, $\abs{x_{i n} - x_{j n}} < \epsilon$ for all $i,j \geq
   N_\epsilon$, i.e. $x_{1n}, x_{2n}, ...$ is a Cauchy sequence in
@@ -437,7 +435,9 @@ open.
 
 \section{Closed sets}
 
-A closed set is like the opposite of an open set. 
+A closed set is like the opposite of an open set\footnote{However, a set can be
+both open and closed, and a set can be neither, so they are not
+exactly opposites. }. 
 \begin{definition}
   A set $S \subseteq X$ is closed if its complement, $S^c$, is open. 
 \end{definition}

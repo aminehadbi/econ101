@@ -1,0 +1,221 @@
+---
+title       : Metric spaces, topology, and continuity
+subtitle    : 
+author      : Paul Schrimpf
+job         : 
+date        : October 2016
+output:
+  revealjs::revealjs_presentation:
+    self_contained: true
+    theme: league
+    transition: slide
+    center : true
+    highlight : zenburn
+    reveal_options:
+      slideNumber: false
+      center : true
+      help : true
+      previewLinks: true 
+#ext_widgets: {rCharts: [libraries/nvd3]}
+## For interactive chart to work, must either publish or view from
+## local webserver, else CDN links won't work 
+--- 
+
+# Sequences
+
+---
+
+## Sequences
+
+- Notation
+  + $\{x_1, x_2, ... \}$
+  + $\{x_i\}_{i=1}^\infty$
+  + $\{x_n\}$
+- Different from sets in that repetitions and order matter
+
+---
+
+## Metric space
+
+A **metric space** is a set, $X$, and function $d:X\times X
+\rightarrow \mathbb{R}$ such that
+$\forall x, y, z \in X$
+
+1. $d(x,y) > 0$ unless $x=y$ and then $d(x,x) = 0$
+2. (symmetry) $d(x,y) = d(y,x)$
+3. (triangle inequality) $d(x,y) \leq d(x,z) + d(z,y)$.
+
+
+---
+
+## Metric space examples
+
+$\mathbb{R}$ with $d(x,y) = |x-y|$
+
+---
+
+## Metric space examples
+
+> - $\mathbb{R}^n$ with $d(x,y) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$
+> - $\mathbb{R}^n$ with $d_p(x,y) = \left(\sum_{i=1}^n (x_i - y_i)^p
+    \right)^{1/p}$ with $p \geq 1$
+
+---
+
+## Convergence
+
+- $\{x_n\}_{n=1}^\infty$ in a metric space **converges** to $x$
+if $\forall\epsilon>0\, \exists N$ such that $d(x_n,x)<\epsilon$
+for all $n \geq N$
+- $x$ is the **limit** of $\{x_n\}_{n=1}^\infty$ 
+- written $\lim_{n \rightarrow \infty} x_n = x$ or $x_n \rightarrow x$. 
+
+---
+
+## Accumulation points
+
+- $a$ is an **accumulation point** of $\{x_n\}_{n=1}^\infty$ if $\forall
+  \epsilon > 0$ $\exists$ infinitely many $x_i$ such that 
+  $d(a, x_i ) < \epsilon$
+  
+> - **Lemma**: If $x_n \rightarrow x$, then $x$ is the only accumulation point of
+  $\{x_n\}_{n=1}^\infty$
+
+---
+
+## Subsequence
+
+- Given $\{x_n\}_{n=1}^\infty$ and any sequence of positive integers, $\{n_k\}$
+  such that $n_1 < n_2 < ... $ we call $\{x_{n_k}\}_{k=1}^\infty$ a
+  **subsequence** of $\{x_n\}_{n=1}^\infty$
+  
+> - **Lemma**: Let $a$ be an accumulation point of $\{x_n\}$, then $\exists$
+    a subsequence that converges to $a$. 
+
+---
+
+## Cauchy sequence
+
+- $\{x_n\}_{n=1}^\infty$ is a **Cauchy sequence** if for any
+  $\epsilon > 0$ $\exists N$ such that for all $i,j\geq N$,
+  $d(x_i,x_j) < \epsilon$
+- Metric space, $X$, is **complete** if every Cauchy sequence of
+  points in $X$ converges in $X$
+- $\mathbb{R}$ is defined as a the unique complete ordered field
+
+---
+
+## Metric space examples
+
+- $\mathbb{R}^n$ is complete
+
+---
+
+## Metric space examples
+
+- $\ell_p = \{ (x_1, x_2, ...)\, s.t.\, x_i \in \mathbb{R}, \sum_{i=1}^\infty |x_i|^p <
+  \infty \}$ with metric
+  $$ d_p(x,y) = \left( \sum_{i=1}^\infty |x_i - y_i|^p \right)^{1/p} $$
+  
+- $\ell_\infty = \{ (x_1, x_2, ...)\, s.t.\, x_i \in \mathbb{R}, \sup_i |x_i| <
+  \infty \}$ with metric
+  $$ d_\infty(x,y) = \sup_i |x_i - y_i|  $$
+
+- $\ell_p$ is complete
+
+# Topology
+
+---
+
+## Open sets
+
+- A **neighborhood** of
+  $x$ is the set 
+  $$
+  N_\epsilon (x) = \{y \in X: d(x,y) < \epsilon \}
+  $$
+  
+- $S \subseteq X$ is **open** if $\forall x \in S$,
+  $\exists$ $\epsilon>0$ such that 
+  $$
+  N_\epsilon(x) \subset S
+  $$
+
+---
+
+## Opens sets
+
+- **Theorem:**
+    + Any union of open sets is open (finite or infinite)
+    + The finite intersection of open sets is open
+
+---
+
+## Closed sets
+
+- A set $S \subseteq X$ is **closed** if its complement, $S^c$, is
+open
+
+---
+
+## Closed sets
+
+- **Theorem:**
+    + The intersection of any collection of closed sets is closed
+    + The union of any finite collection of closed sets is closed 
+
+---
+
+## Convergence
+
+- $x_n \to x$ if and only if for every open set $U$ containing $x$
+  $\exists N$ such that $x_n \in U$ for all $n \geq N$
+
+> - Let $\{x_n\}$ be any convergent sequence with each element in
+    $C$, then $\lim x_n = x \in C$ for all such $\{x_n\}$ if  and only
+    if $C$ is closed
+
+# Compactness
+
+---
+
+## Compact sets
+
+- An **open cover** of a set $S$ is a collection of open sets,
+  $\{G_\alpha\}$  $\alpha \in \mathcal{A}$ such that $S \subset
+  \cup_{\alpha \in \mathcal{A}} G_\alpha$
+  
+> - A set $K$ is **compact** if every open cover of $K$ has a
+  finite subcover
+
+---
+
+## Compact sets 
+
+> - **Lemma**  If $K$ is compact, then $K$ is closed
+
+> - **Lemma** If $K$ is compact, then $K$ is bounded
+    + $K$ is **bounded** if $\exists x_0 \in K$ and $r \in \mathbb{R}$ such that 
+    \[ d(x,x_0) < r \]  for all $x \in K$
+
+---
+
+## Heine-Borel 
+
+- **Theorem**: A set $S \subseteq \mathbb{R}^n$ is compact if and only
+  if it is closed and bounded 
+
+---
+
+## Sequential compactness
+
+- $K$ is **sequentially compact** if every sequence in $K$ has an
+accumulation point in $K$
+
+> - **Lemma**: If $K$ is compact, then $K$ is sequentially compact
+> - **Theorem**: Let $X$ be a metric space and $K \subseteq X$. $K$ is
+  compact if and only if $K$ is sequentially compact
+
+# Functions and continuity
+
+---
