@@ -759,14 +759,14 @@ is also true.
   length.
 \end{proof}
 You may wonder whether closed and bounded sets are always compact. We
-know that all finite dimensional real vector spaces are isomorphic to
-$\R^n$. In any such space, sets are compact iff they are closed and
-bounded. However, in infinite dimensional spaces, there are closed and
-bounded sets that are not compact. The argument in the previous proof
-does not apply to infinite-dimensional spaces because an infinite
-dimensional hypercube can only be divided into infinitely many
-hypercubes with half the side length. 
-\begin{example}
+will later see that all finite dimensional real vector spaces are
+isomorphic to $\R^n$. In any such space, sets are compact iff they are
+closed and bounded. However, in infinite dimensional spaces, there are
+closed and bounded sets that are not compact. The argument in the
+previous proof does not apply to infinite-dimensional spaces because
+an infinite dimensional hypercube can only be divided into infinitely
+many hypercubes with half the side length.
+\begin{example}\label{ex:ellinf}
   $\ell^\infty = \{ (x_1, x_2, ...) : \sup_{i} |x_i| < \infty$ with
   norm $\norm{x} = \sup_{i} |x_i|$ is a normed vector space. Let $e_i$
   be the element of all $0$s except for the $i$th position, which is
@@ -774,6 +774,19 @@ hypercubes with half the side length.
   $E$ is not compact because $\{N_{1/2}(e_i)\}_{i=1}^\infty$ is an
   open cover with no finite subcover. 
 \end{example}
+It is always true that a closed subset of a compact set is compact.
+\begin{lemma}
+  Let $C \subseteq K \subseteq X$, where $X$ is a metric space.  If
+  $K$ is compact and $C$ is closed, then $C$ is compact. 
+\end{lemma}
+\begin{proof}
+  Let $\{G_{\alpha}\}_{\alpha \in \mathcal{A}}$ be an open cover for
+  $C$. $C$ is closed, so $C^c$ is open. Also, $C^c$ along with
+  $\{G_{\alpha}\}_{\alpha \in \mathcal{A}}$ is an open cover of
+  $K$. $K$ is compact so there exists a finite subcover. This finite
+  subcover (with $C^c$ removed) is also a finite subcover of
+  $C$. Therefore, $C$ is compact. 
+\end{proof}
 
 We saw that closed sets contain the limit points of all their
 convergent sequences. There is also a relationship between compactness
@@ -845,7 +858,7 @@ Heine-Borel theorem.
 
 In $\R^n$, compactness, sequential compactness, and closed and bounded
 are all the same. In general metric spaces, this need not be true. We
-saw above that in infinite dimensional normed vector spaces, there are
+saw above that in $\ell^\infty$, there are
 closed and bounded sets which are not compact.  However it is always
 true that sequential compactness and compactness are the same for
 metric spaces. We already showed that compactness implies sequential
@@ -919,9 +932,9 @@ it unless you are especially interested.
   topologically equivalent or homeomorphic. Properties like continuity
   and compactness are the same regardless of what $p$-norm we use.
   
-  Topological spaces that are not metric spaces do not come up very
-  often in economics, so we will not be studying them. An example of a
-  non-metrizable topological space is the following. Let
+  Topological spaces that are not metric spaces do not come up too
+  often in economics, so we will not study them in detail. An example
+  of a non-metrizable topological space is the following. Let
   $X = \{f: \R \to \R\}$. Define convergence of sequences in this
   space as $f_n \to f$ if $f_n(x) \to f(x)$ for all $x \in \R$. Let
   $S \subset X$ be closed if $S$ contains the accumulation points of
@@ -929,10 +942,18 @@ it unless you are especially interested.
   called the topology of pointwise convergence. This space and
   definition of convergence sounds reasonable (and is reasonable), but
   there is no metric on this space that leads to the same definition
-  of convergence and closed sets. In an area of econometrics and
-  statistics called empirical process theory, you often have to work
-  with a space with something called the topology of weak convergence,
-  which has a broadly similar definition and is also non-metrizable.
+  of convergence and closed sets. 
+
+  In an area of econometrics and statistics called empirical process
+  theory, you often have to work with something called the topology of
+  weak convergence, which has a somewhat similar definition and is
+  also non-metrizable. We saw in example \ref{ex:ellinf} that in an
+  infinite dimensional space, the unit sphere (or a closed
+  neighborhood of any radius) is not compact. It is also not
+  sequentially compact. Econometricians care about sequential
+  compactness to show that limits and asymptotic distributions
+  exist. Working with weak convergence instead of a metrizable
+  topology makes many nice sets sequentially compact.
 \end{remark}
 
 To review, in $\R^n$ a set is compact if any of the following four
@@ -1183,9 +1204,9 @@ problems. However, we did not worry too much about conditions that
 ensure an optimum exists. One fundamental result that ensures the
 existence of optima is Weierstrass's theorem.
 \begin{theorem}[Weierstrass]
-  Let $f:\R^n \to \R$ be continuous and $K \subset \R^n$ be
-  compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
-  \forall x \in K$. 
+  Let $X$ be a metric space and $f:X \to \R$ be continuous and
+  $K \subset X$ be compact and nonempty. Then $\exists x^* \in K$ such
+  that $f(x^*) \geq f(x) \forall x \in K$.
 \end{theorem}
 \begin{proof}
   On review problems for final.
@@ -1226,8 +1247,8 @@ economics, especially as constraint sets in optimization problems.
   properties of the indirect utility and demand functions it is often
   useful to treat the budge set as a correspondence.
 \end{example}
-Correspondences also appear in economics in any model where we
-multiple equilibria, such as many games. 
+Correspondences also appear in economics in models with multiple
+equilibria, such as many games.
 
 Defining continuity is a bit more complicated for correspondences than
 for functions. A function can either be continuous or it can jump. A
@@ -1262,11 +1283,18 @@ $\xi$ is not. To see this consider $x_n = 1/n$ and $y_n = 1$.
 \end{definition}
 In the previous example, $\xi$ is lower hemicontinuous at $0$, but
 $\psi$ is not. To see this consider $x_n = -1/n$ and $y = 1$. 
-\begin{definition}
+\begin{definition}\label{def:corrcont}
   We say that a correspondence is \textbf{continuous} if it is both
   upper and lower hemicontinuous.
 \end{definition}
 At all $x \neq 0$, $\xi$ and $\psi$ are continuous.
+
+\begin{exercise}
+  A correspondence $\phi:X \corres Y$ can also be viewed as a function
+  $\phi:X \to \mathcal{P}(Y)$. There is a metric on $\mathcal{P}(Y)$
+  that leads to the same definition of continuity as in
+  definition \ref{def:corrcont}. What is that metric?
+\end{exercise}
 
 \bibliographystyle{jpe}
 \bibliography{../526}

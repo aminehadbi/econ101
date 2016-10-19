@@ -213,9 +213,45 @@ open
 accumulation point in $K$
 
 > - **Lemma**: If $K$ is compact, then $K$ is sequentially compact
+
 > - **Theorem**: Let $X$ be a metric space and $K \subseteq X$. $K$ is
   compact if and only if $K$ is sequentially compact
 
 # Functions and continuity
 
 ---
+
+## Functions
+
+- Function from a set $A$ to a set $B$ is a rule that assigns to each $a \in A$ one and only one
+$b \in B$
+    + Domain $A$
+    + Target space $B$
+    + Range or image $\{y  \in B:  f(x) = y \text{ for some } x \in A \}$
+
+---
+
+## Continuity
+
+-  $f:X \to Y$ is **continuous** at $x$ if whenever $x_n \to x$ in
+   $X$, then $f(x_n) \to f(x)$ in $Y$.
+
+> - $f: X \to Y$ is continuous at $x$ if and only if for every
+  $\epsilon>0$ $\exists$ $\delta>0$ such that $ d(x,x') < \delta $
+  implies $d(f(x),f(x')) < \epsilon$
+
+> - $f:X \to Y$ is continuous at $x$ if and only if for all open $V$
+  with $f(x) \in V$, $\exists$ open $U \subseteq X$ such that $x \in U
+  \subseteq f^{-1}(V)$
+    + Preimage $f^{-1} (V) = \{ x \in X: f(x) \in V \}$
+
+
+---
+
+## Existence of maximum
+
+- Let $f:X \to \mathbb{R}$ be continuous and $K \subset X$ be
+  compact. Then $\exists x^* \in K$ such that $f(x^*) \geq f(x)
+  \forall x \in K$
+
+
