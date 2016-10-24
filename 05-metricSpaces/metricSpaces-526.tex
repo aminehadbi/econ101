@@ -1209,7 +1209,28 @@ existence of optima is Weierstrass's theorem.
   that $f(x^*) \geq f(x) \forall x \in K$.
 \end{theorem}
 \begin{proof}
-  On review problems for final.
+  First, we show that $\sup_{x \in K} f(x)$ exists. 
+  $\R$ has the least upper bound property, so it is enough to
+  show that $f$ is bounded. Let $\epsilon>0$. For each $x$, let $x \in
+  U_x$ be open and $U_x \subseteq f^{-1}(N_\epsilon(x))$. Such $U_x$
+  exist since $f$ is continuous. Also, $\{U_x\}_{x \in K}$ is open
+  cover of $K$. $K$ is compact, so there exists a finite subcover. Let
+  this subcover be $U_{x_1}, ..., U_{x_n}$. For any $x \in K$, $x \in
+  U_{x_j}$ for some $j$ and 
+  \[ f(x) \leq f(x_j) + \epsilon. \]
+  Hence,
+  \[ f(x) \leq \max_{j\in\{1, ..., n\}} f(x_j) + \epsilon \]
+  and $f$ is bounded on $K$. $\R$ has the least upper bound property
+  --- any set bounded above has a least upper bound, so
+  $\bar{f}=\sup_{x \in K} f(x)$ exists.
+
+  Let $\bar{f} = \sup_{x \in K} f(x)$. Let $y_n = \bar{f} -
+  1/n$. By definition of supremum, for each $n$, $\exists$ $x_n$
+  such that $y_n \leq f(x_n) \leq \bar{f}$. Since $K$ is compact,
+  the sequence $\{x_n\}$ must have a convergent subsequence
+  $x_{n_k} \to x \in K$. $f$ is continuous, so $f(x_{n_k}) \to
+  f(x)$. Also, by construction, $d(f(x_{n_k}) , \bar{f} ) \to 0$, so
+  it must be that $f(x) = \bar{f}$. 
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

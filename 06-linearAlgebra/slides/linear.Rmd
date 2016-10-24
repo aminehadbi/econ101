@@ -1,0 +1,110 @@
+---
+title       : Vector spaces & Linearity
+subtitle    : 
+author      : Paul Schrimpf
+job         : 
+date        : October 2016
+output:
+  revealjs::revealjs_presentation:
+    self_contained: true
+    theme: league
+    transition: slide
+    center : true
+    highlight : zenburn
+    reveal_options:
+      slideNumber: false
+      center : true
+      help : true
+      previewLinks: true 
+#ext_widgets: {rCharts: [libraries/nvd3]}
+## For interactive chart to work, must either publish or view from
+## local webserver, else CDN links won't work 
+--- 
+
+# Vector Spaces
+
+---
+
+## Vector Space
+
+- Set $V$, operations $+:V \times V \to V$ and $\cdot: \mathbb{R}
+  \times V \to V$ such that
+  + $(V,+)$ is commutative group: $\forall x,y,z \in V$
+    1. (Algebraically) closed:  $x + y \in V$
+    2. Associative: $(x + y) + z  = x + (y+z)$
+    3. Identity: $\exists 0 \in V$ such that $x + 0 = x$
+    4. Invertible: $\exists -x \in V$ such that $x + (-x) = 0$
+    5. Commutative: $x + y = y + x$
+  + Scalar multiplication has some properties
+
+---
+
+## Vector Space
+
+- Set $V$, operations $+:V \times V \to V$ and $\cdot: \mathbb{R}
+  \times V \to V$ such that
+  + $(V,+)$ is commutative group
+  + Scalar multiplication is: $\forall \alpha, \beta \in \mathbb{R}$
+    1. Closed: $\alpha x \in V
+    2. Distributive: $\alpha(x + y) = \alpha x + \alpha y$ and
+    $(\alpha + \beta) x = \alpha x + \beta y$
+    3. Consistent with multiplication in $\mathbb{R}$: $1x = x$ and
+       $(\alpha \beta) x = \alpha (\beta x)$
+
+---
+
+## Examples
+
+- $\mathbb{R}^n$
+
+> - Spaces of sequences
+> - Spaces of functions
+
+---
+
+## Subspaces
+
+- $S \subseteq V$ is a **linear
+subspace** if $\forall x,y \in \S$ and $\alpha \in \mathbb{R}$
+\[ \alpha x + y \in S \]
+
+> - Examples
+
+---
+
+## Linear Combinations
+
+- $\mathbf{x}_1,..., \mathbf{x}_k \in
+V$, linear combination is 
+  \[c_1 \mathbf{x}_1 + ... + c_k \mathbf{x}_k \]
+  where $c_1, ..., c_k \in \mathbb{R}$
+
+- **span** of $W \subseteq V$ is set of all linear combinations of
+elements of $W$
+    + is a linear subspace
+
+---
+
+## Linear independenec
+
+- $W \subseteq V$ is linearly independent if
+  \[ \sum_{j=1}^k c_j \mathbf{x}_j = 0 
+  \end{align*} \]
+  implies $c_1 = c_2 = ... = c_k = 0$ for any $k$ and $\mathbf{x}_1, ...,
+  \mathbf{x}_k \in W$
+> - **Dimension** of a vector space is the cardinality of
+  the largest set of linearly independent elements 
+> - **Basis** $B \subseteq V$ is a set of linearly independent elements
+  that span $V$
+> - Should show dimension is well-defined and basis exists
+
+---
+
+## Linear independence
+
+- **Lemma**: Let $B$ be a basis for a vector space $V$. Then
+  $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \R$ and
+  $b_1, ..., b_k \in B$
+  such that $\mathbf{x} = \sum_{i=1}^k x_i b_i$
+  
+> - $\mathbb{R}^n$ is the only finite dimensional vector space

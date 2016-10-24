@@ -56,17 +56,16 @@ produce $(1.1 y_1^A, 1.1 y_2^A)$.
 
 We have been working with $\R^n$, which is the most common vector
 space. There are three ways of approaching vector spaces. The first is
-geometrically --- introduce vectors as directed arrows arrows. This
-works well in $\R^2$ and $\R^3$ but is difficult in higher dimensions.
-The second is analytically --- by treating vectors as n-tuples of
-numbers $(x_1, ..., x_n)$. The third approach is axiomatically ---
-vectors are elements of a set that has some special properties. You
-likely already have some familiarity with the first two
-approaches. Here, we are going to take the third approach. This
-approach is more abstract, but this abstraction will allow us to
-generalize what we might know about $\R^n$ to other more exotic vector
-spaces. Also, some theorems and proofs become shorter and more
-elegant. 
+geometrically --- introduce vectors as directed arrows. This works
+well in $\R^2$ and $\R^3$ but is difficult in higher dimensions.  The
+second is analytically --- by treating vectors as n-tuples of numbers
+$(x_1, ..., x_n)$. The third approach is axiomatically --- vectors are
+elements of a set that has some special properties. You likely already
+have some familiarity with the first two approaches. Here, we are
+going to take the third approach. This approach is more abstract, but
+this abstraction will allow us to generalize what we might know about
+$\R^n$ to other more exotic vector spaces. Also, some theorems and
+proofs become shorter and more elegant.
 
 \begin{definition}
   A \textbf{vector space} is a set $V$  with
@@ -294,44 +293,7 @@ but $(1,0) + (0,1) = (1,1)$ is not.
   \[ S_1 + \cdots + S_k = \{ \mathbf{x}_1 + \cdots + \mathbf{x}_k :
   \mathbf{x}_j \in S_j \} \]
 \end{definition}
-$S_1 + \cdots + S_k$ is another linear subspace of $V$. An especially
-interesting situaation is when $S_1 + \cdots + S_k = V$ and every
-$\mathbf{v} \in V$ can be uniquely written as a sum of elements of
-$S_j$. 
-\begin{definition}
-  If $S_1 + \cdots + S_k = V$ and $\forall \mathbf{v} \in V$, there
-  are unique $\mathbf{x}_j \in S_j$ such that 
-  \[ \mathbf{v} = \mathbf{x}_1 + \cdots  + \mathbf{x}_k \]
-  then $V$ is the \textbf{direct sum} of $S_1, ..., S_k$, written 
-  \[ V = S_1 \oplus \cdots \oplus S_k \]
-\end{definition}
-Representing a vector space as a direct sum will be important for some
-of the results below. The following lemma will be useful.
-\begin{lemma}\label{lem:dirSum}
-  Suppose $S_1$ and $S_2$ are linear subspaces of $V$. Then $V = S_1
-  \oplus S_2$ iff $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. 
-\end{lemma}
-\begin{proof}
-  Suppose $V = S_1 \oplus S_2$. Then by definition $V = S_1 +
-  S_2$. Also, if $\mathbf{x} \in S_1 \cap S_2$, then $0 = \mathbf{x} + (-\mathbf{x})$. The
-  definition of direct sum requires this representation to be unique,
-  so $\mathbf{x} = 0$ must be the only element of $S_1 \cap S_2$.
-
-  Suppose $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. Let $\mathbf{v} \in
-  V$. Since $V = S_1 + S_2$, $\exists \mathbf{x}_1 \in S_1$ and $\mathbf{x}_2 \in S_2$
-  such that $\mathbf{v} = \mathbf{x}_1 + \mathbf{x}_2$. Suppose that
-  $\mathbf{y}_1 \in S_1$ and $\mathbf{y}_2 \in S_2$ and $\mathbf{v} =
-  \mathbf{y}_1 + \mathbf{y}_2$. Subtracting, 
-  \[ 0 = \underbrace{(\mathbf{x}_1 - \mathbf{y}_1)}_{\in S_1} + \underbrace{(\mathbf{x}_2 -
-    \mathbf{y}_2)}_{\in S_2} \]
-  so $(\mathbf{x}_1 - \mathbf{y}_1) = -(\mathbf{x}_2 -
-  \mathbf{y}_2)$. By the definition of subspaces, $S_1$ and $S_2$ are
-  closed under scalar multiplication. Therefore, $(\mathbf{x}_i -
-  \mathbf{y}_i) \in S_1 \cap S_2$ for $i = 1, 2$. By assumption, this
-  intersection only contains $0$, so we can conclude that
-  $\mathbf{x}_i = \mathbf{y}_i$. The representation of $\mathbf{v} =
-  \mathbf{x}_1 + \mathbf{x}_2$ is unique.
-\end{proof}
+$S_1 + \cdots + S_k$ is another linear subspace of $V$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Linear combinations}
@@ -383,7 +345,7 @@ dimensional, then we should be able to describe any vector in it by
 listing $n$ scalars or coordinates.  In this section we formally
 define dimension.
 \begin{definition}
-  A set of vectors $W \in V$, is \textbf{linearly
+  A set of vectors $W \subseteq V$, is \textbf{linearly
     independent} if the only solution to
   \begin{align*}
     \sum_{j=1}^k c_j \mathbf{x}_j = 0 
@@ -1883,7 +1845,7 @@ Finally, we can prove the separating hyperplane theorem.
   $V$ or the separating hyperplane that we want. $H$ is not a
   hyperplane only if $\overline{C} = \overline{D} = V$. If $V$ is
   finite dimensional, and $C$ and $D$ are not empty, then this is
-  impossible. TODO: make a lemma proving this. Regardless of the
+  impossible. Proving this is left as an exercise. Regardless of the
   dimension of $V$, if $C$ (or $D$) has a non-empty interior, then
   lemma \ref{lem:ubiq} implies that $\overline{C}$ (or $\overline{D}$)
   cannot be all of $V$, since we know that $C \neq V$.
@@ -1910,6 +1872,41 @@ Finally, we can prove the separating hyperplane theorem.
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Fundamental theorem of linear algebra}
 I've covered this in past years, but we will not get to it this year.
+
+\begin{definition}
+  If $S_1 + \cdots + S_k = V$ and $\forall \mathbf{v} \in V$, there
+  are unique $\mathbf{x}_j \in S_j$ such that 
+  \[ \mathbf{v} = \mathbf{x}_1 + \cdots  + \mathbf{x}_k \]
+  then $V$ is the \textbf{direct sum} of $S_1, ..., S_k$, written 
+  \[ V = S_1 \oplus \cdots \oplus S_k \]
+\end{definition}
+Representing a vector space as a direct sum will be important for some
+of the results below. The following lemma will be useful.
+\begin{lemma}\label{lem:dirSum}
+  Suppose $S_1$ and $S_2$ are linear subspaces of $V$. Then $V = S_1
+  \oplus S_2$ iff $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. 
+\end{lemma}
+\begin{proof}
+  Suppose $V = S_1 \oplus S_2$. Then by definition $V = S_1 +
+  S_2$. Also, if $\mathbf{x} \in S_1 \cap S_2$, then $0 = \mathbf{x} + (-\mathbf{x})$. The
+  definition of direct sum requires this representation to be unique,
+  so $\mathbf{x} = 0$ must be the only element of $S_1 \cap S_2$.
+
+  Suppose $V = S_1 + S_2$ and $S_1 \cap S_2 = \{0\}$. Let $\mathbf{v} \in
+  V$. Since $V = S_1 + S_2$, $\exists \mathbf{x}_1 \in S_1$ and $\mathbf{x}_2 \in S_2$
+  such that $\mathbf{v} = \mathbf{x}_1 + \mathbf{x}_2$. Suppose that
+  $\mathbf{y}_1 \in S_1$ and $\mathbf{y}_2 \in S_2$ and $\mathbf{v} =
+  \mathbf{y}_1 + \mathbf{y}_2$. Subtracting, 
+  \[ 0 = \underbrace{(\mathbf{x}_1 - \mathbf{y}_1)}_{\in S_1} + \underbrace{(\mathbf{x}_2 -
+    \mathbf{y}_2)}_{\in S_2} \]
+  so $(\mathbf{x}_1 - \mathbf{y}_1) = -(\mathbf{x}_2 -
+  \mathbf{y}_2)$. By the definition of subspaces, $S_1$ and $S_2$ are
+  closed under scalar multiplication. Therefore, $(\mathbf{x}_i -
+  \mathbf{y}_i) \in S_1 \cap S_2$ for $i = 1, 2$. By assumption, this
+  intersection only contains $0$, so we can conclude that
+  $\mathbf{x}_i = \mathbf{y}_i$. The representation of $\mathbf{v} =
+  \mathbf{x}_1 + \mathbf{x}_2$ is unique.
+\end{proof}
 
 The next three lemmas will be used later when proving theorem
 \ref{thm:fund}. You may want to skip ahead and only come back to these
