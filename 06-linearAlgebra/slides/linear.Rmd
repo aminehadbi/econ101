@@ -47,7 +47,7 @@ output:
   + Scalar multiplication is: $\forall \alpha, \beta \in \mathbb{R}$
     1. Closed: $\alpha x \in V
     2. Distributive: $\alpha(x + y) = \alpha x + \alpha y$ and
-    $(\alpha + \beta) x = \alpha x + \beta y$
+    $(\alpha + \beta) x = \alpha x + \beta x$
     3. Consistent with multiplication in $\mathbb{R}$: $1x = x$ and
        $(\alpha \beta) x = \alpha (\beta x)$
 
@@ -55,8 +55,7 @@ output:
 
 ## Examples
 
-- $\mathbb{R}^n$
-
+> - $\mathbb{R}^n$
 > - Spaces of sequences
 > - Spaces of functions
 
@@ -65,7 +64,7 @@ output:
 ## Subspaces
 
 - $S \subseteq V$ is a **linear
-subspace** if $\forall x,y \in \S$ and $\alpha \in \mathbb{R}$
+subspace** if $\forall x,y \in S$ and $\alpha \in \mathbb{R}$
 \[ \alpha x + y \in S \]
 
 > - Examples
@@ -85,13 +84,14 @@ elements of $W$
 
 ---
 
-## Linear independenec
+## Linear independence
 
 - $W \subseteq V$ is linearly independent if
   \[ \sum_{j=1}^k c_j \mathbf{x}_j = 0 
-  \end{align*} \]
+  \]
   implies $c_1 = c_2 = ... = c_k = 0$ for any $k$ and $\mathbf{x}_1, ...,
   \mathbf{x}_k \in W$
+  
 > - **Dimension** of a vector space is the cardinality of
   the largest set of linearly independent elements 
 > - **Basis** $B \subseteq V$ is a set of linearly independent elements
@@ -103,8 +103,170 @@ elements of $W$
 ## Linear independence
 
 - **Lemma**: Let $B$ be a basis for a vector space $V$. Then
-  $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \R$ and
+  $\forall \mathbf{x} \in V$ there exists a unique $x_1, ..., x_k \in \mathbb{R}$ and
   $b_1, ..., b_k \in B$
   such that $\mathbf{x} = \sum_{i=1}^k x_i b_i$
   
 > - $\mathbb{R}^n$ is the only finite dimensional vector space
+
+
+# Normed Vector Spaces
+
+---
+
+## Normed Vector Space
+
+- $\Vert \cdot \Vert:V \to \mathbb{R}$ s.t.
+     + $\Vert v \Vert \geq 0$, $=0$ iff $v=0$
+     + $\Vert \alpha v \Vert = |\alpha| \Vert v \Vert$
+     + $\Vert v_1 + v_2 \Vert \leq \Vert v_1 \Vert + \Vert v_2 \Vert$
+- Gives a metric $d(v_1,v_2) = \Vert v_1 - v_2 \Vert$
+
+---
+
+## Normed Vector Spaces
+> - $\mathbb{R}^n$ with $\Vert \mathbf{x} \Vert = \sqrt{\sum_{i=1}^n x_i^2}$
+> - $\ell_p =$ infinite sequences s.t.
+\[ \Vert x\Vert_p = \left( \sum_{i=1}^\infty |x_i|^p \right)^{1/p} < \infty \]
+> - $\mathcal{L}_p([0,1]) = \{f:[0,1] \to \mathbb{R}\}$ s.t.
+\[ \Vert f \Vert_p = \left(\int_0^1 |f(x)|^p dx\right)^{1/p} < \infty \]
+
+
+
+# Linear Transformations
+
+---
+
+## Linear Transformations
+
+- $A:V \to W$ s.t. $\forall v_1,v_2\in V\,,\,\alpha \in \mathbb{R}$
+     + $A(v_1 + v_2) = Av_1 + Av_2$
+     + $A(\alpha v_1 ) = \alpha A v_1$
+
+- Represented as matrices when $V$ and $W$ finite dimensional
+
+---
+
+## Linear Transformations
+
+- Examples:
+     + Integration: $V = \{f:[0,1] \to \mathbb{R} s.t. \int_0^1 |f(x)|dx < \infty
+     \}$, $A:V \to \mathbb{R}$
+     \[ Af = \int_0^1 a(x) f(x) dx \]
+     with $\sup_{x \in [0,1]} |a(x)| < \infty$
+
+---
+
+## Linear Transformations
+
+- Examples:
+     + Differentiation: $C^k([0,1]) = \{f:[0,1] \to \mathbb{R} \,s.t.\, f
+    \text{ k times continuously differentiable }\}$, $D:C^1([0,1]) \to
+     C^0([0,1])$,
+     \[ (Df)(x) = \frac{df}{dx}(x) \]
+
+---
+## Linear Transformations
+
+- Examples:
+     + Conditional expectation
+
+---
+
+## Vector space of linear transformations
+
+- $L(V,W) =$ { linear transformations from $V$ to $W$ }
+- Addition: $(A + B)(v) = Av + Bv$
+- Scalar multiplication: $A(\alpha v) = \alpha Av$
+
+---
+
+## Matrix multiplication=composition of linear transformations
+
+\[
+\begin{aligned}
+  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_j) = \sum_{j=1}^n b_{jk} A e_j \\
+  = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right) 
+  =  \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
+  = & \begin{pmatrix} 
+    \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
+    \vdots & \ddots & \vdots \\
+    \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
+  \end{pmatrix} e_k  \\
+  = & (AB)e_k .
+\end{aligned}
+\]
+
+---
+
+## Null space and range
+
+- $A \in L(V,w)$, **null space** of $A$
+ \[ null(A) = \{x \in V:
+ Ax = 0\} \subseteq V \]
+- **range** of $A$
+  \[ range(A) = \{Ax: x \in V\} \subseteq W \]
+
+
+
+# Dual Spaces
+
+---
+
+## Dual Spaces
+
+- Dual space of $V$, $V^\ast = \{ v^\ast: V \to \mathbb{R}
+  s.t. v^\ast \text{ continuous} \}$
+
+> - Example: ${\mathbb{R}^n}^\ast \simeq \mathbb{R}^n$
+> - Prices are elements of a dual space
+> - Example: ${\mathcal{L}^p}^\ast \simeq \mathcal{L}^q$ where $1/p +
+    1/q = 1$
+
+---
+
+## Transpose
+
+- $A: V \to W$, the **transpose** is $A^T:W^\ast \to V^\ast$ defined
+    by
+    \[ (A^T w^\ast)v = w^\ast (Av) \]
+
+# Separating hyperplane theorem
+
+---
+
+## Hyperplanes
+
+- **Hyperplane** $H_{\xi,c} = \{x \in V: \xi x = c\}$ where $c \in
+  \mathbb{R}$ and $\xi \in V^\ast$
+      + is **affine** i.e. $\forall x, y \in H_{\xi,c}$ and $\lambda \in
+        \mathbb{R}$, $\lambda x + (1-\lambda)y \in H_{\xi,c}$
+
+---
+
+## Convexity
+
+- $S \subseteq V$ is **convex** if $\forall x, y \in
+  S$ and $\lambda \in (0,1)$, we have $x \lambda + y(1-\lambda)
+  \in S$
+
+---
+
+## Separating hyperplane theorem
+
+- If $S_1$ and $S_2 \subseteq V$ are convex and $S_1 \cap S_2 =
+ \emptyset$ and either $V$ is finite dimensional or the interior of
+ $S_1$ or $S_2$ is not empty. Then there exists a hyperplane, $H_{\xi
+ c} = \{ x: \xi x = c \}$ such that \[ \xi s_1 \leq c \leq \xi s_2 \]
+ for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
+ separates $S_1$ and $S_2$.
+
+---
+
+## Lagrange multipliers exist
+    
+- Let $V$ and $W$ be normed vector spaces, $A \in B(V,\mathbb{R})$ and
+$C \in B(V,W)$. Assume that $range(C)$ is closed. Then
+$null(A) \supseteq null(C)$ if and only if $A = \mu C$ for some
+$\mu \in W^*$
+

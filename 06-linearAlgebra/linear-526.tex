@@ -641,7 +641,7 @@ special type of vector space where we can measure length.
   $\R$ and denoted by $\norm{v}$ with the following properties:
   \begin{enumerate}
   \item (Positive definite) $\norm{v} \geq 0$ and $\norm{v} = 0$ iff $v = 0$,
-  \item (Homogenous) $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \F$,
+  \item (Homogenous) $\norm{\alpha v} = |\alpha|\norm{v}$ for all $\alpha \in \R$,
   \item The triangle inequality holds:
     \[ \norm{v_1+v_2} \leq \norm{v_1} + \norm{v_2} \]
     for all $v_1, v_2 \in V$.
@@ -1095,6 +1095,8 @@ transformation can be one-to-one and onto.
   Left as an exercise. 
 \end{proof}
 
+\subsection{Norm for $L(V,W)$}
+
 If $V$ and $W$ are normed vector spaces, then the space of linear
 transformations can also be given a norm.
 \begin{definition}
@@ -1128,10 +1130,7 @@ $B(V,W)$ can be given norm:
 
 Even more can be said about linear equations after we have defined the
 transpose of a linear transformation.  Defining the transpose requires
-first introducing dual spaces. Dual spaces are of independent interest
-because they are needed to define differentiation on vector spaces,
-which we will want to do later. Also, in optimization problems, Lagrange
-multipliers are elements of dual spaces. 
+first introducing dual spaces. 
 \begin{definition}
   Let $V$ be a vector space. The \textbf{dual space} of $V$, denote
   $V^\ast$ is the set of all (continuous)\footnote{All linear
@@ -1164,6 +1163,8 @@ prices are in dual spaces.
   V^\ast$, then $pv$ is the total cost of purchasing $v$. $p$ is the
   price vector.
 \end{example}
+Dual spaces are also important in optimization because Lagrange
+multipliers are elements of a dual space.
 
 Finite dimensional spaces are self-dual in the sense of example
 \ref{ex:rdual}, i.e. $V$ and $V^*$ are isomorphic. Infinite
@@ -1238,7 +1239,7 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
     \left(\begin{pmatrix} \tilde{a}_{11} & \cdots & \tilde{a}_{1m} \\
         \vdots & & \vdots \\
         \tilde{a}_{n1} & \cdots & \tilde{a}_{nm} \end{pmatrix}  e_j\right)^T e_k = & e_j^T \gmatrix{a}
-    e_k \\
+                                                                                     e_k \\
     \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{nj}
     \end{pmatrix} e_k  = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
     \end{pmatrix} \\
@@ -1292,7 +1293,7 @@ horseshoes, rings, etc.
   $S_1$ and $S_2 \subseteq V$ are convex and
   $S_1 \cap S_2 = \emptyset$ and either $V$ is finite dimensional or
   the interior of $S_1$ or $S_2$ is not empty. Then there exists a
-  hyperplane, $H_{\xi c} = \{ x: \xi'x = c \}$ such that
+  hyperplane, $H_{\xi c} = \{ x: \xi x = c \}$ such that
   \[ \xi s_1 \leq c \leq \xi s_2 \]
   for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
   separates $S_1$ and $S_2$. 
@@ -1614,7 +1615,7 @@ utility function.
   separating hyperplane theorem. Let $V_i = \{ x \in X_i : x \pref_i
   x_i^e \}$ be the set of $x$ strictly preferred by person $i$. Let 
   \begin{align*}
-    V = \{ \chi \in S: \chi = \sum_{i=1}^I x_i \text{ for some } x_i
+    V = \{ \chi \in S: \chi = \sum_{i=1}^I x_i \text{ where } x_i
     \in V_i \}  
   \end{align*}
   be the set of sums of elements from each $V_i$. The convexity of
@@ -1624,7 +1625,7 @@ utility function.
   Similarly, if 
   \begin{align*}
     Y = \{ \psi \in S: \psi = \sum_{i=j}^J y_j \text{
-      for some } y_j \in Y_j \}  
+      where } y_j \in Y_j \}  
   \end{align*}
   is the sum of each firms' production possibility set, then $Y$ is
   convex. 
