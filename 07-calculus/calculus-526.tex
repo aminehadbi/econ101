@@ -283,7 +283,8 @@ Next, we need a result that relates derivatives to maxima.
 \end{proof}
 Now we can prove the mean value theorem.
 \begin{theorem}[mean value]\label{thm:mvt}
-  Let $f:\R^n \to \R^1$ be in $C^1(U)$ for some open $U$. Let $x, y
+  Let $f:\R^n \to \R^1$ be in continuously differentiable on some open
+  set $U$ (i.e. $f \in C^1(U)$. Let $x, y
   \in U$ be such that the line connecting $x$ and $y$, $\ell(x,y) =
   \{z\in \R^n: z = \lambda x + (1-\lambda) y, \lambda \in [0,1]\}$, is
   also in $U$. Then there is some $\bar{x} \in \ell(x,y)$ such that
@@ -355,7 +356,7 @@ $f_j$, but the $\bar{x}$'s will typically differ with $j$.
 Slightly abusing notation, we might at times write $Df_{\bar{x}}$
 instead of $\begin{pmatrix} D{f_1}_{\bar{x}_1} & \cdots &
   D{f_m}_{\bar{x}_m} \end{pmatrix}^T$ with the understanding that we
-mean the later.  
+mean the later.   
 
 \subsection{Chain rule}
 
@@ -635,7 +636,7 @@ infinite dimensions, we cannot do that.
   \[ \norm{\left(df(x+th;h) - df(x;h) \right)} \leq \sup_{v \in V}
   \frac{\norm{\left(df(x+th;v) - df(x;v)
       \right)}}{\norm{v}}\norm{h}. \] 
-  The ``continuity'' in $x$ implies for any $\epsilon>0$ $\exists
+  The continuity in $x$ implies for any $\epsilon>0$ $\exists
   \delta > 0$ such that if $\norm{th} < \delta$, then 
   \[ \sup_{v \in V}
   \frac{\norm{\left(df(x+th;v) - df(x;v) \right)}}{\norm{v}} <
@@ -723,12 +724,115 @@ With this definition of the derivative, almost everything that we
 proved above for functions from $\R^n \to \R^m$ also holds functions
 on Banach spaces. In particular, the chain rule, Taylor's theorem, the
 implicit function theorem, and the inverse function theorem hold. The
-proofs of these theorems on Banach spaces are essential the same as in
-lecture 8, so we will not go over them. The mean value theorem is
-slightly more delicate. It still holds for functions $f:V \to \R^m$,
-but must be modified when the target space of $f$ is infinite
-dimensional. If you find this interesting, you may want to go through
-the proofs of all these claims, but it is not necessary to do so.
+proofs of these theorems on Banach spaces are essential the same as
+above, so we will not go over them. If you find this interesting, you
+may want to go through the proofs of all these claims, but it is not
+necessary to do so. 
+
+The mean value theorem is slightly more delicate. It still holds for
+functions $f:V \to \R^m$, but must be modified when the target space
+of $f$ is infinite dimensional. We start with the mean value theorem
+for $f:V \to \R$. 
+\begin{theorem}[Mean value theorem (onto $\R$) \label{thm:mvtr}]
+  Let $f:V \to \R^1$ be in continuously differentiable on some open
+  set $U$. Let $x, y \in U$ be such that the line connecting $x$ and
+  $y$,
+  $\ell(x,y) = \{z\in \R^n: z = \lambda x + (1-\lambda) y, \lambda \in
+  [0,1]\}$, is also in $U$. Then there is some $\bar{x} \in \ell(x,y)$
+  such that
+  \[ f(x) - f(y) = Df_{\bar{x}} (x-y). \]
+\end{theorem}
+\begin{proof}
+  Identical to the proof of \ref{thm:mvt}.
+\end{proof}
+This result can then be generalized to $f:V \to \R^n$ in the same way
+as theorem \ref{thm:mvtm}. 
+
+Now, let's consider a first order Taylor expansion for $f:V \to W$:
+\begin{align*}
+    f(x+h) - f(x) = & Df_{\bar{x}} h \\
+    f(x+h) = & f(x) + Df_{\bar{x}} h \\
+    = & f(x) + Df_{x} h + \underbrace{(Df_{\bar{x}} -Df_x)h}_{r_1(x,h)}  
+\end{align*}
+To show that first order Taylor expansions
+have small approximation error, we need to show that
+$(Df_{\bar{x}} -Df_x)h$ is uniformly small for all possible $h$. When
+$W$ is $\R^1$, there is a single $\bar{x}$. When $W = \R^m$, then
+$\bar{x}$ is different for each dimension (as in theorem
+\ref{thm:mvtm}). However, this is okay because we just take the
+maximum over the finitely many different $\bar{x}$ to get an upper
+bound on $\norm{(Df_{\bar{x}} -Df_x)h}$. When $W$ is infinite
+dimensional, this argument does not work. Instead, we must use a
+result called the Hahn-Banach extension theorem, which is closely
+related to the separating hyperplane theorem.
+\begin{theorem}[Hahn-Banach theorem \label{thm:hb}]
+  Let $V$ be a vector space and $g:V \to \R$ be convex. Let
+  $S\subseteq V$ be a linear subspace. Suppose $f_0:
+  S \to \R$ is linear and 
+  \[ f_0(x) \leq g(x) \] 
+  for all $x \in S$. Then $f_0$ can be extended to $f:V \to \R$ such
+  that 
+  \[ f_0(x) = f(x) \]
+  for all $x \in S$ and
+  \[ f(x) \leq g(x) \]
+  for all $x \in V$.
+\end{theorem}
+\begin{proof}
+  We will apply the separating hyperplane theorem to two sets in $V
+  \times \R$. Let 
+  \[ A = \{(x,a): a > g(x), x \in V, a \in
+    \R\}.\]
+  Since $g$ is a convex function, $A$ is a convex set. Let
+  \[ B = \{(x,a): a = f_0(x), x \in S, a \in \R \} \]
+  Since $f_0$ is linear, $B$ is convex. 
+  Clearly $A \cap B = \emptyset$. Also, $\int A \neq \emptyset$
+  because $A$ is open, so $\int A = A$ and $A \neq \emptyset$ since
+  e.g. $(x, g(x) +1) \in A$. 
+
+  Therefore, by the separating hyperplane theorem,
+  $\exists \xi \in (V \times \R)^*$ and $c \in \R$ such that
+  \[ \xi z_A > c \geq \xi z_B \]
+  for all $z_A \in A$ and $z_B \in B$. $B$ is a linear subspace, so it
+  must be that $\xi z_B = 0$ for all $z_B \in B$, so we can take
+  $c=0$. 
+  
+  Note that since $(0,1) \in A$, $\xi(0,1) > 0$. Let $f: V \to \R$ be
+  given by $f(x) = -\frac{\xi(x,0)}{\xi(0,1)}$. To conclude, we must
+  show that $f(x) = f_0(x) $ for all $x \in S$ and $f(x) \leq g(x)$
+  for all $x \in V$.  To show that $f(x) = f_0(x) $, by linearity of
+  $\xi$ we have
+  \begin{align*}
+    \xi(x,y) = & \xi(x,0) + y\xi(0,1) \\
+    \frac{\xi(x,y)}{\xi(x,0)} = & -f(x) + y 
+  \end{align*}
+  If $x \in S$, then $\xi(x,f_0(x)) = 0$, so $f(x) = f_0(x)$ for all
+  $x \in S$.
+  Similarly for any $y > g(x)$, then $(x,y) \in A$, so
+  $\frac{\xi(x,y)}{\xi(x,0)} = -f(x) + y>0$, and $y >
+  f(x)$. Therefore, $f(x) \leq g(x)$.
+\end{proof}
+With this result in hand, we now can now prove the mean value theorem
+for arbitrary Banach spaces.
+\begin{theorem}[Mean value theorem (onto $\R$) \label{thm:mvtr}]
+  Let $f:V \to W$ be in continuously differentiable on some open
+  set $U$. Let $x, y \in U$ be such that the line connecting $x$ and
+  $y$,
+  $\ell(x,y) = \{z\in \R^n: z = \lambda x + (1-\lambda) y, \lambda \in
+  [0,1]\}$, is also in $U$. Then there is some $\bar{x} \in \ell(x,y)$
+  such that
+  \[ \norm{f(x) - f(y)}_W \leq \norm{Df_{\bar{x}} (x-y)}_W \leq
+    \norm{Df_{\bar{x}}}_{BL(V,W)} \norm{x-y}_V \]
+\end{theorem}
+\begin{proof}
+  Step 1: use the Hahn Banach theorem to show that $\exists \phi \in
+  W^*$ with $\norm{\phi}=1$ and $\norm{f(x) - f(y)} = \phi(f(x) -
+  f(y))$. The relevant $f_0$ is $f_0(\alpha(f(x) - f(y))) = \alpha
+  \norm{f(x) - f(y)}$. 
+
+  Define $g:[0,1] \to \R$ by $g(t) = \phi(f( t x) - f((1-t) y))$ and
+  apply the mean value theorem on $\R$ to get 
+  \[ \norm{f(x) - f(y)} = \phi Df_{t^*x + (1-t^*) y)} (x-y) \].
+\end{proof}
 
 
 
