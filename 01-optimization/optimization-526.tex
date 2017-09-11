@@ -1156,7 +1156,7 @@ following.
 \begin{theorem}\label{thm:pddiff}
   Let $f:\R^n \to \R$ and suppose its partial derivatives exist and
   are continuous in a neighborhood of $x_0$. Then
-  \[ df(x;v) = \sum_{i=1^n} v_i \frac{\partial f}{\partial x_i}
+  \[ df(x;v) = \sum_{i=1}^n v_i \frac{\partial f}{\partial x_i}
   (x_0) \]
   in this case we will say that $f$ is differentiable at $x_0$.
 \end{theorem}
@@ -1169,7 +1169,7 @@ derivatives into a $1 \times n$ matrix,
 \end{pmatrix}. \]
 We will simply call this matrix the derivative of $f$ at $x$. This
 helps reduce notation because for example we can write
-\[ df(x;v) = \sum_{i=1^n} v_i \frac{\partial f}{\partial x_i}
+\[ df(x;v) = \sum_{i=1}^n v_i \frac{\partial f}{\partial x_i}
 (x_0) = Df_x v. \]
 
 Similarly, we can define second and higher order partial and
@@ -1193,7 +1193,7 @@ directional derivatives.
   Let $f:\R^n \to \R$ and suppose its first and second partial
   derivatives exist and are continuous in a neighborhood of
   $x_0$. Then
-  \[ d^2f(x;v,w) = \sum_{j=1}^n \sum_{i=1^n} v_i \frac{\partial^2
+  \[ d^2f(x;v,w) = \sum_{j=1}^n \sum_{i=1}^n v_i \frac{\partial^2
     f}{\partial x_i \partial x_j}
   (x_0) w_j \]
   in this case we will say that $f$ is twice differentiable at $x_0$. 
