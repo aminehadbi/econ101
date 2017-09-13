@@ -674,8 +674,8 @@ constraints.
     g_j(x^*) & \leq b_j
   \end{align*}
   for $i = 1, ..., n$ and $j=1,...,m$. Moreover for each $j$ at least
-  one of $\lambda_j^* \geq 0$ and $g_j(x^*) \leq b_j$ holds with
-  equality (complementary slackness).
+  if $\lambda_j^* > 0$ then $g_j(x^*) = b_j$ and if $g_j(x^*) < b$,
+  then $\lambda_j^*=0$ (complementary slackness).
 \end{theorem}
 Some care needs to be taken regarding the sign of the multipliers and
 the setup of the problem. Given the setup of our problem, $\max_x f(x)
@@ -1109,6 +1109,115 @@ situations are rare, so we will not worry about them.
   As an exercise, you could use similar reasoning to show that $dw^T
   dx < 0$. Increasing input prices decreases input demand.
 \end{example} 
+
+\begin{example}[contracting with productivity shocks]
+  In class, we were going over the following example, but did not have
+  time to finish, so I am including it here.
+  \begin{itemize}
+  \item  Firm's problem with $x$ not-contractible, observed by firm but not worker
+    \[ \max_{c(x), h(x)} \sum_{i \in \{H,L\}} q_i [x_i f(h_i)-c_i] \]
+    s.t. 
+    \begin{align} 
+      W_0 - \sum_i q_i[U(c_i) + V(1-h_i)] & \leq 0 \label{pc} \\
+      x_L f(h_H) - c_H & \leq x_L f(h_L) - c_L \label{icL} \\
+      x_H f(h_L) - c_L & \leq x_H f(h_H) - c_H \label{icH}
+    \end{align}
+  \item Which constraint binds?
+  \item Compare $c_i$ and $h_i$ with first-best contract
+  \end{itemize}
+  Recall The first best contract (when $x$ is observed and
+  contractible so that constraints (\ref{icL}) and (\ref{icH}) are not
+  present) had 
+  $c_H = c_L$ and $h_H > h_L$, and in particular 
+  \[ x_i f'(h_i) = \frac{V'(1-h_i)}{U'(c_i)}. \] 
+  With this contract, if $x$ is only known to the firm, the firm would
+  always want to lie and declare that productivity is high. Therefore,
+  we know that at least one of (\ref{icL})-(\ref{icH}) must
+  bind. Moreover, we should suspect that constraint (\ref{icL}) will
+  bind. We can verify that this is the case by looking at the first
+  order conditions. Let $\mu$ be the multiplier for (\ref{pc}),
+  $\lambda_L$ for (\ref{icL}) and $\lambda_H$ for (\ref{icH}). The
+  first order conditions are
+  \begin{align*}
+    [c_L]: && 0 = & -q_L + \mu q_L U'(c_L) - \lambda_L + \lambda_H \\
+    [c_H]: && 0 = & -q_H + \mu q_H U'(c_H) + \lambda_L - \lambda_H \\
+    [h_L]: && 0 = & q_L x_L f'(h_L) - \mu q_L V'(1-h_L) + \lambda_L
+                    x_L f'(h_L) - \lambda_H x_H f'(h_L) \\
+    [h_H]: && 0 = & q_H x_H f'(h_H) - \mu q_H V'(1-h_H) - \lambda_L
+                    x_L f'(h_H) + \lambda_H x_Hf'(h_H) 
+  \end{align*}
+  Now, let's deduce what constraints must bind. Possible cases:
+  \begin{enumerate}
+  \item Both (\ref{icL}) and (\ref{icH}) slack. Then, we have the
+    first-best problem, but as noted above, the solution to the first
+    best problme violates (\ref{icL}), so this case is not possible.
+  \item Both (\ref{icL}) and (\ref{icH}) bind. Then, 
+    \[ c_H - c_L = x_L[f(h_H) - f(h_L)] \]
+    and 
+    \[ c_H - c_L = x_H[f(h_H) - f(h_L)] \]
+    Assuming $x_H > x_L$, this implies $c_H= c_L=c$ and $h_H =
+    h_L=h$. The first order conditions for $[c_i]$ imply that 
+    \[ \lambda_H
+      - \lambda_L = q_L (1 - \mu U'(c)) = -q_H(1 - \mu U'(c)) \]
+    Since each $q > 0$, the only possibility is that $1-\mu U'(c) =
+    0$ and $\lambda_H = \lambda_L = \lambda$.  However, then the first
+    order condtioins for $[h_i]$ imply that 
+    \begin{align*}
+      \frac{\mu V'(1-h)}{f'(h)} = \frac{q_L x_L + \lambda (x_L -
+      x_H)}{q_L} = & \frac{q_H x_H + \lambda (x_H -
+                     x_L)}{q_H} \\
+      (x_H - x_L)(1 + \frac{\lambda}{q_L} + \frac{\lambda}{q_H}) = & 0
+    \end{align*}
+    but this is impossible since $x_H > x_L$, $\lambda\geq 0$, $q_L>0$
+    and $q_H>0$.
+  \item (\ref{icH}) binds, but (\ref{icL}) is slack. This is
+    impossible. Subtracting one constraint from the other gives
+    \[ (x_H - x_L) [f(h_H) - f(h_L)] \geq 0 \]
+    which implies $h_H \geq h_L$. On the other hand if (\ref{icH})
+    binds and (\ref{icL}) is slack, then 
+    \[ c_H - c_L = x_H[f(h_H) - f(h_L)] \]
+    and 
+    \[ c_H - c_L < x_L[f(h_H) - f(h_L)]. \] 
+    Since $x_H > x_L$ and $f$ is increasing, this implies $h_L > h_H$,
+    a contradiction.    
+  \item (\ref{icL}) binds, but (\ref{icH}) is slack.  This is the
+    only possibility left. Now we have
+    \[ c_H - c_L = x_L[f(h_H) - f(h_L)] \]
+    and 
+    \[ c_H - c_L < x_H[f(h_H) - f(h_L)]. \] Since $x_H > x_L$ and
+    $f$ is increasing, this implies $h_H > h_L$, and $c_H > c_L$.
+    Using the fact that $\lambda_H = 0$ and combining $[c_L]$ and
+    $[h_L]$ gives:
+    \begin{align}
+      x_L f'(h_L) = \frac{V'(1-h_L)}{U'(c_L)} \label{eq:l}
+    \end{align}
+    An interpretation of this is that when productivity is low, the
+    marginal production of labor is set equal to marginal rate of
+    substitution between labor and consumption. This contract features
+    an efficient choice of labor relative to consumption in the low
+    productivity state.
+
+    To see what happens in the high productivity state, combining $[c_H]$ and $[h_H]$ leads to
+    \begin{align}
+      x_H f'(h_H)\frac{q_H - \lambda_L x_L/x_H}{q_H - \lambda_L} = &
+                                                                     \frac{V'(1-h_H)}{U'(c_H)} \label{eq:h}  
+    \end{align}
+    Also, note that $q_H - \lambda_L = \mu U'(c_H) > 0$, and $x_L <
+    x_H$, so $\frac{q_H - \lambda_L x_L/x_H}{q_H - \lambda_L} >
+    1$. Hence,
+    \begin{align}
+      x_H f'(h_H) < & \frac{V'(1-h_H)}{U'(c_H)} \label{eq:h}  
+    \end{align}
+    in the high productivity state, there is a distortion in the
+    tradeoff between labor and consumption. This distortion is
+    necessary to prevent the firm from wanting to lie about
+    productivity.
+
+    We could proceed further and try to eliminate $\lambda_L$ from
+    these expressions, but I do not think it leads to any more useful
+    conclusions. 
+  \end{enumerate}
+\end{example}
 
 \appendix
 
