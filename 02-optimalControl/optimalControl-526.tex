@@ -10,9 +10,11 @@
 \section{References}
 
 These notes are about optimal control.  References from our text books
-are chapter 10 of \cite{dixit1990} and chapter 20 \cite{cw2005}.
-\cite{dorfman1969} derives the maximum principle in a model of capital
-accumulation. \cite{intriligator1975} has some economic
+are chapter 10 of \cite{dixit1990}, chapter 20 \cite{cw2005}, and
+chapter 12.2 of \cite{fuente2000} (and chapter 13 for more
+examples). Other readily available useful references invclude
+\cite{dorfman1969} who derives the maximum principle in a model of capital
+accumulation and \cite{intriligator1975} which has some economic
 examples. There are two textbooks about optimal control in economics
 available online through UBC libraries. \cite{sethi2000} focuses on
 examples. \cite{caputo2005} also has many examples, but goes into a
@@ -243,7 +245,7 @@ multiplier).
   \times [0,T] \to \R$ are continuously differentiable. Define the
   Hamiltonian as
   \[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t). \]
-  If $x^*$ and $y^*$ are a local constrained maximum of
+  If $x^*$ and $y^*$ are local constrained maximizers of
   (\ref{e:maxp}), then there exists
   $\lambda^*(t)$ such that 
   \begin{align*}
@@ -381,7 +383,7 @@ For example, when $Q(x,y) = \int_0^T F(x(t),y(t),t)dt$, then
   $\frac{\partial F}{\partial x}$ and
   $\frac{\partial F}{\partial x} \leq M$ for some constant $M$.}
 Using directional derivatives the first order condition for
-(\ref{oc-problem}) can be stated as if $x^*$, $y*$ are maximizers,
+(\ref{oc-problem}) can be stated as if $x^*$, $y^*$ are maximizers,
 then for all $v$ and $w$ that satisfy the constraints, we have
 \begin{align}
   0 = dQ(x^*,y^*;v,w) & = \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t)v(t) +
@@ -417,8 +419,8 @@ second half of the course. Suppose there exists $\lambda(t)$ such that
                              y}(x^*(t),y^*(t),t) 
 \end{align*}
 then (\ref{xcf}) implies (\ref{xfoc}). Showing the reverse (i.e. that
-the first order condition above implies the existence of multipliers
-is more difficult). For now, let's take as given that this first order
+the first order condition above implies the existence of multipliers)
+is more difficult. For now, let's take as given that this first order
 condition can be equivalently expressed using a Lagrangian.
 
 What should the Lagrangian look like here? Recall that our problem is:
@@ -532,8 +534,8 @@ whether $T$ is finite or infinite and whether or not there are
 constraints on $y(T)$ or $x(T)$. 
 
 \begin{example}
-  A landlord with can rent $y(t)$ units of housing at price
-  $p(t)$. The landlord can adjust her housing at rate $x(t)$ for cost
+  A landlord can rent $y(t)$ units of housing at price $p(t)$. The
+  landlord can adjust her housing at rate $x(t)$ for cost
   $s(t) x(t) + c(t) x(t)^2$, where $s(t)$ represents the price of
   buying or selling housing and $c(t)x(t)^2$ is an adjustment cost
   meant to capture the idea that it can be increasingly costly to buy
@@ -654,11 +656,12 @@ example, the optimal taxation problem includes a constraint of the
 form $\int_0^T h(x(t),y(t)) dt \leq 0$, the contracting problem has a
 constraint involving both the derivative of $y$ and $x$ instead of
 just $y$, and the taxation problem has a constraint on $y'(x(t)t)$
-instead of just $y'(t)$.  Rather than trying to a form of the
+instead of just $y'(t)$.  Rather than trying to derive a form of the
 Hamiltonian and maximum principle that encompasses all possible types
 of constraints, I find it easier to work from the
-Lagrangian. Nonetheless, theorem \ref{thm:gen} in the appendix covers
-all the examples that we have covered. 
+Lagrangian. Nonetheless, theorem \ref{thm:gen} in the appendix gives a
+version of the maximum principle that encompasses all the examples
+that we have encountered.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -667,17 +670,17 @@ all the examples that we have covered.
 
 We will begin with some examples where we can explicitly solve for the
 optimal control and state variables. We will then analyze examples
-that cannot be explicitly solved, but we can characterize the
-solution and do some comparative statics. We have three different ways
-to arrive at the first order conditions for an optimal control
+that cannot be explicitly solved, but we can characterize the solution
+and do some comparative statics. We have three different ways to
+arrive at the first order conditions for an optimal control
 problem. (1) We can discretize the problem as in section
-\ref{sec:maxprin}. (2) We can write down the continuous time Lagrangian
-and take directional (functional) derivatives. (3) Perhaps most
-simply, we can write down the Hamiltonian and use the maximum
-principle. If the problem does not have the same form as that
-considered in theorem (\ref{thm:optcon}), then the usual Hamiltonian
-will not give the correct answer. In that case we can either take
-approach (1) or (2), or perhaps use theorem (\ref{thm:gen}). 
+\ref{sec:maxprin}. (2) We can write down the continuous time
+Lagrangian and take directional (functional) derivatives. (3) We can
+write down the Hamiltonian and use the maximum principle. If the
+problem does not have the same form as that considered in theorem
+(\ref{thm:optcon}), then the usual Hamiltonian will not give the
+correct answer. In that case we can either take approach (1) or (2),
+or perhaps use theorem (\ref{thm:gen}).
 
 \begin{example}[Linear production and savings]
   Consider an economy that has a linear production function, $y =

@@ -1,25 +1,256 @@
 ---
 title       : "Optimal Control"
-subtitle    : Applications
+subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : September 2016
+date        : September 2017
 output:
   revealjs::revealjs_presentation:
-    self_contained: true
+    self_contained: false
     theme: league
     transition: slide
     center : true
     highlight : zenburn
-    reveal_options:    
+    reveal_plugins: ["chalkboard"]
+    reveal_options:
       slideNumber: false
       center : true
       help : true
-      previewLinks: true    
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+      #  toggleNotesButton: true
+      #  toggleChalkboardButton: true
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
+
+## To create an html file from this, in R enter "library(revealjs); render("optimalControl.Rmd")
 --- 
+
+# Motivating examples
+
+## Optimal growth
+
+$$
+\begin{aligned}
+  \max_{c(t),k(t)} & \int_0^\infty e^{-\delta t} u(c(t)) dt \\
+  \text{ s.t. } & \frac{dk}{dt} = f(k(t)) - \phi k(t) - c(t) \\
+  & k(0) = k_0 \\
+  & 0 \leq c(t) \leq f(k(t))
+  \end{aligned}
+$$
+
+---
+
+## Investment with adjustment costs
+
+$$
+  \begin{aligned}
+    \max_{k(t),i(t),l(t)} & \int_0^T e^{-r t} \left[p f(k(t),l(t)) - qi(t) -
+    wl(t) -
+    c(i(t),k(t)) \right] dt \\
+  \text{ s.t. } 
+    & \frac{dk}{dt} = i(t) - \delta k(t) \\
+    & k(0) = k_0 \\
+    & k(t) \geq 0 \\
+    & l(t) \geq 0
+  \end{aligned}
+$$
+
+---
+
+## Contracting with a continuum of types
+
+$$ 
+\begin{aligned}
+\max_{q(\theta),T(\theta)} & \int_{\theta_l}^{\theta_h} 
+\left[T(\theta) - cq(\theta)\right]
+f_\theta(\theta) d\theta \notag \\
+& \text{s.t.} \notag \\
+&\theta \nu\left(q(\theta)\right) - T(\theta) \geq 0  \forall
+\theta \label{pc} \\
+&\theta \nu\left(q(\theta)\right) - T(\theta) \geq
+\max_{\tilde{\theta}} \theta \nu\left(q(\tilde{\theta}) \right) -
+T(\tilde{\theta}) \forall \theta \label{ic} 
+\end{aligned}
+$$
+
+---
+
+## Optimal income taxation
+$$
+  \begin{aligned}
+    \max_{\ell,t} &  \int_{w_l}^{w_h} G\left(u(w\ell(w) - t(w\ell(w)),\ell(w))
+    \right) f(w) dw \\
+    & \text{ s.t. } \\
+    & \int_{w_l}^{w_h} t(w) f(w) dw \geq g \\
+    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\ell - t(w\ell), \ell )
+  \end{aligned}
+$$
+
+<!--- ##################################################### --->
+
+# The maximum principle
+
+## Generic optimal control problem
+
+$$ 
+\begin{aligned}
+  \max_{x(t),y(t)} & \int_0^T F(x(t),y(t),t) dt \\
+  & \text{ s.t.} \\
+  & \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in [0,T] \\ 
+  & y(0) = y_0
+\end{aligned}
+$$
+
+--- 
+
+## Discretization
+
+> - Discretized problem
+$$
+\begin{aligned}
+  \max_{x_1, ..., x_J, y_1, ..., y_J} & \sum_{j=1}^J \Delta F(x_j,
+  y_j,\Delta j) 
+  & \text{ s.t.} \\
+  & y_j - y_{j-1} = \Delta g(x_j,y_j,\Delta j) \text{ for} j = 1,...,J
+\end{aligned}
+$$
+
+--- 
+
+## Discretization
+
+> - Discrete first order conditions
+$$
+\begin{aligned}
+  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda_j \frac{\partial
+    g}{\partial x} = & 0 \\ 
+  [y_j]: &&  \frac{\partial F}{\partial y} + \lambda_j 
+  \frac{\partial g}{\partial y} = & -\frac{\lambda_{j+1} -
+    \lambda_j}{\Delta} \\
+  [\lambda_j]: && g(x_j,y_j,\Delta j) = & \frac{y_j - y_{j-1}}{\Delta}.
+\end{aligned}
+$$
+
+--- 
+
+## Discretization
+
+> - Limit as $\Delta \to 0$
+$$ 
+\begin{aligned}
+  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
+    g}{\partial x} = & 0 \\ 
+  [y_j]: &&  \frac{\partial F}{\partial y} + \lambda(t)
+  \frac{\partial g}{\partial y} = & -\frac{d\lambda}{dt} \\ 
+  [\lambda_j]: && g(x_j,y_j,\Delta j) = & \frac{dy}{dt}
+\end{aligned}
+$$
+
+---
+
+## Functional directional derivatives
+
+> - $Q(x,y) \equiv  \int_0^T F(x(t),y(t),t)dt$
+> - Directional derivative, for $v:[0,T] \to \mathbb{R}$ and $w:[0,T]
+    \to \mathbb{R}$, 
+    $$ dQ(x,y;v,w) = \lim_{\alpha \to 0} \frac{Q(x+\alpha v, y +
+\alpha w) - Q(x,y)}{\alpha} 
+    $$
+
+--- 
+
+## Lagrangian
+
+$$
+\begin{aligned}
+L(x,y,\lambda,\mu_0) = & \int_0^T F(x(t),y(t),t) dt - \\ & - \int_0^T
+  \lambda(t)\left( \frac{dy}{dt} - g(x(t),y(t),t) \right) dt - \\ & - \mu_0
+  (y(0) - y_0) 
+\end{aligned}
+$$
+
+---
+
+## Pontryagin's maximum principle
+
+- Problem:
+$$
+\begin{aligned}
+\max_{x,y} & \int_0^T F(x(t),y(t),t) dt \\
+& \text{ s.t.} \\
+    &  \frac{d y}{dt} = g(x(t),y(t),t) \forall t \in
+        [0,T]  \\ 
+        & y(0) = y_0
+\end{aligned}
+$$
+- Hamiltonian
+\[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t) \]
+- If $x^*$ and $y^*$ are a local constrained maximizers, then there exists
+  $\lambda^*(t)$ such that 
+  $$
+  \begin{aligned}
+    [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+    \\
+    [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+    [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+      \lambda}(x^*,y^*,\lambda^*,t)
+  \end{aligned}
+  $$
+
+---
+
+<!--- ##################################################### --->
+
+# Examples
+
+## Landlord housing investment
+
+$$
+  \begin{aligned}
+    \max_{x,y} & \int_0^T p(t) y(t) - s(t) x(t) - c(t) x(t)^2 dt \\
+    \text{s.t.} & \frac{dy}{dt} = x(t) \\
+               & y(0) = y_0. 
+  \end{aligned}
+$$
+
+- $y(t)$ units of housing
+- $p(t)$ rental price
+- $x(t)$ housing investment
+- $s(t)$ price of housing, $c(t)x(t)^2$ adjustment cost
+
+---
+## Linear production and savings
+
+$$
+  \begin{aligned}
+    \max_{s,k} & \int_0^T (1-s(t)) k(t) dt \\
+    \text{ s.t. } & \frac{dk}{dt} = s(t)k(t) \\
+    & k(0) = k_0 \\
+    & k(t) \geq 0 \\
+    & 0 \leq s(t) \leq 1
+  \end{aligned}
+$$
+
+--- 
+
+##  Inventory with costly storage
+
+$$ 
+  \begin{aligned}
+    \max_{x,y} & p y_T - \int_0^T \left( c x(t)^2  + s y(t) \right)
+    dt \\
+    \text{ s.t. } 
+    & \frac{dy}{dt} = x(t) \\
+    & y(T) = y_T \\
+    & y(0) = 0 \\
+    & x(t) \geq 0 
+  \end{aligned}
+$$
+
+<!-- ############################################################ --> 
 
 #  Optimal growth
 
