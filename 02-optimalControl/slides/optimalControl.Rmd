@@ -85,7 +85,7 @@ $$
     \right) f(w) dw \\
     & \text{ s.t. } \\
     & \int_{w_l}^{w_h} t(w) f(w) dw \geq g \\
-    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\ell - t(w\ell), \ell )
+    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\tilde{\ell} - t(w\tilde{\ell}), \tilde{\ell} )
   \end{aligned}
 $$
 
@@ -188,6 +188,9 @@ $$
 $$
 - Hamiltonian
 \[ H(x,y,\lambda,t) = F(x(t),y(t),t) + \lambda(t) g(x(t),y(t),t) \]
+
+
+## Pontryagin's maximum principle
 - If $x^*$ and $y^*$ are a local constrained maximizers, then there exists
   $\lambda^*(t)$ such that 
   $$
@@ -222,25 +225,26 @@ $$
 - $s(t)$ price of housing, $c(t)x(t)^2$ adjustment cost
 
 ---
+
 ## Linear production and savings
 
 $$
-  \begin{aligned}
-    \max_{s,k} & \int_0^T (1-s(t)) k(t) dt \\
-    \text{ s.t. } & \frac{dk}{dt} = s(t)k(t) \\
-    & k(0) = k_0 \\
-    & k(t) \geq 0 \\
-    & 0 \leq s(t) \leq 1
-  \end{aligned}
+\begin{aligned}
+\max_{s,k} & \int_0^T (1-s(t)) k(t) dt \\
+\text{ s.t. } & \frac{dk}{dt} = s(t)k(t) \\
+& k(0) = k_0 \\
+& k(t) \geq 0 \\
+& 0 \leq s(t) \leq 1
+\end{aligned}
 $$
-
+    
 --- 
 
 ##  Inventory with costly storage
 
 $$ 
   \begin{aligned}
-    \max_{x,y} & p y_T - \int_0^T \left( c x(t)^2  + s y(t) \right)
+    \max_{x,y} & \;\; p y_T - \int_0^T \left( c x(t)^2  + s y(t) \right)
     dt \\
     \text{ s.t. } 
     & \frac{dy}{dt} = x(t) \\

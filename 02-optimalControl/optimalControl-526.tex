@@ -130,7 +130,7 @@ continuum of types also lead to infinite choice variables.
     \right) f(w) dw \\
     & \text{ s.t. } \\
     & \int_{w_l}^{w_h} t(w) f(w) dw \geq g \\
-    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\ell - t(w\ell), \ell )
+    & \ell(w) \in \argmax_{\tilde{\ell}} u(w\tilde{\ell} - t(w\tilde{\ell}), \tilde{\ell} )
   \end{align*}  
   Under standard conditions on $u$, we can replace the last constraint
   with a first order condition,
@@ -550,7 +550,7 @@ constraints on $y(T)$ or $x(T)$.
   The maximum principle for this problem is that
   \begin{align*}
     [x]: && 0 = & -s(t) -2c(t)x(t) + \lambda(t) \\
-    [y]: && -\frac{d\lambda}{dt} = p(t) 
+    [y]: && -\frac{d\lambda}{dt} = & p(t) 
   \end{align*}
   and the tranversality condition is 
   \begin{align*}
@@ -908,7 +908,90 @@ remain at the old stead-state capital and $c(T)$ will jump immediately
 to the new stable path. As time progresses $k$ and $c$ will adjust
 toward the new steady-state.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsubsection{Transversality conditions for infinite horizon
+  problems}
+
+Transversality conditions for infinite horizon problems are somewhat
+more delicate than for finite horizon problems. Consider the problem:
+\begin{align*}
+  \max_{x,y} & \int_0^\infty F(x(t),y(t),t) dt \\
+  \text{s.t.} & \frac{dy}{dt} = g(x(t),y(t)) \\
+             & y(0) = y_0
+\end{align*}   
+As with a finite horizon problem, writing down the Lagragian and
+looking at the first order condition for $y$ yields:
+\[ 0 = \int_0^\infty \left(\frac{\partial F}{\partial y}(x(t),y(t),t) +
+  \lambda(t)\frac{\partial g}{\partial y}(x(t),y(t),t) +
+  \frac{d\lambda}{dt}(t)\right)v(t)dt - \lim_{T \to \infty} \lambda(T)
+v(T) + \lambda(0) v(0) - \mu v(0). \]
+This implies the transversality condition that
+\begin{align}
+  \lim_{T \to \infty} \lambda(T) v(T) = 0 \label{tcinf}
+\end{align}
+for all $v$ that are valid perturbations to $y$. The difficulty here
+is that the set of $v$ that are allowed affects what (\ref{tcinf})
+implies about $\lambda$. For example, if we allow $v$ to be any
+function, then we would need $\lambda(T) = 0$ for $T$ sufficiently
+large (if not, set $v(T) = 1/\lambda(T)$ and then
+$\lim_{T \to \infty} \lambda(T) v(T) \neq 0$). However, in most cases
+$v$ cannot be allowed to be any function. For the derivative in
+direction $v$ and the first order condition to make sense,
+\[ \int_0^\infty F(x(t),y(t) + \alpha v(t),t) dt \] must exist for
+small $\alpha$. Additionally, to ensure the existence of Lagrange
+multiplies, the set of allowed $v$ must be rich enough to behave like
+the set of vectors in $\mathbb{R}^n$. Specifically, when you add two
+allowed directions, the sum must also be allowed. For most finite
+horizon problems and many infinite horizon problems with discounting,
+the set of allowed $v$ is the set of bounded functions. In that case,
+(\ref{tcinf}) implies $\lim_{T \to \infty} \lambda(T) =
+0$. (Unfortunately, this is not true of all problems, see example \ref{ex:tc}).
+
+Determining right set of allowed pertubations for a given problem can
+be difficult. For a well behaved problem with a unique steady state
+and an optimal path that leads to the steady state, the transversality
+condition is not needed to characterize the optimal path. Any infinite
+horizon problem that I will ask about in this course will be of that
+sort.
+
+A useful transversality condition for infinite horizon problems can be
+derived by looking at the set of directions such that
+\[ \int_0^\infty F(x(t) + \alpha v(t),y(t) + \alpha w(t),t) dt \]
+is finite and the constraints are satisfied. \cite{michel1982} takes
+such an approach and shows that this leads to
+\[ \lim_{T \to \infty} F(x(T), y(T), T) + \lambda(T) g(x(T),y(T)) =
+  0. \]
+See \cite{acemoglu2008} or \cite{chiang2000} for further discussion.
+
+\begin{example}[Non-standard transversality conditions \label{ex:tc}]
+  The following two examples feature solutions with $\lim_{T \to
+    \infty} \lambda(T) \neq 0.$, but that satisfy the condition
+  \[ \lim_{T \to \infty} F(x(T), y(T), T) + \lambda(T) g(x(T),y(T)) =
+    0. \]
+  \begin{enumerate}
+  \item
+    \begin{align*}
+      \max_{x,y} & \int_0^\infty (1-y(t))x(t) dt \\
+      \text{ s.t.} & \frac{dy}{dt} = (1-y(t)) x(t) \\
+                 & y(0) = 0 \\
+                 & 0 \leq x(t) \leq 1
+    \end{align*}
+  \item Let $k^s = (\alpha/\delta)^{1/(1-\alpha)}$ and $c^s =
+    (k^s)^\alpha - \delta k^s$.
+    \begin{align*}
+      \max_{c,k} & \int_0^\infty \left(\log(c(t)) - \log(c^s)\right)
+                   dt \\
+      \text{ s.t.} & \frac{dk}{dt} = k(t)^\alpha - c(t) - \delta
+                     k(t) \\
+                 & k(0) = 1 \\
+                 & k(t) \geq 0
+    \end{align*}
+  \end{enumerate}
+\end{example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Optimal contracting with a continuum of types} 
 Let's solve example \ref{ex:contract}. 
 \begin{align}
