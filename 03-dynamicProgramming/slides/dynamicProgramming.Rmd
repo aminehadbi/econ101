@@ -1,21 +1,24 @@
 ---
 title       : Dynamic Programming
-subtitle    : Applications
+subtitle    :
 author      : Paul Schrimpf
 job         : 
-date        : September 2016
+date        : September 2017
 output:
   revealjs::revealjs_presentation:
-    self_contained: true
+    self_contained: false
     theme: league
     transition: slide
     center : true
     highlight : zenburn
+    reveal_plugins: ["chalkboard"]
     reveal_options:
       slideNumber: false
       center : true
       help : true
       previewLinks: true 
+      chalkboard:
+        theme: whiteboard
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
@@ -155,7 +158,6 @@ $$
 
 ## Optimal growth
 
----
 $$
 \begin{aligned}
   \max_{\{c_t\}_{t=0}^\infty} & \sum_{t=0}^\infty \delta^t
@@ -377,7 +379,7 @@ print(policy)
 - Payoff $z_t \in [0,B]$ i.i.d with pdf $f$ and cdf $F$
 - Bellman equation
 $$
-V(z) = \max\{ z- I , \beta \int V(z') f(z') dz'
+V(z) = \max\{ z- I , \beta \int V(z') f(z') dz'\}
 $$
 
 ---
