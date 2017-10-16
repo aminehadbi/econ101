@@ -12,10 +12,37 @@ with particular properties.
 
 Section \ref{s:sets} introduces sets and some related concepts.
 Section \ref{s:card} briefly discusses cardinality and introduces
-countable and uncountable sets. Section \ref{s:numbers} is about
+countable and uncountable sets. Section \ref{s:relations} is about
+relations, especially orders, which are used to state Arrow's
+impossibility theorem. The appendix section \ref{s:numbers} is about
 familiar sets of numbers, including the integers, rationals, and real
 numbers. The properties of these sets of numbers that make them
-distinct are discussed in detail.
+distinct are discussed.
+
+\subsection*{References}
+
+Section \ref{s:sets} on sets is partly based on chapter 1 of
+\cite{carter2001}. Any similar high-level mathematical economics
+textbook covers similar material. Examples include \cite{fuente2000},
+\cite{ok2007}, and \cite{corbae2009}. Textbooks on real analysis, such
+as \cite{rudin1976} and \cite{tao2006}, also typically start with a
+section about sets.
+
+Section \ref{s:card} about cardinality is largely based on chapter 2
+\citet{rudin1976}. Chapter B of \cite{ok2007} covers similar
+material. Weeks 2 and 3 of the notes of \cite{tao2003} (on which
+\cite{tao2006} is based) also cover cardinality.
+
+Section \ref{s:relations} about relations is based on chapter 1.2 of
+\cite{carter2001}. Arrow's impossibility theorem first appeared in
+\cite{arrow1950}. \cite{feldman1974} is a more approachable, simplified
+proof of the theorem.
+
+The appendix section \ref{s:numbers} is based on \cite{rudin1976}, but
+any textbook on real analysis will cover similar
+material. \cite{tao2006} (or the note version \cite{tao2003}) is
+especially detailed and careful in its construction of the real
+numbers. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -292,7 +319,7 @@ assumptions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Relations}
+\section{Relations \label{s:relations}}
 
 There is not much more we can say about generic sets. Fortunately,
 sets used in economics and mathematics typically have some additional
@@ -411,7 +438,7 @@ transitive, and reflexive is called a (non-strict) \textbf{weak order}
 orders.\footnote{The ``weak'' refers to the fact that $x \preceq y$
   and $y \preceq x$ does not imply $x=y$. This is somewhat confusing
   because in economics we might read $x \preceq y$ as ``$y$ is weakly
-  preferred to $x$'', where we weakly refers to allowing indifference,
+  preferred to $x$'', where weakly refers to allowing indifference,
   not the fact that preference relations are weak orders.}
 
 \subsection{Pareto order}
@@ -445,7 +472,7 @@ Social choice theory is about how best to combine individual
 preferences to make social decisions.  It would be great if we could
 somehow complete the Pareto order, because then we could just choose
 the maximal outcome under the completed Pareto order.
-\cite{arrow1950} showed that this is impossible to do an appealing
+\cite{arrow1950} showed that this is impossible to do in an appealing
 manner. To precisely state Arrow's result, we first need a couple more
 definitions. 
 
@@ -720,8 +747,8 @@ then $r$ is not an upper bound of $A$. $S$ has the
 \textbf{least-upper-bound property} (aka complete or Dedekind
 complete) if whenever $A \subset S$ has an upper bound, $A$ has a
 least upper bound. Given that $\sqrt{2} \not\in \mathbb{Q}$, it should
-not be surprising that the rational numbers are not complete. You will
-prove this fact on the first problem set. 
+not be surprising that the rational numbers are not complete. %You will
+%prove this fact on the first problem set. 
 
 \begin{theorem}[Real numbers]
   There exists an ordered field, $\mathbb{R}$, that has the least
@@ -739,7 +766,7 @@ greatest element. For example, the Dedekind cut associated with
 $\sqrt{2}$ would be $\{p \in \mathbb{Q}: p^2 < 2\}$). We would then
 define addition, multiplication, and ordering of these cuts in the
 natural way and verify that all the properties above are
-satisfied. See Rudin for details if you are interested.
+satisfied. See \citet{rudin1976} for details if you are interested.
 
 The ``uniqueness'' is harder to prove. $\mathbb{R}$ is unique in the
 sense that any two ordered fields with the least-upper-bound property

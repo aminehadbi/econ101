@@ -3,19 +3,22 @@ title       : Metric spaces, topology, and continuity
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : October 2016
+date        : October 2017
 output:
   revealjs::revealjs_presentation:
-    self_contained: true
+    self_contained: false
     theme: league
     transition: slide
     center : true
     highlight : zenburn
+    reveal_plugins: ["chalkboard"]
     reveal_options:
-      slideNumber: false
+      slideNumber: true
       center : true
       help : true
       previewLinks: true 
+      chalkboard:
+        theme: whiteboard
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 

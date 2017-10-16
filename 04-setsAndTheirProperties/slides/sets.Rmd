@@ -3,7 +3,7 @@ title       : Sets
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : October 2016
+date        : October 2017
 output:
   revealjs::revealjs_presentation:
     self_contained: true

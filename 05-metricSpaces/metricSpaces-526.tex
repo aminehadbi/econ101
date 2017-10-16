@@ -19,8 +19,29 @@
 \end{quotation}
 
 This lecture focuses on metric spaces, topology, and continuity.
-Similar material is covered in chapters 12 and 29, of \cite{sb1994}, or
-1.3 of \cite{carter2001}.
+Similar material is covered in chapters 12 and 29, of \cite{sb1994},
+1.3 of \cite{carter2001}, chapter 2 of \cite{fuente2000}, and any
+textbook on real analysis, such as \cite{rudin1976} or \cite{tao2006}.
+
+Many proofs in mathematics rely on showing some approximation can be
+made arbitrarily close. For example, showing that the first order
+conditions are necessary for an optimum relied on approximating the
+objective function with a first order expansion. To facilitate such
+arguments, we need some good ways to measure closeness. The most
+obvious way is to define some sort of distance. This is what metric
+spaces do. Given a measure of distance, we can think about convergence
+of sequences, continuity of functions, et cetera. We will see that a
+distance also gives rise to a classification of sets (as open and
+closed), and these open and close sets can also be used to describe
+convergence of sequences, continuity, and so on. This is what topology
+is about. Topology gives us another way of thinking about closeness
+without referring directly to distance. This can sometimes lead to
+easier proofs and new insights. There also exist some reasonable
+sets that can be assigned a topology, but for which there does not
+exist an equivalent distance.\footnote{In econometrics, you might
+  eventually encounter weak convergence and hear references to the
+  topology of weak convergence. This is an example of a non-metrizable
+  topology.} 
 
 \section{Sequences and limits}
 
@@ -374,8 +395,10 @@ name for metric spaces where Cauchy sequences converge.
   $x$ is the set 
   \[ N_\epsilon (x) = \{y \in X: d(x,y) < \epsilon. \]
 \end{definition}
-A neighborhood is also called an open $\epsilon$\textbf{-ball} of $x$
-and written $B_{\epsilon}(x)$. 
+A neighborhood is sometimes also called an open
+$\epsilon$\textbf{-ball} of $x$ and written $B_{\epsilon}(x)$. I will
+try to stick with the $N_\epsilon(x)$ notation, but I might sometimes
+use ball and neighborhood interchangeably.
 \begin{definition}
   A set, $S \subseteq X$ is \textbf{open} if $\forall x \in S$,
   $\exists$ $\epsilon>0$ such that 
@@ -386,9 +409,6 @@ around that point such that the neighborhood lies entirely within the
 set. 
 \begin{example}
   Any open interval, $(a,b) = \{x \in \R: a<x<b\}$, is an open set. 
-\end{example}
-\begin{example}
-  Any linear subspace of dimension $k < n$ in $\R^n$ is not open. 
 \end{example}
 
 \begin{theorem} $\,$
@@ -435,12 +455,23 @@ open.
 
 \section{Closed sets}
 
-A closed set is like the opposite of an open set\footnote{However, a set can be
-both open and closed, and a set can be neither, so they are not
-exactly opposites. }. 
+A closed set is almost like the opposite of an open set.  However, a
+set can be both open and closed, and a set can be neither, so they are
+not exactly opposites.
 \begin{definition}
   A set $S \subseteq X$ is closed if its complement, $S^c$, is open. 
 \end{definition}
+For any metric space, $X$, the whole space, $X$ is open. Therefore,
+the $X^c = \emptyset$ is closed.  The empty set is considered open in
+any metric space. For now, you could just consider this to be by
+convention, but below we will that closed sets can also be defined by
+convergence of sequences. By that definition, the whole space is
+closed, so its complement, the empty set must be open. Anyway, the
+point is that the empty set and entire metric space are always both
+open and closed.
+
+Closed sets behavior under union and intersections is the mirror image
+of that of open sets. 
 \begin{theorem} $\;$\label{thm:uic}
   \begin{enumerate}
   \item The intersection of any collection of closed sets is closed.
@@ -461,9 +492,25 @@ exactly opposites. }.
   Some examples of closed sets include
   \begin{enumerate}
   \item $[a,b] \subseteq \R$
-  \item Any linear subspace of $\R^n$
   \item $\{(x,y) \in \R^2: x^2 + y^2 \leq 1\}$
+  \item $\{x \in \R^n: A x = b \}$ where $A$ is an $m \times n$ matrix
+    and $b \in \R^m$
   \end{enumerate}
+\end{example}
+
+\begin{example}[Discrete metric and topology]
+  Let $X$ be any set. Define a metric on $X$ by
+  \[ \Delta(x,y) = \begin{cases} 1 & \text{ if } x\neq y \\
+      0 & \text{ if } x = y
+    \end{cases}
+  \]
+  This is a metric because it is positive definite, symmetric, and
+  satisfies the triangle inequality. This metric is called the
+  discrete metric. In this space, the set of any single point $\{x \}$
+  is open since $N_{\epsilon}(x) = \{x\} \subseteq \{x\}$ for any
+  $\epsilon < 1$. Any union of open sets is open, so all subsets of
+  $X$ are open. Since every set is open, the complement of every set is
+  open, so every set is closed as well. 
 \end{example}
 
 Closed sets can also be defined as sets that contain the limit of any
@@ -554,8 +601,8 @@ closed sets. Open sets are then defined as the complement of closed
 sets. Conversely, if we specify which sets are open and closed, we can
 then define convergence of sequences as in exercise
 \ref{ex:openConvergence}. Metrics, convergence of sequences, and open and
-closed sets are three different ways of describing the continuity
-properties of a set. 
+closed sets are three different ways of describing notions of
+proximity and continuity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compact sets}
@@ -759,13 +806,13 @@ is also true.
   length.
 \end{proof}
 You may wonder whether closed and bounded sets are always compact. We
-will later see that all finite dimensional real vector spaces are
-isomorphic to $\R^n$. In any such space, sets are compact iff they are
-closed and bounded. However, in infinite dimensional spaces, there are
-closed and bounded sets that are not compact. The argument in the
-previous proof does not apply to infinite-dimensional spaces because
-an infinite dimensional hypercube can only be divided into infinitely
-many hypercubes with half the side length.
+will see that all finite dimensional real vector spaces are isomorphic
+to $\R^n$. In any such space, sets are compact iff they are closed and
+bounded. However, in infinite dimensional spaces, there are closed and
+bounded sets that are not compact. The argument in the previous proof
+does not apply to infinite-dimensional spaces because an infinite
+dimensional hypercube can only be divided into infinitely many
+hypercubes with half the side length.
 \begin{example}\label{ex:ellinf}
   $\ell^\infty = \{ (x_1, x_2, ...) : \sup_{i} |x_i| < \infty$ with
   norm $\norm{x} = \sup_{i} |x_i|$ is a normed vector space. Let $e_i$
@@ -933,7 +980,7 @@ it unless you are especially interested.
   and compactness are the same regardless of what $p$-norm we use.
   
   Topological spaces that are not metric spaces do not come up too
-  often in economics, so we will not study them in detail. An example
+  often in economics, but they do appear in econometrics. An example
   of a non-metrizable topological space is the following. Let
   $X = \{f: \R \to \R\}$. Define convergence of sequences in this
   space as $f_n \to f$ if $f_n(x) \to f(x)$ for all $x \in \R$. Let
