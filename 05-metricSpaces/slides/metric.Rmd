@@ -89,7 +89,7 @@ for all $n \geq N$
 ## Subsequence
 
 - Given $\{x_n\}_{n=1}^\infty$ and any sequence of positive integers, $\{n_k\}$
-  such that $n_1 < n_2 < ... $ we call $\{x_{n_k}\}_{k=1}^\infty$ a
+  such that $n_1 < n_2 <$ ... we call $\{x_{n_k}\}_{k=1}^\infty$ a
   **subsequence** of $\{x_n\}_{n=1}^\infty$
   
 > - **Lemma**: Let $a$ be an accumulation point of $\{x_n\}$, then $\exists$
@@ -240,7 +240,7 @@ $b \in B$
    $X$, then $f(x_n) \to f(x)$ in $Y$.
 
 > - $f: X \to Y$ is continuous at $x$ if and only if for every
-  $\epsilon>0$ $\exists$ $\delta>0$ such that $ d(x,x') < \delta $
+  $\epsilon>0$ $\exists$ $\delta>0$ such that $d(x,x') < \delta$
   implies $d(f(x),f(x')) < \epsilon$
 
 > - $f:X \to Y$ is continuous at $x$ if and only if for all open $V$

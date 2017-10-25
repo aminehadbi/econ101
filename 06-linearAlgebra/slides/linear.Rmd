@@ -3,7 +3,7 @@ title       : Vector spaces & Linearity
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : October 2016
+date        : October 2017
 output:
   revealjs::revealjs_presentation:
     self_contained: true
@@ -185,15 +185,15 @@ elements of $W$
 
 \[
 \begin{aligned}
-  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_j) = \sum_{j=1}^n b_{jk} A e_j \\
+  A(B g_k) = & A (\sum_{j=1}^n b_{jk} f_j) = \sum_{j=1}^n b_{jk} A f_j \\
   = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right) 
   =  \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
   = & \begin{pmatrix} 
     \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
     \vdots & \ddots & \vdots \\
     \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
-  \end{pmatrix} e_k  \\
-  = & (AB)e_k .
+  \end{pmatrix} g_k  \\
+  = & (AB)g_k .
 \end{aligned}
 \]
 

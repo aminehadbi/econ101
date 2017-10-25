@@ -9,16 +9,16 @@
 \maketitle
 
 These notes are about linear algebra. References from the primary
-texts are chapters 10, 11, and 27 of \cite{sb1994} and section 1.4 and
-portions of chapter 3 of \cite{carter2001}. There are many mathematics
-texts on linear algebra.  \cite{axler1997} is excellent. Many people
-like
+texts are chapters 10, 11, and 27 of \cite{sb1994}, chapter 3 of
+\cite{fuente2000}, and section 1.4 and portions of chapter 3 of
+\cite{carter2001}. There are many mathematics texts on linear algebra.
+\cite{axler1997} is good. Many people like
 \href{http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/}
 {Gilbert Strang's video lectures} (and his textbook). These notes were
 originally based on the material in \cite{sb1994}, but they are now
 closer to the approach of \cite{axler1997} for finite dimensional
 spaces, and some mix of \cite{luenberger1969} and \cite{clarke2013}
-for infinite dimensional spaces. 
+for infinite dimensional spaces.
 
 We will study linear algebra with two goals in mind. First, we will
 finally carefully prove that the Lagrangian works. Recall that for a
@@ -512,7 +512,7 @@ basis.
 This lemma implies that if $V$ is finite dimensional, then a basis for
 $V$ exists. Even if $V$ is infinite dimensional, then a basis
 exists. The argument is outlined in the following exercise.
-\begin{exercise}[Difficult]\label{ex:basis}
+\begin{exercise}\label{ex:basis}
   A partial order is a relation that is reflexive, transitive, and
   antisymmetric. A set with a partial order is called a partially
   ordered set. Not all elements of a partially ordered set are
@@ -658,6 +658,8 @@ points is a straight line. If you go directly from $x$ to $y$ you
 ``travel'' $\norm{x - y}$. If you stop at point $z$ in between, you travel
 $\norm{x - z} + \norm{z - y}$. The triangle inequality guarantees that 
 \[ \norm{x-y} \leq \norm{x - z} + \norm{z - y}. \]
+Any normed vector space is also a metric space with $d(x,y) = \norm{x
+  - y}$. 
 
 \subsection{Examples}
 \begin{example}
@@ -700,16 +702,16 @@ difference.
   Let $\mathcal{F}_p = \{f: (0,1) \to \R \text{ such that }
   \norm{f}_p<\infty\}$. 
   Define an equivalence relation between functions as
-  \[ f \sim_p \tilde{f} \iff \norm{f - \tilde{f}}_p = 0 \]
-  The space  $\mathcal{L}^p(0,1) = \{\text{equivalence classes of
-  }\mathcal{F}_p\}$ with norm $\norm{\cdot}_p$ is a
-  normed vector space. The space is defined as the set of equivalences
-  classes because if $f$ and $\tilde{f}$ differ at only a finite
-  collection of points, then
-  \[ \norm{f-\tilde{f}}_p = \left(\int_0^1 |f(x) - \tilde{f}(x) |^p dx\right)^{1/p} =
-  0. \]
-  If such $f$ and $\tilde{f}$ were considered different vectors, then
-  the norm would not be positive definite. 
+  \[ f \sim_p \tilde{f} \iff \norm{f - \tilde{f}}_p = 0 \] The space
+  $\mathcal{L}^p(0,1) = \{\text{equivalence classes of
+  }\mathcal{F}_p\}$ with norm $\norm{\cdot}_p$ is a normed vector
+  space. The space is defined as the set of equivalences classes
+  because if $f$ and $\tilde{f}$ differ at only a finite collection of
+  points\footnote{Or, more generally, a set of measure zero.}, then
+  \[ \norm{f-\tilde{f}}_p = \left(\int_0^1 |f(x) - \tilde{f}(x) |^p
+      dx\right)^{1/p} = 0. \] If such $f$ and $\tilde{f}$ were
+  considered different vectors, then the norm would not be positive
+  definite.
   
   Moreover, $\mathcal{L}^p(0,1)$ is a different
   space for different $p$. For example, $\frac{1}{x^{1/p}} \not\in
@@ -955,20 +957,22 @@ transformations. Let $A$ be a linear transformation from $\R^n$ to
 $\R^m$ and $B$ be a linear transformation from $\R^p$ to $\R^n$. Now,
 we defined matrices by looking at how a linear tranformation acts on a
 basis vectors, so to define multiplication, we should look at $A(B
-e_k)$
+e_k)$. In these calculations, $e_i$ are standard basis vectors in
+$\R^m$, $f_j$ will be standard basis vectors in $\R^n$, and $g_k$ will
+be basis vectors in $\R^p$.
 \begin{align*}
-  A(B e_k) = & A (\sum_{j=1}^n b_{jk} e_j) & \text{definition of $Be_k$}\\
-  = & \sum_{j=1}^n b_{jk} A e_j & \text{Definition of linear
+  A(B g_k) = & A (\sum_{j=1}^n b_{jk} f_j) & \text{definition of $Bg_k$}\\
+  = & \sum_{j=1}^n b_{jk} A f_j & \text{Definition of linear
     transformtion} \\
   = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right)  &
-  \text{definition of $Ae_j$} \\
+  \text{definition of $Af_j$} \\
   = & \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
   = & \begin{pmatrix} 
     \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
     \vdots & \ddots & \vdots \\
     \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
-  \end{pmatrix} e_k  \\
-  = & (AB)e_k .
+  \end{pmatrix} g_k  \\
+  = & (AB)g_k .
 \end{align*}
 The indexing in the above equations is unpleasant and could be
 confusing. The important thing to remember is that matrix
@@ -1238,8 +1242,11 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
     (A^T e_j^\ast) e_k = & e_j^\ast A e_k  \\
     \left(\begin{pmatrix} \tilde{a}_{11} & \cdots & \tilde{a}_{1m} \\
         \vdots & & \vdots \\
-        \tilde{a}_{n1} & \cdots & \tilde{a}_{nm} \end{pmatrix}  e_j\right)^T e_k = & e_j^T \gmatrix{a}
-                                                                                     e_k \\
+        \tilde{a}_{n1} & \cdots & \tilde{a}_{nm}
+      \end{pmatrix}
+                                  e_j\right)^T e_k = & e_j^T
+                                                       \gmatrix{a} e_k
+    \\ 
     \begin{pmatrix} \tilde{a}_{1j} & \cdots &  \tilde{a}_{nj}
     \end{pmatrix} e_k  = & e_j^T \begin{pmatrix} a_{1k} \\ \vdots \\  a_{mk}
     \end{pmatrix} \\
@@ -1247,7 +1254,7 @@ $(A^T w^\ast) v \in \R$. Similarly, $Av \in W$, and $w^\ast: W \to
   \end{align*}
   In other words, the definition is to simply swap rows and columns.  
 \end{example}
-\begin{exercise}(Difficult) What is the transpose of the conditional
+\begin{exercise} What is the transpose of the conditional
   expectation operator from example \ref{ex:condex}?
 \end{exercise}
 Since the dual space of $V$ is defined at $V^* = B(V,\R)$, a norm on
@@ -1324,7 +1331,7 @@ functional analysis such as \cite{luenberger1969}, \cite{clarke2013},
 or \cite{holmes1975}. 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Existence of Lagrange multipliers}
 
 In studying constrained maximization problems, we showed that if $x^*$
@@ -1359,8 +1366,8 @@ matrix, i.e. a linear transformation from $R^n \to \R^m$.
   \[ \xi x \leq c < \xi y \]
   for all $x \in \range D$ and $y \in N$.  It must be that $\xi x = 0$
   for all $x \in \range D$. If not, say $\xi x = d \neq >0$, then
-  since $\range D$ is a subspace, $2c/d x \in \range D$, and since
-  $\xi$ is linear, $\xi(2c/d x) = 2c > c$.  Let
+  since $\range D$ is a subspace, $(2c/d) x \in \range D$, and since
+  $\xi$ is linear, $\xi((2c/d) x) = 2c > c$.  Let
   $\xi = (\xi_1, -\tilde{\mu})$, where $\xi_1 \in \R^* = \R$ and
   $\mu \in W^*$. Since $(1,0_w) \in N$, it must be that $\xi_1 >
   0$. Therefore, for all $v \in V$,
@@ -1512,16 +1519,10 @@ prevents person $i$ from having clothes.
   then $p x_{i^*} > p x_{i^*}^0$.  For all other $i \neq i^*$ it must
   be that $x_i \prefeq_i x_i^0$. When $x_i \pref_i x_i^0$, by the same
   argument as above, $p x_i > p x_i^0$. When $x_i \simeq_i x_i^0$,
-  then we will show that local non-satiation implies $px_i \geq
-  px_i^0$. If not and $px_i < p x_i^0$, then by continuity\footnote{We
-    have not yet defined continuity, so do not worry if you find this
-    part of the proof confusing. A function $f: V\rightarrow W$ where
-    $V$ and $W$ are normed vector spaces is continuous if $\forall
-    \epsilon > 0$ $\exists \delta > 0$ such that whenever $\norm{x -
-      y}<\delta$ we also have $\norm{f(x) - f(y)} < \epsilon$. In this
-    proof, $V$ is $S$ , $W$ is $\R$, $f$ is $p$, and $\epsilon$ is
-    $|px_i - px_i^0|$. } of $p$ there exists some $\delta > 0$ such
-  that for all $x'$ with $\norm{x_i - x'} < \delta$, we have
+  then we will show that local non-satiation implies
+  $px_i \geq px_i^0$. If not and $px_i < p x_i^0$, then by continuity
+  of $p$ there exists some $\delta > 0$ such that for all $x'$ with
+  $\norm{x_i - x'} < \delta$, we have
   \[ | p x_i - p x' | < | px_i - p x_i^0| \]
   and in particular, 
   \[ p x' < px_i^0. \]
@@ -1872,7 +1873,14 @@ Finally, we can prove the separating hyperplane theorem.
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Fundamental theorem of linear algebra}
-I've covered this in past years, but we will not get to it this year.
+I've covered this in past years, but we will not get to it this
+year. For the purposes of this course, the main point of the
+fundamental theorem of linear algebra was to show the existence of
+Lagrange multipliers. The separating hyperplane theorem now fulfills
+that role instead. The fundamental theorem of linear algebra is
+somewhat easier to prove than the separating hyperplane theorem, but
+the fundamental theorem of linear algebra only applies to finite
+dimensional spaces, so perhaps it is not so ``fundamental'' afterall. 
 
 \begin{definition}
   If $S_1 + \cdots + S_k = V$ and $\forall \mathbf{v} \in V$, there

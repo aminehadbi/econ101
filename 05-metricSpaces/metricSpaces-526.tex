@@ -347,8 +347,13 @@ name for metric spaces where Cauchy sequences converge.
   for all $i \geq j$ and some fixed $j$. Thus, $\norm{\mathbf{x}_i}
   \leq M$ for some constant $M$ and all $i \geq j$. Then, 
   \[
-  s_m^\ast = \sum_{n=1}^m |x_{n}^\ast|^p = \lim_{i \to \infty} \sum_{n=1}^m |x_{in}|^p \leq
-  M^{p} \]
+    s_m^\ast = \sum_{n=1}^m |x_{n}^\ast|^p = \lim_{i \to \infty}
+    \sum_{n=1}^m |x_{in}|^p\leq M^p.
+  \]
+  The final inequality comes from the fact that $ \sum_{n=1}^m |x_{in}|^p \leq \sum_{n=1}^\infty
+  |x_{in}|^p = \norm{\mathbf{x}_i}^p \leq M^p$. Importantly, the upper
+  bound $M^p$ does not depend on $i$ or $m$. Thus, we have shown that
+  \[ s_m^\ast \leq M^p \]
   for all $m$. $s_m^\ast$ is a bounded weakly increasing sequence in
   $\R$, so it must converge.\footnote{Let $\seq{x} \in \R$ and suppose $x_1
     \leq x_2 \leq x_3 \leq ...$ and $\seq{x}$ is bounded, then we will
@@ -385,7 +390,7 @@ name for metric spaces where Cauchy sequences converge.
   \sum_{m=1}^M\abs{x_{im} - x_m^\ast} < \epsilon 
   \]
   for all $i \geq N$, so the sequence converges.
- \end{example}
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Open sets}
@@ -979,17 +984,17 @@ it unless you are especially interested.
   topologically equivalent or homeomorphic. Properties like continuity
   and compactness are the same regardless of what $p$-norm we use.
   
-  Topological spaces that are not metric spaces do not come up too
-  often in economics, but they do appear in econometrics. An example
-  of a non-metrizable topological space is the following. Let
-  $X = \{f: \R \to \R\}$. Define convergence of sequences in this
-  space as $f_n \to f$ if $f_n(x) \to f(x)$ for all $x \in \R$. Let
-  $S \subset X$ be closed if $S$ contains the accumulation points of
-  all sequences in $S$. This definition of closed and open sets is
-  called the topology of pointwise convergence. This space and
-  definition of convergence sounds reasonable (and is reasonable), but
-  there is no metric on this space that leads to the same definition
-  of convergence and closed sets. 
+  Topological spaces that are not metric spaces sound exotic, but they
+  do sometimes appear. An example of a non-metrizable topological
+  space is the following. Let $X = \{f: \R \to \R\}$. Define
+  convergence of sequences in this space as $f_n \to f$ if
+  $f_n(x) \to f(x)$ for all $x \in \R$. Let $S \subset X$ be closed if
+  $S$ contains the accumulation points of all sequences in $S$. This
+  definition of closed and open sets is called the topology of
+  pointwise convergence. This space and definition of convergence
+  sounds reasonable (and is reasonable), but there is no metric on
+  this space that leads to the same definition of convergence and
+  closed sets.
 
   In an area of econometrics and statistics called empirical process
   theory, you often have to work with something called the topology of
@@ -1015,7 +1020,7 @@ things hold:
 The first two are always equivalent. 
 In infinite dimensional spaces, closed and bounded sets need not be
 compact, but compact sets are always closed and bounded. In any metric
-space, a set is compact iff it is sequentially compact.
+space, a set is compact if and only if it is sequentially compact. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Functions and continuity}
@@ -1359,9 +1364,10 @@ At all $x \neq 0$, $\xi$ and $\psi$ are continuous.
 
 \begin{exercise}
   A correspondence $\phi:X \corres Y$ can also be viewed as a function
-  $\phi:X \to \mathcal{P}(Y)$. There is a metric on $\mathcal{P}(Y)$
-  that leads to the same definition of continuity as in
-  definition \ref{def:corrcont}. What is that metric?
+  $\phi:X \to \mathcal{P}(Y)$. There is a metric on the set of compact
+  subsets of $Y$ (which is a subset of $\mathcal{P}(Y)$) that leads to
+  the same definition of continuity as in definition
+  \ref{def:corrcont}. What is that metric?
 \end{exercise}
 
 \bibliographystyle{jpe}
