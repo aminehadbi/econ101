@@ -956,23 +956,24 @@ Matrix multiplication is really the composition of two linear
 transformations. Let $A$ be a linear transformation from $\R^n$ to
 $\R^m$ and $B$ be a linear transformation from $\R^p$ to $\R^n$. Now,
 we defined matrices by looking at how a linear tranformation acts on a
-basis vectors, so to define multiplication, we should look at $A(B
-e_k)$. In these calculations, $e_i$ are standard basis vectors in
-$\R^m$, $f_j$ will be standard basis vectors in $\R^n$, and $g_k$ will
-be basis vectors in $\R^p$.
+basis vectors, so to define multiplication, we should look at
+$A(B \mathbf{g}_k)$. In these calculations, $\mathbf{e}_i$ are
+standard basis vectors in $\R^m$, $\mathbf{f}_j$ will be standard
+basis vectors in $\R^n$, and $\mathbf{g}_k$ will be basis vectors in
+$\R^p$. 
 \begin{align*}
-  A(B g_k) = & A (\sum_{j=1}^n b_{jk} f_j) & \text{definition of $Bg_k$}\\
-  = & \sum_{j=1}^n b_{jk} A f_j & \text{Definition of linear
+  A(B \mathbf{g}_k) = & A (\sum_{j=1}^n b_{jk} \mathbf{f}_j) & \text{definition of $B\mathbf{g}_k$}\\
+  = & \sum_{j=1}^n b_{jk} A \mathbf{f}_j & \text{Definition of linear
     transformtion} \\
-  = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right)  &
-  \text{definition of $Af_j$} \\
-  = & \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
+  = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} \mathbf{e}_i\right)  &
+  \text{definition of $A\mathbf{f}_j$} \\
+  = & \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) \mathbf{e}_i \\
   = & \begin{pmatrix} 
     \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
     \vdots & \ddots & \vdots \\
     \sum_{j=1}^n a_{mj} b_{j1} & \cdots & \sum_{j=1}^n a_{mj} b_{jp}
-  \end{pmatrix} g_k  \\
-  = & (AB)g_k .
+  \end{pmatrix} \mathbf{g}_k  \\
+  = & (AB)\mathbf{g}_k .
 \end{align*}
 The indexing in the above equations is unpleasant and could be
 confusing. The important thing to remember is that matrix
@@ -1330,6 +1331,28 @@ version can be found in appendix \ref{app:hyperplane}, or any text on
 functional analysis such as \cite{luenberger1969}, \cite{clarke2013},
 or \cite{holmes1975}. 
 
+\begin{remark}
+  It is often useful to refine the separating hyperplane to obtain
+  either:
+  \begin{itemize}
+  \item strict separation --- one or both weak inequalities become
+    strict, or 
+  \item supporting hyperplane --- the separating hyperplane theorem
+    holds as stated, and $\exists$ $s^*_1 \in S_1$ such that $\xi
+    s^*_1 = c$
+  \end{itemize}
+  Strict separation holds for all $s_1 \in \mathrm{int}(S_1)$ and $s_2
+  \in \mathrm{int}(S_2)$, $\xi s_1 < c < \xi s_2$. Thus, if you need
+  strict separation of some $S_1$ and $S_2$, one technique is to show
+  that there are disjoint convex sets $A_1$ and $A_2$ such that $S_1
+  \subseteq \mathrm{int}(A_1)$ and $S_2 \subseteq \mathrm{int}(A_2)$.
+
+  There exists a supporting hyperplane at $s_1^*$ if $s_1^*$ is in the
+  (algebraic) boundary of $S_1$ and $S_1$ has a non-empty interior.
+
+  As a challenging exercise, you could try to prove the preceding
+  statements. 
+\end{remark}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Existence of Lagrange multipliers}
@@ -1774,16 +1797,33 @@ point $v$ and remain inside $A$. This algebraic interior is different
 than the topological interior we defined using open sets earlier. For
 example, in $\ell^\infty$ let $A = \{(x_1, x_2, ...) : \abs{x_n} <
 1/n \}$. $A$ is equal to its algebraic interior, but the topological
-interior of $A$ is empty. 
+interior of $A$ is empty. As in this example, it is always the case
+that the topological interior is contained in the algebraic interior.
+\begin{lemma}
+  Let $V$ be a normed vector space, and $A \subseteq V$. Then the
+  topotical interior of $A$ is (weak) subset of the algebraic interior
+  of $A$.
+\end{lemma}
+\begin{proof}
+  Left as an exercise.
+\end{proof}
+In the statement of the separating hyperplane theorem, we said that
+``the interior of $S_1$ or $S_2$ is not empty.'' In this section, we
+will prove the theorem with the assumption that the \emph{algebraic}
+interior of one the set is not empty. Since a non-empty topological
+interior implies a non-empty algebraic interior, the theorem is also
+true (but slightly less general) if we interpret ``interior'' as meaning
+topological interior instead.
+
 \begin{definition}
-  Let $V$ be a vector space and $A \subseteq V$. The \textbf{algebraic
+  Let $V$ be a vector space and $A \subseteq V$. The \textbf{linear
     closure}\footnote{This is non-standard terminology,
     \cite{holmes1975} calls this lin(A). Holmes's notation for my
     $\mathrm{int}(A)$ is $\mathrm{cor}(A)$.} of $A$ is set
   of all $v \in V$ such that $\exists a \in A$ such that
   $\forall \lambda \in [0,1)$,
   \[ a(1-\lambda) + \lambda v \in A \]
-  Denote the algebraic closure of $A$ as $\overline{A}$.
+  Denote the linear closure of $A$ as $\overline{A}$.
 \end{definition}
 Finally, we need to define affine sets.
 \begin{definition}

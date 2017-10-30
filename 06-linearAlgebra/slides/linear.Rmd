@@ -261,6 +261,21 @@ elements of $W$
  for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
  separates $S_1$ and $S_2$.
 
+
+---
+
+## Farkas' Lemma
+
+Let $A$ be an $m$ by $n$ matrix and $b \in \R^m$ either:
+
+1. $\exists x = (x_1, ..., x_n) \in \R^n$ such that $x_1
+   \geq 0, ..., x_n \geq 0$ and $Ax = b$ or
+2. $\exists y \in \R^m$ such that $y^T A e_i \geq 0$ for
+   each standard basis vector $e_i \in \R^n$ and $y^T b < 0$
+
+but not both.
+
+
 ---
 
 ## Lagrange multipliers exist
@@ -270,3 +285,62 @@ $C \in B(V,W)$. Assume that $range(C)$ is closed. Then
 $null(A) \supseteq null(C)$ if and only if $A = \mu C$ for some
 $\mu \in W^*$
 
+
+
+
+
+# Welfare theorems
+
+---
+
+## Notation
+
+- Set of commmodities $S$, a normed vector space
+- $I$ consumers with preference relations $\succeq_i$
+- $J$ firms with production possibility sets $Y_j$
+- Allocation $(x,y) \in S^{I + J}$ 
+  - Feasible if $y_j \in Y_j$ and $\sum_i x_i = \sum_j y_j$
+
+---
+
+## Pareto efficient 
+
+- $(x^0,y^0)$ Pareto efficient if feasible and no other feasible
+  allocation such that $x_i \succeq_i x_i^0$ for all $i$ and $x_i
+  \succ_i x_i^0$ for at least one $i$
+
+---
+
+## Competetive equilibrium
+
+Allocation $(x^e,y^e)$ and price, $p \in S^*$ such that
+
+1. $(x^e,y^e)$ feasible
+2. Consumers maximize $px \leq p x_i^e$ implies $x_i^e \succeq_i x$
+3. Firms maximize, $y \in Y_j$ implies py \leq p y_j^e$
+
+---
+
+## Preference properties 
+
+> - Local non-satiation : for each $x$ and $\epsilon>0$ $\exists x'$
+  such that $\norm{x-x'} \leq \epsilon$ and $x' \succ_i x$
+> - Convex : if $x \succeq_i z$ and $y \succeq_i z$, $\lambda \in
+  [0,1]$ then $\lambda x + (1-\lambda) y \succeq_i z$
+> - Continuous : for any $x \succ_i z$ $\exists \delta > 0$ such that
+  for all $x' \in N_\delta(x)$, $x' \succ_i z$
+
+---
+
+## First Welfare theorem 
+
+If $(x^e,y^e)$ and $p$ is a competitive equilibrium and preferences a
+locally non-satiated, then $(x^e,y^e)$ is Paretor efficient.
+
+---
+
+## Second Welfare theorem
+
+If preferences are locally non-satiated, convex, and continuous, and
+$(x^e, y^e)$ is Pareto efficient, then $\exists p \in S^*$ such that
+$(x^e,y^e)$ and $p$ is a competitive equilibrium.
