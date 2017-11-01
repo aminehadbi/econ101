@@ -1662,44 +1662,58 @@ utility function.
   construction. This contradicts $((x_i^e),(y_i^e))$ being Pareto
   efficient. Therefore, $Y \cap V = \emptyset$. o
 
-  Now, by the separating hyperplane theorem, $\exists p$ such
+  Now, by the separating hyperplane theorem, $\exists p \in S^*$ and
+  $c \in \R$ such
   that\footnote{In the notation of theorem \ref{thm:sht}, $p$ is $\xi$.}
   \begin{align}
-    p \chi \geq p \psi \label{ieq:p}
+    p \chi \geq c \geq p \psi \label{ieq:p}
   \end{align}
   for all $\chi \in V$ and $\psi \in Y$. Now we need to verify
   that $((x_i^e),(y_j^e))$ with $p$ is a competitive equilibrium. It
   is feasible because $((x_i^e),(y_j^e))$ is Pareto efficient, and
   feasible by definition.
   
-  We now show that (\ref{ieq:p}) holds with equality at $\chi^e =
-  \sum_{i=1}^I x_i^e$ and $\psi^e = \sum_{j=1}^J y_j^e$. On the
-  one hand, $\chi^e = \psi^e \in Y$, so we must have 
+  We now show that (\ref{ieq:p}) holds with $c = p \chi^e = p \psi^e$,
+  where $\chi^e = \sum_{i=1}^I x_i^e$ and
+  $\psi^e = \sum_{j=1}^J y_j^e$. On the one hand,
+  $\chi^e = \psi^e \in Y$, so we must have
   \begin{align*}
-    p \chi \geq p \chi^e 
+    c \geq p \chi^e 
   \end{align*}
-  for all $\chi \in V$. On the other hand, for any$\delta > 0$, by
-  local non-satiation, we can find $x_i$ such that $x_i \pref_i x_i^e$
-  and $\norm{x_i - x_i^e}<\delta/I$. It follows that
-  $\norm{\sum_{i=1}^I x_i - \sum_{i=1}^T x_i^e } < \delta$. $p$ is
-  continuous, so
+  On the other hand, for any $\delta > 0$, by local non-satiation, we
+  can find $x_i$ such that $x_i \pref_i x_i^e$ and
+  $\norm{x_i - x_i^e}<\delta/I$. It follows from the triangle
+  inequality that
+  $\norm{\sum_{i=1}^I x_i - \sum_{i=1}^I x_i^e } < \delta$. $p$ is
+  continuous, so for any $\epsilon>0$ we can find a $\delta$ small
+  enough that
   \[
-  \left\vert p\left( \sum_{i=1}^e x_i \right) - p\left(\sum_{i=1}^I
+  \left\vert p\left( \sum_{i=1}^I  x^e_i \right) - p\left(\sum_{i=1}^I
       x_i\right) \right\vert < \epsilon,
   \]
-  and we can choose $\epsilon>0$ to be as small as we want. 
-  Then, for any $\epsilon >0$, 
+  Then, for any $\epsilon >0$, there exists $x_i \in V_i$ such that
   \begin{align*}
-    p \chi^e + \epsilon \geq p \psi
+    p \chi^e + \epsilon > p (\sum x_i) \geq c
   \end{align*}
-  for all $y \in Y$. Since this is true for any $\epsilon$, it must be
-  that $p \chi^e \geq p \psi$. Therefore, we have now shown
+  Since this is true for any $\epsilon$, it must be
+  that $p \chi^e \geq c$. Therefore, we have now shown
   that
   \begin{align}
-    p\chi \geq p \chi^e = p \psi^e \geq p \psi
+    p\chi \geq c = p \chi^e = p \psi^e \geq p \psi
   \end{align}  
   for all $\chi \in V$ and $\psi \in Y$. 
 
+  We now show that firms and consumers are maximizing given this
+  price. Let $y_\ell \in Y_\ell$. Then $\sum_{j \neq \ell} y_j^e +
+  y_\ell \in Y$, so
+  \begin{align*}
+    p\left( \sum_{j \neq \ell} y_j^e +  y_\ell \right) \leq
+    & p \psi^e = p\left( \sum_j y_j^e \right) \\
+    p y_\ell \leq p y_\ell^e
+  \end{align*}
+  Thus, each firm is maximizing profits given $p$.
+  
+  Now we show that consumers are maximizing.
   It must be then also be that $p x_i \geq p x_i^e $ for each $i$ and
   all $x_i \in V_i$. If not, then there is an $\epsilon>0$ such that
   $p x_i + \epsilon < p x_i^e$, and then using local non-satiation we
