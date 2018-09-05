@@ -1,4 +1,4 @@
-All .tex, .Rmd, .bib, and .md files are
+All .tex, .Rmd, .bib, .md, and .html files are
 licensed under a 
 [http://creativecommons.org/licenses/by-sa/4.0/](Creative
 Commons Attribution-ShareAlike 4.0 International License).
