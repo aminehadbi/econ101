@@ -203,8 +203,8 @@ v \] where $D^2 f_{x^*}$ is the matrix of $f$'s second order partial
 derivatives.  Since $x^*$ is a critical, point $Df_{x^*} = 0$, so
 \[ f(x^*+v) - f(x^*) \approx \frac{1}{2} v^T D^2 f_{x^*} v. \]
 We can see that $x^*$ is a local maximum if 
-\[ \frac{1}{2} v^T D^2 f_{x^*} v \leq 0 \] for all $v$. The above
-inequality will be true if $v^T D^2 f_{x^*} v \leq 0$ for all $v$. The
+\[ \frac{1}{2} v^T D^2 f_{x^*} v < 0 \] for all $v \neq 0$. The above
+inequality will be true if $v^T D^2 f_{x^*} v < 0$ for all $v \neq 0$. The
 Hessian, $D^2 f_{x^*}$ is just some symmetric $n$ by $n$ matrix, and
 $v^T D^2 F_{x^*} v$ is a quadratic form in $v$. This motivates the
 following definition.
@@ -935,14 +935,14 @@ From the first order condition, we know that
 \frac{\partial f}{\partial x}(x^*(\theta),\theta) \frac{dx^*}{d\theta}
 = 
 \mu
-\frac{\partial h}{\partial x}(x^*(\theta),\theta)
+\frac{\partial h}{\partial x}(x^*(\theta))
 \frac{dx^*}{d\theta}. 
 \]
 However, since $x^*(\theta)$ is a constrained maximum for each
 $\theta$, it must be that $h(x^*(\theta)) = c$ for each
 $\theta$. Therefore, 
 \[ 0 = \frac{d}{d\theta} h(x^*(\theta)) = \frac{\partial h}{\partial
-  x}(x^*(\theta),\theta) \frac{dx^*}{d\theta} = 0. \]
+  x}(x^*(\theta)) \frac{dx^*}{d\theta} = 0. \]
 Thus, we can conclude that
 \begin{align*} 
   \frac{dv}{d\theta} = & \frac{\partial f}{\partial
@@ -990,7 +990,7 @@ The following theorem summarizes the above discussion.
   Taking the ratio we have a relationship between the (Marshallian)
   demand function, $x^*$, and the indirect utility function,
   \begin{align*}
-    x_i^*(p,y) = \frac{ \frac{\partial v}{\partial p_i}}
+    x_i^*(p,y) = \frac{ -\frac{\partial v}{\partial p_i}}
     {\frac{\partial v}{\partial y}}.
   \end{align*}
   This is known as Roy's identity.
@@ -1008,20 +1008,51 @@ The following theorem summarizes the above discussion.
   Hicksian (or compensated) demand function.
 
   Finally, using the fact that $x_i^h(p,\bar{u}) =
-  x_i^*(p,e(p,\bar{u})$ and differentiating with respect to $p_k$
+  x_i^*(p,e(p,\bar{u}))$ and differentiating with respect to $p_k$
   gives Slutsky's equation.
   \begin{align*}
     \frac{\partial x_i^h}{\partial p_k} = & \frac{\partial
-      x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
-    \frac{\partial e}{\partial p_k} \\
+                                            x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
+                                            \frac{\partial e}{\partial p_k} \\
     = & \frac{\partial
-      x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
-    x_k^*
-  \end{align*}   
+        x_i^*}{\partial p_k} + \frac{\partial x_i^*}{\partial y}
+        x_k^*
+  \end{align*}
+  Slutsky's equation is useful because we can determine the sign of
+  some of these derivatives. From above we know that
+  \begin{align*}
+    \frac{\partial e}{\partial p_i}(p,\bar{u}) = & x_i^h(p,\bar{u})
+  \end{align*}
+  so 
+  \begin{align*}
+    \frac{\partial x_i^h(p,\bar{u})}{\partial p_j} = \frac{\partial^2
+    e}{\partial p_j \partial p_i}(p,\bar{u}) 
+  \end{align*}
+  If we fix $p$ and $x_0 = x^h(p, \bar{u})$, we know that $u(x_0)
+  \geq \bar{u}$, so $x_0$ satisfies the contraint in the minimum
+  expenditure problem. Therefore, for any $\tilde{p}$, 
+  \[ \tilde{p}^T x_0 \geq e(\tilde{p},\bar{u}) = \min_x \tilde{p}^T x \text{ s.t. } u(x) \geq
+    \bar{u} \]
+  Taking a second order expansion,  this gives
+  \begin{align*}
+    \tilde{p}^T x_0 - p^T x_0 \geq & e(\tilde{p},\bar{u})  -
+    e(p,\bar{u}) \approx D_p e_{(p,\bar{u})} (\tilde{p} - p)  +
+                                     \frac{1}{2} (\tilde{p} - p)^T
+                                     D^2_p e_{(p,\bar{u})} (\tilde{p} - p) \\
+    0 \geq & (\tilde{p} - p)^T D^2_p e_{(p,\bar{u})} (\tilde{p} - p) 
+  \end{align*}
+  where the second line uses the fact that $D_p e_{(p,\bar{u})} =
+  x_0^T$. Hence, we know that 
+  $D^2_p e_{(p,\bar{u})} = D_p x^h_{(p,\bar{u})}$ is negative
+  semi-definite. In particular, the 
+  diagonal, $\frac{\partial x_i^h}{\partial p_i}$, must be less than
+  or equal to zero.  Hicksian demand curves must slope
+  down. Marshallian demand curves usually do too, but might not when the
+  income effect, $\frac{\partial x_i^*}{\partial y} x_i^*$, is large.  
 \end{example}
 
 We can also analyze how the maximizer varies with the parameters. We
-do this by total differentiating the first order condition. Consider
+do this by totally differentiating the first order condition. Consider
 an equality constrained problem,
 \[ \max_x f(x,\theta) \text{ s.t. } h(x,\theta) = c. \] 
 where $x \in \R^n$, $\theta \in \R^s$, and $c \in R^m$.
