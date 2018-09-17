@@ -370,10 +370,10 @@ $v,w$ is
 For example, when $Q(x,y) = \int_0^T F(x(t),y(t),t)dt$, then
 \begin{align*}
   dQ(x,y;v,w) =  & \lim_{\alpha \to 0} \frac{\int_0^T F(x(t) + \alpha
-                   v(t),y(t) + \alpha w(t),t)dt -  F(x(t),y(t),t)dt} {\alpha} \\
+                   v(t),y(t) + \alpha w(t),t) -  F(x(t),y(t),t)dt} {\alpha} \\
   & \text{ assuming we can interchange the limit and integral } \\
   = & \int_0^T \lim_{\alpha \to 0} \frac{F(x(t) + \alpha
-                   v(t),y(t) + \alpha w(t),t)dt -  F(x(t),y(t),t)} {\alpha} dt \\
+                   v(t),y(t) + \alpha w(t),t) -  F(x(t),y(t),t)} {\alpha} dt \\
   = & \int_0^T \frac{\partial F}{\partial x}(x(t),y(t),t)v(t) +
       \frac{\partial F}{\partial y}(x(t),y(t),t) w(t) dt
 \end{align*}
@@ -413,10 +413,10 @@ second half of the course. Suppose there exists $\lambda(t)$ such that
 \begin{align*}
   -\lambda(t)  \frac{\partial g}{\partial x}(x^*(t),y^*(t),t) = &
   \frac{\partial F}{\partial x}(x^*(t),y^*(t),t) \\
-  -\lambda(t)  \left[ \frac{\partial g}{\partial y}(x^*(t),y^*(t),t)
+  -\lambda(t)  \left[ \frac{\partial g}{\partial y}(x^*(t),y^*(t),t)w(t)
   - \frac{dw}{dt} \right]= &
                              \frac{\partial F}{\partial
-                             y}(x^*(t),y^*(t),t) 
+                             y}(x^*(t),y^*(t),t)w(t) 
 \end{align*}
 then (\ref{xcf}) implies (\ref{xfoc}). Showing the reverse (i.e. that
 the first order condition above implies the existence of multipliers)
@@ -585,7 +585,7 @@ constraints on $y(T)$ or $x(T)$.
   $c(t)=c$, then 
   \begin{align*}
     x(t) = & \frac{p(T-t) - s}{2c} \\
-    y(t) = y(0) + (T-t)\frac{pT-s}{2c} - \frac{p}{2c}(T^2-t^2)
+    y(t) = & y(0) + (T-t)\frac{pT-s}{2c} - \frac{p}{2c}(T^2-t^2)
   \end{align*}
 \end{example}
 
