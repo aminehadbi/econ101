@@ -1,8 +1,10 @@
 ## dynamic programming
+library(RSNNS)
+library(ggplot2)
 
 # constants
 alpha <- 0.6
-discount <- 0.95
+discount <- 0.8
 depreciation <- 1
 
 # symbolic expressions for utility and production functions
@@ -31,7 +33,7 @@ k.grid <- seq(0.01,3*kss$root,length.out=200)
 #v.grid <- rep(0,length(k.grid))
 v.grid <- rep(uss/(1-discount),length(k.grid))
 #v.grid <- utility(k.grid*0.5)/(1-discount)
-approx.method <- "spline"
+approx.method <- "neural-net"
 degree <- 10
 approxfn <- function(x,y) {
   if (approx.method=="linear") {
@@ -46,6 +48,20 @@ approxfn <- function(x,y) {
       predict(model, newdata=data.frame(x=xnew))
     }
     return(f)
+  } else if (approx.method=="neural-net") {
+    xn <- normalizeData(x)
+    npx <- getNormParameters(xn)
+    yn <- normalizeData(y)
+    npy <- getNormParameters(yn)
+    model <- mlp(xn,yn, linOut=TRUE,size=round(sqrt(length(x)/2)),
+                 learnFunc="SCG")
+    f <- function(xnew) {
+      xnn <- (xnew-npx$colMeans[1])/npx$colSds[1]
+      xnn <- matrix(xnn,ncol=1)
+      yhat <- predict(model, xnn)
+      yhat <- denormalizeData(yhat, npy)
+      return(yhat)
+    }
   } else {
     stop("unrecognized approx.method")
   }
@@ -54,11 +70,11 @@ approxfn <- function(x,y) {
 v0 <- approxfn(k.grid, v.grid)
 library(parallel)
 v.change <- 100
-tol <- 1e-4
+tol <- 1e-3
 iterations <- 0
 v.app <- list()
 v.app[[1]] <- v0
-while(v.change > tol && iterations<100) {
+while(v.change > tol && iterations<50) {
   bellman <- mcmapply(function(k) {
     optimize(function(c) {
       utility(c) + discount*v0(transition(c,k)) },
@@ -67,7 +83,7 @@ while(v.change > tol && iterations<100) {
              maximum=TRUE,
              tol=tol*1e-3
              )
-  }, k.grid)
+  }, k.grid, mc.cores=39L)
 
   v.g.new <- unlist(bellman["objective",])
 
@@ -79,20 +95,29 @@ while(v.change > tol && iterations<100) {
   print(sprintf("After %d iterations v.change=%.2g\n",iterations,v.change))
 }
 
-df <- data.frame(k=k.grid, v1=v.app[[1]](k.grid), v2=v.app[[2]](k.grid),
-                 v10=v.app[[10]](k.grid), v100=v.app[[min(100,length(v.app))]](k.grid),
+df <- data.frame(k=k.grid, v1=v.app[[1]](k.grid),
+                 v2=v.app[[2]](k.grid),
+                 v3=v.app[[3]](k.grid),
+                 v4=v.app[[4]](k.grid),
+                 v5=v.app[[5]](k.grid),
+                 v10=v.app[[10]](k.grid),
+                 v20=v.app[[20]](k.grid),
                  v=v0(k.grid),
                  c=unlist(bellman["maximum",]),
                  k.new=transition(unlist(bellman["maximum",]),k.grid))
+
 library(ggplot2)
 value <- ggplot(df,aes(x=k)) +
-    geom_line(aes(y=v1,colour="1")) +
-    geom_line(aes(y=v2,colour="2"))+
-    geom_line(aes(y=v10,colour="10")) +
-    geom_line(aes(y=v100,colour="100")) +
-    geom_line(aes(y=v,colour="converged")) +
-    theme_minimal() +
-    scale_colour_discrete(name="iteration")
+  geom_line(aes(y=v1,colour=" 1"), linetype=2) +
+  geom_line(aes(y=v2,colour=" 2"), linetype=3) +
+  geom_line(aes(y=v3,colour=" 3"), linetype=4) +
+  geom_line(aes(y=v4,colour=" 4"), linetype=5) +
+  geom_line(aes(y=v5,colour=" 5"), linetype=6) +
+  geom_line(aes(y=v10,colour="10"), linetype=7) +
+  geom_line(aes(y=v20,colour="20"), linetype=8) +
+  geom_line(aes(y=v,colour="final"), linetype=1) +
+  theme_minimal()  +
+  scale_colour_discrete(name="iteration")
 
 
 policy <- ggplot(df,aes(x=k))+
