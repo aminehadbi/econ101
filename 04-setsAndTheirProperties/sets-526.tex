@@ -462,6 +462,15 @@ Remember that any relation on $X$ can be represented by $R \subseteq X
 \{(x,y): x \pref_i y \}$, then the set associated with $\pref^P$ is
 $\cap_{i=1}^n R_i$. 
 
+The Pareto order depends on the $n$ individual preferences. In other
+words the Pareto order is a function of individual preferences. Since
+each individual preference can be represented by a subset of $X \times
+X$, we can think of the Pareto order as a function $\mathcal{P}(X
+\times X)^n \to \mathcal{P}(X \times X)$. Thinking of orders as
+subsets of $X \times X$ (equivalently elements of $\mathcal{P}(X\times
+X)$) may not be especially helpful, but it is essential to remember
+that the Pareto order is a function of individual preferences.
+
 The Pareto order will usually not be complete. For example take
 $n=2$.  Let elements of $X$ be consumption bundles for person $1$ and
 $2$, $(x_1,x_2)$, such that $x_1 + x_2 = c$, for some constant
@@ -478,14 +487,20 @@ definitions.
 
 A \textbf{social choice rule} is a rule for combining individual
 preferences $\pref_i$ into a single weak order $\succeq$. In other
-words, a social choice rule is a function from the set of $n$ individual
-preferences to the set of weak orders. We will denote the social
-ordering by $F(\pref_1, ..., \pref_n) = \succeq$. A social choice rule
-$F$ completes the Pareto order if $\succeq$ is complete and for
-all $x,y$ such that $x \pref^P y$, the social order agrees $x \succeq
+words, a social choice rule is a function from
+the set of $n$ individual preferences to the
+set of weak orders. Just like the Pareto order, a social choice rule
+is a function of individual preferences. Unlike the Paretor order, a
+social choice rule is required to be complete (weak orders are
+complete).
+
+We will denote the social ordering by
+$F(\pref_1, ..., \pref_n) = \succeq$. A social choice rule $F$
+completes the Pareto order if $\succeq$ is complete and for all $x,y$
+such that $x \pref^P y$, the social order agrees $x \succeq
 y$. Although not made explicit by this notation, it is important to
 keep in mind that both the Pareto order, $\pref^P$, and the social
-order, $\succeq$, are functions of individual preferences. 
+order, $\succeq$, are functions of individual preferences.
 
 A social choice rule satisfies the \textbf{independence of irrelevant
   alternatives} (IIA) if for every $A \subseteq X$, if $\pref_i$ and
@@ -512,20 +527,23 @@ ordering.
 \end{theorem}
 \cite{feldman1974} contains a very concrete proof for when $n=2$ and
 $|X|=3$. We will prove the general theorem, but if you find the
-general argument confusing (and it is a bit confusing), then reading
+general argument confusing (and it is a bit difficult), then reading
 \cite{feldman1974} might be helpful.
 \begin{proof}
   Suppose we have a social choice rule, $F$ that is consistent with
   the Pareto order and obeys the irrelevance of independent
-  alternatives. We will prove the theorem in three steps.
+  alternatives. We will prove the theorem in three steps, but first a
+  definition will be useful.
+
+  A group of individuals, $S \subseteq \{1,\cdots,n\}$ is
+  \textbf{decisive} over $x, y \in X$ if for any individual preference
+  relations if $x \succ_i y$ for all $i \in S$ implies $x \succ y$,
+  where $\succ=F(\succ_1,..., \succ_n)$. Being decisive is a property
+  of the subgroup $S$ and the decision rule $F$. It is something that
+  holds for all possible individual preferences.
+  
   \begin{enumerate}
-  \item \emph{Field expansion lemma}: A group of individuals, $S
-    \subseteq \{1,\cdots,n\}$ is \textbf{decisive} over $x, y \in X$
-    if for any individual preference relations if $x \succ_i y$ for
-    all $i \in S$ implies $x \succ y$, where $\succ=F(\succ_1,...,
-    \succ_n)$. Being decisive is a property of the subgroup $S$ and
-    the decision rule $F$. It is something that holds for all
-    preferences. Suppose $|X|\geq 3$ and that there is one pair of
+  \item \emph{Field expansion lemma}: Suppose $|X|\geq 4$ and that there is one pair of
     alternatives, $x$ and $y$ such that some group $S$ is decisive
     over $x$, $y$.  We will show that $S$ must also be decisive over
     all other pairs of alternatives.  Let $z, w\in X$ and suppose that
@@ -562,7 +580,7 @@ general argument confusing (and it is a bit confusing), then reading
     order $\succ=F(\succ_1,
     ..., \succ_2)$ prefers $z$ to $x$, $z \succeq x$. Moreover, by the
     independence of irrelevant alternatives, we can make these
-    preferences by such that $x \succ_i y \succ_i z$ for all $i \in
+    preferences be such that $x \succ_i y \succ_i z$ for all $i \in
     S_1$. 
 
     If $S_2$ is also not decisive, then $S_2$ is not decisive over any
@@ -593,7 +611,7 @@ general argument confusing (and it is a bit confusing), then reading
 \end{proof}
 So what does this theorem mean? One implication is that any
 non-dictatorial social choice rule that agrees with the Pareto order
-must either (i) not actually be a weak order (i.e. not be transitive)
+must either (i) not actually be a weak order (usually not trnsitive)
 or (ii) violate the independence of irrelevant alternatives.
 \begin{example}[Binary voting]
   Suppose $n$ is odd (to avoid ties) and the social choice rule is

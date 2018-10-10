@@ -1,29 +1,36 @@
 ---
-title       : Sets
+title       : Sets and relations
 subtitle    : 
 author      : Paul Schrimpf
-job         : 
-date        : October 2017
+job         : x
+date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  revealjs::revealjs_presentation:
-    self_contained: true
-    theme: league
-    transition: slide
-    center : true
-    highlight : zenburn
-    reveal_options:
-      slideNumber: false
-      center : true
-      help : true
-      previewLinks: true 
+    ioslides_presentation :
+        self_contained: true
+        code_folding: hide
+        lib_dir : deps
+        theme : journal
+        fig_width: 8
+        fig_height: 6
+        
+        
+    revealjs::revealjs_presentation:
+        self_contained: true
+        theme: league
+        transition: slide
+        center : true
+        highlight : zenburn
+        reveal_options:
+            slideNumber: false
+            center : true
+            help : true
+            previewLinks: true 
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
 --- 
 
 # Sets
-
----
 
 ## Definition & Notation
 
@@ -33,8 +40,6 @@ output:
 $$
   A = \{4, 5, 6 \} = \{ n \in \mathbb{N} : 3 < n < 7 \}
 $$
-
----
 
 ## Operations & relations
 
@@ -50,9 +55,120 @@ $$
   that $b \not\in A$
 
 
+# Relations
+
+
+
+## Relations
+
+- **relation** on two sets $A$ and $B$ is any subset of $A
+  \times B$, $R \subseteq A \times B$. We usually denote relations by
+  $a \sim_R b$ if $(a,b) \in R$
+  + Example: $A=B=\mathbb{R}$, $<$ is associated with $R_{<} = \{(a,b)
+  \in \mathbb{R}^2 : a<b \}$
+
+
+
+## Equivalence Relation
+
+- **equivalence relation** is
+  + relexive: $a \sim_R a$ $\forall a \in A$
+  + transitive: $a \sim_R b$ and $b \sim_R c$ implies
+    $a \sim_R c$
+  + symmetric: $a \sim_R b$ implies $b \sim_R a$,
+- partitions $A$ into equivalence classes, $\sim(x) = \{a \in A: a
+  \sim x \}$
+  
+
+
+## Weak order
+
+- $\preceq$ is a **weak order** if
+  + relexive: $a \preceq a$ $\forall a \in A$
+  + transitive: $a \preceq b$ and $b \preceq c$ implies
+    $a \preceq $c
+  + complete: for any $a, b \in A$, either $a \preceq b$ or $b
+  \preceq a$ (or both)
+- Example: preference relation
+
+
+
+## Pareto order
+
+- $n$ individuals, preferences $\succeq_i$
+- Pareto order:
+$$
+x \succeq^P y \text{ if } x \succeq_i y \text{ for all } i=1,...,n 
+$$
+- transitive? reflexive? complete?
+
+
+
+## Social choice rule
+
+- Combines preferences into single weak order $F(\succeq_1, ...,
+\succeq_n) = \succeq$
+- Completes Pareto order if $x \succeq^P y$ implies $x \succeq y$
+
+
+
+## IIA
+
+Independence of irrelevant alternatives if for every $A \subseteq X$, if $\{\succeq_i\}_{i=1}^n$ and
+$\{\succeq_i'\}_{i=1}^n$ are two sets of individuals preferences that agree on $A$,
+\[ x \succeq_i y \iff x \succeq_i' y \; \forall x,y \in A \text{ for each
+} i\] 
+then $\succeq=F(\succeq_1, ..., \succeq_n)$ and $\succeq'=F(\succeq_1', ...,
+\succeq_n')$ also agree on $A$
+
+
+
+## Arrow's impossibility theorem
+
+It is impossible to complete the non-strict Pareto ordering in a way that
+is not dictatorial and is independent of irrelevant alternatives when
+$|X| \geq 4$
+
+
+## Examples
+
+- Binary voting
+  + social choice rule is determined by majority vote on each pair
+   $$ x \succeq y \iff x \succeq_i y \text{ for at least $(n+1)/2$
+  individuals } $$
+
+
+
+## Examples
+
+- Majority voting
+  + Each person votes for most preferred outcome
+  + Social choice rule ranks by number of votes
+
+# Proof of Arrow's impossibility theorem
+
+## Decisive
+
+With social choice rule $F$, a group of individuals, $S \subseteq
+\{1,\cdots,n\}$ is \textbf{decisive} over $x, y \in X$ if for any
+individual preference relations if $x \succ_i y$ for all $i \in S$
+implies $x \succ y$, where $\succ=F(\succ_1,..., \succ_n)$.
+
+## Field expansion lemma
+
+- Assume $\exists$ $x$ and $y$ such that some group $S$ is decisive
+over $x$, $y$
+- Use IIA to show $S$ decisive over all other $z$ and $w$
+
+## Group contraction lemma
+
+- If $S$ decisive and $|S| > 1$, then $\exists$ S' \subset S$ such
+  that $S'$ decisive
+
+
 # Cardinality
 
----
+
 
 ## Bijection
 
@@ -65,7 +181,7 @@ is
   s.t. $f(a) = b$
 - **bijective** if both
 
----
+
 
 ## Cardinality
 
@@ -76,114 +192,21 @@ is
   + **uncountable** otherwise
 
 
----
+
 
 ## Integers
 
 - $\mathbb{Z}$ is ???
 
----
+
 
 ## Rationals
 
 - $\mathbb{Q}$ is ???
 
----
+
 
 ## Reals
 
 - $\mathbb{R}$ is ???
 
-
-# Relations
-
----
-
-## Relations
-
-- **relation** on two sets $A$ and $B$ is any subset of $A
-  \times B$, $R \subseteq A \times B$. We usually denote relations by
-  $a \sim_R b$ if $(a,b) \in R$
-  + Example: $A=B=\mathbb{R}$, $<$ is associated with $R_{<} = \{(a,b)
-  \in \mathbb{R}^2 : a<b \}$
-
----
-
-## Equivalence Relation
-
-- **equivalence relation** is
-  + relexive: $a \sim_R a$ $\forall a \in A$
-  + transitive: $a \sim_R b$ and $b \sim_R c$ implies
-    $a \sim_R c$
-  + symmetric: $a \sim_R b$ implies $b \sim_R a$,
-- partitions $A$ into equivalence classes, $\sim(x) = \{a \in A: a
-  \sim x \}$
-  
----
-
-## Weak order
-
-- $\preceq$ is a **weak order** if
-  + relexive: $a \preceq a$ $\forall a \in A$
-  + transitive: $a \preceq b$ and $b \preceq c$ implies
-    $a \preceq $c
-  + complete: for any $a, b \in A$, either $a \preceq b$ or $b
-  \preceq a$ (or both)
-- Example: preference relation
-
----
-
-## Pareto order
-
-- $n$ individuals, preferences $\succeq_i$
-- Pareto order:
-$$
-x \succeq^P y \text{ if } x \succeq_i y \text{ for all } i=1,...,n 
-$$
-- transitive? reflexive? complete?
-
----
-
-## Social choice rule
-
-- Combines preferences into single weak order $F(\succeq_1, ...,
-\succeq_n) = \succeq$
-- Completes Pareto order if $x \succeq^P y$ implies $x \succeq y$
-
----
-
-## IIA
-
-Independence of irrelevant alternatives if for every $A \subseteq X$, if $\succeq_i$ and
-$\succeq_i'$ are two sets of individuals preferences that agree on $A$,
-\[ x \succeq_i y \iff x \succeq_i' y \; \forall x,y \in A \text{ for each
-} i\] 
-then $\succeq=F(\succeq_1, ..., \succeq_n)$ and $\succeq'=F(\succeq_1', ...,
-\succeq_n')$ also agree on $A$
-
----
-
-## Arrow's impossibility theorem
-
-It is impossible to complete the non-strict Pareto ordering in a way that
-is not dictatorial and is independent of irrelevant alternatives when
-$|X| \geq 4$
-
----
-
-## Examples
-
-- Binary voting
-  + social choice rule is determined by majority vote on each pair
-   $$ x \succeq y \iff x \succeq_i y \text{ for at least $(n+1)/2$
-  individuals } $$
-
----
-
-## Examples
-
-- Majority voting
-  + Each person votes for most preferred outcome
-  + Social choice rule ranks by number of votes
-
----
