@@ -3,19 +3,15 @@ title       : Vector spaces & Linearity
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : October 2017
+date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  revealjs::revealjs_presentation:
-    self_contained: true
-    theme: league
-    transition: slide
-    center : true
-    highlight : zenburn
-    reveal_options:
-      slideNumber: false
-      center : true
-      help : true
-      previewLinks: true 
+    ioslides_presentation :
+        self_contained: true
+        code_folding: hide
+        lib_dir : deps
+        theme : journal
+        fig_width: 8
+        fig_height: 6
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
@@ -23,7 +19,7 @@ output:
 
 # Vector Spaces
 
----
+
 
 ## Vector Space
 
@@ -37,7 +33,7 @@ output:
     5. Commutative: $x + y = y + x$
   + Scalar multiplication has some properties
 
----
+
 
 ## Vector Space
 
@@ -51,7 +47,7 @@ output:
     3. Consistent with multiplication in $\mathbb{R}$: $1x = x$ and
        $(\alpha \beta) x = \alpha (\beta x)$
 
----
+
 
 ## Examples
 
@@ -59,7 +55,7 @@ output:
 > - Spaces of sequences
 > - Spaces of functions
 
----
+
 
 ## Subspaces
 
@@ -69,7 +65,7 @@ subspace** if $\forall x,y \in S$ and $\alpha \in \mathbb{R}$
 
 > - Examples
 
----
+
 
 ## Linear Combinations
 
@@ -82,7 +78,7 @@ V$, linear combination is
 elements of $W$
     + is a linear subspace
 
----
+
 
 ## Linear independence
 
@@ -98,7 +94,7 @@ elements of $W$
   that span $V$
 > - Should show dimension is well-defined and basis exists
 
----
+
 
 ## Linear independence
 
@@ -112,7 +108,7 @@ elements of $W$
 
 # Normed Vector Spaces
 
----
+
 
 ## Normed Vector Space
 
@@ -122,7 +118,7 @@ elements of $W$
      + $\Vert v_1 + v_2 \Vert \leq \Vert v_1 \Vert + \Vert v_2 \Vert$
 - Gives a metric $d(v_1,v_2) = \Vert v_1 - v_2 \Vert$
 
----
+
 
 ## Normed Vector Spaces
 > - $\mathbb{R}^n$ with $\Vert \mathbf{x} \Vert = \sqrt{\sum_{i=1}^n x_i^2}$
@@ -135,7 +131,7 @@ elements of $W$
 
 # Linear Transformations
 
----
+
 
 ## Linear Transformations
 
@@ -145,7 +141,7 @@ elements of $W$
 
 - Represented as matrices when $V$ and $W$ finite dimensional
 
----
+
 
 ## Linear Transformations
 
@@ -155,7 +151,7 @@ elements of $W$
      \[ Af = \int_0^1 a(x) f(x) dx \]
      with $\sup_{x \in [0,1]} |a(x)| < \infty$
 
----
+
 
 ## Linear Transformations
 
@@ -165,13 +161,13 @@ elements of $W$
      C^0([0,1])$,
      \[ (Df)(x) = \frac{df}{dx}(x) \]
 
----
+
 ## Linear Transformations
 
 - Examples:
      + Conditional expectation
 
----
+
 
 ## Vector space of linear transformations
 
@@ -179,7 +175,7 @@ elements of $W$
 - Addition: $(A + B)(v) = Av + Bv$
 - Scalar multiplication: $A(\alpha v) = \alpha Av$
 
----
+
 
 ## Matrix multiplication=composition of linear transformations
 
@@ -197,7 +193,7 @@ elements of $W$
 \end{aligned}
 \]
 
----
+
 
 ## Null space and range
 
@@ -211,7 +207,7 @@ elements of $W$
 
 # Dual Spaces
 
----
+
 
 ## Dual Spaces
 
@@ -223,7 +219,7 @@ elements of $W$
 > - Example: ${\mathcal{L}^p}^\ast \simeq \mathcal{L}^q$ where $1/p +
     1/q = 1$
 
----
+
 
 ## Transpose
 
@@ -233,7 +229,7 @@ elements of $W$
 
 # Separating hyperplane theorem
 
----
+
 
 ## Hyperplanes
 
@@ -242,7 +238,7 @@ elements of $W$
       + is **affine** i.e. $\forall x, y \in H_{\xi,c}$ and $\lambda \in
         \mathbb{R}$, $\lambda x + (1-\lambda)y \in H_{\xi,c}$
 
----
+
 
 ## Convexity
 
@@ -250,7 +246,7 @@ elements of $W$
   S$ and $\lambda \in (0,1)$, we have $x \lambda + y(1-\lambda)
   \in S$
 
----
+
 
 ## Separating hyperplane theorem
 
@@ -262,7 +258,7 @@ elements of $W$
  separates $S_1$ and $S_2$.
 
 
----
+
 
 ## Farkas' Lemma
 
@@ -276,7 +272,7 @@ Let $A$ be an $m$ by $n$ matrix and $b \in \mathbb{R}^m$ either:
 but not both.
 
 
----
+
 
 ## Lagrange multipliers exist
     
@@ -291,7 +287,7 @@ $\mu \in W^*$
 
 # Welfare theorems
 
----
+
 
 ## Notation
 
@@ -301,7 +297,7 @@ $\mu \in W^*$
 - Allocation $(x,y) \in S^{I + J}$ 
   - Feasible if $y_j \in Y_j$ and $\sum_i x_i = \sum_j y_j$
 
----
+
 
 ## Pareto efficient 
 
@@ -309,7 +305,7 @@ $\mu \in W^*$
   allocation such that $x_i \succeq_i x_i^0$ for all $i$ and $x_i
   \succ_i x_i^0$ for at least one $i$
 
----
+
 
 ## Competetive equilibrium
 
@@ -319,7 +315,7 @@ Allocation $(x^e,y^e)$ and price, $p \in S^*$ such that
 2. Consumers maximize $px \leq p x_i^e$ implies $x_i^e \succeq_i x$
 3. Firms maximize, $y \in Y_j$ implies $py \leq p y_j^e$
 
----
+
 
 ## Preference properties 
 
@@ -330,14 +326,14 @@ Allocation $(x^e,y^e)$ and price, $p \in S^*$ such that
 > - Continuous : for any $x \succ_i z$ $\exists \delta > 0$ such that
   for all $x' \in N_\delta(x)$, $x' \succ_i z$
 
----
+
 
 ## First Welfare theorem 
 
 If $(x^e,y^e)$ and $p$ is a competitive equilibrium and preferences a
 locally non-satiated, then $(x^e,y^e)$ is Paretor efficient.
 
----
+
 
 ## Second Welfare theorem
 

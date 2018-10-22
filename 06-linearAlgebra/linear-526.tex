@@ -1341,8 +1341,8 @@ or \cite{holmes1975}.
     holds as stated, and $\exists$ $s^*_1 \in S_1$ such that $\xi
     s^*_1 = c$
   \end{itemize}
-  Strict separation holds for all $s_1 \in \mathrm{int}(S_1)$ and $s_2
-  \in \mathrm{int}(S_2)$, $\xi s_1 < c < \xi s_2$. Thus, if you need
+  Strict separation holds for all $s_1 \in \mathrm{aint}(S_1)$ and $s_2
+  \in \mathrm{aint}(S_2)$, $\xi s_1 < c < \xi s_2$. Thus, if you need
   strict separation of some $S_1$ and $S_2$, one technique is to show
   that there are disjoint convex sets $A_1$ and $A_2$ such that $S_1
   \subseteq \mathrm{int}(A_1)$ and $S_2 \subseteq \mathrm{int}(A_2)$.
@@ -1804,7 +1804,7 @@ definitions differ, but they are capturing similar ideas.
   \in V$ there exists $\bar{\lambda} \in (0,1)$ such that 
   \[ a(1-\lambda) + \lambda v \in A \]
   for all $\lambda \in [0,\bar{\lambda}]$. Denote the algebraic
-  interior of $A$ as $\mathrm{int}(A)$.
+  interior of $A$ as $\aint{A}$.
 \end{definition}
 At interior points, we can move slighty from $a$ toward any other
 point $v$ and remain inside $A$. This algebraic interior is different
@@ -1833,11 +1833,11 @@ topological interior instead.
   Let $V$ be a vector space and $A \subseteq V$. The \textbf{linear
     closure}\footnote{This is non-standard terminology,
     \cite{holmes1975} calls this lin(A). Holmes's notation for my
-    $\mathrm{int}(A)$ is $\mathrm{cor}(A)$.} of $A$ is set
+    $\aint{A}$ is $\mathrm{cor}(A)$.} of $A$ is set
   of all $v \in V$ such that $\exists a \in A$ such that
   $\forall \lambda \in [0,1)$,
   \[ a(1-\lambda) + \lambda v \in A \]
-  Denote the linear closure of $A$ as $\overline{A}$.
+  Denote the linear closure of $A$ as $\acl{A}$.
 \end{definition}
 Finally, we need to define affine sets.
 \begin{definition}
@@ -1860,34 +1860,34 @@ contain $0$.  We also need the following lemma about hyperplanes.
 \begin{lemma}\label{lem:compconvex}
   Let $C$ and $D$ be non-empty convex sets in a vector space
   $V$ with $C \cap D = \emptyset$ and $C \cup D = V$. Let
-  $M = \overline{C} \cap \overline{D}$, then either $M = V$ or $M$ is
+  $M = \acl{C} \cap \acl{D}$, then either $M = V$ or $M$ is
   a hyperplane in $V$.
 \end{lemma}
 \begin{proof}
-  Since $C$ and $D$ are convex, so are $\overline{C}$ and
-  $\overline{D}$. For any convex sets, their intersection is also
+  Since $C$ and $D$ are convex, so are $\acl{C}$ and
+  $\acl{D}$. For any convex sets, their intersection is also
   convex, so $M$ is convex. Moreover, $M$ is affine. To see this let
   $x,y \in M$ and $z = \lambda x + (1-\lambda) y $ for $\lambda \in
   \R$. If $\lambda \in (0,1)$, we known $M$ is convex, so $z \in
-  M$. If $z \not\in M$, then $z \in \mathrm{int}(C) \cup
-  \mathrm{int}(D)$. To be concrete, suppose $z \in \mathrm{int}(C)$ and $\lambda<1$
+  M$. If $z \not\in M$, then $z \in \aint{C} \cup
+  \aint{D}$. To be concrete, suppose $z \in \aint{C}$ and $\lambda<1$
   (the other cases are dealt with similarly). Then $y = z/(1-\lambda)
   - \lambda/(1-\lambda) x$ is a convex combination of $x$ and
-  $z$. Notice that $x \in \overline{C}$ and $z \in \mathrm{int}(C)$ implies
-  $y \in \mathrm{int}(C)$, but this contradicts the assumption that $y
+  $z$. Notice that $x \in \acl{C}$ and $z \in \aint{C}$ implies
+  $y \in \aint{C}$, but this contradicts the assumption that $y
   \in M$. Therefore, it must be that $z \in M$. 
 
   Suppose $M \neq V$. Pick any $m \in M$. Then
-  $\exists (m+p) \in V \setminus M = \mathrm{int}(C) \cup
-  \mathrm{int}(D)$.
-  Without loss of generality, assume $(m+p) \in \mathrm{int}(C)$.  If
-  $(m-p) \in \mathrm{int}(C)$, then
-  $0.5(m+p) + 0.5(m-p) = m \in \mathrm{int}(C)$ by convexity, but we
-  know $m \not\in \mathrm{int}(C)$, so it must be that
-  $(m-p) \in \mathrm{int}(D)$. To conclude, we show that the span of
+  $\exists (m+p) \in V \setminus M = \aint{C} \cup
+  \aint{D}$.
+  Without loss of generality, assume $(m+p) \in \aint{C}$.  If
+  $(m-p) \in \aint{C}$, then
+  $0.5(m+p) + 0.5(m-p) = m \in \aint{C}$ by convexity, but we
+  know $m \not\in \aint{C}$, so it must be that
+  $(m-p) \in \aint{D}$. To conclude, we show that the span of
   $\{p\} \cup M = V$, so $M$ is a maximal affine set, i.e. a
-  hyperplane. Let $x \in C$. By definition of $\overline{C}$ and
-  $\overline{D}$, there exists $\lambda \in (0,1)$ such that
+  hyperplane. Let $x \in C$. By definition of $\acl{C}$ and
+  $\acl{D}$, there exists $\lambda \in (0,1)$ such that
   $\lambda x + (1-\lambda) (m-p) \in M$, so
   $x \in \spn(M \cup \{p\})$. Similarly if $x \in D$,
   $x \in \spn(M \cup \{p\})$.
@@ -1897,26 +1897,26 @@ Finally, we can prove the separating hyperplane theorem.
   By Stone's separation lemma \ref{lem:stone}, there exists convex
   sets $C$ and $D$ such that $S_1 \subseteq C$, $S_2 \subseteq D$,
   $C \cap D = \emptyset$, and $C \cup D = V$. By lemma
-  \ref{lem:compconvex}, $H = \overline{C} \cap \overline{D}$ is either
+  \ref{lem:compconvex}, $H = \acl{C} \cap \acl{D}$ is either
   $V$ or the separating hyperplane that we want. $H$ is not a
-  hyperplane only if $\overline{C} = \overline{D} = V$. If $V$ is
+  hyperplane only if $\acl{C} = \acl{D} = V$. If $V$ is
   finite dimensional, and $C$ and $D$ are not empty, then this is
   impossible. Proving this is left as an exercise. Regardless of the
   dimension of $V$, if $C$ (or $D$) has a non-empty interior, then
-  lemma \ref{lem:ubiq} implies that $\overline{C}$ (or $\overline{D}$)
+  lemma \ref{lem:ubiq} implies that $\acl{C}$ (or $\acl{D}$)
   cannot be all of $V$, since we know that $C \neq V$.
 \end{proof}
 \begin{lemma}\label{lem:ubiq}
-  If $C \subseteq V$ is convex, $\mathrm{int}(C)$ is not empty, and
-  $\overline{C} = V$, then $C = V$. 
+  If $C \subseteq V$ is convex, $\aint{C}$ is not empty, and
+  $\acl{C} = V$, then $C = V$. 
 \end{lemma}
 \begin{proof}
-  Let $x \in V$, and $y \in \mathrm{int}(C)$.  Without loss of
-  generality assume $y = 0$. Since $\overline{C} = V$ so $2x \in \overline{C}$,
+  Let $x \in V$, and $y \in \aint{C}$.  Without loss of
+  generality assume $y = 0$. Since $\acl{C} = V$ so $2x \in \acl{C}$,
   $\exists z \in C$ such that
   \[ (1-\lambda)z + \lambda 2x \in C \]
   for all $\lambda \in [0,1)$. 
-  Since $y = 0 \in \mathrm{int}(C)$ there is $\delta>0$ such that 
+  Since $y = 0 \in \aint{C}$ there is $\delta>0$ such that 
   $-\delta z \in C$. Since $C$ in convex, for any $t \in [0,1]$ and
   $\lambda \in [0,1)$,
   \[ [(1-\lambda)z + \lambda 2x] t - (1-t) \delta z \in C \]

@@ -2,7 +2,7 @@
 title       : Sets and relations
 subtitle    : 
 author      : Paul Schrimpf
-job         : x
+job         : 
 date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
     ioslides_presentation :

@@ -3,22 +3,15 @@ title       : Metric spaces, topology, and continuity
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : October 2017
+date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  revealjs::revealjs_presentation:
-    self_contained: false
-    theme: league
-    transition: slide
-    center : true
-    highlight : zenburn
-    reveal_plugins: ["chalkboard"]
-    reveal_options:
-      slideNumber: true
-      center : true
-      help : true
-      previewLinks: true 
-      chalkboard:
-        theme: whiteboard
+    ioslides_presentation :
+        self_contained: true
+        code_folding: hide
+        lib_dir : deps
+        theme : journal
+        fig_width: 8
+        fig_height: 6
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
@@ -26,7 +19,7 @@ output:
 
 # Sequences
 
----
+
 
 ## Sequences
 
@@ -36,12 +29,12 @@ output:
   + $\{x_n\}$
 - Different from sets in that repetitions and order matter
 
----
+
 
 ## Metric space
 
 A **metric space** is a set, $X$, and function $d:X\times X
-\rightarrow \mathbb{R}$ such that
+\to \mathbb{R}$ such that
 $\forall x, y, z \in X$
 
 1. $d(x,y) > 0$ unless $x=y$ and then $d(x,x) = 0$
@@ -49,13 +42,13 @@ $\forall x, y, z \in X$
 3. (triangle inequality) $d(x,y) \leq d(x,z) + d(z,y)$.
 
 
----
+
 
 ## Metric space examples
 
 $\mathbb{R}$ with $d(x,y) = |x-y|$
 
----
+
 
 ## Metric space examples
 
@@ -63,7 +56,7 @@ $\mathbb{R}$ with $d(x,y) = |x-y|$
 > - $\mathbb{R}^n$ with $d_p(x,y) = \left(\sum_{i=1}^n (x_i - y_i)^p
     \right)^{1/p}$ with $p \geq 1$
 
----
+
 
 ## Convergence
 
@@ -73,7 +66,7 @@ for all $n \geq N$
 - $x$ is the **limit** of $\{x_n\}_{n=1}^\infty$ 
 - written $\lim_{n \rightarrow \infty} x_n = x$ or $x_n \rightarrow x$. 
 
----
+
 
 ## Accumulation points
 
@@ -84,7 +77,7 @@ for all $n \geq N$
 > - **Lemma**: If $x_n \rightarrow x$, then $x$ is the only accumulation point of
   $\{x_n\}_{n=1}^\infty$
 
----
+
 
 ## Subsequence
 
@@ -95,7 +88,7 @@ for all $n \geq N$
 > - **Lemma**: Let $a$ be an accumulation point of $\{x_n\}$, then $\exists$
     a subsequence that converges to $a$. 
 
----
+
 
 ## Cauchy sequence
 
@@ -106,13 +99,13 @@ for all $n \geq N$
   points in $X$ converges in $X$
 - $\mathbb{R}$ is defined as a the unique complete ordered field
 
----
+
 
 ## Metric space examples
 
 - $\mathbb{R}^n$ is complete
 
----
+
 
 ## Metric space examples
 
@@ -128,7 +121,7 @@ for all $n \geq N$
 
 # Topology
 
----
+
 
 ## Open sets
 
@@ -144,7 +137,7 @@ for all $n \geq N$
   N_\epsilon(x) \subset S
   $$
 
----
+
 
 ## Opens sets
 
@@ -152,14 +145,14 @@ for all $n \geq N$
     + Any union of open sets is open (finite or infinite)
     + The finite intersection of open sets is open
 
----
+
 
 ## Closed sets
 
 - A set $S \subseteq X$ is **closed** if its complement, $S^c$, is
 open
 
----
+
 
 ## Closed sets
 
@@ -167,7 +160,7 @@ open
     + The intersection of any collection of closed sets is closed
     + The union of any finite collection of closed sets is closed 
 
----
+
 
 ## Convergence
 
@@ -180,7 +173,7 @@ open
 
 # Compactness
 
----
+
 
 ## Compact sets
 
@@ -191,7 +184,7 @@ open
 > - A set $K$ is **compact** if every open cover of $K$ has a
   finite subcover
 
----
+
 
 ## Compact sets 
 
@@ -201,14 +194,14 @@ open
     + $K$ is **bounded** if $\exists x_0 \in K$ and $r \in \mathbb{R}$ such that 
     \[ d(x,x_0) < r \]  for all $x \in K$
 
----
+
 
 ## Heine-Borel 
 
 - **Theorem**: A set $S \subseteq \mathbb{R}^n$ is compact if and only
   if it is closed and bounded 
 
----
+
 
 ## Sequential compactness
 
@@ -222,7 +215,7 @@ accumulation point in $K$
 
 # Functions and continuity
 
----
+
 
 ## Functions
 
@@ -232,7 +225,7 @@ $b \in B$
     + Target space $B$
     + Range or image $\{y  \in B:  f(x) = y \text{ for some } x \in A \}$
 
----
+
 
 ## Continuity
 
@@ -249,7 +242,7 @@ $b \in B$
     + Preimage $f^{-1} (V) = \{ x \in X: f(x) \in V \}$
 
 
----
+
 
 ## Existence of maximum
 
