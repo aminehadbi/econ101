@@ -429,7 +429,7 @@ independent set is smaller than any set that spans.
   The argument we used to prove theorem \ref{thm:spanLin} does not
   suffice when $U$ is infinite because the iterative replacement of
   elements of $W$ with elements of $U$ would never terminate. Exercise
-  \ref{ex:basis} sketches how to prove this theorem with infinite
+  \ref{ex:basis2} sketches how to prove this theorem with infinite
   $U$. 
 \end{remark}
 This theorem implies that if $B$ is linearly independent and spans
@@ -513,6 +513,9 @@ This lemma implies that if $V$ is finite dimensional, then a basis for
 $V$ exists. Even if $V$ is infinite dimensional, then a basis
 exists. The argument is outlined in the following exercise.
 \begin{exercise}\label{ex:basis}
+  This exercise sketches how to prove the existence of a basis for
+  infinite dimensional vector spaces.
+  
   A partial order is a relation that is reflexive, transitive, and
   antisymmetric. A set with a partial order is called a partially
   ordered set. Not all elements of a partially ordered set are
@@ -550,9 +553,22 @@ exists. The argument is outlined in the following exercise.
     $\{x\} \cup B \in \mathcal{P}$.]
   \item Conclude $B$ is a basis for $V$.
   \end{enumerate}
-  For finite dimensional spaces, we could explicitly extend a linearly
-  independent set to a basis by adding elements. This exercise shows a
-  similar result for infinite dimensional spaces.
+\end{exercise}
+\begin{exercise}\label{ex:basis2}
+  This exercise shows that any two bases for a vector space must have
+  the same cardinality. Let $V$ be a vector space and $B$ and $A$ be
+  bases for $V$. 
+  \begin{enumerate}
+  \item Argue that for each $b \in B$, $\exists$ finite $A_b \subseteq
+    A$ such that $b = \sum_{a \in A_b} x_a a$ for some $x_a \in \R$.
+  \item Argue that $A = \cup_{b \in B} A_b$
+  \item Show that for any sets $U$ and any infinite set $I$, if $U = \cup_{i \in I}
+    F_i$ with each $F_i$ finite, then $|U| \leq |I|$ (i.e. there
+    exists a one-to-one (but not neccessarily onto) function from $U$
+    to $I$). 
+  \item Conclude $|A| \leq |B|$, and reversing the roles of $A$ and
+    $B$ gives $|B| \leq |A|$, so $|A| = |B|$.
+  \end{enumerate}
 \end{exercise}
 
 The elements of a vector space can always be written uniquely in terms
@@ -1112,14 +1128,14 @@ transformations can also be given a norm.
   A linear transformation is bounded if and only if it is continuous. 
 \end{lemma}
 \begin{proof}
-  On problem set 5.
+  On problem set 4.
 \end{proof}
 \begin{lemma}
   If $V$ and $W$ are finite dimensional, and $A \in L(V,W)$, then $A$
   is bounded.
 \end{lemma}
 \begin{proof}
-  On problem set 5.
+  On problem set 4.
 \end{proof}
 In infinite dimensional spaces, there are discontinuous linear
 transformations. Let $B(V,W)$ denote the set of all bounded linear
@@ -1141,11 +1157,12 @@ first introducing dual spaces.
   $V^\ast$ is the set of all (continuous)\footnote{All linear
     functionals on finite dimensional spaces are continuous. Some
     linear functionals on infinite dimensional spaces are not
-    continuous. The definition of dual space does not always require
-    continuity. Often the dual space is defined as the set of all
-    linear functionals, and the topological dual space is the set of
-    all continuous linear functionals. We will ignore this
-    distinction.}  linear functionals, $v^\ast: V \to \R$.
+    continuous. Depending on the text, the definition of dual space
+    does not always require continuity. Sometimes the dual space is
+    defined as the set of all linear functionals, and the topological
+    dual space is the set of all continuous linear functionals.}
+  linear functionals, 
+  $v^\ast: V \to \R$.
 \end{definition}
 \begin{example}\label{ex:rdual}
   The dual space of $\R^n$ is the set of $1 \times n$ matrices. In
@@ -1300,7 +1317,8 @@ horseshoes, rings, etc.
 \begin{theorem}[Separating hyperplane theorem] \label{thm:sht} If
   $S_1$ and $S_2 \subseteq V$ are convex and
   $S_1 \cap S_2 = \emptyset$ and either $V$ is finite dimensional or
-  the interior of $S_1$ or $S_2$ is not empty. Then there exists a
+  the (algebraic) interior of $S_1$ or $S_2$ is not empty. Then there
+  exists a 
   hyperplane, $H_{\xi c} = \{ x: \xi x = c \}$ such that
   \[ \xi s_1 \leq c \leq \xi s_2 \]
   for all $s_1 \in S_1$ and $s_2 \in S_2$. We say that $H_{\xi,c}$
@@ -1388,7 +1406,7 @@ matrix, i.e. a linear transformation from $R^n \to \R^m$.
   $c \in \R$ such that
   \[ \xi x \leq c < \xi y \]
   for all $x \in \range D$ and $y \in N$.  It must be that $\xi x = 0$
-  for all $x \in \range D$. If not, say $\xi x = d \neq >0$, then
+  for all $x \in \range D$. If not, say $\xi x = d \neq 0$, then
   since $\range D$ is a subspace, $(2c/d) x \in \range D$, and since
   $\xi$ is linear, $\xi((2c/d) x) = 2c > c$.  Let
   $\xi = (\xi_1, -\tilde{\mu})$, where $\xi_1 \in \R^* = \R$ and
@@ -1851,8 +1869,8 @@ segment between any two points. Affine sets are like linear subspaces
 in that they are lines, planes, etc, except that affine sets need not
 contain $0$.  We also need the following lemma about hyperplanes.
 \begin{lemma}
-  An affine set $A$ is a hyperplane if and only if it is a maximal
-  proper affine set with respect to inclusion.
+  An affine set $A$ is a hyperplane if and only if $A$ is proper
+  subset that is maximal with respect to inclusion.
 \end{lemma}
 \begin{proof}
   Left as an exercise.

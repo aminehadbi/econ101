@@ -862,14 +862,16 @@ $K$. Compactness implies sequential compactness.
   $\epsilon$ neighborhoods must contain an infinite number of the
   elements from the sequence. Call this neighborhood
   $N_\epsilon(x_1^\ast)$. Pick the smallest $n$ such that $x_n \in
-  N_\epsilon(x_1^\ast)$ and call it $n_1$. $\overline{N_{\epsilon}(x_1^\ast)}
+  N_\epsilon(x_1^\ast)$ and call it $n_1$. $K_1 = \overline{N_{\epsilon}(x_1^\ast)}
   \cap K$ is a closed subset of the compact set $K$, so is itself
   compact. Repeat the above argument with $\epsilon/2$ in place of
-  $\epsilon$ and $\overline{N_{\epsilon}(x_1^\ast)} \cap K$ in place of $K$
-  to find an $n_2$, $n_3$, etc. Then the subsequence $x_{n_1},
-  x_{n_2}, ...$ is a Cauchy sequence, so it converges. Its limit is an
-  accumulation point. Its limit must be in $K$ because $K$ is compact,
-  and so, closed. Therefore, $K$ is sequentially compact.
+  $\epsilon$ and $K_1 = \overline{N_{\epsilon}(x_1^\ast)} \cap K$ in place of $K$
+  to find $K_2, K_3$, etc. The sets $K_1, K_2, ...$ are all compact,
+  (and also closed) subsets of $K$. Moreover, for any finite collection $K_{\ell_1}
+  , ... K_{\ell_m}$, $\cap_{j=1}^m K_{\ell_j} = K_{\max_j{\ell_j}}$ is
+  not empty. Since $K$ is compact, $\cap_{j=1}^\infty K_j$ is also not
+  empty. Finally, let $x^* \in \cap_{j=1}^\infty K_j$. Then $x^*$ is
+  an accumulation point of the original sequence $\{x_n\}$.
 \end{proof}
 
 In $\R^n$, a set is sequentially compact iff it is compact iff it is
