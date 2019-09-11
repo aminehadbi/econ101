@@ -41,7 +41,7 @@ output:
   \times V \to V$ such that
   + $(V,+)$ is commutative group
   + Scalar multiplication is: $\forall \alpha, \beta \in \mathbb{R}$
-    1. Closed: $\alpha x \in V
+    1. Closed: $\alpha x \in V$
     2. Distributive: $\alpha(x + y) = \alpha x + \alpha y$ and
     $(\alpha + \beta) x = \alpha x + \beta x$
     3. Consistent with multiplication in $\mathbb{R}$: $1x = x$ and

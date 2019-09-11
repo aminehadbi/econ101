@@ -67,7 +67,7 @@ of $f$ on $U$.
 If $F^* = \max_{x} f(x)$, we mean that $f(x) \leq F^*$ for all $x$ and
 $f(x^*) = F^*$ for some $x^*$.
 \begin{definition}\label{d:max}
-  $F^* = \max_{x \in U} f(x)$ is the \textbf{maximum} of $F$ on $U$ if
+  $F^* = \max_{x \in U} f(x)$ is the \textbf{maximum} of $f$ on $U$ if
   $f(x) \leq F^*$ for all $x$ and $f(x^*) = F^*$ for some $x^*$.
 \end{definition}
 There may be more than one such $x^*$. We denote the set of all $x^*$
@@ -114,14 +114,14 @@ later as the global maximum.
 
 A related concept to the maximum is the supremum.
 \begin{definition}
-  The \textbf{supremum} of $f$ on $U$ is $S$ is written, 
+  The \textbf{supremum} (or least upper bound) of $f$ on $U$ is $S$ is
+  written,
   \[ S = \sup_{x \in U} f(x), \]
   and means that $S \geq f(x)$ for all $x \in U$ and for any $A < S$
   there exists $x_A \in U$ such that $f(x_A) > A$. 
 \end{definition}
-The supremum is also called the least upper bound. The main difference
-between the supremum and maximum is that the supremum can exist when
-the maximum does not. 
+The main difference between the supremum and maximum is that the
+supremum can exist when the maximum does not.
 \begin{example}
   \begin{multicols}{2}
     Let $x \in \R$ and $f(x) = -\frac{1}{1+x^2}$. Then $\max_{x \in \R}
@@ -486,8 +486,7 @@ if there exists $\mu \in \R^m$ such that
 \end{align*}
 or in matrix notation $Df_x = \mu^T Dh_x$. This is indeed true. It is
 tedious to show using algebra, but will be easy to show later using
-some results from linear algebra about the row, column, and null
-spaces of matrices. 
+some results from linear algebra.
 
 A heuristic geometric argument supporting the previous claims is as
 follows. Imagine the level sets or contour lines of $h(\cdot)$. The
