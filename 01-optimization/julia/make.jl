@@ -5,5 +5,5 @@ weave("optimization.jmd",out_path=:doc,fig_path="figures",
       doctype="pandoc2html",
       pandoc_options=["--toc","--toc-depth=2","--filter=pandoc-citeproc"],
       cache=:refresh) 
-
-notebook("empiricalLikelihood.jmd")
+using IJulia
+notebook("optimization.jmd")
