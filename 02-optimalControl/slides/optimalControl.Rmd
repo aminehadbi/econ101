@@ -3,30 +3,53 @@ title       : "Optimal Control"
 subtitle    : 
 author      : Paul Schrimpf
 job         : 
-date        : September 2017
+date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  ioslides_presentation :
+        self_contained: true
+        code_folding: hide
+        lib_dir : deps
+        widescreen: true
+        theme : journal
+        fig_width: 8
+        fig_height: 6
   revealjs::revealjs_presentation:
-    self_contained: false
+    self_contained: true
     theme: league
     transition: slide
     center : true
     highlight : zenburn
-    reveal_plugins: ["chalkboard"]
     reveal_options:
       slideNumber: false
       center : true
       help : true
       previewLinks: true
-      chalkboard:
-        theme: whiteboard
-      #  toggleNotesButton: true
-      #  toggleChalkboardButton: true
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
+## To create an html file from this, in R enter "library(rmarkdown); render("optimalControl.Rmd")
+---
 
-## To create an html file from this, in R enter "library(revealjs); render("optimalControl.Rmd")
---- 
+## {-}
+<a rel="license"
+href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative
+Commons License" style="border-width:0"
+src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"
+/></a><br />This work is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.
+
+$$
+\def\indep{\perp\!\!\!\perp}
+\def\Er{\mathrm{E}}
+\def\R{\mathbb{R}}
+\def\En{{\mathbb{E}_n}}
+\def\Pr{\mathrm{P}}
+\newcommand{\norm}[1]{\left\Vert {#1} \right\Vert}
+\newcommand{\abs}[1]{\left\vert {#1} \right\vert}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+$$
 
 # Motivating examples
 
@@ -41,7 +64,7 @@ $$
   \end{aligned}
 $$
 
----
+
 
 ## Investment with adjustment costs
 
@@ -58,7 +81,7 @@ $$
   \end{aligned}
 $$
 
----
+
 
 ## Contracting with a continuum of types
 
@@ -76,7 +99,7 @@ T(\tilde{\theta}) \forall \theta \label{ic}
 \end{aligned}
 $$
 
----
+
 
 ## Optimal income taxation
 $$
@@ -104,28 +127,35 @@ $$
 \end{aligned}
 $$
 
---- 
+ 
 
 ## Discretization
 
-> - Discretized problem
+- Divide $[0,T]$ into $J$ intervals of length $\Delta=T/J$
+- $\int_0^T F(x(t),y(t), t) dt \approx \sum_{j=1}^J F(x(\Delta j),
+   y(\Delta j), \Delta j) \Delta$
+    - Let $x_j = x(\Delta j)$, $y_j = y(\Delta j)$
+    
+- $\frac{dy}{dt}(\Delta j) \approx \frac{y_j - y_{j-1}}{\Delta}$f(x
+
+Discretized problem:
 $$
 \begin{aligned}
   \max_{x_1, ..., x_J, y_1, ..., y_J} & \sum_{j=1}^J \Delta F(x_j,
-  y_j,\Delta j) 
+  y_j,\Delta j)\Delta \\
   & \text{ s.t.} \\
   & y_j - y_{j-1} = \Delta g(x_j,y_j,\Delta j) \text{ for} j = 1,...,J
 \end{aligned}
 $$
 
---- 
+ 
 
 ## Discretization
 
 > - Discrete first order conditions
 $$
 \begin{aligned}
-  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda_j \frac{\partial
+  [ x_j ]: &&  \frac{\partial F}{\partial x} + \lambda_j \frac{\partial
     g}{\partial x} = & 0 \\ 
   [y_j]: &&  \frac{\partial F}{\partial y} + \lambda_j 
   \frac{\partial g}{\partial y} = & -\frac{\lambda_{j+1} -
@@ -134,14 +164,14 @@ $$
 \end{aligned}
 $$
 
---- 
+ 
 
 ## Discretization
 
 > - Limit as $\Delta \to 0$
 $$ 
 \begin{aligned}
-  [x_j]: &&  \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
+  [ x_j ]: &&  \frac{\partial F}{\partial x} + \lambda(t) \frac{\partial
     g}{\partial x} = & 0 \\ 
   [y_j]: &&  \frac{\partial F}{\partial y} + \lambda(t)
   \frac{\partial g}{\partial y} = & -\frac{d\lambda}{dt} \\ 
@@ -149,18 +179,29 @@ $$
 \end{aligned}
 $$
 
----
+## Lagrange approach
+
+- To analyze maximization in $\R^n$, we looked at $f(x^* + v)$ for small $v$
+- We can do the same here, look at e.g.
+$$
+\int_0^T F(x^*(t) + v(t),y^*(t),t)dt 
+$$
+- $v$ is now a function instead of vector in $\R^n$
+   - Like vectors in $\R^n$, functions can be added and multiplied by scalars
 
 ## Functional directional derivatives
 
 > - $Q(x,y) \equiv  \int_0^T F(x(t),y(t),t)dt$
 > - Directional derivative, for $v:[0,T] \to \mathbb{R}$ and $w:[0,T]
     \to \mathbb{R}$, 
-    $$ dQ(x,y;v,w) = \lim_{\alpha \to 0} \frac{Q(x+\alpha v, y +
-\alpha w) - Q(x,y)}{\alpha} 
     $$
-
---- 
+    \begin{aligned}
+    dQ(x,y;v,w) = & \lim_{\alpha \to 0} \frac{Q(x+\alpha v, y +
+\alpha w) - Q(x,y)}{\alpha} \\ 
+ = & \frac{d}{d\alpha} Q(x+\alpha v, y + \alpha w) \vert_{\alpha=0} 
+    \end{aligned}
+    $$
+ 
 
 ## Lagrangian
 
@@ -172,7 +213,7 @@ L(x,y,\lambda,\mu_0) = & \int_0^T F(x(t),y(t),t) dt - \\ & - \int_0^T
 \end{aligned}
 $$
 
----
+
 
 ## Pontryagin's maximum principle
 
@@ -195,15 +236,15 @@ $$
   $\lambda^*(t)$ such that 
   $$
   \begin{aligned}
-    [x]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
+    [ x ]: && 0 = & \frac{\partial H}{\partial x}(x^*,y^*,\lambda^*,t)
     \\
-    [y]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
-    [\lambda]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
+    [ y ]: && -\frac{d\lambda}{dt}(t) = & \frac{\partial H}{\partial y}(x^*,y^*,\lambda^*,t) \\
+    [ \lambda ]: && \frac{dy}{dt}(t) = & \frac{\partial H}{\partial
       \lambda}(x^*,y^*,\lambda^*,t)
   \end{aligned}
   $$
 
----
+
 
 <!--- ##################################################### --->
 
@@ -224,7 +265,7 @@ $$
 - $x(t)$ housing investment
 - $s(t)$ price of housing, $c(t)x(t)^2$ adjustment cost
 
----
+
 
 ## Linear production and savings
 
@@ -238,7 +279,7 @@ $$
 \end{aligned}
 $$
     
---- 
+ 
 
 ##  Inventory with costly storage
 
@@ -258,7 +299,7 @@ $$
 
 #  Optimal growth
 
----
+
 
 ## Optimal growth
 
@@ -271,7 +312,7 @@ $$
   \end{aligned}
 $$
 
---- 
+ 
 
 ## Evolution of optimal c and k
 
@@ -288,7 +329,7 @@ $$ f(k^{ss}) - \phi k^{ss} - c^{ss} = 0 $$
 - Stable path: given $k(0) = k_0$, there is unique $c(0)$ such that
   $c(t)$ and $k(t)$ reach the steady state
 
---- 
+ 
 
 ## Phase diagram
 ```{r phase, echo=FALSE, warning=FALSE}
@@ -307,7 +348,7 @@ fig <- ggplot(data=d) +
 print(fig)
 ```
 
---- 
+ 
 
 ## Phase diagram
 ```{r phase2, echo=FALSE, warning=FALSE}
@@ -317,7 +358,7 @@ fig2 <- fig +
 print(fig2)
 ```
 
---- 
+ 
 
 ## Phase diagram
 ```{r phase3, echo=FALSE, warning=FALSE}
@@ -328,11 +369,11 @@ fig3 <- fig2 +
 print(fig3)
 ```
 
---- 
+ 
 
 # Contracting
 
----
+
 
 ## Contracting
 
@@ -350,7 +391,7 @@ $$
 \end{aligned}
 $$
 
----
+
 
 ## Contracting
 
@@ -366,4 +407,4 @@ $$
 \end{aligned}
 $$
 
----
+
