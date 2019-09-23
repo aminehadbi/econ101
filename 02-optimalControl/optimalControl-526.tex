@@ -157,7 +157,7 @@ maximum.
 \section{The maximum principle \label{sec:maxprin}}
 
 We will now derive some necessary conditions on the maximizers of an
-optimal control problem. In other words, we will come up with a first
+optimal control problem. That is, we will come up with a first
 order condition. We will do this in two ways. First, we will
 approximate the continuous problem with a discrete one, solve the
 discrete problem, and then take a limit to make the solution
@@ -842,8 +842,8 @@ Let's characterize the solution to our optimal growth model in example
 \end{align*}
 The Lagrangian is
 \begin{align*}
-  L = & \int_0^\infty \left(e^{-\delta t} u(c) - \lambda(dk/dt - f(k) -
-  \phi k - c ) + \mu_0 c - \mu_1 (c - f(k)) \right)dt - \psi(k(0) -
+  L = & \int_0^\infty \left[e^{-\delta t} u(c) - \lambda(dk/dt - f(k) -
+  \phi k - c ) + \mu_0 c - \mu_1 (c - f(k)) \right]dt - \psi(k(0) -
   k_0)
 \end{align*}
 The first order conditions are:
@@ -1038,7 +1038,7 @@ compatibility constraint we get
 We assume that $\nu'>0$, and the monotonicity constraint says that
 $q'\geq 0$. Hence, this equation implies the second order
 condition. Therefore, we have shown that the local incentive
-compatibility constraint and monotonicity constraint are equivalent
+compatibility constraint and monotonicity constraint are equivalent to the
 incentive compatibility constraint.
 
 Now, we can write the seller's problem as
@@ -1052,64 +1052,81 @@ Now, we can write the seller's problem as
   & \theta \nu'(q(\theta))q'(\theta) - T'(\theta) =  0 \label{lic2} \\
   & \frac{dq(\theta)}{d\theta} \geq  0 \label{mon2}
 \end{align}
-The first order condition for $T$ is for any $x:[\theta_l,\theta_h] \to \R$, 
+Notice that this problem is slightly different than the problems in
+that the constraint involves both $dq/d\theta$ and
+$dT/d\theta$. Therefore, we should work from the Lagrangian instead of
+using the maximum principle and the Hamiltonian.
+
+The Lagrangian is:
+\begin{align*}
+  L = & \int_{\theta_l}^{\theta_h} \left(  \left[T(\theta) - cq(\theta)\right]
+  f_\theta(\theta) - \lambda(\theta) \left(T'(\theta) - \theta \nu'(q(\theta))
+        q'(\theta) \right) + \mu(\theta) q'(\theta) \right) d\theta + \\
+  & + \psi_0 \left( \theta_l \nu\left(q(\theta_l)\right) - T(\theta_l) \right)
+\end{align*}
+
+While writing the first order conditions, we will use $x$ for the
+direction of the derivative, since the usual $v$ is easily confused
+with $\nu$. The first order condition for $T$ is for any
+$x:[\theta_l,\theta_h] \to \R$,
 \begin{align*}
   0 = &\int_{\theta_l}^{\theta_h} x(\theta) f_\theta(\theta)
-  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
-  \frac{dx}{d\theta}(\theta) d\theta + \mu_0 x(\theta_l)  \\
+  d\theta - \int_{\theta_l}^{\theta_h} \lambda(\theta)
+  \frac{dx}{d\theta}(\theta) d\theta - \psi_0 x(\theta_l)  \\
   0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left( f_\theta(\theta) +
-    \frac{d\mu}{d \theta}(\theta)\right) - \mu(\theta_h)x(\theta_h) +
-  \mu(\theta_l)x(\theta_l) + \mu_0 x(\theta_l).
+    \frac{d\lambda}{d \theta}(\theta)\right) - \lambda(\theta_h)x(\theta_h) +
+  \lambda(\theta_l)x(\theta_l) - \psi_0 x(\theta_l).
 \end{align*}
-From this we see that $\mu'(\theta) = -f_\theta(\theta)$,
-$\mu(\theta_l) = -\mu_0$, and $\mu(\theta_h) = 0$. Given $\mu'$ and
-$\mu(\theta_h)$, it must be that
+From this we see that $\lambda'(\theta) = -f_\theta(\theta)$,
+$\lambda(\theta_l) = \psi_0$, and $\lambda(\theta_h) = 0$. Given $\lambda'$ and
+$\lambda(\theta_h)$, it must be that
 \begin{align*}
-  \mu(\theta) = & \int_{\theta_h}^\theta -f_\theta(\hat{\theta}) d\hat{\theta} \\
+  \lambda(\theta) = & \int_{\theta_h}^\theta -f_\theta(\hat{\theta}) d\hat{\theta} \\
   = & 1 - \int_{\theta_l}^\theta f_{\theta}(\hat{\theta})d\hat{\theta}
   \\
   = & 1 - F_\theta(\theta) 
 \end{align*}
-where $F_\theta$ is the cdf of $f_\theta$. 
-The first order condition for $q$ is
+where $F_\theta$ is the cdf of $f_\theta$.
+
+The first order condition for $q$ is that for all $x$,
 \begin{align*}
   0 = & \int_{\theta_l}^{\theta_h} c x(\theta) f_\theta(\theta)
-  d\theta - \int_{\theta_l}^{\theta_h} \mu(\theta)
+  d\theta - \int_{\theta_l}^{\theta_h} \lambda(\theta)
   \left[ \theta \nu''(q(\theta))q'(\theta) x(\theta) + \theta
     \nu'(q(\theta)) x'(\theta) \right]d\theta - \\
-  & - \mu_0 \theta_l
-  \nu'(q(\theta_l))x(\theta_l) - \int_{\theta_l}^{\theta_h}
-  \lambda(\theta) x'(\theta) d\theta \\
+  & + \psi_0 \theta_l
+    \nu'(q(\theta_l))x(\theta_l) + \int_{\theta_l}^{\theta_h}
+    \mu(\theta) x'(\theta) d\theta \\
   0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left[ c f_\theta(\theta)
-    - \mu(\theta) \left( \theta \nu''(q(\theta))q'(\theta) -
-      \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right]
-  d\theta + \\
-  & + \int_{\theta_l}^{\theta_h} 
-  \mu'(\theta) \theta \nu'(\theta) x(\theta) d\theta 
-  - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
-  \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
-  & - \mu_0 \theta_l \nu'(q(\theta_l))x(\theta_l) 
-  - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta \\
+        - \lambda(\theta) \left( \theta \nu''(q(\theta))q'(\theta) -
+        \nu'(q(\theta)) - \theta \nu''(q(\theta))q'(\theta) \right) \right]
+        d\theta + \\
+      & + \int_{\theta_l}^{\theta_h} 
+        \lambda'(\theta) \theta \nu'(q(\theta)) x(\theta) d\theta 
+        - \lambda(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+        \lambda(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+      & + \psi_0 \theta_l \nu'(q(\theta_l))x(\theta_l) 
+        + \int_{\theta_l}^{\theta_h} \mu(\theta) x'(\theta) d\theta \\
   0 = & \int_{\theta_l}^{\theta_h} x(\theta)\left[ c f_\theta(\theta)
-    + \mu(\theta) \nu'(q(\theta)) + 
-    \mu'(\theta) \theta \nu'(\theta)\right] d\theta  - \\
-    & - \mu(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
-    \mu(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
-    & - \mu_0 \theta_l \nu'(q(\theta_l))x(\theta_l) 
-    - \int_{\theta_l}^{\theta_h} \lambda(\theta) x'(\theta) d\theta 
+        + \lambda(\theta) \nu'(q(\theta)) + 
+        \lambda'(\theta) \theta \nu'(q(\theta))\right] d\theta  - \\
+      & - \lambda(\theta_h)\theta_h \nu'(q(\theta_h))x(\theta_h) +
+        \lambda(\theta_l)\theta_l \nu'(q(\theta_l))x(\theta_l) - \\
+      & + \psi_0 \theta_l \nu'(q(\theta_l))x(\theta_l) 
+        + \int_{\theta_l}^{\theta_h} \mu(\theta) x'(\theta) d\theta 
 \end{align*}
 If we assume that the monotonicity constraint does not bind, so
-$\lambda(\theta) = 0$, we see that
+$\mu(\theta) = 0$, we get that
 \begin{align*}
-  0 = &c f_\theta(\theta) + \mu(\theta) \nu'(q(\theta)) + \mu'(\theta)
+  0 = &c f_\theta(\theta) + \lambda(\theta) \nu'(q(\theta)) + \lambda'(\theta)
    \theta \nu'(q(\theta))  \\
    0 = & cf_\theta(\theta) + (1-F_\theta(\theta)) \nu'(q(\theta)) -
-   f_{\theta}(\theta) \theta \nu'(q(\theta)) \\
-   \theta \nu'(q(\theta)) = & c +
-   \frac{1-F_\theta(\theta)}{f_\theta(\theta)} \nu'(q(\theta)) \\
-   \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
-   \right)\nu'(q(\theta)) = & c 
- \end{align*}
+         f_{\theta}(\theta) \theta \nu'(q(\theta)) \\
+  \theta \nu'(q(\theta)) = & c +
+                             \frac{1-F_\theta(\theta)}{f_\theta(\theta)} \nu'(q(\theta)) \\
+  \left(\theta - \frac{1-F_\theta(\theta)}{f_\theta(\theta)}
+  \right)\nu'(q(\theta)) = & c 
+\end{align*}
 This equation completely determines $q(\theta)$. We can then use the
 local incentive compatibility constraint (\ref{lic2}) to solve for
 $T'$. Finally, (\ref{pcl}) pins down $T(\theta_l)$.
@@ -1119,7 +1136,7 @@ $\theta \nu'(q(\theta)) = c$. Since $\nu'$ is decreasing in $q$, this
 implies that $q(\theta)$ is less than what it would be in the first
 best symmetric information case for all $\theta < \theta_h$. The
 highest type, $\theta_h$ gets the optimal level of consumption since
-$F_\theta(\theta_h) = 1$. 
+$F_\theta(\theta_h) = 1$.
 
 \begin{exercise}[difficult]
   Solve the optimal taxation example. The steps and solution are
