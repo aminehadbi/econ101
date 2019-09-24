@@ -109,7 +109,7 @@ we define the value of savings at time $T$ as
 then at time $T-1$ given $s_{T-1}$, we can choose $c_{T-1}$ to solve
 \[ \max_{c_{T-1},s'} u(c_{T-1}) + \beta V_T(s') \text{ s.t.} s' =
   (1+r_{T-1})(c_{T-1}-s_{T-1}). \]
-This is relatively simple maximization problem with just two
+This is a relatively simple maximization problem with just two
 variables, so we can solve it without too much difficulty. Repeating
 in this way, for each $t$ we can define the value of savings at time
 $t$ as
@@ -137,7 +137,7 @@ problem,
 (1+r_t) (s_t - c_t) \]
 then we cannot start from the last period to define the value
 function. However, if the problem is stationary, that is if the
-problem at time $t$ and at time $t+1$ are the same, then it seems
+problem at time $t$ and at time $t+1$ look the same, then it seems
 reasonable to think that the value function would not depend on $t$
 and we could just write 
 \[ V(s) = \max_{c,s'} u(c) + \beta V(s') \text{ s.t. } s' =
@@ -312,7 +312,7 @@ There are three basic ways to solve a dynamic program. They are:
 \begin{enumerate}
 \item Guess and verify the form of the value function
 \item Iterate the Bellman equation analytically
-\item Iterate the Bellman equation numerically
+\item Iterate (or use some other alogirthm to solve)  the Bellman equation numerically
 \end{enumerate}
 If you guess correctly, the first method is fairly
 straightforward. However, guessing correctly is difficult and often is
@@ -486,7 +486,7 @@ iterating can be a bit tedious. Even worse, for most specifications of
 the per-period payoff $u$ and constraints $g$, there will be no closed
 form solution for $v$. That makes it impossible to guess the form, and
 iterating the Bellman equation will not lead to a discernible pattern
-(although it will still give a convergent series). Using a computer to
+(although it will still give a convergent sequence). Using a computer to
 solve for the value function avoids both these problems. A computer
 does not care that Bellman operator iteration is tedious, and it can
 numerically compute $v(k)$ even if it has no closed form. 
@@ -517,7 +517,7 @@ numerically compute $v(k)$ even if it has no closed form.
   These figures were created using
   \href{https://bitbucket.org/paulschrimpf/econ526/src/master/03-dynamicProgramming/dp.R?at=master}
   {this R code.}
-  \cite{sargent2013} has a similar example in python.   
+  \cite{sargent2013} has a similar examples in Python and Julia.   
 \end{example}
 
 \begin{figure}\caption{Value function iterations \label{fig:value}}
@@ -605,7 +605,70 @@ enter or exit a market.
   will increase, and $z^*$ must increase to compensate. 
 \end{example}
 
-%\section{Uncertainty}
+\subsection{Uncertainty}
+
+Dynamic programming is often especially useful for dealing with models
+with uncertainty. The investment option model above is one
+example. Let's look at another.
+\begin{example}[Growth with random productivity]
+  Let's consider the same growth model as before, but now production
+  is $A_t k_t^\alpha$, where $A_t$ is productivity. We will assume
+  that productivity follows a Markov process. That is, the
+  distribution of $A_{t+1}$ connditional on all information at time
+  $t$, only depends on $A_t$. The problem is to choose $c_t$ given the
+  current $k_t$ and $A_t$. The Bellman equation is
+  \begin{align*}
+    V(k_t, A_t) = & \max_{c_t, k_{t+1}} \log (c_t) + \delta
+                    \Er[V(k_{t+1}, A_{t+1}) | A_t] \\
+                  & \text{ s.t. } c_t + k_{t+1} = A_t k_t^\alpha 
+  \end{align*}
+  Let's guess and verify that the value function will again be
+  log-linear with a constant that depends on $A_t$, i.e.
+  \[ V(k,A) = c_1 \log(k) + c_0(A) \]
+  Putting in this guess for $V$, and substituting in the constraint to
+  eliminate $c$, the problem becomes
+  \[ V(k,A) =  \max_{k'} \log (Ak^\alpha - k') + \delta
+    \Er[c_1\log(k') + c_0(A') | A] \]
+  Solving the first order condition gives
+  \[ k' = k^\alpha \frac{A \delta c_1}{1+\delta c_1} \]
+  Putting this $k'$ back into our guess for $V$ and the Bellman
+  equation gives
+  \begin{align*}
+    c_1 \log(k) + c_0(A) = & \log \left(k^\alpha \frac{A}{1+\delta
+                             c_1} \right) + \delta \Er\left[
+                             c_1 \log\left(A k^\alpha \frac{A \delta
+                             c_1}{1+\delta c_1}\right) + c_0(A') | A
+                             \right] \\
+    c_1 \log(k) + c_0(A) = & \alpha \log(k) (1+\delta c_1)  + (1+\delta c_1)\log(A)
+                              + \delta \Er[c_0(A') | A] + D
+  \end{align*}
+  where $D = \delta c_1 \log(\delta c_1) -(1+\delta c_1)\log(1+\delta
+  c_1)$. For this equation to hold for any $k$, it must be that
+  \[ c_1 = \alpha (1+\delta c_1) \]
+  so
+  \[ c_1 = \frac{\alpha}{1-\alpha \delta}. \]
+  We must also have
+  \[ c_0(A) = (1+\delta c_1)\log(A) + \delta \Er[c_0(A') | A] + D. \]
+  The exact value of $c_0(A)$ depends on the distribution of $A'$
+  given $A$. The simplest case is if $A$ is independent over
+  time. Then $\Er[c_0(A')|A] = \Er[c_0(A')]$. In that case, we get
+  \begin{align*}
+    \Er[c_0(A)] & = \Er\left[(1+\delta c_1) \log(A) + \delta \Er[c_0(A)]
+                  + D \right] \\
+    \Er[c_0(A)] & = \frac{1}{1-\delta} \left( (1+\delta c_1)
+                  \Er[\log(A)] + D \right) 
+  \end{align*}
+  Hence,
+  \[ c_0(A) = \frac{\log(A)}{1-\alpha \delta} +
+    \frac{\delta}{1-\delta} \frac{\Er[\log(A')]}{1-\alpha \delta} +
+    \frac{D}{1-\delta} \]
+  and the value function is
+  \begin{align*}
+    V(k,A) = \frac{\alpha}{1-\alpha \delta} \log k + \frac{\log(A)}{1-\alpha \delta} +
+    \frac{\delta}{1-\delta} \frac{\Er[\log(A')]}{1-\alpha \delta} +
+    \frac{D}{1-\delta} 
+  \end{align*}
+\end{example}
 
 
 \clearpage

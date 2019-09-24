@@ -384,3 +384,18 @@ $$
 
 ---
 
+## Example: Growth with random productivity
+
+- Production $A k^\alpha$
+- $A$ follows a Markov process
+- Bellman equation
+$$
+  \begin{aligned}
+    V(k_t, A_t) = & \max_{c_t, k_{t+1}} \log (c_t) + \delta
+                    \Er[V(k_{t+1}, A_{t+1}) | A_t] \\
+                  & \text{ s.t. } c_t + k_{t+1} = A_t k_t^\alpha 
+  \end{aligned}
+$$
+
+---
+
