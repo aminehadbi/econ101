@@ -108,14 +108,14 @@ we define the value of savings at time $T$ as
 \[ V_T(s) = u(s), \]
 then at time $T-1$ given $s_{T-1}$, we can choose $c_{T-1}$ to solve
 \[ \max_{c_{T-1},s'} u(c_{T-1}) + \beta V_T(s') \text{ s.t.} s' =
-  (1+r_{T-1})(c_{T-1}-s_{T-1}). \]
+  (1+r_{T-1})(s_{T-1}-c_{T-1}). \]
 This is a relatively simple maximization problem with just two
 variables, so we can solve it without too much difficulty. Repeating
 in this way, for each $t$ we can define the value of savings at time
 $t$ as
 \begin{align} 
   V_t(s) = \max_{c_t,s'} u(c_{t}) + \beta V_{t+1}(s') \text{ s.t.} s' =
-  (1+r_{t})(c_{t}-s). \label{e:bell}
+  (1+r_{t})(s - c_{t}). \label{e:bell}
 \end{align}
 This approach to sequential optimization was first proposed by Richard
 Bellman, so (\ref{e:bell}) is called a Bellman equation. Notice that
@@ -624,42 +624,42 @@ example. Let's look at another.
   \end{align*}
   Let's guess and verify that the value function will again be
   log-linear with a constant that depends on $A_t$, i.e.
-  \[ V(k,A) = c_1 \log(k) + c_0(A) \]
+  \[ V(k,A) = b_1 \log(k) + b_0(A) \]
   Putting in this guess for $V$, and substituting in the constraint to
   eliminate $c$, the problem becomes
   \[ V(k,A) =  \max_{k'} \log (Ak^\alpha - k') + \delta
-    \Er[c_1\log(k') + c_0(A') | A] \]
+    \Er[b_1\log(k') + b_0(A') | A] \]
   Solving the first order condition gives
-  \[ k' = k^\alpha \frac{A \delta c_1}{1+\delta c_1} \]
+  \[ k' = k^\alpha \frac{A \delta b_1}{1+\delta b_1} \]
   Putting this $k'$ back into our guess for $V$ and the Bellman
   equation gives
   \begin{align*}
-    c_1 \log(k) + c_0(A) = & \log \left(k^\alpha \frac{A}{1+\delta
-                             c_1} \right) + \delta \Er\left[
-                             c_1 \log\left(A k^\alpha \frac{A \delta
-                             c_1}{1+\delta c_1}\right) + c_0(A') | A
+    b_1 \log(k) + b_0(A) = & \log \left(k^\alpha \frac{A}{1+\delta
+                             b_1} \right) + \delta \Er\left[
+                             b_1 \log\left(A k^\alpha \frac{A \delta
+                             b_1}{1+\delta b_1}\right) + b_0(A') | A
                              \right] \\
-    c_1 \log(k) + c_0(A) = & \alpha \log(k) (1+\delta c_1)  + (1+\delta c_1)\log(A)
-                              + \delta \Er[c_0(A') | A] + D
+    b_1 \log(k) + b_0(A) = & \alpha \log(k) (1+\delta b_1)  + (1+\delta b_1)\log(A)
+                              + \delta \Er[b_0(A') | A] + D
   \end{align*}
-  where $D = \delta c_1 \log(\delta c_1) -(1+\delta c_1)\log(1+\delta
-  c_1)$. For this equation to hold for any $k$, it must be that
-  \[ c_1 = \alpha (1+\delta c_1) \]
+  where $D = \delta b_1 \log(\delta b_1) -(1+\delta b_1)\log(1+\delta
+  b_1)$. For this equation to hold for any $k$, it must be that
+  \[ b_1 = \alpha (1+\delta b_1) \]
   so
-  \[ c_1 = \frac{\alpha}{1-\alpha \delta}. \]
+  \[ b_1 = \frac{\alpha}{1-\alpha \delta}. \]
   We must also have
-  \[ c_0(A) = (1+\delta c_1)\log(A) + \delta \Er[c_0(A') | A] + D. \]
-  The exact value of $c_0(A)$ depends on the distribution of $A'$
+  \[ b_0(A) = (1+\delta b_1)\log(A) + \delta \Er[b_0(A') | A] + D. \]
+  The exact value of $b_0(A)$ depends on the distribution of $A'$
   given $A$. The simplest case is if $A$ is independent over
-  time. Then $\Er[c_0(A')|A] = \Er[c_0(A')]$. In that case, we get
+  time. Then $\Er[b_0(A')|A] = \Er[b_0(A')]$. In that case, we get
   \begin{align*}
-    \Er[c_0(A)] & = \Er\left[(1+\delta c_1) \log(A) + \delta \Er[c_0(A)]
+    \Er[b_0(A)] & = \Er\left[(1+\delta b_1) \log(A) + \delta \Er[b_0(A)]
                   + D \right] \\
-    \Er[c_0(A)] & = \frac{1}{1-\delta} \left( (1+\delta c_1)
+    \Er[b_0(A)] & = \frac{1}{1-\delta} \left( (1+\delta b_1)
                   \Er[\log(A)] + D \right) 
   \end{align*}
   Hence,
-  \[ c_0(A) = \frac{\log(A)}{1-\alpha \delta} +
+  \[ b_0(A) = \frac{\log(A)}{1-\alpha \delta} +
     \frac{\delta}{1-\delta} \frac{\Er[\log(A')]}{1-\alpha \delta} +
     \frac{D}{1-\delta} \]
   and the value function is
