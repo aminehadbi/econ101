@@ -585,7 +585,7 @@ constraints on $y(T)$ or $x(T)$.
   $c(t)=c$, then 
   \begin{align*}
     x(t) = & \frac{p(T-t) - s}{2c} \\
-    y(t) = & y(0) + (T-t)\frac{pT-s}{2c} - \frac{p}{2c}(T^2-t^2)
+    y(t) = & y(0) + t\frac{pT-s}{2c} - \frac{p}{4c}t^2
   \end{align*}
 \end{example}
 
@@ -807,15 +807,11 @@ or perhaps use theorem (\ref{thm:gen}).
   non-zero. Then,
   \begin{align*}
     y_T = & \int_{\bar{t}}^T \frac{st + \lambda(0)}{2c} \\
-    y_T = & \frac{s(T^2 - \bar{t}^2) + \lambda(0) (T-\bar{t})}{2c} \\
-    \lambda(0) = & y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t}).
+    y_T = & \frac{s(T^2 - \bar{t}^2) + 2\lambda(0) (T-\bar{t})}{4c} \\
+    \lambda(0) = & y_T \frac{2c}{T-\bar{t}} - \frac{s}{2}(T+\bar{t}).
   \end{align*}
   Finally, we can use $x(\bar{t}) = 0$ to solve for $\bar{t}$.
   \begin{align*}
-    0 = & s\bar{t} + y_T \frac{2c}{T-\bar{t}} - s(T+\bar{t})
-    \\
-    0 = & s\bar{t}(T-\bar{t}) + y_T 2c - s (T^2 - \bar{t}^2) \\
-    0 = & s \bar{t} T + y_T 2c - s T^2 \\
     \bar{t} = & T - \frac{y_T 2c}{T s}.
   \end{align*}
   Thus,

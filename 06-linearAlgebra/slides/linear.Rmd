@@ -5,6 +5,18 @@ author      : Paul Schrimpf
 job         : 
 date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+    revealjs::revealjs_presentation:
+        self_contained: true
+        theme: league
+        transition: slide
+        center : true
+        highlight : zenburn
+        reveal_options:
+            slideNumber: false
+            center : true
+            help : true
+            previewLinks: true
+
     ioslides_presentation :
         self_contained: true
         code_folding: hide
@@ -16,6 +28,12 @@ output:
 ## For interactive chart to work, must either publish or view from
 ## local webserver, else CDN links won't work 
 --- 
+
+[![](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike
+4.0 International
+License](http://creativecommons.org/licenses/by-sa/4.0/) 
 
 # Vector Spaces
 
@@ -31,7 +49,7 @@ output:
     3. Identity: $\exists 0 \in V$ such that $x + 0 = x$
     4. Invertible: $\exists -x \in V$ such that $x + (-x) = 0$
     5. Commutative: $x + y = y + x$
-  + Scalar multiplication has some properties
+  + Scalar multiplication has properties on next slide
 
 
 
@@ -94,7 +112,36 @@ elements of $W$
   that span $V$
 > - Should show dimension is well-defined and basis exists
 
+## Any basis has the same cardinality
 
+- **Lemma**: If $A$ and $B$ are bases for $V$, then $|A| = |B|$
+
+    > - $A$ basis means for each $\mathbf{b} \in B$, $\exists$ finite 
+        $A_b \subset A$ and $x_{a,b} \in \mathbb{R}$ such that 
+        $\mathbf{b} = \sum_{\mathbf{a}\in A_b} x_{a,b} \mathbf{a}$
+        
+    > - $B \cup (A \setminus \cup_{b \in B} A_b)$ is linearly
+        independent, so $A = \cup_{b \in B} A_b$
+          
+    >- $|A| \leq |B|$
+        
+## Basis exists
+
+- **Lemma**: Let $V$ be a vector space, then $\exists$ a basis 
+
+    > - $\exists L \subseteq V$ s.t $L$ linearly independent
+    
+    > - Define $\mathcal{P} = \{S \subseteq V: L \subseteq S \text{ and } S
+    \text{ linearly independent}\}$
+    
+    > - $\mathcal{P}, \subseteq$ is partially ordered
+    
+    > - $\overline{C} = \cup_{S \in \mathcal{C}} S$ is upper bound for
+        chain $\mathcal{C}$
+        
+    > - By Zorn's lemma, $\exists$ maximal $B \in \mathcal{P}$
+    
+    > - Span$(B) = V$
 
 ## Linear independence
 
@@ -156,9 +203,11 @@ elements of $W$
 ## Linear Transformations
 
 - Examples:
-     + Differentiation: $C^k([0,1]) = \{f:[0,1] \to \mathbb{R} \,s.t.\, f
-    \text{ k times continuously differentiable }\}$, $D:C^1([0,1]) \to
-     C^0([0,1])$,
+     + Differentiation: $C^k([0,1]) =$ 
+     $\{f:[0,1] \to \mathbb{R} \;,\; f
+     \text{ k times cont differentiable}\}$
+     
+     + $D:C^1([0,1]) \to C^0([0,1])$,
      \[ (Df)(x) = \frac{df}{dx}(x) \]
 
 
@@ -179,11 +228,21 @@ elements of $W$
 
 ## Matrix multiplication=composition of linear transformations
 
+- $A : V \to W$, $B: X \to V$
+- $V$ is $n$ dimension with basis $f_j$
+- $W$ is $m$ dimension with basis $e_i$
+- $X$ is $p$ dimension with basis $g_k$
+
+
+## Matrix multiplication=composition
+
+<div style="font-size: 30px;">
+
 \[
 \begin{aligned}
   A(B g_k) = & A (\sum_{j=1}^n b_{jk} f_j) = \sum_{j=1}^n b_{jk} A f_j \\
   = & \sum_{j=1}^n b_{jk} \left(\sum_{i=1}^m a_{ij} e_i\right) 
-  =  \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
+  = \sum_{i=1}^m \left(\sum_{j=1}^n a_{ij} b_{jk} \right) e_i \\
   = & \begin{pmatrix} 
     \sum_{j=1}^n a_{1j} b_{j1} & \cdots & \sum_{j=1}^n a_{1j} b_{jp} \\
     \vdots & \ddots & \vdots \\
@@ -193,7 +252,7 @@ elements of $W$
 \end{aligned}
 \]
 
-
+</div>
 
 ## Null space and range
 

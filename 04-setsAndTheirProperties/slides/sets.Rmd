@@ -1,19 +1,10 @@
 ---
 title       : Sets and relations
-subtitle    : 
+subtitle    :
 author      : Paul Schrimpf
-job         : 
+job         :
 date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-    ioslides_presentation :
-        self_contained: true
-        code_folding: hide
-        lib_dir : deps
-        theme : journal
-        fig_width: 8
-        fig_height: 6
-        
-        
     revealjs::revealjs_presentation:
         self_contained: true
         theme: league
@@ -24,11 +15,20 @@ output:
             slideNumber: false
             center : true
             help : true
-            previewLinks: true 
+            previewLinks: true
+
+    ioslides_presentation :
+        self_contained: true
+        code_folding: hide
+        lib_dir : deps
+        theme : journal
+        fig_width: 8
+        fig_height: 6
+
 #ext_widgets: {rCharts: [libraries/nvd3]}
 ## For interactive chart to work, must either publish or view from
-## local webserver, else CDN links won't work 
---- 
+## local webserver, else CDN links won't work
+---
 
 # Sets
 
@@ -45,7 +45,7 @@ $$
 
 - **Union:** $A \cup B = \{x: x\in A \text{ or } x \in B\}$.
 - **Intersect:** $A \cap B = \{x: x \in A \text{ and } x \in
-  B\}$. 
+  B\}$.
 - **Minus:** $A \setminus B = \{ x: x\in A \text{ and }
   \not\in B \}$
 - **Product:** $A \times B = \{(x,y): x \in A, y \in B \}$
@@ -78,7 +78,7 @@ $$
   + symmetric: $a \sim_R b$ implies $b \sim_R a$,
 - partitions $A$ into equivalence classes, $\sim(x) = \{a \in A: a
   \sim x \}$
-  
+
 
 
 ## Weak order
@@ -87,8 +87,8 @@ $$
   + relexive: $a \preceq a$ $\forall a \in A$
   + transitive: $a \preceq b$ and $b \preceq c$ implies
     $a \preceq $c
-  + complete: for any $a, b \in A$, either $a \preceq b$ or $b
-  \preceq a$ (or both)
+  + complete: for any $a, b \in A$, either $a \preceq b$ or
+  $b \preceq a$ (or both)
 - Example: preference relation
 
 
@@ -98,37 +98,66 @@ $$
 - $n$ individuals, preferences $\succeq_i$
 - Pareto order:
 $$
-x \succeq^P y \text{ if } x \succeq_i y \text{ for all } i=1,...,n 
+x \succeq^P y \text{ if } x \succeq_i y \text{ for all } i=1,...,n
 $$
 - transitive? reflexive? complete?
 
 
+##
+
+```{r, echo=F, fig.width=6, fig.height=2.2}
+library(ggplot2)
+library(gridExtra)
+library(scales)
+outcomes <- 5
+n <- 3
+ranking <- list()
+Rpref <- list()
+ranking[[1]]  <- c(1,2,3,4,5)
+ranking[[2]]  <- c(2,3,1,4,5)
+ranking[[3]]  <- c(4,3,1,2,5)
+for (i in 1:n) {
+  Rpref[[i]] = matrix(F, nrow=outcomes, ncol=outcomes)
+  for (j in 1:(outcomes-1)) {
+    r = ranking[[i]][j]
+    Rpref[[i]][r,ranking[[i]][(j+1):outcomes]] = T
+  } 
+}
+
+plotpref <- function(R) {
+  outcomes  <- nrow(R)
+  df  <- expand.grid(1:outcomes, 1:outcomes)
+  df$R  <- as.vector(R)
+  fig  <-  ggplot(data=df, aes(x=Var1, y=Var2, fill=R)) +
+    geom_tile(width=0.9, height=0.9, ) +
+    theme_bw()+ 
+    theme(axis.title.x=element_blank(),
+          axis.title.y=element_blank(),
+          legend.position="none") 
+  fig
+}
+fig <- list()
+for (i in 1:n) {
+  fig[[i]]  <- plotpref(Rpref[[i]]) + labs(title=sprintf("Person %d",i),
+                                           subtitle=paste("Preference order:", paste(ranking[[i]], collapse=",")))
+}
+grid.arrange(grobs=fig, ncol=3)
+```
+
+```{r, echo=F,  fig.width=2, fig.height=2.2}
+Rpareto = Rpref[[1]]
+for (i in 2:n) {
+  Rpareto[Rpareto != Rpref[[i]]]  <-  NA
+}
+figp  <- plotpref(Rpareto) + labs(title="Pareto Order")
+figp
+```
 
 ## Social choice rule
 
 - Combines preferences into single weak order $F(\succeq_1, ...,
 \succeq_n) = \succeq$
 - Completes Pareto order if $x \succeq^P y$ implies $x \succeq y$
-
-
-
-## IIA
-
-Independence of irrelevant alternatives if for every $A \subseteq X$, if $\{\succeq_i\}_{i=1}^n$ and
-$\{\succeq_i'\}_{i=1}^n$ are two sets of individuals preferences that agree on $A$,
-\[ x \succeq_i y \iff x \succeq_i' y \; \forall x,y \in A \text{ for each
-} i\] 
-then $\succeq=F(\succeq_1, ..., \succeq_n)$ and $\succeq'=F(\succeq_1', ...,
-\succeq_n')$ also agree on $A$
-
-
-
-## Arrow's impossibility theorem
-
-It is impossible to complete the non-strict Pareto ordering in a way that
-is not dictatorial and is independent of irrelevant alternatives when
-$|X| \geq 4$
-
 
 ## Examples
 
@@ -137,6 +166,21 @@ $|X| \geq 4$
    $$ x \succeq y \iff x \succeq_i y \text{ for at least $(n+1)/2$
   individuals } $$
 
+---
+
+```{r, echo=F, fig.width=6, fig.height=2.2}
+grid.arrange(grobs=fig, ncol=3)
+```
+
+```{r, echo=F, fig.width=4, fig.height=2.2}
+Rbin  <- matrix(0, nrow=outcomes, ncol=outcomes)
+for(i in 1:n) {
+  Rbin  <- Rbin + Rpref[[i]]
+}
+Rbin  <-  Rbin>=(n+1)/2
+figb <- plotpref(Rbin) + labs(title="Binary voting")
+grid.arrange(grobs=list(figp,figb), ncol=2)
+```
 
 
 ## Examples
@@ -144,13 +188,62 @@ $|X| \geq 4$
 - Majority voting
   + Each person votes for most preferred outcome
   + Social choice rule ranks by number of votes
+  + Ties broken by number of votes for second most preferred, then third, etc
+
+
+---
+```{r, echo=F, fig.width=6, fig.height=2.2}
+grid.arrange(grobs=fig, ncol=3)
+```
+
+```{r, echo=F, fig.width=6, fig.height=2.2}
+votes <- matrix(0,nrow=outcomes,ncol=outcomes)
+for (i in 1:n) {
+  for (c in 1:outcomes) {
+    f <- ranking[[i]][c]
+    votes[f,c] <- votes[f,c] + 1
+  }
+}
+Rmv  <- matrix(NA, nrow=outcomes, ncol=outcomes)
+for(i in 1:outcomes) {
+  for (j in 1:outcomes) {
+    for (c in 1:outcomes) {
+      if (votes[i,c] != votes[j,c]) {
+        Rmv[i,j] = votes[i,c]>votes[j,c]
+        break
+      }
+    }
+  }
+  Rmv[i,i] = F
+}
+figv <- plotpref(Rmv) + labs(title="Majority voting")
+grid.arrange(grobs=list(figp,figb, figv), ncol=3)
+```
+
+
+## IIA
+
+- **Independence of irrelevant alternatives** if for every $A \subseteq X$, if $\{\succeq_i\}_{i=1}^n$ and
+$\{\succeq_i'\}_{i=1}^n$ are two sets of individuals preferences that agree on $A$,
+\[ x \succeq_i y \iff x \succeq_i' y \; \forall x,y \in A \text{ for each
+} i\]
+then $\succeq=F(\succeq_1, ..., \succeq_n)$ and $\succeq'=F(\succeq_1', ...,
+\succeq_n')$ also agree on $A$
+
+
+## Arrow's impossibility theorem
+
+It is impossible to complete the Pareto order in a way that
+is not dictatorial and is independent of irrelevant alternatives when
+$|X| \geq 4$
+
 
 # Proof of Arrow's impossibility theorem
 
 ## Decisive
 
-With social choice rule $F$, a group of individuals, $S \subseteq
-\{1,\cdots,n\}$ is \textbf{decisive} over $x, y \in X$ if for any
+- With social choice rule $F$, a group of individuals, $S \subseteq
+\{1,\cdots,n\}$ is **decisive** over $x, y \in X$ if for any
 individual preference relations if $x \succ_i y$ for all $i \in S$
 implies $x \succ y$, where $\succ=F(\succ_1,..., \succ_n)$.
 
@@ -162,7 +255,7 @@ over $x$, $y$
 
 ## Group contraction lemma
 
-- If $S$ decisive and $|S| > 1$, then $\exists$ S' \subset S$ such
+- If $S$ decisive and $|S| > 1$, then $\exists S' \subset S$ such
   that $S'$ decisive
 
 

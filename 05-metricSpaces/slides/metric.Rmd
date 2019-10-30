@@ -5,6 +5,18 @@ author      : Paul Schrimpf
 job         : 
 date        : "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+    revealjs::revealjs_presentation:
+        self_contained: true
+        theme: league
+        transition: slide
+        center : true
+        highlight : zenburn
+        reveal_options:
+            slideNumber: false
+            center : true
+            help : true
+            previewLinks: true
+
     ioslides_presentation :
         self_contained: true
         code_folding: hide
@@ -17,9 +29,13 @@ output:
 ## local webserver, else CDN links won't work 
 --- 
 
+[![](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike
+4.0 International
+License](http://creativecommons.org/licenses/by-sa/4.0/) 
+
 # Sequences
-
-
 
 ## Sequences
 
@@ -53,7 +69,7 @@ $\mathbb{R}$ with $d(x,y) = |x-y|$
 ## Metric space examples
 
 > - $\mathbb{R}^n$ with $d(x,y) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$
-> - $\mathbb{R}^n$ with $d_p(x,y) = \left(\sum_{i=1}^n (x_i - y_i)^p
+> - $\mathbb{R}^n$ with $d_p(x,y) = \left(\sum_{i=1}^n \vert x_i - y_i \vert^p
     \right)^{1/p}$ with $p \geq 1$
 
 

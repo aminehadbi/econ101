@@ -257,6 +257,13 @@ fairly general conditions.
     that Cauchy sequences converge in complete metric spaces, then it
     is easier. We have not yet covered Cauchy sequences or metric
     spaces, so we will not use this fact.}
+
+  A defining assumption about real numbers is that every set of
+  numbers bounded above has a least upper bound. See the notes on sets
+  for more information. An immediate consequence of this assumption is
+  that any increasing sequence of real numbers that is bounded above,
+  must converge. The argument below will use this fact to show that
+  the sequence of $v_i$ converge. 
   
   Choose a sequence $\{\epsilon_i\}$ with $\epsilon_i \to 0$. Let
   $N_i$ be such that 
@@ -274,8 +281,8 @@ fairly general conditions.
   $M/(1-\beta)$, so $\sup_s \left\vert (T^{n-N}v_0(s) -v_0(s))
   \right\vert \leq 2 M /(1-\beta)$. Thus,
   \[ 
-  \sup_{s} \left\vert T^N (T^{n-N}( v_0))(s)- T^N(v_0) (s) \right\vert
-  \leq \beta^N 2M/(1-\beta)  
+    \sup_{s} \left\vert T^N (T^{n-N}( v_0))(s)- T^N(v_0) (s) \right\vert
+    \leq \beta^N 2M/(1-\beta)  
   \]
   so we can always choose e.g. $N_i = \log(\epsilon_i
   (1-\beta)/(2M))/\log(\beta) + 1$.

@@ -449,7 +449,7 @@ impossibility theorem --- purely by thinking about orders.  Suppose we
 have $n$ individuals each with some preference, $\pref_i$ on set
 $X$. Think of $X$ as some set of outcomes for society. For example,
 each element of $X$ could specify how much consumption to give each
-individual. The (non-strict) Pareto order on $X$ is defined as
+individual. The  Pareto order on $X$ is defined as
 \[ x \pref^P y \text{ if } x \pref_i y \text{ for all } i=1,...,n \]
 We say that $x$ Pareto dominates $y$ if $x \succ^P y$. $x$ is Pareto
 optimal (or Pareto efficient) if there is no $y$ such that $y \succ^P
@@ -457,10 +457,13 @@ x$.
 \begin{exercise}
   Which of the properties of a relation does the Pareto order have?
 \end{exercise}
+
 Remember that any relation on $X$ can be represented by $R \subseteq X
 \times X$. If $R_i$ is the set associated with $\pref_i$, i.e. $R_i =
-\{(x,y): x \pref_i y \}$, then the set associated with $\pref^P$ is
-$\cap_{i=1}^n R_i$. 
+\{(x,y): x \pref_i y \}$, then $x \pref^P y$ if 
+$(x,y) \in \cap_{i=1}^n R_i$. Similarly, $x \succeq^P y$ if $(x,y) \in
+\cap_{i=1}^n R_i^c$. If $(x,y)$ is in neither of these two
+intersections, then $x$ and $y$ are not Pareto comparable. 
 
 The Pareto order depends on the $n$ individual preferences. In other
 words the Pareto order is a function of individual preferences. Since
@@ -468,7 +471,7 @@ each individual preference can be represented by a subset of $X \times
 X$, we can think of the Pareto order as a function $\mathcal{P}(X
 \times X)^n \to \mathcal{P}(X \times X)$. Thinking of orders as
 subsets of $X \times X$ (equivalently elements of $\mathcal{P}(X\times
-X)$) may not be especially helpful, but it is essential to remember
+X)$) may not feel natural, but it is essential to remember
 that the Pareto order is a function of individual preferences.
 
 The Pareto order will usually not be complete. For example take
@@ -490,9 +493,10 @@ preferences $\pref_i$ into a single weak order $\succeq$. In other
 words, a social choice rule is a function from
 the set of $n$ individual preferences to the
 set of weak orders. Just like the Pareto order, a social choice rule
-is a function of individual preferences. Unlike the Paretor order, a
-social choice rule is required to be complete (weak orders are
-complete).
+is a function of individual preferences. That is, a  social choice
+rule is a function $:\mathcal{P}(X \times X)^n \to \mathcal{P}(X
+\times X)$. Unlike the Paretor order, a social choice rule is required
+to be complete (weak orders are complete). 
 
 We will denote the social ordering by
 $F(\pref_1, ..., \pref_n) = \succeq$. A social choice rule $F$
@@ -547,22 +551,31 @@ general argument confusing (and it is a bit difficult), then reading
     alternatives, $x$ and $y$ such that some group $S$ is decisive
     over $x$, $y$.  We will show that $S$ must also be decisive over
     all other pairs of alternatives.  Let $z, w\in X$ and suppose that
-    for all $i \in S$, $w \succ_i z$. By the irrelevance of
-    independent alternatives for any individuals preferences
+    for all $i \in S$, $w \succ_i z$. We want to show that $w \succ z$.
+
+    By the irrelevance of independent alternatives, as long as we hold
+    all individuals preferences over $w$ and $z$ constant, the social
+    choice rule must give the same ordering between $w$ and $z$. This
+    means that if for any configuration of individual preferences over
+    other outcomes, we can show $w \succ z$, then we know $w \succ z$
+    for any set of preferences.
+    In other words, for any individual preferences  
     $\succ_i'$ such that $w \succ_i' z$ if and only if $w \succ_i z$ for all $i$,
     it must be that $w \succ z$ if and only if $w \succ' z$, where
     $\succ'=F(\succ_1',...,\succ_n')$ and
     $\succ=F(\succ_1,...,\succ_n)$.  This means that we can freely
     change preferences among alternatives as long as we hold the
-    preference between $w$ and $z$ fixed. Consider preferences such
-    that $w \succ_j' x$ and $y \succ_j' z$ for all $j$, and $x
-    \succ_i' y$ for all $i \in S$. Then $y \succ^{'P} z$ and $w
-    \succ^{'P} x$. Since the social order must agree with the Pareto
-    order, we also have $y \succ' z$ and $w \succ' x$. By assumption
-    $S$ is decisive over $x$ and $y$, so $x \succ' y$. By transitivity
-    $w \succ' z$. Like we argued earlier, by the independence of
-    irrelevant alternatives, it must also be that $w \succ z$, i.e.\
-    $S$ is also decisive over $w$ and $z$
+    preference between $w$ and $z$ fixed.
+
+    Consider preferences such that $w \succ_j' x$ and $y \succ_j' z$
+    for all $j$, and $x \succ_i' y$ for all $i \in S$. Then
+    $y \succ^{'P} z$ and $w \succ^{'P} x$. Since the social order must
+    agree with the Pareto order, we also have $y \succ' z$ and
+    $w \succ' x$. By assumption $S$ is decisive over $x$ and $y$, so
+    $x \succ' y$. By transitivity $w \succ' z$. Like we argued
+    earlier, by the independence of irrelevant alternatives, it must
+    also be that $w \succ z$, i.e.\ $S$ is also decisive over $w$ and
+    $z$
   \item \emph{Group contraction lemma}: We will show that if $S$ is
     decisive and $|S| \geq 2$, then there exists $S' \subset S$ such
     that $S'$ is decisive. 
